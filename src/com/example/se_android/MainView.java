@@ -23,10 +23,14 @@ public class MainView extends View{
 	float finalHeight;
 	boolean ratioCalc, music;
 	
+	GameWorld gw;
+	
 	Context c;
 	
     public MainView(Context context){
         super(context);
+        
+        gw = new GameWorld();
         
         c = context;
     }
@@ -57,6 +61,8 @@ public class MainView extends View{
     	}
     	
     	canvas.scale(finalWidth, finalHeight);
+    	
+    	gw.draw(canvas);
     }
 	
     @Override
