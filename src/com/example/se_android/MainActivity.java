@@ -1,81 +1,64 @@
 package com.example.se_android;
 
 import android.app.Activity;
-import android.content.pm.ActivityInfo;
-import android.graphics.Color;
+import android.app.ActionBar;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.os.Build;
 
-public class MainActivity extends Activity implements Runnable{
+public class MainActivity extends Activity {
 
-	MainView drawView;
-	boolean running = false;
-	
-	public static final double TARGET_TPS = 60.0;
-	public static final double TARGET_FPS = 120.0;
-	
-	public void onCreate(Bundle savedInstanceState) {
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
 
-        drawView = new MainView(this);
-        drawView.setBackgroundColor(Color.BLACK);
-        setContentView(drawView);
-        
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        
-        (new Thread(this)).start();
-    }
-	
-	public void run() {
-		double previousTime = System.nanoTime();
-		double currentTime = 0;
-		double passedTime = 0;
-		double timer = System.currentTimeMillis();
-		double delta = 0;
-		double delta2 = 0;
-		final double OPTIMAL_TPSTIME = 1000000000.0/TARGET_TPS;
-		final double OPTIMAL_FPSTIME = 1000000000.0/TARGET_FPS;
-		//float dt = 0;
-		int fps = 0;
-		int tps = 0;
-		
-		running = true;
-		
-		while(running){		
-			currentTime = System.nanoTime();
-			passedTime = currentTime - previousTime;
-			delta += passedTime / OPTIMAL_TPSTIME;
-			delta2 += passedTime / OPTIMAL_FPSTIME;
-			
-			previousTime = currentTime;
-			
-			if(delta >= 1){
-//				getInput();
-				tick();
-				tps++;
-				delta--;
-			}
-			
-			if(delta2 >= 1){
-				drawView.postInvalidate();
-				fps++;
-				delta2--;
-			}
-		
-			if((System.currentTimeMillis() - timer) >= 1000){
-				timer += 1000;
-				//Display.getFrame().setTitle(TITLE + "  ||  " + tps + " tps, " + fps +  " fps");
-//				System.out.println(tps + " tps, " + fps +  " fps");
-				tps = 0;
-				fps = 0;
-			}
+		if (savedInstanceState == null) {
+			getFragmentManager().beginTransaction()
+					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
-	
-	private void tick(){
-		drawView.tick();
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if (id == R.id.action_settings) {
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	/**
+	 * A placeholder fragment containing a simple view.
+	 */
+	public static class PlaceholderFragment extends Fragment {
+
+		public PlaceholderFragment() {
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.fragment_main, container,
+					false);
+			return rootView;
+		}
 	}
 
 }
