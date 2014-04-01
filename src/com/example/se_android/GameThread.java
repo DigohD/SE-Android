@@ -5,7 +5,7 @@ import android.view.SurfaceHolder;
 
 public class GameThread implements Runnable{
 	
-	public static final int TARGET_TPS = 1000;
+	public static final int TARGET_TPS = 180;
 	public static final double TARGET_FPS = 180;
 	private boolean FPS_CAP = true;
 	

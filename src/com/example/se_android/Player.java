@@ -8,7 +8,7 @@ import android.graphics.Paint;
 
 public class Player extends GameObject{
 	
-	float speed = 5f;
+	float speed = 2f;
 	
 	public Player(float x, float y, int width, int height) {
 		super(x, y, width, height);
