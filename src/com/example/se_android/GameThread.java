@@ -113,12 +113,12 @@ public class GameThread implements Runnable{
 			try{
 				canvas = holder.lockCanvas();
 				if(canvas != null){
-					synchronized(holder){
-						
+//					(holder){
+//						
 						gameView.draw(canvas);
 						fps++;
 						
-					}
+//					}
 				}
 			}finally{
 				if(canvas != null)
