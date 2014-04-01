@@ -1,7 +1,6 @@
 package com.example.se_android;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -10,6 +9,7 @@ public class Player extends GameObject{
 	
 	float speed = 2f;
 	private Bitmap bmp;
+
 	
 	public Player(Bitmap bmp, float x, float y, int width, int height) {
 		super(x, y, width, height);
