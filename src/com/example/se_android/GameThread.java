@@ -5,8 +5,8 @@ import android.view.SurfaceHolder;
 
 public class GameThread implements Runnable{
 	
-	public static final int TARGET_TPS = 25;
-	public static final double TARGET_FPS = 60;
+	public static final int TARGET_TPS = 1000;
+	public static final double TARGET_FPS = 180;
 	private boolean FPS_CAP = true;
 	
 	private Thread thread, renderThread;
@@ -28,24 +28,6 @@ public class GameThread implements Runnable{
 		if(thread == null){
 			thread = new Thread(this, "Game-Thread");
 			thread.start();
-			renderThread = new Thread(){
-				public void run(){
-					Canvas canvas;
-					while(running){
-						canvas = null;
-						try{
-							canvas = holder.lockCanvas();
-							synchronized(holder){
-								gameView.draw(canvas);
-							}
-						}finally{
-							if(canvas != null)
-									holder.unlockCanvasAndPost(canvas);
-						}
-					}
-					
-				}
-			};
 		}
 	}
 	
@@ -58,8 +40,6 @@ public class GameThread implements Runnable{
 		if(thread != null){
 			try {
 				thread.join();
-				if(renderThread != null)
-					renderThread.join();
 			} catch (InterruptedException e) {e.printStackTrace();}
 		}
 	}
@@ -69,7 +49,17 @@ public class GameThread implements Runnable{
 	}
 	
 	private void draw(Canvas canvas){
-			
+		try{
+			canvas = holder.lockCanvas();
+			if(canvas != null){
+				synchronized(holder){
+					gameView.draw(canvas);
+				}
+			}
+		}finally{
+			if(canvas != null)
+					holder.unlockCanvasAndPost(canvas);
+		}	
 	}
 	
 
@@ -106,7 +96,7 @@ public class GameThread implements Runnable{
 			currentTime = System.nanoTime();
 			passedTime = (currentTime - previousTime);
 			unprocessedUpdateTime += passedTime / 1000000000.0;
-			//unprocessedFrameTime += passedTime / 1000000000.0;
+			unprocessedFrameTime += passedTime / 1000000000.0;
 					
 			frameCounter += passedTime;
 					
@@ -119,10 +109,11 @@ public class GameThread implements Runnable{
 			while(unprocessedUpdateTime >= OPTIMAL_UPDATETIME){
 				tick(delta);
 				tps++;
+				draw(canvas);
+				fps++;
 				unprocessedUpdateTime -= OPTIMAL_UPDATETIME;
 			}
 					
-<<<<<<< HEAD
 //			try{
 //				canvas = holder.lockCanvas();
 //				if(canvas != null){
@@ -137,44 +128,42 @@ public class GameThread implements Runnable{
 //				if(canvas != null)
 //						holder.unlockCanvasAndPost(canvas);
 //			}	
-=======
-			try{
-				canvas = holder.lockCanvas();
-				if(canvas != null){
-//					(holder){
+//			try{
+//				canvas = holder.lockCanvas();
+//				if(canvas != null){
+////					(holder){
+////						
+//						gameView.draw(canvas);
+//						fps++;
 //						
-						gameView.draw(canvas);
-						fps++;
-						
-//					}
-				}
-			}finally{
-				if(canvas != null)
-						holder.unlockCanvasAndPost(canvas);
-			}	
->>>>>>> 42682857d1ffd7340c772e6a572fc2bdf274d8fb
+////					}
+//				}
+//			}finally{
+//				if(canvas != null)
+//						holder.unlockCanvasAndPost(canvas);
+//			}	
 				
 			
 				
 					
-//			if(FPS_CAP){
-//				while(unprocessedFrameTime >= OPTIMAL_FRAMETIME){
-//					shouldRender = true;
-//					unprocessedFrameTime -= OPTIMAL_FRAMETIME;
-//				}
-//			}else{
-//				draw(canvas);
-//				fps++;
-//			}
-//					
-//			if(shouldRender){
-//				draw(canvas);
-//				fps++;
-//			}else if(!shouldRender && FPS_CAP){
-//				try {
-//					Thread.sleep(1);
-//				} catch (InterruptedException e) {e.printStackTrace();}
-//			}
+			if(FPS_CAP){
+				while(unprocessedFrameTime >= OPTIMAL_FRAMETIME){
+					shouldRender = true;
+					unprocessedFrameTime -= OPTIMAL_FRAMETIME;
+				}
+			}else{
+				fps++;
+				draw(canvas);
+			}
+					
+			if(shouldRender){
+				fps++;
+				draw(canvas);
+			}else if(!shouldRender && FPS_CAP){
+				try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {e.printStackTrace();}
+			}
 						
 			if(frameCounter >= 1000000000){
 				System.out.println(tps +  " tps, " + fps + " fps" );
