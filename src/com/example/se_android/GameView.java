@@ -16,6 +16,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private SurfaceHolder holder;
 	private GameWorld world;
 	private Bitmap bmp;
+	private int width, height;
 	
 	public GameView(Context context) {
 		super(context);
@@ -25,15 +26,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		
 		holder = getHolder();
 		holder.addCallback(this);
-		
-		
 	}
 	
 	
 	@Override
 	public void draw(Canvas canvas){
+		
+		float scaleX = canvas.getWidth() / 1920;
+		float scaleY = canvas.getHeight() / 1080;
+
+		System.out.println(scaleX + " - " + scaleY);
+		
 		canvas.drawColor(Color.BLACK);
-	    world.draw(canvas);
+	    world.draw(canvas, scaleX, scaleY);
 	   // canvas.drawBitmap(bmp, 100, 100, null);
 
 		
@@ -55,7 +60,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     	invalidate();
     	return true;
 	}
-
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {

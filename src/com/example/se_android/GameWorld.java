@@ -12,9 +12,8 @@ public class GameWorld{
 	private Semaphore mutex = new Semaphore(1);
 	
 	public GameWorld() {
-		
 		gameObjects = new ArrayList<GameObject>();
-		gameObjects.add(new Ground(0, 650, 480, 20));
+		gameObjects.add(new Ground(100, 100, 200, 200));
 	}
 	
 	public void addGameObject(GameObject go){
@@ -40,7 +39,9 @@ public class GameWorld{
 		mutex.release();
 	}
 	
-	public void draw(Canvas canvas){
+	public void draw(Canvas canvas, float sX, float sY){
+		canvas.scale(2, 2);
+		
 		try {
 			mutex.acquire();
 		} catch (InterruptedException e) {
