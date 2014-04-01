@@ -34,7 +34,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	public void draw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 	    world.draw(canvas);
-	    //canvas.drawBitmap(bmp, 100, 100, null);
+	    canvas.drawBitmap(bmp, 100, 100, null);
 		
 	}
 	

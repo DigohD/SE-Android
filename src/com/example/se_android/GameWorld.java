@@ -28,8 +28,16 @@ public class GameWorld{
 	}
 	
 	public void tick(float dt){
+		try {
+			mutex.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 		for(GameObject go : gameObjects)
 			go.tick(dt);
+		
+		mutex.release();
 	}
 	
 	public void draw(Canvas canvas){
