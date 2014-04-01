@@ -9,9 +9,11 @@ import android.graphics.Paint;
 public class Player extends GameObject{
 	
 	float speed = 5f;
+	private Bitmap bmp;
 	
-	public Player(float x, float y, int width, int height) {
+	public Player(Bitmap bmp, float x, float y, int width, int height) {
 		super(x, y, width, height);
+		this.bmp = bmp;
 	}
 
 	@Override
@@ -26,6 +28,7 @@ public class Player extends GameObject{
 		paint.setColor(Color.RED);
 		paint.setStyle(Paint.Style.FILL);
 		canvas.drawRect((int)x, (int)y, (int)x + width,(int) y + height, paint);
+		canvas.drawBitmap(bmp, (int)x, (int)y, null);
 	}
 
 }

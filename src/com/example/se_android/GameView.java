@@ -26,7 +26,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		holder = getHolder();
 		holder.addCallback(this);
 		
-		bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+		
 	}
 	
 	
@@ -47,7 +47,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	    float eventY = event.getY();
 	    
 	    if(event.getAction() == MotionEvent.ACTION_DOWN){
-	    	world.addGameObject(new Player(eventX, eventY, 40, 40));
+	    	world.addGameObject(new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher),eventX, eventY, 40, 40));
 	    }
 	    
     	// Schedules a repaint.
