@@ -8,8 +8,7 @@ import android.graphics.Paint;
 
 public class Player extends GameObject{
 	
-	
-	float speed = 15.0f;
+	float speed = 6.0f;
 	
 	public Player(float x, float y, int width, int height) {
 		super(x, y, width, height);
@@ -19,7 +18,7 @@ public class Player extends GameObject{
 	@Override
 	public void tick(float dt) {
 		rect.set((int)x, (int)y, (int)x + width,(int) y + height);
-		y = y + (speed*dt);
+		y = y + (speed);
 		
 	}
 

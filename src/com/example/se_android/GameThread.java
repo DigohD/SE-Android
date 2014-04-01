@@ -122,6 +122,7 @@ public class GameThread implements Runnable{
 				unprocessedUpdateTime -= OPTIMAL_UPDATETIME;
 			}
 					
+<<<<<<< HEAD
 //			try{
 //				canvas = holder.lockCanvas();
 //				if(canvas != null){
@@ -136,6 +137,22 @@ public class GameThread implements Runnable{
 //				if(canvas != null)
 //						holder.unlockCanvasAndPost(canvas);
 //			}	
+=======
+			try{
+				canvas = holder.lockCanvas();
+				if(canvas != null){
+//					(holder){
+//						
+						gameView.draw(canvas);
+						fps++;
+						
+//					}
+				}
+			}finally{
+				if(canvas != null)
+						holder.unlockCanvasAndPost(canvas);
+			}	
+>>>>>>> 42682857d1ffd7340c772e6a572fc2bdf274d8fb
 				
 			
 				
