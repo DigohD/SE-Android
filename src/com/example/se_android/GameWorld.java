@@ -13,7 +13,7 @@ public class GameWorld{
 	
 	public GameWorld() {
 		gameObjects = new ArrayList<GameObject>();
-		gameObjects.add(new Ground(0, 650, 480, 20));
+		//gameObjects.add(new Ground(0, 650, 480, 20));
 	}
 	
 	public void addGameObject(GameObject go){
@@ -23,6 +23,16 @@ public class GameWorld{
 			e.printStackTrace();
 		}
 		gameObjects.add(go);
+		mutex.release();
+	}
+	
+	public void removeGameObject(GameObject go){
+		try {
+			mutex.acquire();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		gameObjects.remove(go);
 		mutex.release();
 	}
 	
@@ -37,10 +47,16 @@ public class GameWorld{
 			go.tick(dt);
 		
 		mutex.release();
+		
+		
 	}
 	
 	public void draw(Canvas canvas){
 		//canvas.scale(sX, sY);
+		for(int i = 0; i < gameObjects.size(); i++)
+			if(gameObjects.get(i).getY() > canvas.getHeight())
+				removeGameObject(gameObjects.get(i));
+		
 		
 		try {
 			mutex.acquire();

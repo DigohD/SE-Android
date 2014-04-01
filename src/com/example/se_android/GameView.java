@@ -62,7 +62,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		game.start();
-		game.startRender();
+	
 		
 	}
 
@@ -75,7 +75,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		game.stop();
-		game.stopRender();
+		
 	}
 
 }
