@@ -13,7 +13,7 @@ public class GameWorld{
 	
 	public GameWorld() {
 		gameObjects = new ArrayList<GameObject>();
-		gameObjects.add(new Ground(100, 100, 200, 200));
+		gameObjects.add(new Ground(0, 650, 480, 20));
 	}
 	
 	public void addGameObject(GameObject go){
@@ -39,8 +39,8 @@ public class GameWorld{
 		mutex.release();
 	}
 	
-	public void draw(Canvas canvas, float sX, float sY){
-		canvas.scale(2, 2);
+	public void draw(Canvas canvas){
+		//canvas.scale(sX, sY);
 		
 		try {
 			mutex.acquire();
