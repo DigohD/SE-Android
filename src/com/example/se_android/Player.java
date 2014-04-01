@@ -8,12 +8,8 @@ import android.graphics.Paint;
 
 public class Player extends GameObject{
 	
-<<<<<<< HEAD
-	float speed = 5f;
-	private Bitmap bmp;
-=======
 	float speed = 2f;
->>>>>>> 23bebbb359ced754930765b91cc74ff11ef9e911
+	private Bitmap bmp;
 	
 	public Player(Bitmap bmp, float x, float y, int width, int height) {
 		super(x, y, width, height);
