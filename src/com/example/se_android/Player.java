@@ -9,7 +9,6 @@ public class Player extends GameObject{
 	
 	float speed = 2f;
 	private Bitmap bmp;
-
 	
 	public Player(Bitmap bmp, float x, float y, int width, int height) {
 		super(x, y, width, height);
@@ -27,7 +26,7 @@ public class Player extends GameObject{
 	public void draw(Canvas canvas) {
 		paint.setColor(Color.RED);
 		paint.setStyle(Paint.Style.FILL);
-		canvas.drawRect((int)x, (int)y, (int)x + width,(int) y + height, paint);
+		//canvas.drawRect((int)x, (int)y, (int)x + width,(int) y + height, paint);
 		canvas.drawBitmap(bmp, (int)x, (int)y, null);
 	}
 
