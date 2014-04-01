@@ -9,7 +9,7 @@ public class GameThread implements Runnable{
 	public static final double TARGET_FPS = 60;
 	private boolean FPS_CAP = true;
 	
-	private Thread thread;
+	private Thread thread, renderThread;
 	private volatile boolean running = false;
 	
 	private GameView gameView;
@@ -28,6 +28,24 @@ public class GameThread implements Runnable{
 		if(thread == null){
 			thread = new Thread(this, "Game-Thread");
 			thread.start();
+			renderThread = new Thread(){
+				public void run(){
+					Canvas canvas;
+					while(running){
+						canvas = null;
+						try{
+							canvas = holder.lockCanvas();
+							synchronized(holder){
+								gameView.draw(canvas);
+							}
+						}finally{
+							if(canvas != null)
+									holder.unlockCanvasAndPost(canvas);
+						}
+					}
+					
+				}
+			};
 		}
 	}
 	
@@ -40,6 +58,8 @@ public class GameThread implements Runnable{
 		if(thread != null){
 			try {
 				thread.join();
+				if(renderThread != null)
+					renderThread.join();
 			} catch (InterruptedException e) {e.printStackTrace();}
 		}
 	}
@@ -49,15 +69,7 @@ public class GameThread implements Runnable{
 	}
 	
 	private void draw(Canvas canvas){
-		try{
-			canvas = holder.lockCanvas();
-			synchronized(holder){
-				gameView.draw(canvas);
-			}
-		}finally{
-			if(canvas != null)
-					holder.unlockCanvasAndPost(canvas);
-		}	
+			
 	}
 	
 
@@ -110,20 +122,20 @@ public class GameThread implements Runnable{
 				unprocessedUpdateTime -= OPTIMAL_UPDATETIME;
 			}
 					
-			try{
-				canvas = holder.lockCanvas();
-				if(canvas != null){
-					synchronized(holder){
-						
-						gameView.draw(canvas);
-						fps++;
-						
-					}
-				}
-			}finally{
-				if(canvas != null)
-						holder.unlockCanvasAndPost(canvas);
-			}	
+//			try{
+//				canvas = holder.lockCanvas();
+//				if(canvas != null){
+//					synchronized(holder){
+//						
+//						gameView.draw(canvas);
+//						fps++;
+//						
+//					}
+//				}
+//			}finally{
+//				if(canvas != null)
+//						holder.unlockCanvasAndPost(canvas);
+//			}	
 				
 			
 				
