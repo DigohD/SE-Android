@@ -12,8 +12,18 @@ public class GameThread implements Runnable{
 	public static final double TARGET_TPS = 60.0;
 	
 	private Thread thread, renderThread;
+	
+	public Thread getUpdateThread(){
+		return thread;
+	}
+	
+	public Thread getRenderhread(){
+		return renderThread;
+	}
+	
 	private volatile boolean running = false;
-	private boolean okToRender = false;
+	private volatile boolean okToRender = false;
+	private volatile boolean finished = false;
 	
 	private GameView gameView;
 	private SurfaceHolder holder;
@@ -31,27 +41,32 @@ public class GameThread implements Runnable{
 	 */
 	public synchronized void start(){
 		running = true;
+		startRender();
 		if(thread == null){
 			thread = new Thread(this, "Game-Thread");
 			thread.start();
-			startRender();
+			
 		}
 		
 	}
 	
-	/**
-	 * Stops the game thread
-	 */
-	public synchronized void stop(){
-		if(!running) return;
-		running = false;
-		if(thread != null){
-			try {
-				thread.join();
-				renderThread.join();
-			} catch (InterruptedException e) {e.printStackTrace();}
-		}
-		
+//	/**
+//	 * Stops the game thread
+//	 */
+//	public synchronized void stop(){
+//		if(!running) return;
+//		running = false;
+//		if(thread != null){
+//			try {
+//				renderThread.join();
+//				thread.join();
+//			} catch (InterruptedException e) {e.printStackTrace();}
+//		}
+//		
+//	}
+	
+	public synchronized void setRunning(boolean running){
+		this.running = running;
 	}
 	
 	public synchronized void startRender(){
@@ -64,6 +79,7 @@ public class GameThread implements Runnable{
 						
 						lock.lock();
 						while(!okToRender){
+							if(finished) break;
 							try {
 								renderCall.await();
 							} catch (InterruptedException e) {
@@ -71,17 +87,24 @@ public class GameThread implements Runnable{
 							}
 						}
 							
-						try{
-							canvas = holder.lockCanvas();
-							if(canvas != null)
-								gameView.draw(canvas);
-						}finally{
-							if(canvas != null)
-									holder.unlockCanvasAndPost(canvas);
-						}	
-						okToRender = false;
+						if(!finished){
+							try{
+								canvas = holder.lockCanvas();
+								if(canvas != null)
+									synchronized(holder){
+										gameView.draw(canvas);
+									}
+									
+							}finally{
+								if(canvas != null)
+										holder.unlockCanvasAndPost(canvas);
+							}	
+							okToRender = false;
+						}
+					
 						lock.unlock();
 					}
+					
 				}
 			};
 			renderThread.start();
@@ -93,19 +116,19 @@ public class GameThread implements Runnable{
 		gameView.tick(dt);
 	}
 	
-	private void draw(Canvas canvas){
-		try{
-			canvas = holder.lockCanvas();
-			if(canvas != null){
-				synchronized(holder){
-					gameView.draw(canvas);
-				}
-			}
-		}finally{
-			if(canvas != null)
-					holder.unlockCanvasAndPost(canvas);
-		}	
-	}
+//	private void draw(Canvas canvas){
+//		try{
+//			canvas = holder.lockCanvas();
+//			if(canvas != null){
+//				synchronized(holder){
+//					gameView.draw(canvas);
+//				}
+//			}
+//		}finally{
+//			if(canvas != null)
+//					holder.unlockCanvasAndPost(canvas);
+//		}	
+//	}
 	
 
 	@Override
@@ -159,6 +182,10 @@ public class GameThread implements Runnable{
 				frameCounter = 0;
 			}
 		}
-		stop();	
+		lock.lock();
+		finished = true;
+		renderCall.signalAll();
+		lock.unlock();
+	
 	}
 }

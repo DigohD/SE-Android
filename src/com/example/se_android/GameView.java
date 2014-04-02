@@ -28,6 +28,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		holder.addCallback(this);
 	}
 	
+	public GameThread getThread(){
+		return game;
+	}
+	
 	
 	@Override
 	public void draw(Canvas canvas){
@@ -74,7 +78,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		game.stop();
+		boolean retry = true;
+		game.setRunning(false);
+		
+		while(retry){
+			try {
+				game.getRenderhread().join();
+				game.getUpdateThread().join();
+				retry = false;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 

@@ -23,5 +23,23 @@ public class MainActivity extends Activity {
 	        
 	        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
+		
+		@Override
+		public void onDestroy() {
+		    super.onDestroy();
+		    gameView.getThread().setRunning(false);
+		   // gameView.getThread().getRenderhread().join();
+		
+		}
+		
+		@Override
+		public void onResume() {
+		    super.onResume();
+		}
+
+		@Override
+		public void onPause() {
+		    super.onPause();
+		}
 
 }
