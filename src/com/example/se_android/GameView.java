@@ -18,11 +18,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private Bitmap bmp;
 	private int width, height;
 	
-	public GameView(Context context) {
+	public GameView(Context context, double refreshRate) {
 		super(context);
-		game = new GameThread(getHolder(),this);
-		this.context = context;
 		world = new GameWorld();
+		game = new GameThread(getHolder(),this, refreshRate);
+		this.context = context;
+		
 		
 		holder = getHolder();
 		holder.addCallback(this);
@@ -42,8 +43,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		//System.out.println(scaleX + " - " + scaleY);
 		
 		canvas.drawColor(Color.BLACK);
-	    world.draw(canvas);
+	    
+	    
 	 
+	}
+	
+	public void draw(Canvas c, float interpolation){
+		draw(c);
+		world.draw(c, interpolation);
 	}
 	
 	public void tick(float dt){
@@ -66,8 +73,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		game.start();
-	
-		
 	}
 
 
@@ -78,19 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		boolean retry = true;
-		game.setRunning(false);
-		
-		while(retry){
-			try {
-				game.getRenderhread().join();
-				game.getUpdateThread().join();
-				retry = false;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		
+		game.stop();
 	}
 
 }

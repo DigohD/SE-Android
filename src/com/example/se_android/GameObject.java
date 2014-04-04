@@ -7,10 +7,11 @@ import android.graphics.Rect;
 public abstract class GameObject {
 	
 	protected float x, y;
+	
 	protected int width, height;
 	protected Rect rect;
 	protected Paint paint;
-	
+
 	public GameObject(float x, float y, int width, int height){
 		this.x = x;
 		this.y = y;
@@ -21,7 +22,9 @@ public abstract class GameObject {
 	}
 	
 	public abstract void tick(float dt);
-	public abstract void draw(Canvas canvas);
+	public abstract void draw(Canvas canvas, float interpolation);
+	
+	
 	
 	public float getX() {
 		return x;

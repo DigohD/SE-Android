@@ -4,8 +4,11 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import android.content.Context;
 import android.graphics.Canvas;
+import android.view.Display;
 import android.view.SurfaceHolder;
+import android.view.WindowManager;
 
 public class GameThread implements Runnable{
 	
@@ -13,27 +16,28 @@ public class GameThread implements Runnable{
 	
 	private Thread thread, renderThread;
 	
-	public Thread getUpdateThread(){
-		return thread;
-	}
-	
-	public Thread getRenderhread(){
-		return renderThread;
-	}
-	
 	private volatile boolean running = false;
 	private volatile boolean okToRender = false;
 	private volatile boolean finished = false;
 	
+	private volatile int stateIndex = 0;
+	
 	private GameView gameView;
 	private SurfaceHolder holder;
+	private GameWorld gw;
+	
+	volatile float interpolation;
+	
+	private double refreshRate;
 	
 	private Lock lock = new ReentrantLock();
 	private Condition renderCall = lock.newCondition();
 	
-	public GameThread(SurfaceHolder holder, GameView gameView){
+	public GameThread(SurfaceHolder holder, GameView gameView, final double refreshRate){
 		this.gameView = gameView;
 		this.holder = holder;
+		this.refreshRate = refreshRate;
+
 	}
 	
 	/**
@@ -45,70 +49,85 @@ public class GameThread implements Runnable{
 		if(thread == null){
 			thread = new Thread(this, "Game-Thread");
 			thread.start();
-			
 		}
 		
 	}
 	
-//	/**
-//	 * Stops the game thread
-//	 */
-//	public synchronized void stop(){
-//		if(!running) return;
-//		running = false;
-//		if(thread != null){
-//			try {
-//				renderThread.join();
-//				thread.join();
-//			} catch (InterruptedException e) {e.printStackTrace();}
-//		}
-//		
-//	}
+	/**
+	 * Stops the game thread
+	 */
+	public synchronized void stop(){
+		if(!running) return;
+		running = false;
+		boolean retry = true;
+		if(thread != null && renderThread != null){
+			while(retry){
+				try {
+					renderThread.join();
+					thread.join();
+					retry = false;
+				} catch (InterruptedException e) {e.printStackTrace();}
+				
+			}
+		}
+		
+		
+		
+	}
 	
-	public synchronized void setRunning(boolean running){
-		this.running = running;
+	public Thread getUpdateThread(){
+		return thread;
+	}
+	
+	public Thread getRenderhread(){
+		return renderThread;
 	}
 	
 	public synchronized void startRender(){
 		if(renderThread == null){
 			renderThread = new Thread(){
+
 				public void run(){
+					double previousTime = System.nanoTime();
+					double currentTime = 0;
+					//the time it takes to execute one cycle of the gameloop
+					double passedTime = 0;
 					Canvas canvas;
 					while(running){
-						canvas = null;
 						
+						
+						canvas = null;
+
 						lock.lock();
+						
 						while(!okToRender){
-							if(finished) break;
+							
 							try {
 								renderCall.await();
 							} catch (InterruptedException e) {
 								e.printStackTrace();
 							}
 						}
-							
+						
+						currentTime = System.nanoTime();
+						passedTime = (currentTime - previousTime);
+						previousTime = currentTime;
+						
 						if(!finished){
-							try{
-								canvas = holder.lockCanvas();
-								if(canvas != null)
-									synchronized(holder){
-										gameView.draw(canvas);
-									}
-									
-							}finally{
-								if(canvas != null)
-										holder.unlockCanvasAndPost(canvas);
-							}	
-							okToRender = false;
+							//interpolation = (float) ((passedTime/1000000000.0) / (1.0/refreshRate));
+							draw(canvas, interpolation);
 						}
-					
+
 						lock.unlock();
 					}
-					
 				}
 			};
 			renderThread.start();
 		}
+	}
+	
+	private synchronized float lerp(float start, float end, float dt){
+		return (start + dt*(end-start));
 	}
 	
 	
@@ -116,63 +135,65 @@ public class GameThread implements Runnable{
 		gameView.tick(dt);
 	}
 	
-//	private void draw(Canvas canvas){
-//		try{
-//			canvas = holder.lockCanvas();
-//			if(canvas != null){
-//				synchronized(holder){
-//					gameView.draw(canvas);
-//				}
-//			}
-//		}finally{
-//			if(canvas != null)
-//					holder.unlockCanvasAndPost(canvas);
-//		}	
-//	}
+	private void draw(Canvas canvas, float interpolation){
+		try{
+			canvas = holder.lockCanvas();
+			if(canvas != null){
+				//System.out.println(canvas.isHardwareAccelerated());
+				gameView.draw(canvas, interpolation);
+			}
+				
+		}finally{
+			if(canvas != null)
+					holder.unlockCanvasAndPost(canvas);
+		}	
+		okToRender = false;
+	}
 	
-
 	@Override
 	public void run() {
+		Canvas canvas;
 		double previousTime = System.nanoTime();
 		double currentTime = 0;
 		//the time it takes to execute one cycle of the gameloop
 		double passedTime = 0;
 		//keeps track of how many times the game needs to be updated
-		double unprocessedTime = 0;
+		double accumulator = 0;
 		//used to keep track of tps and fps count
 		double frameCounter = 0;
 		//the time between every update call in seconds
-		final double OPTIMAL_UPDATETIME = 1.0/TARGET_TPS;
+		final double OPTIMAL_UPDATETIME = 1.0/refreshRate;
+		
+		final int MAX_FRAMESKIP = 5;
 	
-		//the value of delta will be used for time dependent calculations like physics
-		float delta = 0;
+		float dt = (float)OPTIMAL_UPDATETIME * 10;
 		//number of frames per second
 		int fps = 0;
 		//number of updates per second
 		int tps = 0;
-		
+		int loops;
 		while(running){	
-		
+
 			currentTime = System.nanoTime();
 			passedTime = (currentTime - previousTime);
-			unprocessedTime += passedTime / 1000000000.0;	
+			accumulator += passedTime / 1000000000.0;	
 			frameCounter += passedTime;
-					
-			delta = (float) ( passedTime / 100000.0f );
-			if(delta > 0.15f) delta = 0.15f;
-					
+			
+			interpolation = (float) ((passedTime/1000000000.0) / OPTIMAL_UPDATETIME);
+	
 			previousTime = currentTime;
-					
-			while(unprocessedTime >= OPTIMAL_UPDATETIME){
+			loops = 0;
+			while(accumulator >= OPTIMAL_UPDATETIME && loops < MAX_FRAMESKIP){
 				
 				lock.lock();
-				tick(delta);
+				tick(dt);
 				tps++;
 				okToRender = true;
 				renderCall.signalAll();
 				lock.unlock();
-				
-				unprocessedTime -= OPTIMAL_UPDATETIME;
+
+				accumulator -= OPTIMAL_UPDATETIME;
+				loops++;
 			}
 						
 			if(frameCounter >= 1000000000){
@@ -182,8 +203,10 @@ public class GameThread implements Runnable{
 				frameCounter = 0;
 			}
 		}
+		
 		lock.lock();
 		finished = true;
+		okToRender = true;
 		renderCall.signalAll();
 		lock.unlock();
 	

@@ -7,27 +7,46 @@ import android.graphics.Paint;
 
 public class Player extends GameObject{
 	
-	float speed = 2f;
+	
 	private Bitmap bmp;
+	float speed = 2f;
+	float sY;
+	
+	float curr;
+	
 	
 	public Player(Bitmap bmp, float x, float y, int width, int height) {
 		super(x, y, width, height);
 		this.bmp = bmp;
+
 	}
+	
+	
 
 	@Override
 	public void tick(float dt) {
 		rect.set((int)x, (int)y, (int)x + width,(int) y + height);
-		y = y + (speed);
-		
+
+		sY = (speed);
+		y = y + sY;
+
 	}
+	
+	
 
 	@Override
-	public void draw(Canvas canvas) {
+	public void draw(Canvas canvas,  float interpolation) {
 		paint.setColor(Color.RED);
 		paint.setStyle(Paint.Style.FILL);
 		//canvas.drawRect((int)x, (int)y, (int)x + width,(int) y + height, paint);
-		canvas.drawBitmap(bmp, (int)x, (int)y, null);
+		
+		float start = y;
+		float end = y+sY;
+		//float interpolatedValue = start + interpolation*(end - start);
+		float interpolatedValue = start + interpolation*sY;
+		canvas.drawBitmap(bmp, (int)x, (int)(interpolatedValue), null);
 	}
+	
+	
 
 }

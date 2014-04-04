@@ -16,6 +16,10 @@ public class GameWorld{
 		//gameObjects.add(new Ground(0, 650, 480, 20));
 	}
 	
+	public List<GameObject> getGameObject(){
+		return gameObjects;
+	}
+	
 	public void addGameObject(GameObject go){
 		try {
 			mutex.acquire();
@@ -51,7 +55,7 @@ public class GameWorld{
 		
 	}
 	
-	public void draw(Canvas canvas){
+	public void draw(Canvas canvas, float interpolation){
 		//canvas.scale(sX, sY);
 		for(int i = 0; i < gameObjects.size(); i++)
 			if(gameObjects.get(i).getY() > canvas.getHeight())
@@ -65,7 +69,7 @@ public class GameWorld{
 		}
 		
 		for(GameObject go : gameObjects)
-    		go.draw(canvas);
+    		go.draw(canvas, interpolation);
 		
 		mutex.release();
 	}

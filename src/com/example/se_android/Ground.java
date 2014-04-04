@@ -19,7 +19,7 @@ public class Ground extends GameObject{
 	}
 
 	@Override
-	public void draw(Canvas canvas) {
+	public void draw(Canvas canvas,  float interpolation) {
 		paint.setColor(Color.BLUE);
 		paint.setStyle(Paint.Style.FILL);
 		canvas.drawRect(rect, paint);
