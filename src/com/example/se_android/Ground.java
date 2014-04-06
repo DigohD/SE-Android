@@ -13,7 +13,7 @@ public class Ground extends GameObject{
 	}
 
 	@Override
-	public void tick(float dt) {
+	public void tick(float dt, float interpolation) {
 		
 		
 	}

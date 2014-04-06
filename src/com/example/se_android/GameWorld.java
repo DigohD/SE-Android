@@ -40,7 +40,7 @@ public class GameWorld{
 		mutex.release();
 	}
 	
-	public void tick(float dt){
+	public void tick(float dt, float interpolation){
 		try {
 			mutex.acquire();
 		} catch (InterruptedException e) {
@@ -48,7 +48,7 @@ public class GameWorld{
 		}
 		
 		for(GameObject go : gameObjects)
-			go.tick(dt);
+			go.tick(dt, interpolation);
 		
 		mutex.release();
 

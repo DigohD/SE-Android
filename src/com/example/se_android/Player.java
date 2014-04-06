@@ -12,27 +12,24 @@ public class Player extends GameObject{
 	float speed = 15f;
 	float sY;
 	
-	float curr;
+	float currentPos = y;
+	float nextPos;
+	float interpolatedValue;
 	
 	
 	public Player(Bitmap bmp, float x, float y, int width, int height) {
 		super(x, y, width, height);
 		this.bmp = bmp;
-
 	}
-	
-	
 
 	@Override
-	public void tick(float dt) {
+	public void tick(float dt, float interpolation) {
 		rect.set((int)x, (int)y, (int)x + width,(int) y + height);
-
 		sY = (speed*dt);
 		y = y + sY;
-
+		
+		
 	}
-	
-	
 
 	@Override
 	public void draw(Canvas canvas,  float interpolation) {
@@ -40,10 +37,11 @@ public class Player extends GameObject{
 		paint.setStyle(Paint.Style.FILL);
 		//canvas.drawRect((int)x, (int)y, (int)x + width,(int) y + height, paint);
 		
-		float start = y;
-		float end = y+sY;
-		float interpolatedValue = start*interpolation + (end * (1.0f - interpolation));
 		//float interpolatedValue = start + interpolation*sY;
+		
+		currentPos = y;
+		nextPos = y+sY;
+		interpolatedValue = currentPos*interpolation + (nextPos * (1.0f - interpolation));
 		canvas.drawBitmap(bmp, (int)x, (int)(interpolatedValue), null);
 	}
 	

@@ -26,6 +26,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		game = new GameThread(getHolder(),this, refreshRate);
 		this.context = context;
 		
+		bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ship);
 		
 		holder = getHolder();
 		holder.addCallback(this);
@@ -36,34 +37,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	}
 	
 	
-//	@Override
-//	public void draw(Canvas canvas){
-//		
-////		float scaleX = canvas.getWidth() / 1920;
-////		float scaleY = canvas.getHeight() / 1080;
-//
-//		//System.out.println(scaleX + " - " + scaleY);
-//		
-//	
-//
-//	}
+	@Override
+	public void draw(Canvas canvas){
+		
+//		float scaleX = canvas.getWidth() / 1920;
+//		float scaleY = canvas.getHeight() / 1080;
+
+		//System.out.println(scaleX + " - " + scaleY);
+		canvas.drawColor(Color.BLACK);
+	
+
+	}
 	
 	public void draw(Canvas c, float interpolation){
-		c.drawColor(Color.BLACK);
+		draw(c);
 		world.draw(c, interpolation);
 	}
 	
 	int c = 0;
 	Random r = new Random();
 	int rn = 0;
-	public void tick(float dt){
-		c++;
-		if(c >= 60*3){
-			rn = 1+r.nextInt(420);
-			world.addGameObject(new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ship),rn, 0, 40, 40));
-			c = 0;
-		}
-		world.tick(dt);
+	public void tick(float dt, float interpolation){
+//		c++;
+//		if(c >= 60*1){
+//			rn = 1+r.nextInt(420);
+//			world.addGameObject(new Player(bmp,rn, 0, 40, 40));
+//			c = 0;
+//		}
+		world.tick(dt, interpolation);
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {
@@ -71,7 +72,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	    float eventY = event.getY();
 	    
 	    if(event.getAction() == MotionEvent.ACTION_DOWN){
-	    	world.addGameObject(new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ship),eventX, eventY, 40, 40));
+	    	world.addGameObject(new Player(bmp,eventX, eventY, 40, 40));
 	    }
 	    
     	// Schedules a repaint.

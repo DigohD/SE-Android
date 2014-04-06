@@ -4,11 +4,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import android.content.Context;
 import android.graphics.Canvas;
-import android.view.Display;
 import android.view.SurfaceHolder;
-import android.view.WindowManager;
 
 public class GameThread implements Runnable{
 	
@@ -20,11 +17,8 @@ public class GameThread implements Runnable{
 	private volatile boolean okToRender = false;
 	private volatile boolean finished = false;
 	
-	private volatile int stateIndex = 0;
-	
 	private GameView gameView;
 	private SurfaceHolder holder;
-	private GameWorld gw;
 	
 	volatile float interpolation;
 	
@@ -88,14 +82,11 @@ public class GameThread implements Runnable{
 			renderThread = new Thread(){
 
 				public void run(){
-					double previousTime = System.nanoTime();
-					double currentTime = 0;
-					//the time it takes to execute one cycle of the gameloop
-					double passedTime = 0;
+					
 					Canvas canvas;
 					while(running){
 						
-						
+		
 						canvas = null;
 
 						lock.lock();
@@ -109,12 +100,7 @@ public class GameThread implements Runnable{
 							}
 						}
 						
-						currentTime = System.nanoTime();
-						passedTime = (currentTime - previousTime);
-						previousTime = currentTime;
-						
 						if(!finished){
-							//interpolation = (float) ((passedTime/1000000000.0) / (1.0/refreshRate));
 							draw(canvas, interpolation);
 						}
 
@@ -126,23 +112,18 @@ public class GameThread implements Runnable{
 		}
 	}
 	
-	private synchronized float lerp(float start, float end, float dt){
-		return (start + dt*(end-start));
-	}
-	
-	
-	private void tick(float dt){
-		gameView.tick(dt);
+	private void tick(float dt, float interpolation){
+		gameView.tick(dt, interpolation);
 	}
 	
 	private void draw(Canvas canvas, float interpolation){
 		try{
 			canvas = holder.lockCanvas();
 			if(canvas != null){
-				//System.out.println(canvas.isHardwareAccelerated());
-				gameView.draw(canvas, interpolation);
-			}
-				
+				synchronized(holder){
+					gameView.draw(canvas, interpolation);
+				}
+			}	
 		}finally{
 			if(canvas != null)
 					holder.unlockCanvasAndPost(canvas);
@@ -162,9 +143,9 @@ public class GameThread implements Runnable{
 		//used to keep track of tps and fps count
 		double frameCounter = 0;
 		//the time between every update call in seconds
-		final double OPTIMAL_UPDATETIME = 1.0/refreshRate;
+		final double OPTIMAL_UPDATETIME = 1.0/TARGET_TPS;
 		
-		final int MAX_FRAMESKIP = 5;
+		final int MAX_FRAMESKIP = 15;
 	
 		float dt = (float)OPTIMAL_UPDATETIME * 10;
 		//number of frames per second
@@ -183,18 +164,20 @@ public class GameThread implements Runnable{
 	
 			previousTime = currentTime;
 			loops = 0;
-			while(accumulator >= OPTIMAL_UPDATETIME && loops < MAX_FRAMESKIP){
+			while(accumulator >= OPTIMAL_UPDATETIME){
 				
 				lock.lock();
-				tick(dt);
+				tick(dt, interpolation);
 				tps++;
+				accumulator -= OPTIMAL_UPDATETIME;
+				loops++;
 				okToRender = true;
 				renderCall.signalAll();
 				lock.unlock();
-
-				accumulator -= OPTIMAL_UPDATETIME;
-				loops++;
+			
 			}
+			
+			//interpolation = (float) (accumulator / OPTIMAL_UPDATETIME);
 						
 			if(frameCounter >= 1000000000){
 				//System.out.println(tps +  " tps, " + fps + " fps" );

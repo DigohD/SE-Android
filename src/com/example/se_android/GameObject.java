@@ -21,7 +21,7 @@ public abstract class GameObject {
 		rect = new Rect((int)x, (int)y, (int)x + width,(int) y + height);
 	}
 	
-	public abstract void tick(float dt);
+	public abstract void tick(float dt, float interpolation);
 	public abstract void draw(Canvas canvas, float interpolation);
 	
 	
