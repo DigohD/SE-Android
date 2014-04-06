@@ -1,4 +1,4 @@
-package com.example.se_android;
+package com.spaceshooter.game.object;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,20 +6,18 @@ import java.util.concurrent.Semaphore;
 
 import android.graphics.Canvas;
 
-public class GameWorld{
+import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.view.GameView;
+
+public class GameObjectHandler{
 	
 	private List<GameObject> gameObjects;
 	private Semaphore mutex = new Semaphore(1);
 	
-	public GameWorld() {
+	public GameObjectHandler() {
 		gameObjects = new ArrayList<GameObject>();
-		//gameObjects.add(new Ground(0, 650, 480, 20));
 	}
-	
-	public List<GameObject> getGameObject(){
-		return gameObjects;
-	}
-	
+
 	public void addGameObject(GameObject go){
 		try {
 			mutex.acquire();
@@ -40,7 +38,10 @@ public class GameWorld{
 		mutex.release();
 	}
 	
-	public void tick(float dt, float interpolation){
+	public void tick(float dt){
+		for(int i = 0; i < gameObjects.size(); i++)
+			if(gameObjects.get(i).getY() > GameView.height)
+				removeGameObject(gameObjects.get(i));
 		try {
 			mutex.acquire();
 		} catch (InterruptedException e) {
@@ -48,19 +49,14 @@ public class GameWorld{
 		}
 		
 		for(GameObject go : gameObjects)
-			go.tick(dt, interpolation);
+			go.tick(dt);
 		
 		mutex.release();
 
 	}
 	
 	public void draw(Canvas canvas, float interpolation){
-		//canvas.scale(sX, sY);
-		for(int i = 0; i < gameObjects.size(); i++)
-			if(gameObjects.get(i).getY() > canvas.getHeight())
-				removeGameObject(gameObjects.get(i));
-		
-		
+
 		try {
 			mutex.acquire();
 		} catch (InterruptedException e) {
@@ -71,6 +67,10 @@ public class GameWorld{
     		go.draw(canvas, interpolation);
 		
 		mutex.release();
+	}
+	
+	public List<GameObject> getGameObject(){
+		return gameObjects;
 	}
 
 }

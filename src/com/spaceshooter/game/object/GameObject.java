@@ -1,31 +1,32 @@
-package com.example.se_android;
+package com.spaceshooter.game.object;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import com.spaceshooter.game.util.Vector2f;
+
 public abstract class GameObject {
 	
+	protected Vector2f position;
+	protected Bitmap bitmap;
 	protected float x, y;
 	
 	protected int width, height;
 	protected Rect rect;
 	protected Paint paint;
-
-	public GameObject(float x, float y, int width, int height){
+	
+	public GameObject(float x, float y){
 		this.x = x;
 		this.y = y;
-		this.width = width;
-		this.height = height;
 		paint = new Paint();
 		rect = new Rect((int)x, (int)y, (int)x + width,(int) y + height);
 	}
 	
-	public abstract void tick(float dt, float interpolation);
+	public abstract void tick(float dt);
 	public abstract void draw(Canvas canvas, float interpolation);
-	
-	
-	
+
 	public float getX() {
 		return x;
 	}

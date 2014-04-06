@@ -1,4 +1,4 @@
-package com.example.se_android;
+package com.spaceshooter.game;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.spaceshooter.game.view.GameView;
+
 public class MainActivity extends Activity {
 
 		private GameView gameView;
@@ -14,8 +16,10 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
+			
 			Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 			double refreshRating = display.getRefreshRate();
+			
 	        gameView = new GameView(this, refreshRating);
 	        setContentView(gameView);
 
