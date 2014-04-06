@@ -51,8 +51,7 @@ public class GameWorld{
 			go.tick(dt);
 		
 		mutex.release();
-		
-		
+
 	}
 	
 	public void draw(Canvas canvas, float interpolation){

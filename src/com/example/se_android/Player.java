@@ -9,7 +9,7 @@ public class Player extends GameObject{
 	
 	
 	private Bitmap bmp;
-	float speed = 2f;
+	float speed = 15f;
 	float sY;
 	
 	float curr;
@@ -27,7 +27,7 @@ public class Player extends GameObject{
 	public void tick(float dt) {
 		rect.set((int)x, (int)y, (int)x + width,(int) y + height);
 
-		sY = (speed);
+		sY = (speed*dt);
 		y = y + sY;
 
 	}
@@ -42,8 +42,8 @@ public class Player extends GameObject{
 		
 		float start = y;
 		float end = y+sY;
-		//float interpolatedValue = start + interpolation*(end - start);
-		float interpolatedValue = start + interpolation*sY;
+		float interpolatedValue = start*interpolation + (end * (1.0f - interpolation));
+		//float interpolatedValue = start + interpolation*sY;
 		canvas.drawBitmap(bmp, (int)x, (int)(interpolatedValue), null);
 	}
 	

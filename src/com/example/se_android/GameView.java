@@ -1,5 +1,7 @@
 package com.example.se_android;
 
+import java.util.Random;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,26 +36,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	}
 	
 	
-	@Override
-	public void draw(Canvas canvas){
-		
-//		float scaleX = canvas.getWidth() / 1920;
-//		float scaleY = canvas.getHeight() / 1080;
-
-		//System.out.println(scaleX + " - " + scaleY);
-		
-		canvas.drawColor(Color.BLACK);
-	    
-	    
-	 
-	}
+//	@Override
+//	public void draw(Canvas canvas){
+//		
+////		float scaleX = canvas.getWidth() / 1920;
+////		float scaleY = canvas.getHeight() / 1080;
+//
+//		//System.out.println(scaleX + " - " + scaleY);
+//		
+//	
+//
+//	}
 	
 	public void draw(Canvas c, float interpolation){
-		draw(c);
+		c.drawColor(Color.BLACK);
 		world.draw(c, interpolation);
 	}
 	
+	int c = 0;
+	Random r = new Random();
+	int rn = 0;
 	public void tick(float dt){
+		c++;
+		if(c >= 60*3){
+			rn = 1+r.nextInt(420);
+			world.addGameObject(new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ship),rn, 0, 40, 40));
+			c = 0;
+		}
 		world.tick(dt);
 	}
 	
