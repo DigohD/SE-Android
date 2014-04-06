@@ -1,19 +1,17 @@
 package com.spaceshooter.game.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.se_android.R;
 import com.spaceshooter.game.engine.GameEngine;
 import com.spaceshooter.game.object.GameObjectHandler;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Randomizer;
+import com.spaceshooter.game.util.Vector2f;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
@@ -21,7 +19,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private GameEngine game;
 	private SurfaceHolder holder;
 	private GameObjectHandler objectHandler;
-	private Bitmap bmp;
 	public static int width, height;
 	
 	private int counter = 0;
@@ -31,8 +28,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		objectHandler = new GameObjectHandler();
 		game = new GameEngine(getHolder(),this, refreshRate);
 		this.context = context;
-		
-		bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ship);
 		
 		holder = getHolder();
 		holder.addCallback(this);
@@ -57,13 +52,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		objectHandler.draw(c, interpolation);
 	}
 	
-	
-
 	public void tick(float dt){
 		counter++;
-		if(counter >= 20){
-			int rn = Randomizer.getInt(0, 430);
-			objectHandler.addGameObject(new Player(bmp,rn, 0));
+		if(counter >= 10){
+			int rn = Randomizer.getInt(0, width - 30);
+			objectHandler.addGameObject(new Player(new Vector2f(rn, -30)));
 			counter = 0;
 		}
 		objectHandler.tick(dt);
@@ -74,7 +67,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	    float eventY = event.getY();
 	    
 	    if(event.getAction() == MotionEvent.ACTION_DOWN)
-	    	objectHandler.addGameObject(new Player(bmp, eventX, eventY));
+	    	objectHandler.addGameObject(new Player(new Vector2f(eventX, eventY)));
 	    
     	// Schedules a repaint.
     	invalidate();

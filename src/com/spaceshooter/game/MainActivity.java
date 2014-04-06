@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.view.GameView;
 
 public class MainActivity extends Activity {
@@ -16,6 +17,8 @@ public class MainActivity extends Activity {
 		@Override
 		protected void onCreate(Bundle savedInstanceState) {
 			super.onCreate(savedInstanceState);
+			
+			new BitmapHandler(this);
 			
 			Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 			double refreshRating = display.getRefreshRate();

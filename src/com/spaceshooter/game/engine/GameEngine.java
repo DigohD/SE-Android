@@ -34,7 +34,7 @@ public class GameEngine implements Runnable{
 	}
 	
 	/**
-	 * Starts the game thread
+	 * Starts the update and draw threads
 	 */
 	public synchronized void start(){
 		running = true;
@@ -46,7 +46,7 @@ public class GameEngine implements Runnable{
 	}
 	
 	/**
-	 * Stops the game thread
+	 * Stops the update and draw threads
 	 */
 	public synchronized void stop(){
 		if(!running) return;
@@ -118,7 +118,6 @@ public class GameEngine implements Runnable{
 	
 	@Override
 	public void run() {
-		
 		double previousTime = System.nanoTime();
 		double currentTime = 0;
 		//the time it takes to execute one cycle of the gameloop

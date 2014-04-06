@@ -11,28 +11,40 @@ public abstract class GameObject {
 	
 	protected Vector2f position;
 	protected Bitmap bitmap;
-	protected float x, y;
+	//protected float x, y;
 	
 	protected int width, height;
-	protected Rect rect;
-	protected Paint paint;
 	
-	public GameObject(float x, float y){
-		this.x = x;
-		this.y = y;
-		paint = new Paint();
-		rect = new Rect((int)x, (int)y, (int)x + width,(int) y + height);
+	public GameObject(Vector2f position){
+		this.position = position;
 	}
 	
 	public abstract void tick(float dt);
 	public abstract void draw(Canvas canvas, float interpolation);
 
-	public float getX() {
-		return x;
+
+	public Vector2f getPosition() {
+		return position;
+	}
+	
+	public float getX(){
+		return position.getX();
+	}
+	
+	public float getY(){
+		return position.getY();
 	}
 
-	public float getY() {
-		return y;
+	public Bitmap getBitmap() {
+		return bitmap;
+	}
+
+	public void setPosition(Vector2f position) {
+		this.position = position;
+	}
+
+	public void setBitmap(Bitmap bitmap) {
+		this.bitmap = bitmap;
 	}
 
 	public int getWidth() {
@@ -41,22 +53,6 @@ public abstract class GameObject {
 
 	public int getHeight() {
 		return height;
-	}
-
-	public Rect getRect() {
-		return rect;
-	}
-
-	public Paint getPaint() {
-		return paint;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public void setY(float y) {
-		this.y = y;
 	}
 
 	public void setWidth(int width) {
