@@ -21,11 +21,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private GameObjectHandler objectHandler;
 	public static int width, height;
 	
+//	int rn = Randomizer.getInt(0, width - 30);
+//	player = new Player(new Vector2f(rn, 0));
+	
 	private int counter = 0;
 	
 	public GameView(Context context, double refreshRate) {
 		super(context);
 		objectHandler = new GameObjectHandler();
+		
+//		objectHandler.addGameObject(new Player(new Vector2f(50, -10)));
+//		objectHandler.addGameObject(new Player(new Vector2f(100, -20)));
+//		objectHandler.addGameObject(new Player(new Vector2f(150, 0)));
+//		objectHandler.addGameObject(new Player(new Vector2f(300, -30)));
 		game = new GameEngine(getHolder(),this, refreshRate);
 		this.context = context;
 		
@@ -77,6 +85,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		game.start();
+		game.startDrawingThread();
 	}
 
 

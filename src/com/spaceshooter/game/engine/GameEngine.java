@@ -38,11 +38,13 @@ public class GameEngine implements Runnable{
 	 */
 	public synchronized void start(){
 		running = true;
-		startRenderThread();
+		
 		if(updateThread == null){
 			updateThread = new Thread(this, "Game-Thread");
 			updateThread.start();
 		}
+		
+		startDrawingThread();
 	}
 	
 	/**
@@ -69,7 +71,7 @@ public class GameEngine implements Runnable{
 		
 	}
 	
-	private synchronized void startRenderThread(){
+	public synchronized void startDrawingThread(){
 		if(drawingThread == null){
 			drawingThread = new Thread(){
 				public void run(){
@@ -84,7 +86,7 @@ public class GameEngine implements Runnable{
 								e.printStackTrace();
 							}
 						}
-						
+					
 						if(!finished){
 							draw(canvas, interpolation);
 							okToDraw = false;
@@ -103,17 +105,18 @@ public class GameEngine implements Runnable{
 	}
 	
 	private void draw(Canvas canvas, float interpolation){
-		try{
-			canvas = surfaceHolder.lockCanvas();
-			if(canvas != null){
-				synchronized(surfaceHolder){
-					gameView.draw(canvas, interpolation);
-				}
-			}	
-		}finally{
-			if(canvas != null)
+			try{
+				canvas = surfaceHolder.lockCanvas();
+				if(canvas != null){
+					synchronized(surfaceHolder){
+						gameView.draw(canvas, interpolation);
+					}
+				}	
+			}finally{
+				if(canvas != null)
 					surfaceHolder.unlockCanvasAndPost(canvas);
-		}	
+			}
+		
 	}
 	
 	@Override
@@ -167,4 +170,71 @@ public class GameEngine implements Runnable{
 		drawingCall.signalAll();
 		lock.unlock();
 	}
+	
+	
+// one thread solution(pretty bug)
+//	@Override
+//	public void run() {
+//		double previousTime = System.nanoTime();
+//		double currentTime = 0;
+//		double passedTime = 0; 
+//		double accumulator = 0;
+//		final double OPTIMAL_UPDATETIME = 1.0/TARGET_TPS;
+//		float dt = (float)OPTIMAL_UPDATETIME * 10;
+//		final int MAX_FRAME_SKIP = 5;
+//		Canvas c;
+//		boolean render;
+//		
+//		double last = System.nanoTime();
+//		double now = 0;
+//		double elapsed = 0;
+//		int loops = 0;
+//		int sleepTime = 0;
+//		while(running){	
+//			c = null;
+//			render = false;
+//			now = 0;
+//			elapsed = 0;
+//			loops = 0;
+//			sleepTime = 0;
+//			currentTime = System.nanoTime();
+//			passedTime = (currentTime - previousTime) / 1000000000.0;
+//			if(passedTime > 0.25) passedTime = 0.25;
+//			accumulator += passedTime;	
+//			previousTime = currentTime;
+//		
+//			while(accumulator >= OPTIMAL_UPDATETIME){
+//				render = true;
+//				//now = System.nanoTime();
+//				tick(dt);
+//				accumulator -= OPTIMAL_UPDATETIME;
+//			}
+//
+//			if(render){
+//				interpolation = (float) ((accumulator) / OPTIMAL_UPDATETIME);
+//				draw(interpolation);
+//				elapsed = (System.nanoTime() - currentTime) / 1000000.0;
+//				//System.out.println(elapsed + " ms");
+//				sleepTime = (int) (elapsed - (1000.0/TARGET_TPS));
+//				if(sleepTime > 0){
+//					try {
+//						Thread.sleep(sleepTime);
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//				}
+//				
+//				while(sleepTime < 0 && loops < MAX_FRAME_SKIP){
+//					tick(dt);
+//					sleepTime += (1000.0/TARGET_TPS);
+//					loops++;
+//				}
+//				
+//			}
+//		
+//		}
+//	}
+	
+	
+	
 }

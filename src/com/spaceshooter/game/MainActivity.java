@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -48,49 +49,49 @@ public class MainActivity extends Activity {
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
-        gameId = (EditText) findViewById(R.id.gameId);
-		playerName = (EditText) findViewById(R.id.playerName);
-		score = (EditText) findViewById(R.id.score);
+//        gameId = (EditText) findViewById(R.id.gameId);
+//		playerName = (EditText) findViewById(R.id.playerName);
+//		score = (EditText) findViewById(R.id.score);
         
 	}
 	
 	
-	// throw the score at the database
-	private void submitScore() {
-		HighScoreEntry entry = null;
-		try {
-			entry = new HighScoreEntry(playerName.getText().toString(), new Date(), Double.valueOf(score.getText()
-					.toString()), Long.valueOf(gameId.getText().toString()));
-		} catch (NumberFormatException e) {
-			Toast.makeText(getApplicationContext(), R.string.badInput, Toast.LENGTH_LONG).show();
-			return;
-		}
-		
-		
-		double highest = Double.NEGATIVE_INFINITY;
-		List<HighScoreEntry> scores = highScoreAccessor.getByGameId(entry.getGameId());
-		if (scores.size() > 0) {
-			for (HighScoreEntry hse : scores) { // simply look for the highest existing score
-				if (highest < hse.getScore()) {
-					highest = hse.getScore();
-				}
-			}
-		}
-		
-		// give a little "congratulations" message if yours is the highest score so far
-		if (highest < entry.getScore()) { // you beat everyone else (including yourself) on this game!
-			Toast newHighScore = Toast.makeText(getApplicationContext(), R.string.newHighScore, Toast.LENGTH_LONG);
-			newHighScore.show();
-		} else {
-			Toast.makeText(getApplicationContext(), R.string.saving, Toast.LENGTH_LONG).show();
-		}
-		
-		// well, we could probably push this into the HighScoreDataHelper
-		if (highScoreAccessor.alreadyExists(entry)) { // only store a single score per player/gameID combination
-			highScoreAccessor.update(entry);
-		} else {
-			highScoreAccessor.insert(entry);
-		}
-	}
+//	// throw the score at the database
+//	private void submitScore() {
+//		HighScoreEntry entry = null;
+//		try {
+//			entry = new HighScoreEntry(playerName.getText().toString(), new Date(), Double.valueOf(score.getText()
+//					.toString()), Long.valueOf(gameId.getText().toString()));
+//		} catch (NumberFormatException e) {
+//			Toast.makeText(getApplicationContext(), R.string.badInput, Toast.LENGTH_LONG).show();
+//			return;
+//		}
+//		
+//		
+//		double highest = Double.NEGATIVE_INFINITY;
+//		List<HighScoreEntry> scores = highScoreAccessor.getByGameId(entry.getGameId());
+//		if (scores.size() > 0) {
+//			for (HighScoreEntry hse : scores) { // simply look for the highest existing score
+//				if (highest < hse.getScore()) {
+//					highest = hse.getScore();
+//				}
+//			}
+//		}
+//		
+//		// give a little "congratulations" message if yours is the highest score so far
+//		if (highest < entry.getScore()) { // you beat everyone else (including yourself) on this game!
+//			Toast newHighScore = Toast.makeText(getApplicationContext(), R.string.newHighScore, Toast.LENGTH_LONG);
+//			newHighScore.show();
+//		} else {
+//			Toast.makeText(getApplicationContext(), R.string.saving, Toast.LENGTH_LONG).show();
+//		}
+//		
+//		// well, we could probably push this into the HighScoreDataHelper
+//		if (highScoreAccessor.alreadyExists(entry)) { // only store a single score per player/gameID combination
+//			highScoreAccessor.update(entry);
+//		} else {
+//			highScoreAccessor.insert(entry);
+//		}
+///	}
 
 }

@@ -11,7 +11,7 @@ public class Player extends GameObject{
 	
 	private float speed = 15f;
 	private Vector2f sY = new Vector2f(0,0);
-	private Vector2f currentPos = new Vector2f(0,0);
+	private Vector2f currentPos;
 	private Vector2f nextPos = new Vector2f(0,0);
 	private Vector2f interpolatedPos = new Vector2f(0,0);
 	
@@ -19,6 +19,7 @@ public class Player extends GameObject{
 	
 	public Player(Vector2f position) {
 		super(position);
+		currentPos = position;
 		this.bitmap = BitmapHandler.loadBitmap("player/ship.png");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
@@ -28,15 +29,21 @@ public class Player extends GameObject{
 	@Override
 	public void tick(float dt) {
 		sY = velocity.mul(dt);
+		
 		position = position.add(sY);
+	}
+	
+	private void interpolate(float interpolation){
+		currentPos = position;
+		nextPos = currentPos.add(sY);
+		interpolatedPos = currentPos.mul(interpolation).add(nextPos.mul((1.0f - interpolation)));
 	}
 
 	@Override
 	public void draw(Canvas canvas,  float interpolation) {
-		currentPos = position;
-		nextPos = currentPos.add(sY);
- 		interpolatedPos = currentPos.mul(interpolation).add(nextPos.mul((1.0f - interpolation)));
-
+		
+		interpolate(interpolation);
+ 		
 //		interpolatedValue = currentPos*interpolation + (nextPos * (1.0f - interpolation));
 		
 		canvas.drawBitmap(bitmap, (int)position.getX(), (int)interpolatedPos.getY(), null);
