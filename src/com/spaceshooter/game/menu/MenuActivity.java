@@ -9,7 +9,8 @@ import android.widget.ListView;
 
 public class MenuActivity extends ListActivity {
 	
-	String classNames[] = { "com.spaceshooter.game.MainActivity", "topList", "achievments", "menu.Credits", "settings.SettingsActivity", "endApplication" };
+	// Add complete class names as options in order to get them to work. Future improvement is to separate menu strings with class names
+	String classNames[] = { "com.spaceshooter.game.MainActivity", "topList", "achievments", "com.spaceshooter.game.menu.Credits", "com.spaceshooter.game.settings.SettingsActivity", "endApplication" };
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
