@@ -12,7 +12,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.spaceshooter.game.engine.GameEngine;
+import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.object.GameObjectHandler;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Randomizer;
@@ -21,19 +21,19 @@ import com.spaceshooter.game.util.Vector2f;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
 	private Context context;
-	private GameEngine game;
+	private GameThread game;
 	private SurfaceHolder holder;
 	private GameObjectHandler objectHandler;
 	public static int width, height;
 	
 	private int counter = 0;
 	
-//	Player player;
+	Player player;
 	
-	public GameView(Context context, double refreshRate) {
+	public GameView(Context context) {
 		super(context);
 		objectHandler = new GameObjectHandler();
-		game = new GameEngine(getHolder(),this, refreshRate);
+		game = new GameThread(getHolder(),this);
 		this.context = context;
 		
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -43,8 +43,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		width = size.x;
 		height = size.y;
 		
-//		float rn = Randomizer.getFloat(0, width - 30);
-//		player = new Player(new Vector2f(rn, -30));
+		float rn = Randomizer.getFloat(0, width - 30);
+		player = new Player(new Vector2f(rn, -30));
 		
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
@@ -68,19 +68,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	
 	public void draw(Canvas c, float interpolation){
 		draw(c);
-		objectHandler.draw(c, interpolation);
+		player.draw(c, interpolation);
 	}
-	
+	float rn;
 	public void tick(float dt){
 		counter++;
-		if(counter >= 10){
-			float rn = Randomizer.getFloat(0, width - 30);
-			objectHandler.addGameObject(new Player(new Vector2f(rn, -30)));
-//			player.getPosition().setX(rn);
-//			player.getPosition().setY(0);
+		if(counter >= 60*5){
+			rn = Randomizer.getFloat(0, width - 30);
+//			objectHandler.addGameObject(new Player(new Vector2f(rn, -30)));
+			player.getPosition().x = rn;
+			player.getPosition().y = 0;
 			counter = 0;
 		}
-		objectHandler.tick(dt);
+		player.tick(dt);
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {
@@ -106,9 +106,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		game.start();
-		//game.startDrawingThread();
 	}
-
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {

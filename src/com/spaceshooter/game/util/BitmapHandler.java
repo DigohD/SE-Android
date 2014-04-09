@@ -8,6 +8,11 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+/**
+ * Class for handling bitmaps
+ * @author Anders
+ *
+ */
 public class BitmapHandler {
 	
 	private static Activity activity;
