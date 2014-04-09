@@ -13,11 +13,11 @@ public class MenuActivity extends ListActivity {
 	// TODO Future improvement is to separate menu strings with class names
 	String classNames[] = { "com.spaceshooter.game.GameActivity", "topList", "achievments", "com.spaceshooter.game.menu.Credits", "com.spaceshooter.game.settings.SettingsActivity", "endApplication" };
 	String menuOptions[] = { "Play", "Toplist", "Achievments", "Credits", "Settings", "Quit" };
-	// Hej Anders
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setListAdapter(new ArrayAdapter<String>(MenuActivity.this, android.R.layout.simple_list_item_1, classNames));
+		setListAdapter(new ArrayAdapter<String>(MenuActivity.this, android.R.layout.simple_list_item_1, menuOptions));
 	}
 	
 	@Override
