@@ -41,7 +41,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		// we'll use this to manipulate the list of high scores
-		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
+//		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
 		new BitmapHandler(this);
 		
 		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
@@ -60,30 +60,30 @@ public class GameActivity extends Activity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
     	// we'll use this to manipulate the list of high scores
- 		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
-
- 		submitButton = (Button) findViewById(R.id.submitButton);
- 		submitButton.setOnClickListener(new View.OnClickListener() {
- 			@Override
- 			public void onClick(View v) {
- 				submitScore();
- 			}
- 		});
-
- 		showScoresButton = (Button) findViewById(R.id.showScoresButton);
- 		showScoresButton.setOnClickListener(new View.OnClickListener() {
- 			@Override
- 			public void onClick(View v) {
- 				Intent highScoreListActivity = new Intent(getBaseContext(), HighScoreList.class);
- 				highScoreListActivity.putExtra(HighScoreList.EXTRA_GAME_ID, gameId.getText().toString());
- 				startActivity(highScoreListActivity);
- 			}
- 		});
-
- 		gameId = (EditText) findViewById(R.id.gameId);
- 		playerName = (EditText) findViewById(R.id.playerName);
- 		score = (EditText) findViewById(R.id.score);
-        
+// 		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
+//
+// 		submitButton = (Button) findViewById(R.id.submitButton);
+// 		submitButton.setOnClickListener(new View.OnClickListener() {
+// 			@Override
+// 			public void onClick(View v) {
+// 				submitScore();
+// 			}
+// 		});
+//
+// 		showScoresButton = (Button) findViewById(R.id.showScoresButton);
+// 		showScoresButton.setOnClickListener(new View.OnClickListener() {
+// 			@Override
+// 			public void onClick(View v) {
+// 				Intent highScoreListActivity = new Intent(getBaseContext(), HighScoreList.class);
+// 				highScoreListActivity.putExtra(HighScoreList.EXTRA_GAME_ID, gameId.getText().toString());
+// 				startActivity(highScoreListActivity);
+// 			}
+// 		});
+//
+// 		gameId = (EditText) findViewById(R.id.gameId);
+// 		playerName = (EditText) findViewById(R.id.playerName);
+// 		score = (EditText) findViewById(R.id.score);
+//        
 	}
 	
 	
