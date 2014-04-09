@@ -8,18 +8,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class MenuActivity extends ListActivity {
-	
-	// Add complete class names as options in order to get them to work. 
-	// TODO Future improvement is to separate menu strings with class names
-	String classNames[] = { "com.spaceshooter.game.GameActivity", "topList", "achievments", "com.spaceshooter.game.menu.Credits", "com.spaceshooter.game.settings.SettingsActivity", "endApplication" };
-	String menuOptions[] = { "Play", "Toplist", "Achievments", "Credits", "Settings", "Quit" };
+
+	String classNames[] = { "com.spaceshooter.game.GameActivity",
+			"com.spaceshooter.game.database.HighScoreList", "achievments",
+			"com.spaceshooter.game.menu.Credits",
+			"com.spaceshooter.game.settings.SettingsActivity", "endApplication" };
+	String menuOptions[] = { "Play", "Toplist", "Achievments", "Credits",
+			"Settings", "Quit" };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setListAdapter(new ArrayAdapter<String>(MenuActivity.this, android.R.layout.simple_list_item_1, menuOptions));
+		setListAdapter(new ArrayAdapter<String>(MenuActivity.this,
+				android.R.layout.simple_list_item_1, menuOptions));
 	}
-	
+
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
