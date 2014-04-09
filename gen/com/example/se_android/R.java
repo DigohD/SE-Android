@@ -26,20 +26,45 @@ public final class R {
         public static final int ship=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f080001;
+        public static final int action_settings=0x7f080008;
         public static final int container=0x7f080000;
+        public static final int date=0x7f080005;
+        public static final int gameId=0x7f080003;
+        public static final int menu_delete=0x7f080009;
+        public static final int playerName=0x7f080002;
+        public static final int score=0x7f080004;
+        public static final int showScoresButton=0x7f080007;
+        public static final int submitButton=0x7f080006;
+        public static final int user_name=0x7f080001;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int fragment_main=0x7f030001;
+        public static final int high_score_list=0x7f030002;
+        public static final int high_score_list_header=0x7f030003;
+        public static final int high_score_list_row=0x7f030004;
+        public static final int main=0x7f030005;
     }
     public static final class menu {
         public static final int main=0x7f070000;
+        public static final int weight_list_context_menu=0x7f070001;
     }
     public static final class string {
         public static final int action_settings=0x7f050002;
         public static final int app_name=0x7f050000;
+        public static final int badInput=0x7f05000c;
+        public static final int date=0x7f050007;
+        public static final int delete=0x7f05000e;
+        public static final int gameId=0x7f050004;
         public static final int hello_world=0x7f050001;
+        public static final int high_score_list_no_items=0x7f05000d;
+        public static final int newHighScore=0x7f05000b;
+        public static final int player=0x7f050006;
+        public static final int playerName=0x7f050005;
+        public static final int saving=0x7f05000a;
+        public static final int score=0x7f050008;
+        public static final int showScores=0x7f050009;
+        public static final int submit=0x7f050003;
     }
     public static final class style {
         /** 
@@ -68,6 +93,11 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f060001;
-        public static final int Theme_NoBackground=0x7f060002;
+        public static final int EntryList=0x7f060005;
+        public static final int EntryList_Number=0x7f060006;
+        public static final int EntryListHeader=0x7f060003;
+        public static final int EntryListHeader_Number=0x7f060004;
+        public static final int InputLabel=0x7f060002;
+        public static final int Theme_NoBackground=0x7f060007;
     }
 }
