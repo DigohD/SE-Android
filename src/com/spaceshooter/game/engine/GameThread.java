@@ -5,6 +5,12 @@ import android.view.SurfaceHolder;
 
 import com.spaceshooter.game.view.GameView;
 
+/**
+ * The game thread which runs the main loop.
+ * The main loop is responsible for updating the game logic and calling the draw method in game view
+ * @author Anders
+ *
+ */
 public class GameThread implements Runnable{
 	
 	public static final double TARGET_TPS = 60.0;
@@ -16,7 +22,7 @@ public class GameThread implements Runnable{
 	private SurfaceHolder surfaceHolder;
 	
 	/**
-	 * Instantiates the game engine
+	 * Instantiates the game thread
 	 * @param holder the surfaceholder which provides the canvas on which to draw on
 	 * @param gameView the main view for the game
 	 */
@@ -118,7 +124,7 @@ public class GameThread implements Runnable{
 		long sleepTime = 0;
 		double msPerTick = 0;
 		int framesSkipped = 0;
-		final int MAX_FRAME_SKIPS = 2;
+		final int MAX_FRAME_SKIPS = 5;
 		
 		while(running){	
 			canvas = null;
@@ -156,9 +162,9 @@ public class GameThread implements Runnable{
 //					}
 //				}
 //				framesSkipped = 0;
-//				while(sleepTime < 0 && framesSkipped < MAX_FRAME_SKIPS){
+//				while(finalDelta > msPerTick && framesSkipped < MAX_FRAME_SKIPS){
 //					tick(dt);
-//					sleepTime += msPerTick;
+//					finalDelta -= msPerTick;
 //					framesSkipped++;
 //				}
 				fps++;

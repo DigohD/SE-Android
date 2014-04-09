@@ -14,6 +14,7 @@ import android.view.WindowManager;
 
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.object.GameObjectHandler;
+import com.spaceshooter.game.object.enemy.Predator;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
@@ -27,6 +28,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	public static int width, height;
 	
 	private int counter = 0;
+	private int timer = 0;
+	private int LEVEL_TIME = 60*60;
 	
 	Player player;
 	
@@ -43,8 +46,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		width = size.x;
 		height = size.y;
 		
-		float rn = Randomizer.getFloat(0, width - 30);
-		player = new Player(new Vector2f(rn, -30));
+//		float rn = Randomizer.getFloat(0, width - 30);
+//		player = new Player(new Vector2f(rn, -30));
 		
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
@@ -62,25 +65,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 //		float scaleY = canvas.getHeight() / 1080;
 
 		//System.out.println(scaleX + " - " + scaleY);
+		
+		//clear the screen to prepare for the next frame
 		canvas.drawColor(Color.BLACK);
 	
 	}
 	
 	public void draw(Canvas c, float interpolation){
 		draw(c);
-		player.draw(c, interpolation);
+		objectHandler.draw(c, interpolation);
 	}
 	float rn;
 	public void tick(float dt){
 		counter++;
-		if(counter >= 60*5){
-			rn = Randomizer.getFloat(0, width - 30);
-//			objectHandler.addGameObject(new Player(new Vector2f(rn, -30)));
-			player.getPosition().x = rn;
-			player.getPosition().y = 0;
-			counter = 0;
+		timer++;
+		if((timer < LEVEL_TIME)){
+			if(counter >= 20){
+				rn = Randomizer.getFloat(0, width - 30);
+				objectHandler.addGameObject(new Predator(new Vector2f(rn, -30)));
+//				player.getPosition().x = rn;
+//				player.getPosition().y = 0;
+				counter = 0;
+			}
+			
 		}
-		player.tick(dt);
+		
+		objectHandler.tick(dt);
+		
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {
@@ -88,7 +99,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	    float eventY = event.getY();
 	    
 	    if(event.getAction() == MotionEvent.ACTION_DOWN)
-	    	objectHandler.addGameObject(new Player(new Vector2f(eventX, eventY)));
+	    	objectHandler.getPlayer().setTarget(eventX, eventY);
 	    
     	// Schedules a repaint.
     	invalidate();

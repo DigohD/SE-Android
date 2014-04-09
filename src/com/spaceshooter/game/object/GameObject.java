@@ -27,11 +27,11 @@ public abstract class GameObject {
 	}
 	
 	public float getX(){
-		return position.getX();
+		return position.x;
 	}
 	
 	public float getY(){
-		return position.getY();
+		return position.y;
 	}
 
 	public Bitmap getBitmap() {

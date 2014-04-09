@@ -34,7 +34,7 @@ public class Vector2f {
 	 * @return returns the value of the dot product
 	 */
 	public float dot(Vector2f v){
-		return x * v.getX() + y * v.getY();
+		return x * v.x + y * v.y;
 	}
 	
 	/**
@@ -68,7 +68,7 @@ public class Vector2f {
 	 * @return returns the resulting vector of the addition
 	 */
 	public Vector2f add(Vector2f v){
-		return new Vector2f(x + v.getX(), y + v.getY());
+		return new Vector2f(x + v.x, y + v.y);
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class Vector2f {
 	 * @return returns the resulting vector of the subtraction
 	 */
 	public Vector2f sub(Vector2f v){
-		return new Vector2f(x - v.getX(), y - v.getY());
+		return new Vector2f(x - v.x, y - v.y);
 	}
 	
 	/**
@@ -104,7 +104,7 @@ public class Vector2f {
 	 * @return returns the resulting vector of the multiplication
 	 */
 	public Vector2f mul(Vector2f v){
-		return new Vector2f(x * v.getX(), y * v.getY());
+		return new Vector2f(x * v.x, y * v.y);
 	}
 	
 	/**
@@ -122,7 +122,7 @@ public class Vector2f {
 	 * @return returns the resulting vector of the division
 	 */
 	public Vector2f div(Vector2f v){
-		return new Vector2f(x / v.getX(), y / v.getY());
+		return new Vector2f(x / v.x, y / v.y);
 	}
 	
 	/**
@@ -140,22 +140,6 @@ public class Vector2f {
 	@Override
 	public String toString() {
 		return "(" + x + " " + y + ")";
-	}
-
-	public float getX() {
-		return x;
-	}
-
-	public void setX(float x) {
-		this.x = x;
-	}
-
-	public float getY() {
-		return y;
-	}
-
-	public void setY(float y) {
-		this.y = y;
 	}
 
 }

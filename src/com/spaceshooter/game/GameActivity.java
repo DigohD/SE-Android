@@ -55,7 +55,7 @@ public class GameActivity extends Activity {
         	    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
         	    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
     	// we'll use this to manipulate the list of high scores
 // 		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
@@ -84,15 +84,15 @@ public class GameActivity extends Activity {
 //        
 	}
 	
-	public void onPause(){
-		super.onPause();
-		gameView.pause();
-	}
-	
-	public void onResume(){
-		super.onResume();
-		gameView.resume();
-	}
+//	public void onPause(){
+//		super.onPause();
+//		gameView.pause();
+//	}
+//	
+//	public void onResume(){
+//		super.onResume();
+//		gameView.resume();
+//	}
 	
 	
 	// throw the score at the database
