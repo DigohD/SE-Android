@@ -16,15 +16,28 @@ public class BitmapHandler {
 		BitmapHandler.activity = activity;
 	}
 	
+	/**
+	 * Loads a bitmap from a given source
+	 * @param path the location of the bitmap
+	 * @return returns the bitmap located at the given source
+	 */
 	public static Bitmap loadBitmap(String path){
 		AssetManager assetManager = activity.getAssets();
-	    InputStream inputStream;
+	    InputStream inputStream = null;
 	    Bitmap bitmap = null;
 	    try {
 	        inputStream = assetManager.open("images/" + path);
 	        bitmap = BitmapFactory.decodeStream(inputStream);
 	    } catch (IOException e) {
 	    	e.printStackTrace();
+	    }finally{
+	    	if(inputStream != null){
+	    		try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    	}
 	    }
 	    return bitmap;
 	}

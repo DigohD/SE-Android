@@ -40,8 +40,11 @@ public class GameObjectHandler{
 	
 	public void tick(float dt){
 		for(int i = 0; i < gameObjects.size(); i++)
-			if(gameObjects.get(i).getY() > GameView.height)
+			if(gameObjects.get(i).getY() > GameView.height){
+				gameObjects.get(i).getBitmap().recycle();
 				removeGameObject(gameObjects.get(i));
+			}
+				
 		try {
 			mutex.acquire();
 		} catch (InterruptedException e) {

@@ -3,9 +3,14 @@ package com.spaceshooter.game.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
+import android.view.WindowManager;
 
 import com.spaceshooter.game.engine.GameEngine;
 import com.spaceshooter.game.object.GameObjectHandler;
@@ -21,31 +26,37 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private GameObjectHandler objectHandler;
 	public static int width, height;
 	
-//	int rn = Randomizer.getInt(0, width - 30);
-//	player = new Player(new Vector2f(rn, 0));
-	
 	private int counter = 0;
+	
+//	Player player;
 	
 	public GameView(Context context, double refreshRate) {
 		super(context);
 		objectHandler = new GameObjectHandler();
-		
-//		objectHandler.addGameObject(new Player(new Vector2f(50, -10)));
-//		objectHandler.addGameObject(new Player(new Vector2f(100, -20)));
-//		objectHandler.addGameObject(new Player(new Vector2f(150, 0)));
-//		objectHandler.addGameObject(new Player(new Vector2f(300, -30)));
 		game = new GameEngine(getHolder(),this, refreshRate);
 		this.context = context;
 		
+		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		Display display = wm.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		width = size.x;
+		height = size.y;
+		
+//		float rn = Randomizer.getFloat(0, width - 30);
+//		player = new Player(new Vector2f(rn, -30));
+		
+		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
+		holder.setFormat(PixelFormat.RGBA_8888);
+		holder.setFixedSize(width, height);
 		holder.addCallback(this);
 	}
 	
+
+	
 	@Override
 	public void draw(Canvas canvas){
-		
-		width = canvas.getWidth();
-		height = canvas.getHeight();
 		
 //		float scaleX = canvas.getWidth() / 1920;
 //		float scaleY = canvas.getHeight() / 1080;
@@ -63,8 +74,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	public void tick(float dt){
 		counter++;
 		if(counter >= 10){
-			int rn = Randomizer.getInt(0, width - 30);
+			float rn = Randomizer.getFloat(0, width - 30);
 			objectHandler.addGameObject(new Player(new Vector2f(rn, -30)));
+//			player.getPosition().setX(rn);
+//			player.getPosition().setY(0);
 			counter = 0;
 		}
 		objectHandler.tick(dt);
@@ -85,7 +98,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		game.start();
-		game.startDrawingThread();
+		//game.startDrawingThread();
 	}
 
 

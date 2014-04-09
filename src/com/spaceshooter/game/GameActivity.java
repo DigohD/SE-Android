@@ -20,7 +20,7 @@ import com.spaceshooter.game.database.HighScoreEntry;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.view.GameView;
 
-public class MainActivity extends Activity {
+public class GameActivity extends Activity {
 
 	public static SimpleDateFormat myDateFormat = new SimpleDateFormat("MMM d");
 	private HighScoreDataHelper highScoreAccessor;
@@ -46,6 +46,10 @@ public class MainActivity extends Activity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        getWindow().setFlags(
+        	    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+        	    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         

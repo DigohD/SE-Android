@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.example.se_android.R;
-import com.spaceshooter.game.MainActivity;
+import com.spaceshooter.game.GameActivity;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;

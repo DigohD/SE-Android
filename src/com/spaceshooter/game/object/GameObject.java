@@ -11,7 +11,6 @@ public abstract class GameObject {
 	
 	protected Vector2f position;
 	protected Bitmap bitmap;
-	//protected float x, y;
 	
 	protected int width, height;
 	
