@@ -11,11 +11,17 @@
     <string name="date">Date</string>
     <string name="score">Score</string>
     <string name="showScores">Show Scores</string>
-
     <string name="saving">Saving Score</string>
     <string name="newHighScore">Congratulations!  New High Score!</string>
     <string name="badInput">Unable to process that input</string>
     <string name="high_score_list_no_items">No high score entries to display</string>
     <string name="delete">Delete</string>
+    <string name="title_activity_menu">MenuActivity</string>
+    <string name="play">Play</string>
+    <string name="toplist">Toplist</string>
+    <string name="achievments">Achievments</string>
+    <string name="credits">Credits</string>
+    <string name="settings">Settings</string>
+    <string name="menuText">A game created by \n Anders, Isabel, Jonas, \n Josef and Simon \n at Chalmers Uni.</string>
 
 </resources>

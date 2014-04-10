@@ -1,39 +1,70 @@
 package com.spaceshooter.game.menu;
 
-import android.app.ListActivity;
+import android.app.Activity;
+import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
 
-public class MenuActivity extends ListActivity {
+import com.example.se_android.R;
+import com.spaceshooter.game.GameActivity;
+import com.spaceshooter.game.database.HighScoreList;
+import com.spaceshooter.game.settings.SettingsActivity;
 
-	String classNames[] = { "com.spaceshooter.game.GameActivity",
-			"com.spaceshooter.game.database.HighScoreList", "achievments",
-			"com.spaceshooter.game.menu.Credits",
-			"com.spaceshooter.game.settings.SettingsActivity", "endApplication" };
-	String menuOptions[] = { "Play", "Toplist", "Achievments", "Credits",
-			"Settings", "Quit" };
+public class MenuActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setListAdapter(new ArrayAdapter<String>(MenuActivity.this,
-				android.R.layout.simple_list_item_1, menuOptions));
-	}
+		setContentView(R.layout.activity_menu);
 
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		String selectedClass = classNames[position];
-		try {
-			Class startClass = Class.forName(selectedClass);
-			Intent ourIntent = new Intent(MenuActivity.this, startClass);
-			startActivity(ourIntent);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
+		if (savedInstanceState == null) {
+			getFragmentManager().beginTransaction()
+					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
 
+	/**
+	 * A placeholder fragment containing a simple view.
+	 */
+	public static class PlaceholderFragment extends Fragment {
+
+		public PlaceholderFragment() {
+		}
+
+		@Override
+		public View onCreateView(LayoutInflater inflater, ViewGroup container,
+				Bundle savedInstanceState) {
+			View rootView = inflater.inflate(R.layout.fragment_menu, container,
+					false);
+			return rootView;
+		}
+	}
+
+	public void play(View view) {
+		Intent intent = new Intent(this, GameActivity.class);
+		startActivity(intent);
+	}
+
+	public void highscorelist(View view) {
+		Intent intent = new Intent(this, HighScoreList.class);
+		startActivity(intent);
+	}
+
+	public void achievments(View view) {
+		Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
+	}
+
+	public void credits(View view) {
+		Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
+	}
+
+	public void settings(View view) {
+		Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
+	}
 }
