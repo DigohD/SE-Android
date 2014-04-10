@@ -59,7 +59,7 @@ public class MenuActivity extends Activity {
 	}
 
 	public void credits(View view) {
-		Intent intent = new Intent(this, SettingsActivity.class);
+		Intent intent = new Intent(this, CreditsActivity.class);
 		startActivity(intent);
 	}
 

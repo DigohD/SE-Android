@@ -9,37 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.spaceshooter.game.settings.MenuActivity$PlaceholderFragment" >
 
-    <TextView
-        android:id="@+id/textViewMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/menuText" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:src="@drawable/ship" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ship" />
-
     <Button
         android:id="@+id/buttonCredits"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/buttonToplist"
         android:layout_below="@+id/buttonToplist"
+        android:layout_toLeftOf="@+id/buttonPlay"
         android:onClick="credits"
         android:text="@string/credits" />
 
@@ -47,9 +23,9 @@
         android:id="@+id/buttonSettings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/buttonAchievments"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/buttonAchievments"
+        android:layout_toRightOf="@+id/buttonPlay"
         android:onClick="settings"
         android:text="@string/settings" />
 
@@ -59,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textViewMenu"
+        android:layout_toRightOf="@+id/buttonPlay"
         android:onClick="achievments"
         android:text="@string/achievments" />
 
@@ -69,19 +45,43 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/textViewMenu"
+        android:layout_toLeftOf="@+id/buttonPlay"
         android:onClick="highscorelist"
         android:text="@string/toplist" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/buttonQuit"
+        android:src="@drawable/ship" />
 
     <Button
         android:id="@+id/buttonPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonCredits"
-        android:layout_alignLeft="@+id/textViewMenu"
+        android:layout_above="@+id/buttonQuit"
+        android:layout_alignLeft="@+id/imageView2"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/textViewMenu"
+        android:layout_alignRight="@+id/ImageView1"
         android:onClick="play"
         android:text="@string/play" />
+
+    <ImageView
+        android:id="@+id/ImageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/buttonQuit"
+        android:src="@drawable/ship" />
+
+    <Button
+        android:id="@+id/buttonQuit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/quit" />
 
 </RelativeLayout>

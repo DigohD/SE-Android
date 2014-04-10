@@ -16,8 +16,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.spaceshooter.game.menu.MenuActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,10 +44,20 @@
         </activity>
         <activity
             android:name="com.spaceshooter.game.settings.SettingsActivity"
-            android:screenOrientation="landscape"
-            android:label="@string/settings" >
+            android:label="@string/settings"
+            android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.SETTINGSACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.spaceshooter.game.menu.CreditsActivity"
+            android:label="@string/title_activity_credits"
+            android:screenOrientation="landscape" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREDTISACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
