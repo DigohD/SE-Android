@@ -67,4 +67,9 @@ public class MenuActivity extends Activity {
 		Intent intent = new Intent(this, SettingsActivity.class);
 		startActivity(intent);
 	}
+
+	public void quit(View view) {
+		Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
+	}
 }
