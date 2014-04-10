@@ -3,28 +3,23 @@ package com.spaceshooter.game.object.player;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.spaceshooter.game.engine.CollisionManager;
+import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
+import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.object.enemy.Enemy;
+import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 
-public class Player extends DynamicObject{
+public class Player extends DynamicObject implements Collideable{
 	
-	private Vector2f target = new Vector2f(0,0);
+	private Vector2f targetPos = new Vector2f(0,0);
 	private boolean update = false;
-	
 	private int score = 0;
-	
-	private boolean live = true;
-	
-	private float step = 20;
-	
-	public void decreaseStep(float amount){
-		step -= amount;
-	}
-	
-	public float getStep(){
-		return step;
-	}
+	private float steps = 20;
 	
 	public Player(Vector2f position) {
 		super(position);
@@ -35,12 +30,14 @@ public class Player extends DynamicObject{
 		
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 		
-		speed = 15f;
-		velocity = new Vector2f(0, speed);
+		speedX = 0;
+		speedY = 15f;
+		
+		velocity = new Vector2f(speedX, speedY);
 	}
 	
-	public void setTarget(float x, float y){
-		target = new Vector2f(x, y);
+	public void setTargetPos(float x, float y){
+		targetPos = new Vector2f(x, y);
 		update = true;
 	}
 	
@@ -48,9 +45,9 @@ public class Player extends DynamicObject{
 	public void tick(float dt) {
 		super.tick(dt);
 		if(update){
-			Vector2f diff = target.sub(position);
+			Vector2f diff = targetPos.sub(position);
 			distance = velocity.mul(dt);
-			position = position.add(diff.div(step));
+			position = position.add(distance.add(diff.div(steps)));
 		}
 	}
 
@@ -59,12 +56,31 @@ public class Player extends DynamicObject{
 		super.draw(canvas, interpolation);
 	}
 	
-	public void setLive(boolean live){
-		this.live = live;
+	@Override
+	public void collisionWith(GameObject obj) {
+		if(obj instanceof Enemy){
+			Enemy e = (Enemy) obj;
+			CollisionManager.removeEnemy(e);
+			GameObjectManager.removeGameObject(e);
+			score += 10;
+		}
+		
+		if(obj instanceof Projectile){
+			
+		}
+		
 	}
 	
-	public boolean isLive(){
-		return live;
+	public void decreaseSteps(float amount){
+		steps -= amount;
+	}
+	
+	public void increaseSteps(float amount){
+		steps += amount;
+	}
+	
+	public float getSteps(){
+		return steps;
 	}
 	
 	public void setScore(int value){
@@ -74,5 +90,7 @@ public class Player extends DynamicObject{
 	public int getScore(){
 		return score;
 	}
+
+	
 	
 }

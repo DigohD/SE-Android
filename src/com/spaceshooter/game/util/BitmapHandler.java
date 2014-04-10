@@ -27,6 +27,7 @@ public class BitmapHandler {
 	 * @return returns the bitmap located at the given source
 	 */
 	public static Bitmap loadBitmap(String path){
+		//get acces to the raw assets files
 		AssetManager assetManager = activity.getAssets();
 	    InputStream inputStream = null;
 	    Bitmap bitmap = null;
@@ -46,4 +47,6 @@ public class BitmapHandler {
 	    }
 	    return bitmap;
 	}
+	
+
 }

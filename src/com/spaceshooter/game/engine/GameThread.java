@@ -83,23 +83,30 @@ public class GameThread implements Runnable{
 			try{
 				canvas = surfaceHolder.lockCanvas();
 				if(canvas != null){
-					gameView.draw(canvas, interpolation);
+					synchronized(surfaceHolder){
+						gameView.draw(canvas, interpolation);
+					}
 				}	
 			}finally{
 				if(canvas != null)
 					surfaceHolder.unlockCanvasAndPost(canvas);
 			}
-		
-			
 	}
 	
 	/**
 	 * The heartbeat of the game: the main game loop.
 	 * It is a fixed time step loop which means that the game logic gets updated
-	 * at regular intervals, in our case 60 times every second. The way to achieve this
-	 * is by letting the accumulator variable store the time it takes to complete one loop every time until it
+	 * at regular intervals, in our case 60 times every second. The reason for this is that we dont want our game logic updated
+	 * faster on faster machines and slower on slower machines, the game should not depend on the machine you play it on.
+	 *  
+	 *  The way to achieve this is by letting the accumulator variable store the time it takes to complete one loop every time until it
 	 * reaches the desired interval time. In our case we want 60 updates every second so the time between every update call
 	 * should therefor be 1/60 seconds which is about 16.6 ms. So when our accumulator reaches 16.6 ms we know it is time to update.
+	 * 
+	 * We also use linear interpolation to gain more smoother animations and movement. The value we use for linear interpolation is the remainder
+	 * of the accumulator which simply is a measure of how much more time is required before the next update.
+	 * The idea of interpolation is to predict a state to draw which is between the current and the next update state. Why this is necessary is
+	 * because a draw might happen in between two states and to interpolate between the two states results in smoother movement/animation.
 	 */
 	@Override
 	public void run() {
@@ -119,12 +126,10 @@ public class GameThread implements Runnable{
 		Canvas canvas;
 		boolean render;
 		
-		double startTime = 0, endTime = 0;
-		double finalDelta = 0;
-		long sleepTime = 0;
-		double msPerTick = 0;
-		int framesSkipped = 0;
-		final int MAX_FRAME_SKIPS = 5;
+//		double startTime = 0, endTime = 0;
+//		double finalDelta = 0;
+//		long sleepTime = 0;
+//		double msPerTick = (OPTIMAL_UPDATETIME*1000.0);
 		
 		while(running){	
 			canvas = null;
@@ -139,21 +144,21 @@ public class GameThread implements Runnable{
 		
 			while(accumulator >= OPTIMAL_UPDATETIME){
 				render = true;
-				startTime = System.nanoTime();
+				//startTime = System.nanoTime();
 				tick(dt);
 				tps++;
 				accumulator -= OPTIMAL_UPDATETIME;
 			}
 
 			if(render){
-				
 				interpolation = (float) (accumulator / OPTIMAL_UPDATETIME);
 				draw(canvas, interpolation);
+				fps++;
 				
 //				endTime = System.nanoTime();
 //				finalDelta = (endTime - startTime) / 1000000.0;
-//				msPerTick = (OPTIMAL_UPDATETIME*1000.0);
 //				sleepTime = (long) (msPerTick - finalDelta);
+//				
 //				if(finalDelta < msPerTick){
 //					try {
 //						Thread.sleep(sleepTime);
@@ -161,21 +166,15 @@ public class GameThread implements Runnable{
 //						e.printStackTrace();
 //					}
 //				}
-//				framesSkipped = 0;
-//				while(finalDelta > msPerTick && framesSkipped < MAX_FRAME_SKIPS){
-//					tick(dt);
-//					finalDelta -= msPerTick;
-//					framesSkipped++;
-//				}
-				fps++;
 			}
 			
-//			if(frameCounter >= 1){
-//				System.out.println(tps +  " tps, " + fps + " fps" );
-//				tps = 0;
-//				fps = 0;
-//				frameCounter = 0;
-//			}
+			//fps and tps counter
+			if(frameCounter >= 1){
+				//System.out.println(tps +  " tps, " + fps + " fps" );
+				tps = 0;
+				fps = 0;
+				frameCounter = 0;
+			}
 			
 		}
 	}

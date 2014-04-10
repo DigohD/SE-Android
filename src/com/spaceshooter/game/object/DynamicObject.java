@@ -1,13 +1,12 @@
 package com.spaceshooter.game.object;
 
 import android.graphics.Canvas;
-import android.graphics.Rect;
 
 import com.spaceshooter.game.util.Vector2f;
 
 public abstract class DynamicObject extends GameObject{
 	
-	protected float speed;
+	protected float speedX, speedY;
 	
 	protected Vector2f distance = new Vector2f(0,0);
 	protected Vector2f currentPosition = position;
@@ -16,12 +15,6 @@ public abstract class DynamicObject extends GameObject{
 	
 	protected Vector2f velocity;
 	
-	protected Rect rect;
-	
-	public Rect getRect(){
-		return rect;
-	}
-
 	public DynamicObject(Vector2f position) {
 		super(position);
 	}

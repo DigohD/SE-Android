@@ -12,10 +12,10 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.spaceshooter.game.engine.CollisionManager;
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
-import com.spaceshooter.game.object.GameObjectHandler;
 import com.spaceshooter.game.object.enemy.Predator;
-import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 
@@ -24,18 +24,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private Context context;
 	private GameThread game;
 	private SurfaceHolder holder;
-	private GameObjectHandler objectHandler;
+	private GameObjectManager objectManager;
 	public static int width, height;
 	
 	private int counter = 0;
 	private int timer = 0;
 	private int LEVEL_TIME = 60*60;
-	
-	Player player;
+	private float randomNum;
 	
 	public GameView(Context context) {
 		super(context);
-		objectHandler = new GameObjectHandler();
+		objectManager = new GameObjectManager();
 		game = new GameThread(getHolder(),this);
 		this.context = context;
 		
@@ -45,9 +44,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		display.getSize(size);
 		width = size.x;
 		height = size.y;
-		
-//		float rn = Randomizer.getFloat(0, width - 30);
-//		player = new Player(new Vector2f(rn, -30));
 		
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
@@ -73,33 +69,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	
 	public void draw(Canvas c, float interpolation){
 		draw(c);
-		objectHandler.draw(c, interpolation);
+		objectManager.draw(c, interpolation);
 	}
-	float rn;
+	
 	public void tick(float dt){
+	
 		counter++;
 		timer++;
 		if((timer < LEVEL_TIME)){
 			if(counter >= 20){
-				rn = Randomizer.getFloat(0, width - 30);
-				objectHandler.addGameObject(new Predator(new Vector2f(rn, -30)));
-//				player.getPosition().x = rn;
-//				player.getPosition().y = 0;
+				randomNum = Randomizer.getFloat(0, width - 30);
+				new Predator(new Vector2f(randomNum, -30));
 				counter = 0;
 			}
-			
 		}
-		
-		objectHandler.tick(dt);
-		
+		CollisionManager.collisionCheck(objectManager.getPlayer());
+		objectManager.tick(dt);
 	}
 	
 	public boolean onTouchEvent(MotionEvent event) {
 	    float eventX = event.getX();
 	    float eventY = event.getY();
 	    
+	    if(event.getAction() == MotionEvent.ACTION_MOVE)
+	    	objectManager.getPlayer().setTargetPos(eventX, eventY);
 	    if(event.getAction() == MotionEvent.ACTION_DOWN)
-	    	objectHandler.getPlayer().setTarget(eventX, eventY);
+	    	objectManager.getPlayer().setTargetPos(eventX, eventY);
 	    
     	// Schedules a repaint.
     	invalidate();

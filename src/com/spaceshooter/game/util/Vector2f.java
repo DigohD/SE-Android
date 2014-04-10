@@ -135,6 +135,13 @@ public class Vector2f {
 	}
 	
 	/**
+	 * Returns a clone of the vector
+	 */
+	public Vector2f clone(){
+		return new Vector2f(x, y);
+	}
+	
+	/**
 	 * Returns a string representation of the vector
 	 */
 	@Override
