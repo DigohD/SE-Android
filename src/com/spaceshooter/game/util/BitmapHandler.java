@@ -8,6 +8,11 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+/**
+ * Class for handling bitmaps
+ * @author Anders
+ *
+ */
 public class BitmapHandler {
 	
 	private static Activity activity;
@@ -22,6 +27,7 @@ public class BitmapHandler {
 	 * @return returns the bitmap located at the given source
 	 */
 	public static Bitmap loadBitmap(String path){
+		//get acces to the raw assets files
 		AssetManager assetManager = activity.getAssets();
 	    InputStream inputStream = null;
 	    Bitmap bitmap = null;
@@ -41,4 +47,6 @@ public class BitmapHandler {
 	    }
 	    return bitmap;
 	}
+	
+
 }

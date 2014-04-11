@@ -31,10 +31,11 @@ public class GameActivity extends Activity {
 	private Button submitButton;
 	private Button showScoresButton;
 	
-	private GameView gameView;
 	private EditText playerName;
 	private EditText gameId;
 	private EditText score;
+	
+	private GameView gameView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,7 @@ public class GameActivity extends Activity {
 //		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
 		new BitmapHandler(this);
 		
-		Display display = ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		double refreshRating = display.getRefreshRate();
-		
-        gameView = new GameView(this, refreshRating);
+        gameView = new GameView(this);
         setContentView(gameView);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -57,7 +55,7 @@ public class GameActivity extends Activity {
         	    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
         	    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         
     	// we'll use this to manipulate the list of high scores
 // 		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
@@ -85,6 +83,16 @@ public class GameActivity extends Activity {
 // 		score = (EditText) findViewById(R.id.score);
 //        
 	}
+	
+//	public void onPause(){
+//		super.onPause();
+//		gameView.pause();
+//	}
+//	
+//	public void onResume(){
+//		super.onResume();
+//		gameView.resume();
+//	}
 	
 	
 	// throw the score at the database
