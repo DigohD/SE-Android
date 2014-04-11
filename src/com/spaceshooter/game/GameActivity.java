@@ -4,13 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.view.Display;import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +15,6 @@ import android.widget.Toast;
 import com.example.se_android.R;
 import com.spaceshooter.game.database.HighScoreDataHelper;
 import com.spaceshooter.game.database.HighScoreEntry;
-import com.spaceshooter.game.database.HighScoreList;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.view.GameView;
 
