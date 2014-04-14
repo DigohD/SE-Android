@@ -7,6 +7,7 @@ import java.util.List;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,10 +39,8 @@ public class GameActivity extends Activity {
 		
 		// we'll use this to manipulate the list of high scores
 //		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
-		new BitmapHandler(this);
 		
-        gameView = new GameView(this);
-        setContentView(gameView);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
             WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -51,6 +50,11 @@ public class GameActivity extends Activity {
         	    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        
+        new BitmapHandler(this);
+		
+        gameView = new GameView(this);
+        setContentView(gameView);
         
     	// we'll use this to manipulate the list of high scores
 // 		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());

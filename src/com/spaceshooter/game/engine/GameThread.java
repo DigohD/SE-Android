@@ -16,6 +16,7 @@ public class GameThread implements Runnable{
 	public static final double TARGET_TPS = 60.0;
 
 	private volatile boolean running = false;
+	private volatile boolean paused = false;
 	
 	private Thread thread;
 	private GameView gameView;
@@ -58,11 +59,11 @@ public class GameThread implements Runnable{
 	}
 	
 	public synchronized void pause(){
-		
+		paused = true;
 	}
 	
 	public synchronized void resume(){
-		
+		paused = false;
 	}
 	
 	/**

@@ -2,6 +2,8 @@ package com.spaceshooter.game.object.enemy;
 
 import android.graphics.Canvas;
 
+import com.spaceshooter.game.engine.CollisionManager;
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
@@ -18,6 +20,11 @@ public abstract class Enemy extends DynamicObject implements Collideable{
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);	
+	}
+	
+	public void addToManagerLists(){
+		GameObjectManager.addGameObject(this);
+		CollisionManager.addEnemy(this);
 	}
 
 	@Override

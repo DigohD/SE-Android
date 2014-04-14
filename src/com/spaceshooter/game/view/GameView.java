@@ -12,12 +12,10 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
-import com.spaceshooter.game.object.enemy.Predator;
-import com.spaceshooter.game.util.Randomizer;
-import com.spaceshooter.game.util.Vector2f;
+import com.spaceshooter.game.level.sequence.PredatorSequence;
+import com.spaceshooter.game.level.sequence.SequenceGenerator;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 
@@ -27,10 +25,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private GameObjectManager objectManager;
 	public static int width, height;
 	
-	private int counter = 0;
+	private SequenceGenerator sg;
 	private int timer = 0;
-	private int LEVEL_TIME = 60*60;
-	private float randomNum;
+	private int TPS = (int) GameThread.TARGET_TPS;
+	private int TIME = TPS * 3;
+	private int LEVEL_TIME = TPS * TIME;
+	
 	
 	public GameView(Context context) {
 		super(context);
@@ -45,14 +45,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		width = size.x;
 		height = size.y;
 		
+		sg = new SequenceGenerator(TIME);
+		sg.addSequence(new PredatorSequence());
+		sg.generateRandomTimeLine();
+		
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
 		holder.setFormat(PixelFormat.RGBA_8888);
 		holder.setFixedSize(width, height);
 		holder.addCallback(this);
 	}
-	
-
 	
 	@Override
 	public void draw(Canvas canvas){
@@ -73,17 +75,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	}
 	
 	public void tick(float dt){
-	
-		counter++;
 		timer++;
-		if((timer < LEVEL_TIME)){
-			if(counter >= 20){
-				randomNum = Randomizer.getFloat(0, width - 30);
-				new Predator(new Vector2f(randomNum, -30));
-				counter = 0;
-			}
+		if(timer >= LEVEL_TIME){
+			sg.setUpdate(false);
 		}
-		CollisionManager.collisionCheck(objectManager.getPlayer());
+		
+		sg.tick();
 		objectManager.tick(dt);
 	}
 	

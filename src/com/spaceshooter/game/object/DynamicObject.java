@@ -3,6 +3,7 @@ package com.spaceshooter.game.object;
 import android.graphics.Canvas;
 
 import com.spaceshooter.game.util.Vector2f;
+import com.spaceshooter.game.view.GameView;
 
 public abstract class DynamicObject extends GameObject{
 	
@@ -30,6 +31,8 @@ public abstract class DynamicObject extends GameObject{
 
 	@Override
 	public void tick(float dt) {
+		if(this.getY() > GameView.height)
+			live = false;
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	}
 	

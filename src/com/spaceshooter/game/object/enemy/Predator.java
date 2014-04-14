@@ -3,11 +3,8 @@ package com.spaceshooter.game.object.enemy;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.spaceshooter.game.engine.CollisionManager;
-import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
 public class Predator extends Enemy{
 	
@@ -17,7 +14,7 @@ public class Predator extends Enemy{
 
 	public Predator(Vector2f position) {
 		super(position);
-		this.bitmap = BitmapHandler.loadBitmap("enemies/predator.png");
+		this.bitmap = BitmapHandler.loadBitmap("enemies/predator");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 		
@@ -27,9 +24,6 @@ public class Predator extends Enemy{
 		speedY = 15f;
 		
 		velocity = new Vector2f(speedX, speedY);
-		
-		GameObjectManager.addGameObject(this);
-		CollisionManager.addEnemy(this);
 	}
 	
 	@Override

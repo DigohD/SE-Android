@@ -2,7 +2,6 @@ package com.spaceshooter.game.engine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
 import android.graphics.Rect;
 
@@ -18,8 +17,6 @@ public class CollisionManager {
 	
 	//the list of enemies which will be checked for collisions
 	public static List<Enemy> enemies = new ArrayList<Enemy>();
-	//synchronization primitive used to ensure mutual exclusion
-	private static Semaphore mutex = new Semaphore(1);
 	
 	/**
 	 * Stores an enemy in the enemy collision list.
@@ -27,13 +24,7 @@ public class CollisionManager {
 	 * @param e the enemy to be stored
 	 */
 	public static void addEnemy(Enemy e){
-		try {
-			mutex.acquire();
-		} catch (InterruptedException ie) {
-			ie.printStackTrace();
-		}
 		enemies.add(e);
-		mutex.release();
 	}
 	
 	/**
@@ -41,20 +32,14 @@ public class CollisionManager {
 	 * @param e the enemy to be removed
 	 */
 	public static void removeEnemy(Enemy e){
-		try {
-			mutex.acquire();
-		} catch (InterruptedException ie) {
-			ie.printStackTrace();
-		}
 		enemies.remove(e);
-		mutex.release();
 	}
 	
 	/**
 	 * Checks if two rectangles intersect
 	 * @param r1 first rectangle
 	 * @param r2 second rectangle
-	 * @return true if the two rectangles intersects otherwise it returns false
+	 * @return returns true if the two rectangles intersects otherwise returns false
 	 */
 	private static boolean collisionBetween(Rect r1, Rect r2){
 		if(r1.intersect(r2) || r1.contains(r2))
@@ -63,12 +48,10 @@ public class CollisionManager {
 	}
 	
 	/**
-	 * Checks for the following collisions:
-	 * 1.) Player and enemies
-	 * 2.) Player projectiles and enemies
-	 * 3.) Enemy projectiles and player
-	 * If collision occurs the collisionWith method gets called for the victim of the collision
-	 * where the collision gets handled internally by that object
+	 * Checks for collisions between collideable gameobjects 
+	 * and if a collision has occured then the collisionWith method gets called
+	 * for the affected object.
+	 * All collideable objects must implement the collisionWith method.
 	 * @param player the player ship
 	 */
 	public static void collisionCheck(Player player){

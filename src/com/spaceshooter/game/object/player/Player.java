@@ -24,7 +24,7 @@ public class Player extends DynamicObject implements Collideable{
 	public Player(Vector2f position) {
 		super(position);
 		
-		this.bitmap = BitmapHandler.loadBitmap("player/ship.png");
+		this.bitmap = BitmapHandler.loadBitmap("player/ship");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 		
