@@ -213,3 +213,5 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+project.properties
+gen/com/example/se_android/BuildConfig.java
