@@ -215,3 +215,5 @@ pip-log.txt
 .mr.developer.cfg
 gen/com/example/se_android/BuildConfig.java
 gen/com/example/se_android/BuildConfig.java
+gen/com/example/se_android/BuildConfig.java
+gen/com/example/se_android/R.java

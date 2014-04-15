@@ -19,7 +19,7 @@
     <string name="title_activity_menu">MenuActivity</string>
     <string name="play">Play</string>
     <string name="toplist">Toplist</string>
-    <string name="achievments">Achievements</string>
+    <string name="achievements">Achievements</string>
     <string name="credits">Credits</string>
     <string name="settings">Settings</string>
     <string name="menuText">A game created by Anders, Isabel, Jonas, Josef and Simon at Chalmers Uni.</string>

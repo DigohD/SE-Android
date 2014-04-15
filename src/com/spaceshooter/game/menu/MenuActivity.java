@@ -39,10 +39,10 @@ public class MenuActivity extends Activity {
 		startActivity(intent);
 	}
 
-	public void achievments(View view) {
-		Intent intent = new Intent(this, SettingsActivity.class);
-		startActivity(intent);
-	}
+//	public void achievements(View view) {
+//		Intent intent = new Intent(this, SettingsActivity.class);
+//		startActivity(intent);
+//	}
 
 	public void credits(View view) {
 		Intent intent = new Intent(this, CreditsActivity.class);
@@ -54,8 +54,8 @@ public class MenuActivity extends Activity {
 		startActivity(intent);
 	}
 
-	public void quit(View view) {
-		Intent intent = new Intent(this, SettingsActivity.class);
-		startActivity(intent);
-	}
+//	public void quit(View view) {
+//		Intent intent = new Intent(this, SettingsActivity.class);
+//		startActivity(intent);
+//	}
 }
