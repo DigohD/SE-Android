@@ -22,6 +22,11 @@ public abstract class Enemy extends DynamicObject implements Collideable{
 		super.tick(dt);	
 	}
 	
+	/**
+	 * Adds the enemy to the gameobject list so that it will be updated and drawn.
+	 * The enemy also gets added to the list of enemies in CollisionManager so that it
+	 * can be checked for collisions
+	 */
 	public void addToManagerLists(){
 		GameObjectManager.addGameObject(this);
 		CollisionManager.addEnemy(this);

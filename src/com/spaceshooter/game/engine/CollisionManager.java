@@ -1,5 +1,8 @@
 package com.spaceshooter.game.engine;
 
+import static com.spaceshooter.game.engine.ProjectileManager.playerProjectiles;
+import static com.spaceshooter.game.engine.ProjectileManager.enemyProjectiles;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +10,7 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.player.Player;
+import com.spaceshooter.game.object.projectile.Projectile;
 
 /**
  * Class for managing and detecting collisions
@@ -37,8 +41,8 @@ public class CollisionManager {
 	
 	/**
 	 * Checks if two rectangles intersect
-	 * @param r1 first rectangle
-	 * @param r2 second rectangle
+	 * @param r1 the first rectangle which will be checked against the second one
+	 * @param r2 the second rectangle
 	 * @return returns true if the two rectangles intersects otherwise returns false
 	 */
 	private static boolean collisionBetween(Rect r1, Rect r2){
@@ -61,6 +65,23 @@ public class CollisionManager {
 				if(collisionBetween(player.getRect(), e.getRect()))
 					player.collisionWith(e);
 		}
+		
+//		for(int i = 0; i < playerProjectiles.size(); i++)
+//			for(int j = 0; j < enemies.size(); j++){
+//				Projectile p = playerProjectiles.get(i);
+//				Enemy e = enemies.get(j);
+//				if(p != null && e != null)
+//					if(collisionBetween(p.getRect(), e.getRect()))
+//						e.collisionWith(p);
+//			}
+//				
+//		for(int i = 0; i < enemyProjectiles.size(); i++){
+//			Projectile p = enemyProjectiles.get(i);
+//			if(p != null && player != null)
+//				if(collisionBetween(p.getRect(), player.getRect()))
+//					player.collisionWith(p);
+//		}
+		
 	}
 
 }

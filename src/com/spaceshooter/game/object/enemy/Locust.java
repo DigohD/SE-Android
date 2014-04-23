@@ -8,18 +8,17 @@ import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
-public class Predator extends Enemy{
-	
-	public Predator(){
+public class Locust extends Enemy{
+
+	public Locust(){
 		this(new Vector2f(0,0));
 	}
 
-	public Predator(Vector2f position) {
+	public Locust(Vector2f position) {
 		super(position);
-		this.bitmap = BitmapHandler.loadBitmap("enemies/predator");
+		this.bitmap = BitmapHandler.loadBitmap("enemies/locust");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
-		
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 		
 		speedX = 0;
@@ -28,18 +27,45 @@ public class Predator extends Enemy{
 		velocity = new Vector2f(speedX, speedY);
 	}
 	
+	boolean rotate = false;
+	boolean flag = true;
+	float angle = 0;
+
+	Vector2f rotationPoint = new Vector2f(GameView.width/2 - 100, GameView.height/2);
+	
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);
-		distance = velocity.mul(dt);
-		position = position.add(distance);
+		
+		if(!rotate){
+			distance = velocity.mul(dt);
+			position = position.add(distance);
+		}
+		
+		
+		if(position.y >= GameView.height/2 - 50 && flag){
+			rotate = true;
+		}
+		
+		if(rotate){
+			angle++;
+			float r = Randomizer.getFloat(25, 65);
+			if(angle >= r) {
+				angle = r;
+//				rotate = false;
+//				flag = false;
+			}
+			
+			position = position.rotate(rotationPoint, angle*dt);
+			
+		}
+		
+
 	}
 	
 	@Override
 	public void draw(Canvas canvas,  float interpolation) {
 		super.draw(canvas, interpolation);
 	}
-
-	
 
 }

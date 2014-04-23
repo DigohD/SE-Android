@@ -125,7 +125,7 @@ public class GameThread implements Runnable{
 		int tps = 0;
 	
 		Canvas canvas;
-		boolean render;
+		boolean okToDraw;
 		
 //		double startTime = 0, endTime = 0;
 //		double finalDelta = 0;
@@ -134,7 +134,7 @@ public class GameThread implements Runnable{
 		
 		while(running){	
 			canvas = null;
-			render = false;
+			okToDraw = false;
 			
 			currentTime = System.nanoTime();
 			passedTime = (currentTime - previousTime) / 1000000000.0;
@@ -144,14 +144,14 @@ public class GameThread implements Runnable{
 			previousTime = currentTime;
 		
 			while(accumulator >= OPTIMAL_UPDATETIME){
-				render = true;
+				okToDraw = true;
 				//startTime = System.nanoTime();
 				tick(dt);
 				tps++;
 				accumulator -= OPTIMAL_UPDATETIME;
 			}
 
-			if(render){
+			if(okToDraw){
 				interpolation = (float) (accumulator / OPTIMAL_UPDATETIME);
 				draw(canvas, interpolation);
 				fps++;

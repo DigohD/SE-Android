@@ -2,40 +2,52 @@ package com.spaceshooter.game.engine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 
 import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
 public class GameObjectManager{
 	
 	public static List<GameObject> gameObjects;
+	private ProjectileManager projectileManager;
 	private Player player;
 	private Paint paint;
 	
 	public GameObjectManager() {
 		player = new Player(new Vector2f(400, 400));
 		gameObjects = new ArrayList<GameObject>();
+		projectileManager = new ProjectileManager();
 		paint = new Paint();
 	}
 
+	/**
+	 * Adds a gameobject to the gameobject list
+	 * @param go the gameobject to be added
+	 */
 	public static void addGameObject(GameObject go){
 		gameObjects.add(go);
 	}
 	
+	/**
+	 * Removes a gameobject from the gameobject list
+	 * @param go the gameobject to be removed
+	 */
 	public static void removeGameObject(GameObject go){
+		//Clear the reference to the pixeldata of the bitmap
+		//Much more efficient then waiting for the garbage collector to do it.
 		go.getBitmap().recycle();
 		gameObjects.remove(go);
 	}
 	
+	/**
+	 * Removes all gameobjects that has been marked as dead
+	 */
 	private void clearDeadGameObjects(){
 		for(int i = 0; i < gameObjects.size(); i++){
 			GameObject go = gameObjects.get(i);
@@ -49,6 +61,10 @@ public class GameObjectManager{
 		}
 	}
 	
+	/**
+	 * Updates the state of all gameobjects
+	 * @param dt time step variable used for physics calculations
+	 */
 	public void tick(float dt){
 		clearDeadGameObjects();
 		CollisionManager.collisionCheck(player);
@@ -56,13 +72,23 @@ public class GameObjectManager{
 		
 		for(GameObject go : gameObjects)
 			go.tick(dt);
+		
+		//projectileManager.tick(dt);
 	}
 	
+	/**
+	 * Draws all gameobjects
+	 * @param canvas the canvas used for drawing
+	 * @param interpolation the interpolation factor used for calculating 
+	 * the interpolated position of a dynamic object
+	 */
 	public void draw(Canvas canvas, float interpolation){
 		player.draw(canvas, interpolation);
 		
 		for(GameObject go : gameObjects)
 			go.draw(canvas, interpolation);
+		
+		//projectileManager.draw(canvas, interpolation);
 
 		paint.setColor(Color.RED);
 		canvas.drawText("SCORE: " + player.getScore(), 20, 20, paint);

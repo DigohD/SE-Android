@@ -49,9 +49,9 @@ public class Vector2f {
 	}
 	
 	/**
-	 * Rotates the vector by the specified angle
-	 * @param angle the angle which the vector will be rotated by
-	 * @return returns the new rotated vector
+	 * Rotates the vector around origo by the given angle
+	 * @param angle the angle in degrees which the vector will be rotated by around origo
+	 * @return returns a new rotated vector
 	 */
 	public Vector2f rotate(float angle){
 		
@@ -62,6 +62,24 @@ public class Vector2f {
 		return new Vector2f(x * cos - y * sin, x * sin + y * cos);
 	}
 	
+	/**
+	 * Rotates the vector around the given vector by the given angle
+	 * @param v the vector to rotate around
+	 * @param angle the angle in degrees which the vector will be rotated by
+	 * @return returns a new rotated vector
+	 */
+	public Vector2f rotate(Vector2f v, float angle){
+		
+		float rad = (float)Math.toRadians(angle);
+		float cos = (float)Math.cos(rad);
+		float sin = (float)Math.sin(rad);
+		
+		float newX = cos * (x - v.x) - sin * (y - v.y) + v.x;
+		float newY = sin * (x - v.x) + cos * (y - v.y) + v.y;
+		
+		return new Vector2f(newX, newY);
+	}
+
 	/**
 	 * Addition of two vectors
 	 * @param v the vector to add
@@ -149,4 +167,13 @@ public class Vector2f {
 		return "(" + x + " " + y + ")";
 	}
 
+	/**
+	 * Sets a new position to this vector
+	 * @param x the new x position
+	 * @param y the new y position
+	 */
+	public void setPosition(float x, float y){
+		this.x = x;
+		this.y = y;
+	}
 }

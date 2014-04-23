@@ -13,7 +13,7 @@ import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 /**
- * Class for creating sequences of enemies. You create a image with a black background
+ * Class for creating the enemies in a sequence. You create a image with a black background
  * then place out pixels of different colors which will represent the position of the enemy on the screen.
  * 
  * @author Anders
@@ -64,26 +64,28 @@ public class Sequence {
 	}
 	
 	/**
-	 * Loops through all pixels of the sequence image and stores all non black pixels as keys in the map and their positions in
-	 * arraylists which are the values of the map.
+	 * Loops through all pixels of the sequence image and stores all non black pixels as keys in a map and their positions in
+	 * arraylists which are the values of the map. 
 	 */
 	protected void scanSequence(){
 		for(int y = 0; y < height; y++)
-			for(int x = 0; x < width; x++)
+			for(int x = 0; x < width; x++){
+				int pixIndex = x + (y*width);
 				//x = the pixels x position , y * width = the pixels y position
-				if(pixels[x + (y*width)] != Color.BLACK)
+				if(pixels[pixIndex] != Color.BLACK)
 					//if the color already exists as a key in the map, simply add that pixels position in the arraylist
 					//which holds all positions
-					if(colorPosMap.containsKey(pixels[x + (y*width)]))
-						colorPosMap.get(pixels[x + (y*width)]).add(
+					if(colorPosMap.containsKey(pixels[pixIndex]))
+						colorPosMap.get(pixels[pixIndex]).add(
 								new Vector2f((x * widthRatio), (y * heightRatio) - GameView.height));
 					else{
 						//if the color dont exist as a key put it in the map with a new arraylist as value to store all positions
-						colorPosMap.put(pixels[x + (y*width)], new ArrayList<Vector2f>());
+						colorPosMap.put(pixels[pixIndex], new ArrayList<Vector2f>());
 						//and finally add the position of the pixel
-						colorPosMap.get(pixels[x + (y*width)]).add(
+						colorPosMap.get(pixels[pixIndex]).add(
 								new Vector2f((x * widthRatio), (y * heightRatio) - GameView.height));
 					}	
+			}
 	}
 	
 	/**
@@ -103,9 +105,10 @@ public class Sequence {
 	}
 	
 	/**
-	 * loads a random sequence
-	 * @param seq the name of the sequence images 
-	 * @param numOfSeq number of sequence images 
+	 * loads a random sequence image from a collection of images 
+	 * which are located in the assets/images/sequences folder
+	 * @param seq the name of the sequence image collection 
+	 * @param numOfSeq number of sequence images in the collection
 	 */
 	protected void loadRandomSequence(String seq, int numOfSeq){
 		sequences = new ArrayList<String>();
