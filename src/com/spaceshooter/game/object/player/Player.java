@@ -69,8 +69,7 @@ public class Player extends DynamicObject implements Collideable{
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Enemy){
 			Enemy e = (Enemy) obj;
-			CollisionManager.removeEnemy(e);
-			GameObjectManager.removeGameObject(e);
+			e.setLive(false);
 			score += 10;
 		}
 		
