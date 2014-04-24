@@ -21,8 +21,8 @@ public class Locust extends Enemy{
 		this.height = bitmap.getHeight();
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 		
-		speedX = 0;
-		speedY = 15f;
+		speedX = -15f;
+		speedY = 0;
 		
 		velocity = new Vector2f(speedX, speedY);
 	}
@@ -31,7 +31,7 @@ public class Locust extends Enemy{
 	boolean flag = true;
 	float angle = 0;
 
-	Vector2f rotationPoint = new Vector2f(GameView.width/2 - 100, GameView.height/2);
+	Vector2f rotationPoint = new Vector2f(GameView.width/2, GameView.height/2 - 100);
 	
 	@Override
 	public void tick(float dt) {
@@ -43,7 +43,7 @@ public class Locust extends Enemy{
 		}
 		
 		
-		if(position.y >= GameView.height/2 - 50 && flag){
+		if(position.x <= GameView.width/2 - 50 && flag){
 			rotate = true;
 		}
 		

@@ -22,8 +22,8 @@ public class Predator extends Enemy{
 		
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 		
-		speedX = 0;
-		speedY = 15f;
+		speedX = -15f;
+		speedY = 0;
 		
 		velocity = new Vector2f(speedX, speedY);
 	}

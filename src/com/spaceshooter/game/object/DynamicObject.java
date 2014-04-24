@@ -31,7 +31,7 @@ public abstract class DynamicObject extends GameObject{
 
 	@Override
 	public void tick(float dt) {
-		if(this.getY() > GameView.height)
+		if(this.getX() < -width)
 			live = false;
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	}
