@@ -25,6 +25,13 @@ public class GameObjectManager{
 		projectileManager = new ProjectileManager();
 		paint = new Paint();
 	}
+	
+	public static void clear(){
+		gameObjects.clear();
+		ProjectileManager.playerProjectiles.clear();
+		ProjectileManager.enemyProjectiles.clear();
+		CollisionManager.enemies.clear();
+	}
 
 	/**
 	 * Adds a gameobject to the gameobject list
@@ -56,6 +63,7 @@ public class GameObjectManager{
 				if(go instanceof Enemy){
 					Enemy e = (Enemy)go;
 					CollisionManager.removeEnemy(e);
+					player.setScore(10);
 				}
 			}
 		}

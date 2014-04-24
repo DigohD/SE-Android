@@ -53,7 +53,7 @@ public class Player extends DynamicObject implements Collideable{
 			position = position.add(distance.add(diff.div(steps)));
 			
 			reload++;
-			if(reload > 100){
+			if(reload > 60){
 				reload = 0;
 				new RedPlasma(position);
 			}
@@ -68,9 +68,7 @@ public class Player extends DynamicObject implements Collideable{
 	@Override
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Enemy){
-			Enemy e = (Enemy) obj;
-			e.setLive(false);
-			score += 10;
+			live = false;
 		}
 		
 		if(obj instanceof Projectile){
