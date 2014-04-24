@@ -73,7 +73,7 @@ public class GameObjectManager{
 		for(GameObject go : gameObjects)
 			go.tick(dt);
 		
-		//projectileManager.tick(dt);
+		projectileManager.tick(dt);
 	}
 	
 	/**
@@ -88,7 +88,7 @@ public class GameObjectManager{
 		for(GameObject go : gameObjects)
 			go.draw(canvas, interpolation);
 		
-		//projectileManager.draw(canvas, interpolation);
+		projectileManager.draw(canvas, interpolation);
 
 		paint.setColor(Color.RED);
 		canvas.drawText("SCORE: " + player.getScore(), 20, 20, paint);

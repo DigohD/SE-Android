@@ -61,13 +61,13 @@ public class ProjectileManager {
 	private void removeDeadProjectiles(){
 		for(int i = 0; i < playerProjectiles.size(); i++){
 			Projectile p = playerProjectiles.get(i);
-			if(p.getX() > GameView.width || p.getX() < -p.getWidth() || p.getY() > GameView.height || p.getY() < -p.getHeight())
+			if(!p.isLive())
 				removePlayerProjectile(p);
 		}
 		
 		for(int i = 0; i < enemyProjectiles.size(); i++){
 			Projectile p = enemyProjectiles.get(i);
-			if(p.getX() > GameView.width || p.getX() < -p.getWidth() || p.getY() > GameView.height || p.getY() < -p.getHeight())
+			if(!p.isLive())
 				removeEnemyProjectile(p);
 		}		
 	}
