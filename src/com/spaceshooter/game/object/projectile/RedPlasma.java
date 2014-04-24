@@ -26,7 +26,7 @@ public class RedPlasma extends Projectile{
 		if(this.getX() > GameView.width)
 			live = false;
 		
-		position.add(velocity.mul(dt));
+		position = position.add(velocity.mul(dt));
 		
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	}

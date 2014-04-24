@@ -10,6 +10,7 @@ import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.projectile.Projectile;
+import com.spaceshooter.game.object.projectile.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
@@ -20,6 +21,8 @@ public class Player extends DynamicObject implements Collideable{
 	private boolean update = false;
 	private int score = 0;
 	private float steps = 20;
+	
+	private int reload;
 	
 	public Player(Vector2f position) {
 		super(position);
@@ -48,6 +51,12 @@ public class Player extends DynamicObject implements Collideable{
 			Vector2f diff = targetPos.sub(position);
 			distance = velocity.mul(dt);
 			position = position.add(distance.add(diff.div(steps)));
+			
+			reload++;
+			if(reload > 100){
+				reload = 0;
+				new RedPlasma(position);
+			}
 		}
 	}
 
