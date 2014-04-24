@@ -1,5 +1,6 @@
 package com.spaceshooter.game.object.projectile;
 
+import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.spaceshooter.game.engine.ProjectileManager;
@@ -26,9 +27,15 @@ public class RedPlasma extends Projectile{
 		if(this.getX() > GameView.width)
 			live = false;
 		
-		position = position.add(velocity.mul(dt));
+		distance = velocity.mul(dt);
+		position = position.add(distance);
 		
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+	}
+	
+	@Override
+	public void draw(Canvas canvas,  float interpolation) {
+		super.draw(canvas, interpolation);
 	}
 	
 }
