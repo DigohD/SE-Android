@@ -10,7 +10,7 @@ import com.spaceshooter.game.view.GameView;
 public class RedPlasma extends Projectile{
 
 	public RedPlasma(Vector2f position) {
-		super(position, new Vector2f(15f, 0f));
+		super(position, new Vector2f(75f, 0f));
 		
 		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaRed.png");
 		this.width = bitmap.getWidth();
