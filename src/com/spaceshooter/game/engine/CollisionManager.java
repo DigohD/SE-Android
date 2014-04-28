@@ -14,43 +14,51 @@ import com.spaceshooter.game.object.projectile.Projectile;
 
 /**
  * Class for managing and detecting collisions
+ * 
  * @author Anders
- *
+ * 
  */
 public class CollisionManager {
-	
-	//the list of enemies which will be checked for collisions
+
+	// the list of enemies which will be checked for collisions
 	public static List<Enemy> enemies = new ArrayList<Enemy>();
-	
+
 	/**
-	 * Stores an enemy in the enemy collision list.
-	 * The list will be traversed in order to check for collisions
-	 * @param e the enemy to be stored
+	 * Stores an enemy in the enemy collision list. The list will be traversed
+	 * in order to check for collisions
+	 * 
+	 * @param e
+	 *            the enemy to be stored
 	 */
+
 	public static void addEnemy(Enemy e){
 		enemies.add(e);
 	}
-	
+
 	/**
 	 * Removes an enemy from the enemy collision list
-	 * @param e the enemy to be removed
+	 * 
+	 * @param e
+	 *            the enemy to be removed
 	 */
+
 	public static void removeEnemy(Enemy e){
 		enemies.remove(e);
 	}
-	
+
 	/**
 	 * Checks if two rectangles intersect
 	 * @param r1 the first rectangle which will be checked against the second one
 	 * @param r2 the second rectangle
 	 * @return returns true if the two rectangles intersects otherwise returns false
+
 	 */
-	private static boolean collisionBetween(Rect r1, Rect r2){
-		if(r1.intersect(r2) || r1.contains(r2))
+	private static boolean collisionBetween(Rect r1, Rect r2) {
+		if (r1.intersect(r2) || r1.contains(r2))
 			return true;
 		return false;
 	}
-	
+
 	/**
 	 * Checks for collisions between collideable gameobjects 
 	 * and if a collision has occured then the collisionWith method gets called
@@ -58,11 +66,11 @@ public class CollisionManager {
 	 * All collideable objects must implement the collisionWith method.
 	 * @param player the player ship
 	 */
-	public static void collisionCheck(Player player){
-		for(int i = 0; i < enemies.size(); i++){
+	public static void collisionCheck(Player player) {
+		for (int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
-			if(player != null &&  e != null)
-				if(collisionBetween(player.getRect(), e.getRect()))
+			if (player != null && e != null)
+				if (collisionBetween(player.getRect(), e.getRect()))
 					player.collisionWith(e);
 		}
 		

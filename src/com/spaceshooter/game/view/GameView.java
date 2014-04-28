@@ -16,7 +16,7 @@ import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
 
-public class GameView extends SurfaceView implements SurfaceHolder.Callback{
+public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private Context context;
 	private SurfaceHolder holder;
@@ -24,27 +24,29 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	private Level level;
 
 	public static int width, height;
+
 	
 	public GameView(Context context) {
 		super(context);
 		level = new Level(3);
 		game = new GameThread(getHolder(),this);
 		this.context = context;
-		
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+
+		WindowManager wm = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
 		width = size.x;
 		height = size.y;
-		
-		
+
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
 		holder.setFormat(PixelFormat.RGBA_8888);
 		holder.setFixedSize(width, height);
 		holder.addCallback(this);
 	}
+
 	
 	@Override
 	public void draw(Canvas canvas){
@@ -56,8 +58,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 		
 		//clear the screen with black pixels
 		canvas.drawColor(Color.BLACK);
-	
+
 	}
+
 	
 	public void draw(Canvas canvas, float interpolation){
 		draw(canvas);
@@ -66,8 +69,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	
 	public void tick(float dt){
 		level.tick(dt);
+
 	}
-	
+
 	public boolean onTouchEvent(MotionEvent event) {
 	    float eventX = event.getX();
 	    float eventY = event.getY();
@@ -80,12 +84,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
     	invalidate();
     	return true;
 	}
-	
-	public void pause(){
+
+	public void pause() {
 		game.stop();
 	}
-	
-	public void resume(){
+
+	public void resume() {
 		game.start();
 	}
 
@@ -95,8 +99,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback{
 	}
 
 	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-		
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+
 	}
 
 	@Override

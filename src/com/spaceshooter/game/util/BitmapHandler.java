@@ -10,24 +10,27 @@ import android.graphics.BitmapFactory;
 
 /**
  * Class for handling bitmaps
+ * 
  * @author Anders
- *
+ * 
  */
 public class BitmapHandler {
-	
+
 	private static Activity activity;
 
 	public BitmapHandler(Activity activity) {
 		BitmapHandler.activity = activity;
 	}
-	
+
 	/**
 	 * Loads a bitmap from a given source
-	 * @param path the location of the bitmap
+	 * 
+	 * @param path
+	 *            the location of the bitmap
 	 * @return returns the bitmap located at the given source
 	 */
-	public static Bitmap loadBitmap(String path){
-		//get acces to the raw assets files
+	public static Bitmap loadBitmap(String path) {
+		// get acces to the raw assets files
 		AssetManager assetManager = activity.getAssets();
 	    InputStream inputStream = null;
 	    Bitmap bitmap = null;
@@ -43,10 +46,11 @@ public class BitmapHandler {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-	    	}
-	    }
-	    return bitmap;
+			}
+		}
+		return bitmap;
 	}
+
 	
 	/**
 	 * Returns an immutable bitmap from the specified subset of the source bitmap
@@ -60,6 +64,5 @@ public class BitmapHandler {
 	public static Bitmap getSubBitmap(Bitmap source, int x, int y, int width, int height){
 		return Bitmap.createBitmap(source, x, y, width, height);
 	}
-	
 
 }

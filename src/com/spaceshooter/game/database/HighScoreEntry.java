@@ -49,7 +49,8 @@ public class HighScoreEntry {
 	}
 
 	public String toString() {
-		return "User:" + getUser() + " Date:" + getDate() + " Score:" + getScore() + " GameId:" + getGameId();
+		return "User:" + getUser() + " Date:" + getDate() + " Score:"
+				+ getScore() + " GameId:" + getGameId();
 	}
 
 }

@@ -15,7 +15,6 @@ import com.spaceshooter.game.settings.SettingsActivity;
 
 public class MenuActivity extends Activity {
 
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

@@ -6,7 +6,7 @@ import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
 
-public abstract class Projectile extends DynamicObject{
+public abstract class Projectile extends DynamicObject {
 
 	public Projectile(Vector2f position, Vector2f velocity) {
 		super(position);

@@ -12,13 +12,13 @@ import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Vector2f;
 
-public class GameObjectManager{
-	
+public class GameObjectManager {
+
 	public static List<GameObject> gameObjects;
 	private ProjectileManager projectileManager;
 	private Player player;
 	private Paint paint;
-	
+
 	public GameObjectManager() {
 		player = new Player(new Vector2f(400, 400));
 		gameObjects = new ArrayList<GameObject>();
@@ -33,6 +33,7 @@ public class GameObjectManager{
 		CollisionManager.enemies.clear();
 	}
 
+
 	/**
 	 * Adds a gameobject to the gameobject list
 	 * @param go the gameobject to be added
@@ -40,6 +41,7 @@ public class GameObjectManager{
 	public static void addGameObject(GameObject go){
 		gameObjects.add(go);
 	}
+
 	
 	/**
 	 * Removes a gameobject from the gameobject list
@@ -51,6 +53,7 @@ public class GameObjectManager{
 		go.getBitmap().recycle();
 		gameObjects.remove(go);
 	}
+
 	
 	/**
 	 * Removes all gameobjects that has been marked as dead
@@ -60,14 +63,15 @@ public class GameObjectManager{
 			GameObject go = gameObjects.get(i);
 			if(!go.isLive()){
 				removeGameObject(go);
-				if(go instanceof Enemy){
-					Enemy e = (Enemy)go;
+				if (go instanceof Enemy) {
+					Enemy e = (Enemy) go;
 					CollisionManager.removeEnemy(e);
 					player.setScore(10);
 				}
 			}
 		}
 	}
+
 	
 	/**
 	 * Updates the state of all gameobjects
@@ -101,12 +105,12 @@ public class GameObjectManager{
 		paint.setColor(Color.RED);
 		canvas.drawText("SCORE: " + player.getScore(), 20, 20, paint);
 	}
-	
-	public List<GameObject> getGameObject(){
+
+	public List<GameObject> getGameObject() {
 		return gameObjects;
 	}
-	
-	public Player getPlayer(){
+
+	public Player getPlayer() {
 		return player;
 	}
 
