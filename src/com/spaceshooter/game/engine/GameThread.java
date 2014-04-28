@@ -7,15 +7,17 @@ import com.spaceshooter.game.view.GameView;
 
 /**
  * The game thread which runs the main loop. The main loop is responsible for
- * updating the game logic and calling the draw method in game view
+ * updating the game logic and calling the draw method in game view which will draw
+ * the new updated state of the game
  * 
  * @author Anders
  * 
  */
 public class GameThread implements Runnable {
 
+	//the desired amount of update calls we want every second
 	public static final double TARGET_TPS = 60.0;
-
+	
 	private volatile boolean running = false;
 
 	private Thread thread;
@@ -23,13 +25,10 @@ public class GameThread implements Runnable {
 	private SurfaceHolder surfaceHolder;
 
 	/**
-	 * Instantiates the game thread
+	 * The constructor for the game thread
 	 * 
-	 * @param holder
-	 *            the surfaceholder which provides the canvas on which to draw
-	 *            on
-	 * @param gameView
-	 *            the main view for the game
+	 * @param holder the surfaceholder which provides the canvas on which to drawon
+	 * @param gameView the main view for the game
 	 */
 	public GameThread(SurfaceHolder holder, GameView gameView) {
 		this.gameView = gameView;
@@ -78,8 +77,7 @@ public class GameThread implements Runnable {
 	/**
 	 * Calls the tick method in gameview which will update all game logic
 	 * 
-	 * @param dt
-	 *            the delta time variable which is used for physics calculations
+	 * @param dt the delta time variable which is used for physics calculations
 	 */
 	private void tick(float dt) {
 		gameView.tick(dt);
@@ -89,12 +87,10 @@ public class GameThread implements Runnable {
 	 * Gets hold of a canvas via the surfaceholder and then draws to it by
 	 * calling the draw method in gameview.
 	 * 
-	 * @param canvas
-	 *            the canvas which everything will get drawn on
-	 * @param interpolation
-	 *            a factor based on how much time has gone since the last tick,
-	 *            which will be used in a prediction function which is defined
-	 *            for all dynamic objects
+	 * @param canvas the canvas which everything will get drawn on
+	 * @param interpolation a factor based on how much time has gone since the last tick,
+	 * which will be used in a prediction function which is defined
+	 * for all dynamic objects
 	 */
 	private void draw(Canvas canvas, float interpolation) {
 		try {
@@ -115,8 +111,8 @@ public class GameThread implements Runnable {
 	 * loop which means that the game logic gets updated at regular intervals,
 	 * in our case 60 times every second. The reason for this is that we dont
 	 * want our game logic updated faster on faster machines and slower on
-	 * slower machines, the game should not depend on the machine you play it
-	 * on.
+	 * slower machines, the speed of the game should not depend on the machine 
+	 * you play it on.
 	 * 
 	 * The way to achieve this is by letting the accumulator variable store the
 	 * time it takes to complete one loop every time until it reaches the
@@ -150,7 +146,7 @@ public class GameThread implements Runnable {
 		int tps = 0;
 
 		Canvas canvas;
-		boolean render;
+		boolean shouldDraw;
 
 		
 //		double startTime = 0, endTime = 0;
@@ -161,11 +157,11 @@ public class GameThread implements Runnable {
 
 		while (running) {
 			canvas = null;
-			render = false;
-
+			shouldDraw = false;
 
 			currentTime = System.nanoTime();
 			passedTime = (currentTime - previousTime) / 1000000000.0;
+			//set a max limit for passedtime to avoid spiral of death
 			if (passedTime > 0.25)
 				passedTime = 0.25;
 			accumulator += passedTime;
@@ -174,16 +170,14 @@ public class GameThread implements Runnable {
 
 
 			while (accumulator >= OPTIMAL_UPDATETIME) {
-				render = true;
+				shouldDraw = true;
 				// startTime = System.nanoTime();
 				tick(dt);
 				tps++;
 				accumulator -= OPTIMAL_UPDATETIME;
 			}
 
-
-			if (render) {
-
+			if (shouldDraw) {
 				interpolation = (float) (accumulator / OPTIMAL_UPDATETIME);
 				draw(canvas, interpolation);
 				fps++;

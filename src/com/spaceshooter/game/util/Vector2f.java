@@ -195,7 +195,7 @@ public class Vector2f {
 	 * @param x the new x position
 	 * @param y the new y position
 	 */
-	public void setPosition(float x, float y){
+	public void set(float x, float y){
 		this.x = x;
 		this.y = y;
 	}

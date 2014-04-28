@@ -83,7 +83,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	    if(event.getAction() == MotionEvent.ACTION_MOVE){
 	     	level.getPlayer().setTargetPos(eventX, eventY);
 	    }
-	    
+	    if(event.getAction() == MotionEvent.ACTION_DOWN){
+	     	level.getPlayer().setTargetPos(eventX, eventY);
+	    }
     	// Schedules a repaint.
     	invalidate();
     	return true;

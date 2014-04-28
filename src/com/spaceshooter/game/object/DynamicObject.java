@@ -40,8 +40,7 @@ public abstract class DynamicObject extends GameObject {
 	@Override
 	public void draw(Canvas canvas, float interpolation) {
 		interpolate(interpolation);
-		canvas.drawBitmap(bitmap, interpolatedPosition.x,
-				interpolatedPosition.y, null);
+		canvas.drawBitmap(bitmap, interpolatedPosition.x, interpolatedPosition.y, null);
 	}
 
 }

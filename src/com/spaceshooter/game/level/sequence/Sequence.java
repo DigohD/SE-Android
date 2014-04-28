@@ -70,20 +70,20 @@ public class Sequence {
 	protected void scanSequence(){
 		for(int y = 0; y < height; y++)
 			for(int x = 0; x < width; x++){
-				int pixIndex = x + (y*width);
+				int pixValue = pixels[x + (y*width)];
 				//x = the pixels x position , y * width = the pixels y position
-				if(pixels[pixIndex] != Color.BLACK)
+				if(pixValue != Color.BLACK)
 					//if the color already exists as a key in the map, simply add that pixels position in the arraylist
 					//which holds all positions
-					if(colorPosMap.containsKey(pixels[pixIndex]))
-						colorPosMap.get(pixels[pixIndex]).add(
-								new Vector2f((x * widthRatio) + 800, y * heightRatio));
+					if(colorPosMap.containsKey(pixValue))
+						colorPosMap.get(pixValue).add(
+								new Vector2f((x * widthRatio) + GameView.WIDTH, y * heightRatio));
 					else{
 						//if the color dont exist as a key put it in the map with a new arraylist as value to store all positions
-						colorPosMap.put(pixels[pixIndex], new ArrayList<Vector2f>());
+						colorPosMap.put(pixValue, new ArrayList<Vector2f>());
 						//and finally add the position of the pixel
-						colorPosMap.get(pixels[pixIndex]).add(
-								new Vector2f((x * widthRatio) + 800, y * heightRatio));
+						colorPosMap.get(pixValue).add(
+								new Vector2f((x * widthRatio) + GameView.WIDTH, y * heightRatio));
 					}	
 			}
 	}

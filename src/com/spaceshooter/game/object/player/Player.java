@@ -16,7 +16,8 @@ import com.spaceshooter.game.util.Vector2f;
 
 public class Player extends DynamicObject implements Collideable {
 
-	private Vector2f targetPos = new Vector2f(0, 0);
+	private Vector2f targetPosition = new Vector2f(0, 0);
+	private Vector2f targetVelocity;
 	private boolean update = false;
 	private int score = 0;
 	private float steps = 20;
@@ -32,30 +33,46 @@ public class Player extends DynamicObject implements Collideable {
 		rect = new Rect((int) position.x, (int) position.y, (int) position.x
 				+ width, (int) position.y + height);
 
-		speedX = 0;
-		speedY = 15f;
-
-		velocity = new Vector2f(speedX, speedY);
+		speedX = 7.5f;
+		speedY = 7.5f;
+		targetVelocity = new Vector2f(speedX, speedY);
+		velocity = new Vector2f(0, 0);
 	}
 
 	public void setTargetPos(float x, float y) {
-		targetPos = new Vector2f(x, y);
+		targetPosition = new Vector2f(x, y);
 		update = true;
 	}
-
+	
+	private float approach(float target, float current, float dt){
+		float diff = target - current;
+		if(diff > dt)
+			return current + dt;
+		if(diff < -dt)
+			return current - dt;
+		return target;
+	}
+	
+	private void move(float dt){
+		velocity.x = approach(targetVelocity.x, velocity.x, dt*20f);
+		velocity.y = approach(targetVelocity.y, velocity.y, dt*20f);
+		distance = velocity.mul(dt);
+		Vector2f diff = targetPosition.sub(position).div(steps);
+		position = position.add(diff.div(distance));
+	}
+	
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);
-		if (update) {
-			Vector2f diff = targetPos.sub(position);
-			distance = velocity.mul(dt);
-			position = position.add(distance.add(diff.div(steps)));
-			
-			reload++;
-			if(reload > 60){
-				reload = 0;
-				new RedPlasma(position);
-			}
+		reload++;
+		if(reload > 60){
+			reload = 0;
+			new RedPlasma(position);
+			Vector2f v = new Vector2f(position.x, position.y + width-2);
+			new RedPlasma(v);
+		}
+		if(update) {
+			move(dt);
 		}
 	}
 
@@ -68,6 +85,7 @@ public class Player extends DynamicObject implements Collideable {
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Enemy){
 			live = false;
+			obj.setLive(false);
 		}
 
 		if (obj instanceof Projectile) {
