@@ -90,14 +90,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		game.start();
 	}
 
-	public void pause() {
-		game.stop();
-	}
-
-	public void resume() {
-		game.start();
-	}
-
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		game.start();
