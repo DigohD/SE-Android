@@ -25,11 +25,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public static int width, height;
 
-	
 	public GameView(Context context) {
 		super(context);
 		level = new Level(3);
-		game = new GameThread(getHolder(),this);
+		game = new GameThread(getHolder(), this);
 		this.context = context;
 
 		WindowManager wm = (WindowManager) context
@@ -47,49 +46,47 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		holder.addCallback(this);
 	}
 
-	
 	@Override
-	public void draw(Canvas canvas){
+	public void draw(Canvas canvas) {
 		super.draw(canvas);
-//		float scaleX = canvas.getWidth() / 1920;
-//		float scaleY = canvas.getHeight() / 1080;
+		// float scaleX = canvas.getWidth() / 1920;
+		// float scaleY = canvas.getHeight() / 1080;
 
-		//System.out.println(scaleX + " - " + scaleY);
-		
-		//clear the screen with black pixels
+		// System.out.println(scaleX + " - " + scaleY);
+
+		// clear the screen with black pixels
 		canvas.drawColor(Color.BLACK);
 
 	}
 
-	
-	public void draw(Canvas canvas, float interpolation){
+	public void draw(Canvas canvas, float interpolation) {
 		draw(canvas);
 		level.draw(canvas, interpolation);
 	}
-	
-	public void tick(float dt){
+
+	public void tick(float dt) {
 		level.tick(dt);
 
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
-	    float eventX = event.getX();
-	    float eventY = event.getY();
-	    
-	    if(event.getAction() == MotionEvent.ACTION_MOVE){
-	     	level.getPlayer().setTargetPos(eventX, eventY);
-	    }
-	    
-    	// Schedules a repaint.
-    	invalidate();
-    	return true;
+		float eventX = event.getX();
+		float eventY = event.getY();
+
+		if (event.getAction() == MotionEvent.ACTION_MOVE) {
+			level.getPlayer().setTargetPos(eventX, eventY);
+		}
+
+		// Schedules a repaint.
+		invalidate();
+		return true;
 	}
-	
-	public void pause(){
+
+	public void pause() {
 		game.stop();
 	}
-	
-	public void resume(){
+
+	public void resume() {
 		game.start();
 	}
 
