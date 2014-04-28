@@ -51,10 +51,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	@Override
 	public void draw(Canvas canvas){
 		super.draw(canvas);
-//		float scaleX = canvas.getWidth() / 1920;
-//		float scaleY = canvas.getHeight() / 1080;
+		float scaleX = canvas.getWidth() / 1920;
+		float scaleY = canvas.getHeight() / 1080;
 
 		//System.out.println(scaleX + " - " + scaleY);
+		
+		canvas.scale(scaleX, scaleY);
 		
 		//clear the screen with black pixels
 		canvas.drawColor(Color.BLACK);
@@ -64,7 +66,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void draw(Canvas canvas, float interpolation){
 		draw(canvas);
+		
+		float scaleX = canvas.getWidth() / 800;
+		float scaleY = canvas.getHeight() / 480;
+
+		//System.out.println(scaleX + " - " + scaleY);
+		
+		width = (int) (canvas.getWidth() * scaleX);
+		height = (int) (canvas.getHeight() * scaleY);
+		
+		canvas.scale(scaleX, scaleY);
+		
 		level.draw(canvas, interpolation);
+		
 	}
 	
 	public void tick(float dt){
