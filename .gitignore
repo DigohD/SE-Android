@@ -213,5 +213,14 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+<<<<<<< HEAD
 project.properties
 gen/com/example/se_android/BuildConfig.java
+=======
+gen/com/example/se_android/BuildConfig.java
+gen/com/example/se_android/BuildConfig.java
+gen/com/example/se_android/BuildConfig.java
+gen/com/example/se_android/R.java
+project.properties
+gen/com/google/android/gms/R.java
+>>>>>>> origin/development

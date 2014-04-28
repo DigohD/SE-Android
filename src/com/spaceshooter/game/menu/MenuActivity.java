@@ -1,36 +1,63 @@
 package com.spaceshooter.game.menu;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-public class MenuActivity extends ListActivity {
-	
-	// Add complete class names as options in order to get them to work. 
-	// TODO Future improvement is to separate menu strings with class names
-	String classNames[] = { "com.spaceshooter.game.GameActivity", "topList", "achievments", "com.spaceshooter.game.menu.Credits", "com.spaceshooter.game.settings.SettingsActivity", "endApplication" };
-	String menuOptions[] = { "Play", "Toplist", "Achievments", "Credits", "Settings", "Quit" };
+import com.example.se_android.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.spaceshooter.game.GameActivity;
+import com.spaceshooter.game.database.HighScoreList;
+import com.spaceshooter.game.settings.SettingsActivity;
+
+public class MenuActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setListAdapter(new ArrayAdapter<String>(MenuActivity.this, android.R.layout.simple_list_item_1, menuOptions));
-	}
-	
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		String selectedClass = classNames[position];
-		try {
-			Class startClass = Class.forName(selectedClass);
-			Intent ourIntent = new Intent(MenuActivity.this, startClass);
-			startActivity(ourIntent);
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+
+		setContentView(R.layout.activity_menu);
+
+		AdView adView = (AdView) this.findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Test ID:
+																// Emulator
+				.addTestDevice("0071a84d4acd309b") // Test ID: Jonas Nexus 4
+				.addTestDevice("0009478f6e129f") // Test ID: Anders Galaxy S2
+				.build();
+		adView.loadAd(adRequest);
+
 	}
 
+	public void play(View view) {
+		Intent intent = new Intent(this, GameActivity.class);
+		startActivity(intent);
+	}
+
+	public void highscorelist(View view) {
+		Intent intent = new Intent(this, HighScoreList.class);
+		startActivity(intent);
+	}
+
+	// public void achievements(View view) {
+	// Intent intent = new Intent(this, SettingsActivity.class);
+	// startActivity(intent);
+	// }
+
+	public void credits(View view) {
+		Intent intent = new Intent(this, CreditsActivity.class);
+		startActivity(intent);
+	}
+
+	public void settings(View view) {
+		Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
+	}
+
+	// public void quit(View view) {
+	// Intent intent = new Intent(this, SettingsActivity.class);
+	// startActivity(intent);
+	// }
 }

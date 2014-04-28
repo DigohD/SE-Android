@@ -3,9 +3,6 @@ package com.spaceshooter.game.database;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.se_android.R;
-import com.spaceshooter.game.GameActivity;
-
 import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -21,6 +18,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.se_android.R;
+import com.spaceshooter.game.GameActivity;
 
 public class HighScoreList extends ListActivity {
 	public static final String EXTRA_GAME_ID = "com.spaceshooter.game.database.GAME_ID";
@@ -43,20 +43,25 @@ public class HighScoreList extends ListActivity {
 			try {
 				gameId = Long.valueOf(bundle.getString(EXTRA_GAME_ID));
 			} catch (NumberFormatException e) {
-				// really nothing to do here, if we fail, we'll just keep the "ALL_GAMES" value
+				// really nothing to do here, if we fail, we'll just keep the
+				// "ALL_GAMES" value
 			}
-			
+
 		}
 
-		registerForContextMenu(getListView()); // handle long clicks for a context menu
+		registerForContextMenu(getListView()); // handle long clicks for a
+												// context menu
 
-        // we'll use this to manipulate the list of high scores
+		// we'll use this to manipulate the list of high scores
 		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
 
-		getListView().addHeaderView(getLayoutInflater().inflate(R.layout.high_score_list_header, null));
+		getListView().addHeaderView(
+				getLayoutInflater().inflate(R.layout.high_score_list_header,
+						null));
 
 		entries = new ArrayList<HighScoreEntry>();
-		this.adapter = new EntryAdapter(this, R.layout.high_score_list_row, entries);
+		this.adapter = new EntryAdapter(this, R.layout.high_score_list_row,
+				entries);
 		setListAdapter(this.adapter);
 
 		viewEntries = new Runnable() {
@@ -72,15 +77,17 @@ public class HighScoreList extends ListActivity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		// otherwise we can leak the ProgressDialog and crash on things like rotation
+		// otherwise we can leak the ProgressDialog and crash on things like
+		// rotation
 		progressDialog.dismiss();
 	}
-	
+
 	private void reloadEntries() {
 		adapter.clear();
 		Thread thread = new Thread(null, viewEntries, "HighScoreListBackground");
 		thread.start();
-		progressDialog = ProgressDialog.show(HighScoreList.this, "Please wait...", "Retrieving data ...", true);
+		progressDialog = ProgressDialog.show(HighScoreList.this,
+				"Please wait...", "Retrieving data ...", true);
 	}
 
 	private void getEntries() {
@@ -106,7 +113,8 @@ public class HighScoreList extends ListActivity {
 	};
 
 	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.weight_list_context_menu, menu);
@@ -114,9 +122,13 @@ public class HighScoreList extends ListActivity {
 
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
-		HighScoreEntry e = adapter.getItem(info.position - 1); // pull the item that was selected, BEWARE!  "-1"!
-		
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item
+				.getMenuInfo();
+		HighScoreEntry e = adapter.getItem(info.position - 1); // pull the item
+																// that was
+																// selected,
+																// BEWARE! "-1"!
+
 		switch (item.getItemId()) {
 		case R.id.menu_delete: // the only thing we can do right now is delete
 			highScoreAccessor.delete(e);
@@ -128,11 +140,11 @@ public class HighScoreList extends ListActivity {
 		}
 	}
 
-	
 	private class EntryAdapter extends ArrayAdapter<HighScoreEntry> {
 		private List<HighScoreEntry> items;
 
-		public EntryAdapter(Context context, int textViewResourceId, List<HighScoreEntry> items) {
+		public EntryAdapter(Context context, int textViewResourceId,
+				List<HighScoreEntry> items) {
 			super(context, textViewResourceId, items);
 			this.items = items;
 		}
@@ -147,10 +159,14 @@ public class HighScoreList extends ListActivity {
 
 			final HighScoreEntry e = items.get(position);
 			if (e != null) {
-				((TextView) v.findViewById(R.id.playerName)).setText("" + e.getUser());
-				((TextView) v.findViewById(R.id.gameId)).setText("" + e.getGameId());
-				((TextView) v.findViewById(R.id.score)).setText("" + e.getScore());
-				((TextView) v.findViewById(R.id.date)).setText(GameActivity.myDateFormat.format(e.getDate()));
+				((TextView) v.findViewById(R.id.playerName)).setText(""
+						+ e.getUser());
+				((TextView) v.findViewById(R.id.gameId)).setText(""
+						+ e.getGameId());
+				((TextView) v.findViewById(R.id.score)).setText(""
+						+ e.getScore());
+				((TextView) v.findViewById(R.id.date))
+						.setText(GameActivity.myDateFormat.format(e.getDate()));
 			}
 
 			return v;
