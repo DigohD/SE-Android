@@ -31,7 +31,7 @@ public class Locust extends Enemy{
 	boolean flag = true;
 	float angle = 0;
 
-	Vector2f rotationPoint = new Vector2f(GameView.width/2, GameView.height/2 - 100);
+	Vector2f rotationPoint = new Vector2f(800/2, 480/2 - 100);
 	
 	@Override
 	public void tick(float dt) {
@@ -43,7 +43,7 @@ public class Locust extends Enemy{
 		}
 		
 		
-		if(position.x <= GameView.width/2 - 50 && flag){
+		if(position.x <= 800/2 - 50 && flag){
 			rotate = true;
 		}
 		

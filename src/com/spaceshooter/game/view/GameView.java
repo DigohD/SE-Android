@@ -23,7 +23,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private GameThread game;
 	private Level level;
 
-	public static int width, height;
+	public static int width = 800, height = 480;
 
 	
 	public GameView(Context context) {
@@ -71,9 +71,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		float scaleY = canvas.getHeight() / 480;
 
 		//System.out.println(scaleX + " - " + scaleY);
-		
-		width = (int) (canvas.getWidth() * scaleX);
-		height = (int) (canvas.getHeight() * scaleY);
 		
 		canvas.scale(scaleX, scaleY);
 		
