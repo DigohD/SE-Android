@@ -20,7 +20,7 @@ public class GameObjectManager {
 	private Paint paint;
 
 	public GameObjectManager() {
-		player = new Player(new Vector2f(400, 400));
+		player = new Player(new Vector2f(40, 40));
 		gameObjects = new ArrayList<GameObject>();
 		projectileManager = new ProjectileManager();
 		paint = new Paint();
