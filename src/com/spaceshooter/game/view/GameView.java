@@ -37,8 +37,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Display display = wm.getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
-		width = size.x;
-		height = size.y;
+//		width = size.x;
+//		height = size.y;
 
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
