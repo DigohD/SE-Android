@@ -19,6 +19,7 @@ public class CreditsActivity extends Activity {
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Test ID:
 																// Emulator
 				.addTestDevice("0071a84d4acd309b") // Test ID: Jonas Nexus 4
+				.addTestDevice("0009478f6e129f") // Test ID: Anders Galaxy S2
 				.build();
 		adView.loadAd(adRequest);
 	}

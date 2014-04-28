@@ -19,12 +19,12 @@ public class MenuActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_menu);
 
-	
 		AdView adView = (AdView) this.findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Test ID:
 																// Emulator
 				.addTestDevice("0071a84d4acd309b") // Test ID: Jonas Nexus 4
+				.addTestDevice("0009478f6e129f") // Test ID: Anders Galaxy S2
 				.build();
 		adView.loadAd(adRequest);
 	}
@@ -39,10 +39,10 @@ public class MenuActivity extends Activity {
 		startActivity(intent);
 	}
 
-//	public void achievements(View view) {
-//		Intent intent = new Intent(this, SettingsActivity.class);
-//		startActivity(intent);
-//	}
+	// public void achievements(View view) {
+	// Intent intent = new Intent(this, SettingsActivity.class);
+	// startActivity(intent);
+	// }
 
 	public void credits(View view) {
 		Intent intent = new Intent(this, CreditsActivity.class);
@@ -54,8 +54,8 @@ public class MenuActivity extends Activity {
 		startActivity(intent);
 	}
 
-//	public void quit(View view) {
-//		Intent intent = new Intent(this, SettingsActivity.class);
-//		startActivity(intent);
-//	}
+	// public void quit(View view) {
+	// Intent intent = new Intent(this, SettingsActivity.class);
+	// startActivity(intent);
+	// }
 }
