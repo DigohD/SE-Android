@@ -1,8 +1,79 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.spaceshooter.game.menu.MenuActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame" >
 
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3638109491407160/3494255688" >
+    </com.google.android.gms.ads.AdView>
+
+    <Button
+        android:id="@+id/buttonQuit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonSettings"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonSettings"
+        android:text="@string/quit" />
+
+    <Button
+        android:id="@+id/buttonPlay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:minWidth="200dp"
+        android:onClick="play"
+        android:text="@string/play" />
+
+    <Button
+        android:id="@+id/buttonToplist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/buttonPlay"
+        android:layout_below="@+id/buttonPlay"
+        android:onClick="highscorelist"
+        android:text="@string/toplist" />
+
+    <Button
+        android:id="@+id/buttonAchievements"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/buttonToplist"
+        android:layout_below="@+id/buttonToplist"
+        android:onClick="achievements"
+        android:text="@string/achievements" />
+
+    <Button
+        android:id="@+id/buttonCredits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:minWidth="200dp"
+        android:onClick="credits"
+        android:text="@string/credits" />
+
+    <Button
+        android:id="@+id/buttonSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonCredits"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonCredits"
+        android:onClick="settings"
+        android:text="@string/settings" />
+
+</RelativeLayout>

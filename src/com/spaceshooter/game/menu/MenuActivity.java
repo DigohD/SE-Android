@@ -1,14 +1,13 @@
 package com.spaceshooter.game.menu;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.se_android.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.database.HighScoreList;
 import com.spaceshooter.game.settings.SettingsActivity;
@@ -18,31 +17,16 @@ public class MenuActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_menu);
 
-		if (savedInstanceState == null) {
-			getFragmentManager().beginTransaction()
-					.add(R.id.container, new PlaceholderFragment()).commit();
-		}
-
-	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-	public static class PlaceholderFragment extends Fragment {
-
-		public PlaceholderFragment() {
-		}
-
-		@Override
-		public View onCreateView(LayoutInflater inflater, ViewGroup container,
-				Bundle savedInstanceState) {
-			View rootView = inflater.inflate(R.layout.fragment_menu, container,
-					false);
-			return rootView;
-		}
+		AdView adView = (AdView) this.findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Test ID:
+																// Emulator
+				.addTestDevice("0071a84d4acd309b") // Test ID: Jonas Nexus 4
+				.addTestDevice("0009478f6e129f") // Test ID: Anders Galaxy S2
+				.build();
+		adView.loadAd(adRequest);
 	}
 
 	public void play(View view) {
@@ -55,10 +39,10 @@ public class MenuActivity extends Activity {
 		startActivity(intent);
 	}
 
-	public void achievments(View view) {
-		Intent intent = new Intent(this, SettingsActivity.class);
-		startActivity(intent);
-	}
+	// public void achievements(View view) {
+	// Intent intent = new Intent(this, SettingsActivity.class);
+	// startActivity(intent);
+	// }
 
 	public void credits(View view) {
 		Intent intent = new Intent(this, CreditsActivity.class);
@@ -70,8 +54,8 @@ public class MenuActivity extends Activity {
 		startActivity(intent);
 	}
 
-	public void quit(View view) {
-		Intent intent = new Intent(this, SettingsActivity.class);
-		startActivity(intent);
-	}
+	// public void quit(View view) {
+	// Intent intent = new Intent(this, SettingsActivity.class);
+	// startActivity(intent);
+	// }
 }
