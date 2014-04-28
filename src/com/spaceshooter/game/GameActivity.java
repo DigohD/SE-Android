@@ -36,14 +36,6 @@ public class GameActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		super.onCreate(savedInstanceState);
-		// remove title
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		setContentView(R.layout.main);
-
 		// we'll use this to manipulate the list of high scores
 
 //		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
