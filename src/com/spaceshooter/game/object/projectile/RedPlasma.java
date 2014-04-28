@@ -24,7 +24,7 @@ public class RedPlasma extends Projectile{
 	
 	@Override
 	public void tick(float dt){
-		if(this.getX() > GameView.width)
+		if(this.getX() > GameView.WIDTH)
 			live = false;
 		
 		distance = velocity.mul(dt);

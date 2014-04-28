@@ -25,7 +25,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private float scaleX, scaleY;
 	
-	public static int width = 800, height = 480;
+	public static final int WIDTH = 800, HEIGHT = 480;
 
 	
 	public GameView(Context context) {
@@ -41,16 +41,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Display display = wm.getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
-//		width = size.x;
-//		height = size.y;
 
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
 		holder.setFormat(PixelFormat.RGBA_8888);
-		holder.setFixedSize(width, height);
+		holder.setFixedSize(WIDTH, HEIGHT);
 		
-		scaleX = display.getWidth() / 800;
-		scaleY = display.getHeight() / 480;
+		scaleX = (float)(size.x / WIDTH);
+		scaleY = (float)(size.y / HEIGHT);
 		
 		holder.addCallback(this);
 	}
@@ -68,27 +66,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void draw(Canvas canvas, float interpolation){
 		draw(canvas);
-
-		//System.out.println(scaleX + " - " + scaleY);
-		
-//		System.err.println(scaleX + " - " + scaleY);
-		
-//		canvas.scale(1.0f, 1.0f);
-		
 		level.draw(canvas, interpolation);
-		
 	}
 	
 	public void tick(float dt){
 		level.tick(dt);
-
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
 	    float eventX = event.getX();
 	    float eventY = event.getY();
-	    
-	    
 	    
 	    eventX = eventX / scaleX;
 	    eventY = eventY / scaleY;

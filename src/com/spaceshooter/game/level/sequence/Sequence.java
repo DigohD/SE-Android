@@ -97,8 +97,8 @@ public class Sequence {
 		Bitmap bmp = BitmapHandler.loadBitmap("sequences/" + path);
 		width = bmp.getWidth();
 		height = bmp.getHeight();
-		widthRatio = 800 / width;
-		heightRatio = 480 / height;
+		widthRatio = GameView.WIDTH / 64;
+		heightRatio = GameView.HEIGHT / 45;
 		pixels = new int[width*height];
 		bmp.getPixels(pixels, 0, width, 0, 0, width, height);
 		bmp.recycle();
