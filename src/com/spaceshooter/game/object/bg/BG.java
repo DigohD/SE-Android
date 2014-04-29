@@ -36,8 +36,6 @@ public class BG extends DynamicObject{
 		interpolate(interpolation);
 		canvas.drawBitmap(bitmap, interpolatedPosition.x, interpolatedPosition.y, null);
 		canvas.drawBitmap(bitmap, interpolatedPosition.x + 800, interpolatedPosition.y, null);
-		canvas.drawBitmap(nebula, interpolatedPosition.x, interpolatedPosition.y, null);
-		canvas.drawBitmap(nebula, interpolatedPosition.x + 800, interpolatedPosition.y, null);
 	}
 
 }
