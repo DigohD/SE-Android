@@ -1,6 +1,7 @@
 package com.spaceshooter.game.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
@@ -15,6 +16,7 @@ import android.view.WindowManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
+import com.spaceshooter.game.util.BitmapHandler;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -25,8 +27,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private float scaleX, scaleY;
 	
-	public static final int WIDTH = 800, HEIGHT = 480;
-
+	protected Bitmap joystick;
+	
+	public static final int WIDTH = 800, HEIGHT = 480; 
 	
 	public GameView(Context context) {
 		super(context);
@@ -42,6 +45,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Point size = new Point();
 		display.getSize(size);
 
+		joystick = BitmapHandler.loadBitmap("ui/joystick");
+		
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
 		holder.setFormat(PixelFormat.RGBA_8888);
@@ -67,6 +72,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void draw(Canvas canvas, float interpolation){
 		draw(canvas);
 		level.draw(canvas, interpolation);
+		
+		canvas.drawBitmap(joystick, 40, 320, null);
+		
 	}
 	
 	public void tick(float dt){
@@ -77,17 +85,52 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	    float eventX = event.getX();
 	    float eventY = event.getY();
 	    
+	    float nY = scaleY * 1.1f;
+	    
 	    eventX = eventX / scaleX;
-	    eventY = eventY / scaleY;
-	    
-		System.err.println(scaleX + " - " + scaleY);
-	    
-	    if(event.getAction() == MotionEvent.ACTION_MOVE){
-	     	level.getPlayer().setTargetPos(eventX, eventY);
+	    eventY = eventY / nY;
+		
+	    //Joystick center point: X = 100, Y = 380
+	    if(eventX < 180 && eventX > 0 && eventY < 480 && eventY > 300){
+	    	if(event.getAction() == MotionEvent.ACTION_MOVE){
+		    	if(eventX > 160)
+		    		eventX = 160;
+		    	else if(eventX < 40)
+		    		eventX = 40;
+		    	if(eventY > 440)
+		    		eventY = 440;
+		    	else if(eventY < 320)
+		    		eventY = 320;
+		    	
+		    	float dX = eventX - 100;
+		    	float dY = eventY - 380;
+		    	
+		    	dX = dX / 10;
+		    	dY = dY / 10;
+		    	
+		     	level.getPlayer().incTargetPos(dX, dY);
+	    	}
+	    	if(event.getAction() == MotionEvent.ACTION_DOWN){
+		    	if(eventX > 161)
+		    		eventX = 160;
+		    	else if(eventX < 40)
+		    		eventX = 40;
+		    	if(eventY > 440)
+		    		eventY = 440;
+		    	else if(eventY < 320)
+		    		eventY = 320;
+		    	
+		    	float dX = eventX - 100;
+		    	float dY = eventY - 380;
+		    	
+		    	dX = dX / 10;
+		    	dY = dY / 10;
+		    	
+		     	level.getPlayer().incTargetPos(dX, dY);
+		    }
 	    }
-	    if(event.getAction() == MotionEvent.ACTION_DOWN){
-	     	level.getPlayer().setTargetPos(eventX, eventY);
-	    }
+	    
+	    
     	// Schedules a repaint.
     	invalidate();
     	return true;
