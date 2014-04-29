@@ -15,6 +15,7 @@ import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.object.projectile.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
+import com.spaceshooter.game.view.GameView;
 
 public class Player extends DynamicObject implements Collideable {
 
@@ -78,8 +79,18 @@ public class Player extends DynamicObject implements Collideable {
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 	}
 	
+	private void inBound(){
+		if(position.x < 0) position.x = 2;
+		if(position.x + width > GameView.WIDTH)
+			position.x = (GameView.WIDTH - width) - 7;
+		if(position.y < 0) position.y = 3;
+		if(position.y + height > GameView.HEIGHT)
+			position.y = (GameView.HEIGHT - height) - 5;
+	}
+	
 	@Override
 	public void tick(float dt) {
+		inBound();
 		super.tick(dt);
 		reload++;
 		if(reload > 15){
