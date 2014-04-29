@@ -85,13 +85,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	    float eventX = event.getX();
 	    float eventY = event.getY();
 	    
-	    float nY = scaleY * 1.1f;
+	    float nY = scaleY * 1f;
 	    
 	    eventX = eventX / scaleX;
 	    eventY = eventY / nY;
 		
 	    //Joystick center point: X = 100, Y = 380
-	    if(eventX < 180 && eventX > 0 && eventY < 480 && eventY > 300){
+	    if(eventX < 210 && eventX > 0 && eventY < 480 && eventY > 300){
 	    	if(event.getAction() == MotionEvent.ACTION_MOVE){
 		    	if(eventX > 160)
 		    		eventX = 160;
@@ -137,11 +137,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void pause() {
-		game.stop();
+		game.pause();
 	}
 
 	public void resume() {
-		game.start();
+		game.resume();
 	}
 
 	@Override

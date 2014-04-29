@@ -1,5 +1,9 @@
 package com.spaceshooter.game.engine;
 
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
@@ -23,6 +27,10 @@ public class GameThread implements Runnable {
 	private Thread thread;
 	private GameView gameView;
 	private SurfaceHolder surfaceHolder;
+	
+	private Lock lock = new ReentrantLock();
+	private Condition okToRun = lock.newCondition();
+	private boolean paused = false;
 
 	/**
 	 * The constructor for the game thread
@@ -53,6 +61,7 @@ public class GameThread implements Runnable {
 		if (!running)
 			return;
 		running = false;
+		resume();
 		boolean retry = true;
 		while (retry) {
 			try {
@@ -65,12 +74,21 @@ public class GameThread implements Runnable {
 	}
 
 
+	/**
+	 * Pauses the game thread
+	 */
 	public synchronized void pause() {
-
+		paused = true;
 	}
 
+	/**
+	 * resumes the game thread
+	 */
 	public synchronized void resume() {
-
+		lock.lock();
+		paused = false;
+		okToRun.signalAll();
+		lock.unlock();
 
 	}
 
@@ -156,6 +174,17 @@ public class GameThread implements Runnable {
 		
 
 		while (running) {
+			
+			lock.lock();
+			while(paused){
+				try {
+					okToRun.await();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			lock.unlock();
+			
 			canvas = null;
 			shouldDraw = false;
 

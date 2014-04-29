@@ -5,6 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
@@ -83,16 +87,43 @@ public class GameActivity extends Activity {
 //        
 
 	}
-
-	// public void onPause(){
-	// super.onPause();
-	// gameView.pause();
-	// }
-	//
-	// public void onResume(){
-	// super.onResume();
-	// gameView.resume();
-	// }
+	
+	private void exitDialog(){
+		gameView.pause();
+		Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle("Really Exit?");
+		builder.setMessage("Are you sure you want to exit?");
+		builder.setNegativeButton(android.R.string.no, new OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                gameView.resume();
+            }});
+		builder.setPositiveButton(android.R.string.yes, new OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+                GameActivity.super.onBackPressed();
+            }});
+		
+		builder.create().show();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		exitDialog();
+	}
+	
+//	public void onStop(){
+//		super.onStop();
+//		gameView.pause();
+//	}
+//
+//	 public void onPause(){
+//		 super.onPause();
+//		 gameView.pause();
+//	 }
+//	
+//	 public void onResume(){
+//		 super.onResume();
+//		 gameView.resume();
+//	 }
 
 	// throw the score at the database
 	private void submitScore() {
