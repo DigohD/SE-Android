@@ -1,5 +1,6 @@
 package com.spaceshooter.game.object.bg;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 import com.spaceshooter.game.engine.GameObjectManager;
@@ -9,12 +10,17 @@ import com.spaceshooter.game.util.Vector2f;
 
 public class BG extends DynamicObject{
 
+	private Bitmap nebula;
+	
 	public BG() {
 		super(new Vector2f(0, 0));
 		
 		this.bitmap = BitmapHandler.loadBitmap("bg/bg");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
+		
+		nebula = BitmapHandler.loadBitmap("bg/nebula");
+
 		
 		velocity = new Vector2f(-1f, 0f);
 	}
@@ -30,6 +36,8 @@ public class BG extends DynamicObject{
 		interpolate(interpolation);
 		canvas.drawBitmap(bitmap, interpolatedPosition.x, interpolatedPosition.y, null);
 		canvas.drawBitmap(bitmap, interpolatedPosition.x + 800, interpolatedPosition.y, null);
+		canvas.drawBitmap(nebula, interpolatedPosition.x, interpolatedPosition.y, null);
+		canvas.drawBitmap(nebula, interpolatedPosition.x + 800, interpolatedPosition.y, null);
 	}
 
 }
