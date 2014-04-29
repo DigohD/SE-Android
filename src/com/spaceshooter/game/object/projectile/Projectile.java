@@ -13,6 +13,8 @@ public abstract class Projectile extends DynamicObject {
 		this.velocity = velocity;
 	}
 	
+	public abstract void death();
+	
 	
 
 }

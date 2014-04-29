@@ -35,6 +35,7 @@ public class ProjectileManager {
 			e.printStackTrace();
 		}
 		proj.getBitmap().recycle();
+		proj.death();
 		enemyProjectiles.remove(proj);
 		mutex.release();
 	}
@@ -56,6 +57,7 @@ public class ProjectileManager {
 			e.printStackTrace();
 		}
 		proj.getBitmap().recycle();
+		proj.death();
 		playerProjectiles.remove(proj);
 		mutex.release();
 	}
@@ -78,8 +80,7 @@ public class ProjectileManager {
 		if(timer < 7500) timer++;
 		else timer = 0;
 		
-		if(timer % 5 == 0)
-			removeDeadProjectiles();
+		removeDeadProjectiles();
 		
 		try {
 			mutex.acquire();

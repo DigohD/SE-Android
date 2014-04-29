@@ -12,7 +12,7 @@ import com.spaceshooter.game.view.GameView;
 public class RedPlasma extends Particle{
 
 	public RedPlasma(Vector2f position, Vector2f velocity) {
-		super(position, velocity);
+		super(position, velocity, ParticleID.RED_PLASMA);
 		
 		this.bitmap = BitmapHandler.loadBitmap("particles/PlasmaRed");
 		
@@ -23,7 +23,7 @@ public class RedPlasma extends Particle{
 	}
 	
 	public RedPlasma(Vector2f position, Vector2f velocity, int lifetime) {
-		super(position, new Vector2f(75f, 0f));
+		super(position, new Vector2f(75f, 0f), ParticleID.RED_PLASMA);
 		
 		this.bitmap = BitmapHandler.loadBitmap("particles/PlasmaRed");
 		

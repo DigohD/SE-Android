@@ -9,10 +9,12 @@ import com.spaceshooter.game.util.Vector2f;
 public abstract class Particle extends DynamicObject{
 
 	protected int lifetime, timeLived;
+	protected ParticleID pID;
 	
-	public Particle(Vector2f position, Vector2f velocity) {
+	public Particle(Vector2f position, Vector2f velocity, ParticleID pID) {
 		super(position);
 		this.velocity = velocity;
+		this.pID = pID;
 	}
 	
 	

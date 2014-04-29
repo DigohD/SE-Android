@@ -15,6 +15,7 @@ import com.spaceshooter.game.util.Vector2f;
 public class GameObjectManager {
 
 	public static List<GameObject> gameObjects;
+	public static List<GameObject> toAdd;
 	private ProjectileManager projectileManager;
 	private Player player;
 	private Paint paint;
@@ -22,6 +23,7 @@ public class GameObjectManager {
 	public GameObjectManager() {
 		player = new Player(new Vector2f(40, 40));
 		gameObjects = new ArrayList<GameObject>();
+		toAdd = new ArrayList<GameObject>();
 		projectileManager = new ProjectileManager();
 		paint = new Paint();
 	}
@@ -39,7 +41,7 @@ public class GameObjectManager {
 	 * @param go the gameobject to be added
 	 */
 	public static void addGameObject(GameObject go){
-		gameObjects.add(go);
+		toAdd.add(go);
 	}
 
 	
@@ -50,7 +52,8 @@ public class GameObjectManager {
 	public static void removeGameObject(GameObject go){
 		//Clear the reference to the pixeldata of the bitmap
 		//Much more efficient then waiting for the garbage collector to do it.
-		go.getBitmap().recycle();
+		if(go.getBitmap() != null)
+			go.getBitmap().recycle();
 		gameObjects.remove(go);
 	}
 
@@ -78,9 +81,16 @@ public class GameObjectManager {
 	 * @param dt time step variable used for physics calculations
 	 */
 	public void tick(float dt){
+		for(GameObject x : toAdd)
+			gameObjects.add(x);
+		
+		toAdd.clear();
+		
 		clearDeadGameObjects();
 		CollisionManager.collisionCheck(player);
 		player.tick(dt);
+		
+		
 		
 		for(GameObject go : gameObjects)
 			go.tick(dt);

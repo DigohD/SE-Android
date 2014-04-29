@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.spaceshooter.game.engine.ProjectileManager;
+import com.spaceshooter.game.object.particle.ParticleID;
+import com.spaceshooter.game.object.particle.emitter.ImpactEmitter;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
@@ -35,6 +37,12 @@ public class RedPlasma extends Projectile{
 	@Override
 	public void draw(Canvas canvas,  float interpolation) {
 		super.draw(canvas, interpolation);
+	}
+
+	@Override
+	public void death() {
+		new ImpactEmitter(6, ParticleID.RED_PLASMA, 
+				position, velocity);
 	}
 	
 }
