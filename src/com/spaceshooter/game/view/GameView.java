@@ -105,8 +105,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    	float dX = eventX - 100;
 		    	float dY = eventY - 380;
 		    	
-		    	dX = dX / 10;
-		    	dY = dY / 10;
+		    	dX = dX / 8;
+		    	dY = dY / 8;
 		    	
 		     	level.getPlayer().incTargetPos(dX, dY);
 	    	}
@@ -123,8 +123,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    	float dX = eventX - 100;
 		    	float dY = eventY - 380;
 		    	
-		    	dX = dX / 10;
-		    	dY = dY / 10;
+		    	dX = dX / 8;
+		    	dY = dY / 8;
 		    	
 		     	level.getPlayer().incTargetPos(dX, dY);
 		    }
@@ -147,6 +147,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		game.start();
+		level.getPlayer().init();
 	}
 
 	@Override

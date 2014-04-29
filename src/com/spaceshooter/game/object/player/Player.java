@@ -9,6 +9,8 @@ import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.enemy.Enemy;
+import com.spaceshooter.game.object.particle.ParticleID;
+import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.object.projectile.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
@@ -20,8 +22,9 @@ public class Player extends DynamicObject implements Collideable {
 	private Vector2f targetVelocity;
 	private boolean update = false;
 	private int score = 0;
-	private float steps = 20;
+	private float steps = 10;
 	private int reload;
+	private ConstantEmitter engine;
 	
 	public Player(Vector2f position) {
 		super(position);
@@ -33,12 +36,19 @@ public class Player extends DynamicObject implements Collideable {
 		rect = new Rect((int) position.x, (int) position.y, (int) position.x
 				+ width, (int) position.y + height);
 
-		speedX = 7.5f;
-		speedY = 7.5f;
+		speedX = 10f;
+		speedY = 10f;
+		
 		targetVelocity = new Vector2f(speedX, speedY);
 		velocity = new Vector2f(0, 0);
 	}
 
+	public void init(){
+		engine = new ConstantEmitter(1, ParticleID.ENGINE, new Vector2f(position.y + height/2, position.x - 8),
+				new Vector2f(-7f, 0f));
+		engine.setIsSpread(true);
+	}
+	
 	public void setTargetPos(float x, float y) {
 		targetPosition = new Vector2f(x, y);
 		update = true;
@@ -48,8 +58,6 @@ public class Player extends DynamicObject implements Collideable {
 		Vector2f newTarget = new Vector2f(targetPosition.x + dX, targetPosition.y + dY);
 		targetPosition = newTarget;
 		update = true;
-		
-		
 	}
 	
 	private float approach(float target, float current, float dt){
@@ -67,6 +75,7 @@ public class Player extends DynamicObject implements Collideable {
 		distance = velocity.mul(dt);
 		Vector2f diff = targetPosition.sub(position).div(steps);
 		position = position.add(diff.div(distance));
+		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 	}
 	
 	@Override
