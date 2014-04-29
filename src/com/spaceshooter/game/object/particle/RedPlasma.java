@@ -16,7 +16,7 @@ public class RedPlasma extends Particle{
 		
 		this.bitmap = BitmapHandler.loadBitmap("particles/PlasmaRed");
 		
-		lifetime = 75;
+		lifetime = 15;
 		timeLived = 0;
 		
 		GameObjectManager.addGameObject(this);
