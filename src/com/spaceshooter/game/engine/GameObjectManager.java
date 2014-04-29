@@ -55,8 +55,8 @@ public class GameObjectManager {
 		if(go instanceof Enemy)
 			((Enemy) go).death();
 		
-		if(go.getBitmap() != null)
-			go.getBitmap().recycle();
+//		if(go.getBitmap() != null)
+//			go.getBitmap().recycle();
 		
 		gameObjects.remove(go);
 	}

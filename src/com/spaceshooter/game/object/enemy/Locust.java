@@ -1,14 +1,18 @@
 package com.spaceshooter.game.object.enemy;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.spaceshooter.game.animation.Animation;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
 public class Locust extends Enemy{
+	
+	private Animation anim;
+	private static Bitmap bmp = BitmapHandler.loadBitmap("enemies/locustSheet");
 
 	public Locust(){
 		this(new Vector2f(0,0));
@@ -16,8 +20,9 @@ public class Locust extends Enemy{
 
 	public Locust(Vector2f position) {
 		super(position);
-		this.bitmap = BitmapHandler.loadBitmap("enemies/locust");
-		this.width = bitmap.getWidth();
+		this.bitmap = bmp;
+		anim = new Animation(bitmap, 8, 5);
+		this.width = bitmap.getWidth()/ anim.getNumOfBitmaps();
 		this.height = bitmap.getHeight();
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 		
@@ -36,6 +41,8 @@ public class Locust extends Enemy{
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);
+		
+		anim.animate();
 		
 		if(!rotate){
 			distance = velocity.mul(dt);
@@ -65,7 +72,8 @@ public class Locust extends Enemy{
 	
 	@Override
 	public void draw(Canvas canvas,  float interpolation) {
-		super.draw(canvas, interpolation);
+		interpolate(interpolation);
+		canvas.drawBitmap(anim.getBitmap(), interpolatedPosition.x, interpolatedPosition.y, null);
 	}
 
 	@Override
