@@ -3,28 +3,31 @@ package com.spaceshooter.game.object.particle.emitter;
 import android.graphics.Canvas;
 
 import com.spaceshooter.game.object.particle.ParticleID;
+import com.spaceshooter.game.object.particle.PurpleDot;
 import com.spaceshooter.game.object.particle.RedPlasma;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 
 public class RadialEmitter extends Emitter{
 
-	protected Vector2f impactVelocity;
+	protected Vector2f particleVelocity;
 	
 	public RadialEmitter(int particleCount, ParticleID pID, Vector2f position, 
-			Vector2f impactVelocity) {
-		super(particleCount, pID, position, 1);
-		this.impactVelocity = impactVelocity;
+			Vector2f particleVelocity) {
+		super(particleCount, pID, position, 12);
+		this.particleVelocity = particleVelocity;
 	}
 
 	@Override
 	public void emit() {
 		for(int i = 0; i < particleCount; i++){
+			Vector2f finalV = particleVelocity.rotate(Randomizer.getFloat(0, 359));
 			switch(pID){
 				case RED_PLASMA:
-					float yVel = impactVelocity.y + Randomizer.getFloat(-10f, 10f);
-					float xVel = impactVelocity.x * 0.75f;
-					new RedPlasma(position, new Vector2f(xVel, yVel));
+					new RedPlasma(position, finalV);
+					break;
+				case PURPLE_DOT:
+					new PurpleDot(position, finalV);
 					break;
 			}
 		}

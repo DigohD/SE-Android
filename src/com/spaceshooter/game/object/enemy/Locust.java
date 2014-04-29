@@ -68,4 +68,10 @@ public class Locust extends Enemy{
 		super.draw(canvas, interpolation);
 	}
 
+	@Override
+	public void death() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
