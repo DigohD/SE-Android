@@ -91,6 +91,7 @@ public class GameActivity extends Activity {
 	private void exitDialog(){
 		gameView.pause();
 		Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(false);
 		builder.setTitle("Really Exit?");
 		builder.setMessage("Are you sure you want to exit?");
 		builder.setNegativeButton(android.R.string.no, new OnClickListener() {
