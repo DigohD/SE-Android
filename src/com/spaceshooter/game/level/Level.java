@@ -17,7 +17,6 @@ public class Level {
 	private EnemyGenerator enemyGen;
 	
 	private int timer = 0;
-	private int TIME;
 	private int LEVEL_TIME;
 	private int TPS = (int) GameThread.TARGET_TPS; 
 	
@@ -26,16 +25,16 @@ public class Level {
 	 * @param TIME the time the level will take in minutes
 	 */
 	public Level(int time){
-		TIME = time * TPS;
+		int TIME = time * TPS;
 		LEVEL_TIME = TIME * TPS;
 		gameObjectManager = new GameObjectManager();
 
 		player = gameObjectManager.getPlayer();
-		enemyGen = new EnemyGenerator(TIME);
+		enemyGen = new EnemyGenerator(time);
 		
 		enemyGen.addSequence(new PredatorSequence());
 		for(int i = 10; i < TIME; i+=10)
-			enemyGen.addEnemyToTimeline(new Locust(new Vector2f(800, 480/2)), i);
+			enemyGen.addEnemyToTimeline(new Locust(new Vector2f(GameView.WIDTH, GameView.HEIGHT/2)), i);
 		enemyGen.generateRandomTimeLine();
 	}
 	

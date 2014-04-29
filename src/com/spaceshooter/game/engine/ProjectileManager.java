@@ -34,6 +34,7 @@ public class ProjectileManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		proj.getBitmap().recycle();
 		enemyProjectiles.remove(proj);
 		mutex.release();
 	}
@@ -54,6 +55,7 @@ public class ProjectileManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		proj.getBitmap().recycle();
 		playerProjectiles.remove(proj);
 		mutex.release();
 	}

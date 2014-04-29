@@ -38,7 +38,7 @@ public class EnemyGenerator {
 	 * @param time the time in seconds of the timeline used for sequence/enemy generations
 	 */
 	public EnemyGenerator(int time){
-		this.TIME = time;
+		this.TIME = time*TPS;
 		sequenceTimeline = new HashMap<Integer, Sequence>();
 		enemyTimeline = new HashMap<Integer, Enemy>();
 		sequences = new ArrayList<Sequence>();

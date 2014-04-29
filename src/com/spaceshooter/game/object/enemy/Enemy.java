@@ -7,6 +7,7 @@ import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.Vector2f;
 

@@ -27,8 +27,7 @@ public class CollisionManager {
 	 * Stores an enemy in the enemy collision list. The list will be traversed
 	 * in order to check for collisions
 	 * 
-	 * @param e
-	 *            the enemy to be stored
+	 * @param e the enemy to be stored
 	 */
 
 	public static void addEnemy(Enemy e){
@@ -38,8 +37,7 @@ public class CollisionManager {
 	/**
 	 * Removes an enemy from the enemy collision list
 	 * 
-	 * @param e
-	 *            the enemy to be removed
+	 * @param e the enemy to be removed
 	 */
 
 	public static void removeEnemy(Enemy e){
