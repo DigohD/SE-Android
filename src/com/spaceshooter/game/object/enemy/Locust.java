@@ -6,10 +6,9 @@ import android.graphics.Rect;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
 public class Locust extends Enemy{
-
+	
 	public Locust(){
 		this(new Vector2f(0,0));
 	}
@@ -17,6 +16,7 @@ public class Locust extends Enemy{
 	public Locust(Vector2f position) {
 		super(position);
 		this.bitmap = BitmapHandler.loadBitmap("enemies/locust");
+		
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);

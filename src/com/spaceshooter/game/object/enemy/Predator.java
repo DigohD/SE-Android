@@ -6,11 +6,10 @@ import android.graphics.Rect;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.util.BitmapHandler;
-import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 
 public class Predator extends Enemy {
-
+	
 	public Predator() {
 		this(new Vector2f(0, 0));
 	}
@@ -18,6 +17,7 @@ public class Predator extends Enemy {
 	public Predator(Vector2f position) {
 		super(position);
 		this.bitmap = BitmapHandler.loadBitmap("enemies/predator");
+		
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 		
