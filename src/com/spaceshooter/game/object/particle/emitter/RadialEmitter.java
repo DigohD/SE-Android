@@ -14,7 +14,7 @@ public class RadialEmitter extends Emitter{
 	
 	public RadialEmitter(int particleCount, ParticleID pID, Vector2f position, 
 			Vector2f particleVelocity) {
-		super(particleCount, pID, position, 12);
+		super(particleCount, pID, position, 1);
 		this.particleVelocity = particleVelocity;
 	}
 

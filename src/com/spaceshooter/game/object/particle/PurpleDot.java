@@ -17,7 +17,7 @@ public class PurpleDot extends Particle{
 		
 		this.bitmap = BitmapHandler.loadBitmap("particles/DotPurple");
 		
-		lifetime = 25 + Randomizer.getInt(0, 10);
+		lifetime = 15 + Randomizer.getInt(0, 25);
 		timeLived = 0;
 		
 		GameObjectManager.addGameObject(this);

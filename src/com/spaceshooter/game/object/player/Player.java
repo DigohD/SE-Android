@@ -73,7 +73,7 @@ public class Player extends DynamicObject implements Collideable {
 	public void tick(float dt) {
 		super.tick(dt);
 		reload++;
-		if(reload > 60){
+		if(reload > 15){
 			reload = 0;
 			new RedPlasma(position);
 			Vector2f v = new Vector2f(position.x, position.y + width-2);
