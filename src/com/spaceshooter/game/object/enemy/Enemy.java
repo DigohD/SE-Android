@@ -45,5 +45,7 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 			obj.setLive(false);
 		}
 	}
+	
+	public abstract void death();
 
 }

@@ -3,6 +3,8 @@ package com.spaceshooter.game.object.enemy;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.spaceshooter.game.object.particle.ParticleID;
+import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
@@ -37,6 +39,12 @@ public class Predator extends Enemy {
 	@Override
 	public void draw(Canvas canvas, float interpolation) {
 		super.draw(canvas, interpolation);
+	}
+
+	@Override
+	public void death() {
+		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
+		new RadialEmitter(4, ParticleID.PURPLE_DOT, center, new Vector2f(10f, 0f));
 	}
 
 }

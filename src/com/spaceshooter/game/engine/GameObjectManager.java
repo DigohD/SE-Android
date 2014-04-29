@@ -52,8 +52,12 @@ public class GameObjectManager {
 	public static void removeGameObject(GameObject go){
 		//Clear the reference to the pixeldata of the bitmap
 		//Much more efficient then waiting for the garbage collector to do it.
+		if(go instanceof Enemy)
+			((Enemy) go).death();
+		
 		if(go.getBitmap() != null)
 			go.getBitmap().recycle();
+		
 		gameObjects.remove(go);
 	}
 
