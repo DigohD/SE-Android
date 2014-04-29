@@ -46,14 +46,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		holder = getHolder();
 		holder.setFormat(PixelFormat.RGBA_8888);
 		holder.setFixedSize(WIDTH, HEIGHT);
-		
-<<<<<<< HEAD
-		scaleX = (float) size.x / (float) 800;
-		scaleY = (float) size.y / (float) 480;
-=======
+
 		scaleX = (float)(size.x / WIDTH);
 		scaleY = (float)(size.y / HEIGHT);
->>>>>>> d3938adf5a28965b484e7664c8a87547c415cf66
 		
 		holder.addCallback(this);
 	}
@@ -71,10 +66,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void draw(Canvas canvas, float interpolation){
 		draw(canvas);
-<<<<<<< HEAD
-		
-=======
->>>>>>> d3938adf5a28965b484e7664c8a87547c415cf66
 		level.draw(canvas, interpolation);
 	}
 	
