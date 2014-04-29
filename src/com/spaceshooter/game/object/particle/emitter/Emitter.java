@@ -1,12 +1,13 @@
 package com.spaceshooter.game.object.particle.emitter;
 
+
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.util.Vector2f;
 
 public abstract class Emitter extends GameObject{
-	
+
 	protected int particleCount, lifetime, timeLived;
 	protected ParticleID pID;
 	
