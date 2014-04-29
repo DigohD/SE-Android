@@ -44,6 +44,14 @@ public class Player extends DynamicObject implements Collideable {
 		update = true;
 	}
 	
+	public void incTargetPos(float dX, float dY) {
+		Vector2f newTarget = new Vector2f(targetPosition.x + dX, targetPosition.y + dY);
+		targetPosition = newTarget;
+		update = true;
+		
+		
+	}
+	
 	private float approach(float target, float current, float dt){
 		float diff = target - current;
 		if(diff > dt)
