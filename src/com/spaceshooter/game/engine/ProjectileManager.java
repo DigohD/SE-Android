@@ -12,54 +12,33 @@ import com.spaceshooter.game.view.GameView;
 public class ProjectileManager {
 	
 	public static List<Projectile> playerProjectiles = new ArrayList<Projectile>();
+	public static List<Projectile> pToAdd = new ArrayList<Projectile>();
+	
 	public static List<Projectile> enemyProjectiles = new ArrayList<Projectile>();
+	public static List<Projectile> eToAdd = new ArrayList<Projectile>();
 	
 	private static Semaphore mutex = new Semaphore(1);
 	
 	private int timer = 0;
 	
 	public static void addEnemyProjectile(Projectile proj){
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		enemyProjectiles.add(proj);
-		mutex.release();
+		eToAdd.add(proj);
 	}
 	
 	public static void removeEnemyProjectile(Projectile proj){
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		proj.getBitmap().recycle();
 		proj.death();
 		enemyProjectiles.remove(proj);
-		mutex.release();
 	}
 	
 	public static void addPlayerProjectile(Projectile proj){
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		playerProjectiles.add(proj);
-		mutex.release();
+		pToAdd.add(proj);
 	}
 	
 	public static void removePlayerProjectile(Projectile proj){
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		proj.getBitmap().recycle();
 		proj.death();
 		playerProjectiles.remove(proj);
-		mutex.release();
 	}
 	
 	private void removeDeadProjectiles(){
@@ -80,31 +59,27 @@ public class ProjectileManager {
 		if(timer < 7500) timer++;
 		else timer = 0;
 		
+		for(Projectile p : pToAdd)
+			playerProjectiles.add(p);
+		for(Projectile p : eToAdd)
+			enemyProjectiles.add(p);
+		
+		pToAdd.clear();
+		eToAdd.clear();
+		
 		removeDeadProjectiles();
 		
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		for(Projectile p : playerProjectiles)
 			p.tick(dt);
 		for(Projectile p : enemyProjectiles)
 			p.tick(dt);
-		mutex.release();
 	}
 	
 	public void draw(Canvas canvas, float interpolation){
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		for(Projectile p : playerProjectiles)
 			p.draw(canvas, interpolation);
 		for(Projectile p : enemyProjectiles)
 			p.draw(canvas, interpolation);
-		mutex.release();
 	}
 
 }

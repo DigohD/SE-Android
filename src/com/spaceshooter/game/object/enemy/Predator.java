@@ -44,7 +44,7 @@ public class Predator extends Enemy {
 	@Override
 	public void death() {
 		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
-		new RadialEmitter(4, ParticleID.PURPLE_DOT, center, new Vector2f(10f, 0f));
+		new RadialEmitter(8, ParticleID.PURPLE_DOT, center, new Vector2f(20f, 0f));
 	}
 
 }
