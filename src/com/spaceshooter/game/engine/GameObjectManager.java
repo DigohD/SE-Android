@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.object.bg.BG;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Vector2f;
@@ -18,12 +19,15 @@ public class GameObjectManager {
 	public static List<GameObject> toAdd;
 	private ProjectileManager projectileManager;
 	private Player player;
+	private BG bg;
 	private Paint paint;
+	
 
 	public GameObjectManager() {
-		player = new Player(new Vector2f(40, 40));
 		gameObjects = new ArrayList<GameObject>();
 		toAdd = new ArrayList<GameObject>();
+		player = new Player(new Vector2f(40, 40));
+		bg = new BG();
 		projectileManager = new ProjectileManager();
 		paint = new Paint();
 	}
@@ -94,7 +98,7 @@ public class GameObjectManager {
 		CollisionManager.collisionCheck(player);
 		player.tick(dt);
 		
-		
+		bg.tick(dt);
 		
 		for(GameObject go : gameObjects)
 			go.tick(dt);
@@ -109,6 +113,8 @@ public class GameObjectManager {
 	 * the interpolated position of a dynamic object
 	 */
 	public void draw(Canvas canvas, float interpolation){
+		bg.draw(canvas, interpolation);
+		
 		player.draw(canvas, interpolation);
 		
 		for(GameObject go : gameObjects)

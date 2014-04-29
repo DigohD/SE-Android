@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
+import com.spaceshooter.game.object.bg.BG;
 import com.spaceshooter.game.util.BitmapHandler;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
