@@ -80,12 +80,22 @@ public class Player extends DynamicObject implements Collideable {
 	}
 	
 	private void inBound(){
-		if(position.x < 0) position.x = 4;
-		if(position.x + width >= GameView.WIDTH)
-			position.x = (GameView.WIDTH - width) - 10;
-		if(position.y < 0) position.y = 5;
-		if(position.y + height >= GameView.HEIGHT)
-			position.y = (GameView.HEIGHT - height) - 7;
+		if(position.x < 0) {
+			position.x = 0;
+			targetPosition.x = position.x;
+		}
+		if(position.x + width >= GameView.WIDTH){
+			position.x = (GameView.WIDTH - width) - 4;
+			targetPosition.x = position.x;
+		}
+		if(position.y < 0) {
+			position.y = 0;
+			targetPosition.y = position.y;
+		}
+		if(position.y + height >= GameView.HEIGHT){
+			position.y = (GameView.HEIGHT - height) - 4;
+			targetPosition.y = position.y;
+		}	
 	}
 	
 	@Override

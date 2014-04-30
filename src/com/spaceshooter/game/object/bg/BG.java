@@ -22,20 +22,29 @@ public class BG extends DynamicObject{
 		nebula = BitmapHandler.loadBitmap("bg/nebula");
 
 		
-		velocity = new Vector2f(-1f, 0f);
+		velocity = new Vector2f(-5f, 0f);
 	}
 	
 	@Override
 	public void tick(float dt) {
 		distance = velocity.mul(dt);
 		position = position.add(distance);
+		
 	}
+	
+	float i = 0, j = 0;
 	
 	@Override
 	public void draw(Canvas canvas,  float interpolation) {
 		interpolate(interpolation);
-		canvas.drawBitmap(bitmap, interpolatedPosition.x, interpolatedPosition.y, null);
-		canvas.drawBitmap(bitmap, interpolatedPosition.x + 800, interpolatedPosition.y, null);
+		
+		if(interpolatedPosition.x + i < 0)
+			i+=800;
+		if(interpolatedPosition.x + j < -800)
+			j+=800;
+			
+		canvas.drawBitmap(bitmap, interpolatedPosition.x + j, interpolatedPosition.y, null);
+		canvas.drawBitmap(bitmap, interpolatedPosition.x + i, interpolatedPosition.y, null);
 	}
 
 }
