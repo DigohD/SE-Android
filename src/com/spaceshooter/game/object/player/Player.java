@@ -14,6 +14,7 @@ import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.object.projectile.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
@@ -108,6 +109,7 @@ public class Player extends DynamicObject implements Collideable {
 			new RedPlasma(position);
 			Vector2f v = new Vector2f(position.x, position.y + width-2);
 			new RedPlasma(v);
+			SoundPlayer.playSound(1);
 		}
 		if(update) {
 			move(dt);

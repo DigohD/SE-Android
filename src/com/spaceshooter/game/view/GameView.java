@@ -18,6 +18,8 @@ import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
 import com.spaceshooter.game.object.bg.BG;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.MusicPlayer;
+import com.spaceshooter.game.util.SoundPlayer;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -32,12 +34,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public static final int WIDTH = 800, HEIGHT = 480; 
 	
+	private MusicPlayer mp;
+	
 	public GameView(Context context) {
 		super(context);
 		level = new Level(3);
 		game = new GameThread(getHolder(),this);
 		this.context = context;
-
+		
+		mp = new MusicPlayer(context);
 		
 		WindowManager wm = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
@@ -80,6 +85,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void tick(float dt){
 		level.tick(dt);
+		
+		if(mp.isDone())
+			mp = new MusicPlayer(context);
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {

@@ -21,6 +21,7 @@ import com.example.se_android.R;
 import com.spaceshooter.game.database.HighScoreDataHelper;
 import com.spaceshooter.game.database.HighScoreEntry;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.view.GameView;
 
 public class GameActivity extends Activity {
@@ -59,6 +60,9 @@ public class GameActivity extends Activity {
 		
         gameView = new GameView(this);
         setContentView(gameView);
+        
+        
+        new SoundPlayer(this);
         
     	// we'll use this to manipulate the list of high scores
 // 		highScoreAccessor = new HighScoreDataHelper(getApplicationContext());
