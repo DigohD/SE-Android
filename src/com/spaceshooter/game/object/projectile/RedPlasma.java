@@ -41,7 +41,7 @@ public class RedPlasma extends Projectile{
 
 	@Override
 	public void death() {
-		new ImpactEmitter(6, ParticleID.RED_PLASMA, 
+		new ImpactEmitter(3, ParticleID.RED_DOT, 
 				position, velocity);
 	}
 	

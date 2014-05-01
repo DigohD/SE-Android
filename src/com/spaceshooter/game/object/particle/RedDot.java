@@ -10,23 +10,23 @@ import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
-public class Engine extends Particle{
+public class RedDot extends Particle{
 
-	public Engine(Vector2f position, Vector2f velocity) {
-		super(position, velocity, ParticleID.ENGINE);
+	public RedDot(Vector2f position, Vector2f velocity) {
+		super(position, velocity, ParticleID.RED_DOT);
 		
-		this.bitmap = BitmapHandler.loadBitmap("particles/Engine");
+		this.bitmap = BitmapHandler.loadBitmap("particles/DotRed");
 		
-		lifetime = 30 + Randomizer.getInt(0, 20);
+		lifetime = 15 + Randomizer.getInt(0, 25);
 		timeLived = 0;
 		
 		GameObjectManager.addGameObject(this);
 	}
 	
-	public Engine(Vector2f position, Vector2f velocity, int lifetime) {
-		super(position, new Vector2f(75f, 0f), ParticleID.ENGINE);
+	public RedDot(Vector2f position, Vector2f velocity, int lifetime) {
+		super(position, new Vector2f(75f, 0f), ParticleID.RED_DOT);
 		
-		this.bitmap = BitmapHandler.loadBitmap("particles/Engine");
+		this.bitmap = BitmapHandler.loadBitmap("particles/DotRed");
 		
 		this.lifetime = lifetime;
 		timeLived = 0;
