@@ -20,4 +20,12 @@ public class MusicPlayer {
 		return !mp.isPlaying();
 	}
 	
+	public void pause(){
+		mp.pause();
+	}
+	
+	public void resume(){
+		mp.start();
+	}
+	
 }
