@@ -28,6 +28,12 @@ public class MenuActivity extends Activity {
 				.build();
 		adView.loadAd(adRequest);
 	}
+	
+
+	@Override
+	public void onBackPressed() {
+		System.exit(0);
+	}
 
 	public void play(View view) {
 		Intent intent = new Intent(this, GameActivity.class);
