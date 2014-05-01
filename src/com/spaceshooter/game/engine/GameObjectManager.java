@@ -34,8 +34,8 @@ public class GameObjectManager {
 	
 	public static void clear(){
 		gameObjects.clear();
-		ProjectileManager.playerProjectiles.clear();
-		ProjectileManager.enemyProjectiles.clear();
+		toAdd.clear();
+		ProjectileManager.clear();
 		CollisionManager.enemies.clear();
 	}
 
@@ -56,9 +56,7 @@ public class GameObjectManager {
 	public static void removeGameObject(GameObject go){
 		//Clear the reference to the pixeldata of the bitmap
 		//Much more efficient then waiting for the garbage collector to do it.
-		if(go instanceof Enemy)
-			((Enemy) go).death();
-		
+	
 		if(go.getBitmap() != null)
 			go.getBitmap().recycle();
 		
@@ -114,7 +112,6 @@ public class GameObjectManager {
 	 */
 	public void draw(Canvas canvas, float interpolation){
 		bg.draw(canvas, interpolation);
-		
 		player.draw(canvas, interpolation);
 		
 		for(GameObject go : gameObjects)

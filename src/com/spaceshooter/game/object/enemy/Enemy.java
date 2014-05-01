@@ -42,6 +42,7 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Projectile){
 			live = false;
+			death();
 			obj.setLive(false);
 		}
 	}

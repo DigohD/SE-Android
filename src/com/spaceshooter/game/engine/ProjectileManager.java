@@ -41,6 +41,13 @@ public class ProjectileManager {
 		playerProjectiles.remove(proj);
 	}
 	
+	public static void clear(){
+		playerProjectiles.clear();
+		enemyProjectiles.clear();
+		pToAdd.clear();
+		eToAdd.clear();
+	}
+	
 	private void removeDeadProjectiles(){
 		for(int i = 0; i < playerProjectiles.size(); i++){
 			Projectile p = playerProjectiles.get(i);

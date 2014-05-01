@@ -104,6 +104,7 @@ public class GameActivity extends Activity {
             }});
 		builder.setPositiveButton(android.R.string.yes, new OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
+            	gameView.stop();
                 GameActivity.super.onBackPressed();
             }});
 		

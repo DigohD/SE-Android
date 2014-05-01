@@ -149,6 +149,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		mp.pause();
 		game.pause();
 	}
+	
+	public void stop() {
+		mp.stop();
+		game.stop();
+	}
 
 	public void resume() {
 		mp.resume();
@@ -169,7 +174,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		mp.pause();
+		mp.stop();
 		GameObjectManager.clear();
 		game.stop();
 	}

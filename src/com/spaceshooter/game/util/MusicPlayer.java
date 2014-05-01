@@ -24,6 +24,10 @@ public class MusicPlayer {
 		mp.pause();
 	}
 	
+	public void stop(){
+		mp.stop();
+	}
+	
 	public void resume(){
 		mp.start();
 	}
