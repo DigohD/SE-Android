@@ -26,7 +26,7 @@ public class GameObjectManager {
 	public GameObjectManager() {
 		gameObjects = new ArrayList<GameObject>();
 		toAdd = new ArrayList<GameObject>();
-		player = new Player(new Vector2f(40, 40));
+		player = new Player(new Vector2f(400, 240));
 		bg = new BG();
 		projectileManager = new ProjectileManager();
 		paint = new Paint();
