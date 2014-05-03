@@ -48,6 +48,7 @@ public class Player extends DynamicObject implements Collideable {
 	public void init(){
 		engine = new ConstantEmitter(1, ParticleID.ENGINE, new Vector2f(position.y + height/2, position.x - 8),
 				new Vector2f(-7f, 0f));
+		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		engine.setIsSpread(true);
 	}
 	
@@ -109,7 +110,7 @@ public class Player extends DynamicObject implements Collideable {
 			new RedPlasma(position);
 			Vector2f v = new Vector2f(position.x, position.y + width-2);
 			new RedPlasma(v);
-			SoundPlayer.playSound(1);
+			//SoundPlayer.playSound(1);
 		}
 		if(update) {
 			move(dt);

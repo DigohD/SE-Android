@@ -9,6 +9,11 @@ import com.spaceshooter.game.util.Vector2f;
 
 public class Locust extends Enemy{
 	
+	private Vector2f targetPos = new Vector2f(0,0);
+	private Vector2f diff = new Vector2f(0,0);
+	int timer = 0;
+	int steps = 10;
+	
 	public Locust(){
 		this(new Vector2f(0,0));
 	}
@@ -25,42 +30,41 @@ public class Locust extends Enemy{
 		speedY = 0;
 		
 		velocity = new Vector2f(speedX, speedY);
+		scanPathNodes("enemies/enemyPathNodes");
+		int rnd = Randomizer.getInt(0, pathNodes.size());
+		targetPos = pathNodes.get(rnd);
+		diff = targetPos.sub(position);
+	}
+
+	private void moveToTarget(){
+		boolean test1 = (int)position.x == (int)targetPos.x && (int)position.y == (int)targetPos.y;
+		boolean test2 = (targetPos.x - position.x) <= 0.1f && (targetPos.y - position.y) <= 0.1f;
+		
+		if(test1 || test2){
+			int rnd = Randomizer.getInt(0, pathNodes.size());
+			targetPos = pathNodes.get(rnd);
+		}
+	
+		diff = targetPos.sub(position);
+		position = position.add(diff.div(steps));
+
 	}
 	
-	boolean rotate = false;
-	boolean flag = true;
-	float angle = 0;
-
-	Vector2f rotationPoint = new Vector2f(800/2, 480/2 - 100);
+	private void move(float dt){
+		distance = velocity.mul(dt);
+		position = position.add(distance);
+	}
 	
 	@Override
 	public void tick(float dt) {
+		timer++;
 		super.tick(dt);
-		
-		if(!rotate){
-			distance = velocity.mul(dt);
-			position = position.add(distance);
+	
+		if(timer >= 60*3){
+			moveToTarget();
+		}else{
+			move(dt);
 		}
-		
-		
-		if(position.x <= 800/2 - 50 && flag){
-			rotate = true;
-		}
-		
-		if(rotate){
-			angle++;
-			float r = Randomizer.getFloat(25, 65);
-			if(angle >= r) {
-				angle = r;
-//				rotate = false;
-//				flag = false;
-			}
-			
-			position = position.rotate(rotationPoint, angle*dt);
-			
-		}
-		
-
 	}
 	
 	@Override
@@ -70,7 +74,7 @@ public class Locust extends Enemy{
 
 	@Override
 	public void death() {
-		// TODO Auto-generated method stub
+		
 		
 	}
 

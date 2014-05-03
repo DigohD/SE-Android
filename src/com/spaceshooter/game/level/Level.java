@@ -34,7 +34,7 @@ public class Level {
 		enemyGen = new EnemyGenerator(time);
 		
 		enemyGen.addSequence(new PredatorSequence());
-		for(int i = 10; i < TIME; i+=10)
+		for(int i = 5; i < TIME; i+=5)
 			enemyGen.addEnemyToTimeline(new Locust(new Vector2f(GameView.WIDTH, GameView.HEIGHT/2)), i);
 		enemyGen.generateRandomTimeLine();
 	}
