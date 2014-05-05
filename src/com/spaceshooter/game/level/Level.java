@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.sequence.PredatorSequence;
-import com.spaceshooter.game.object.bg.BG;
+import com.spaceshooter.game.object.background.BackGround;
 import com.spaceshooter.game.object.enemy.Locust;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Vector2f;

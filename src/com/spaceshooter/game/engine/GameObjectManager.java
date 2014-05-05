@@ -8,7 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import com.spaceshooter.game.object.GameObject;
-import com.spaceshooter.game.object.bg.BG;
+import com.spaceshooter.game.object.background.BackGround;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Vector2f;
@@ -19,7 +19,7 @@ public class GameObjectManager {
 	public static List<GameObject> toAdd;
 	private ProjectileManager projectileManager;
 	private Player player;
-	private BG bg;
+	private BackGround bg;
 	private Paint paint;
 	
 
@@ -27,7 +27,7 @@ public class GameObjectManager {
 		gameObjects = new ArrayList<GameObject>();
 		toAdd = new ArrayList<GameObject>();
 		player = new Player(new Vector2f(400, 240));
-		bg = new BG();
+		bg = new BackGround();
 		projectileManager = new ProjectileManager();
 		paint = new Paint();
 	}

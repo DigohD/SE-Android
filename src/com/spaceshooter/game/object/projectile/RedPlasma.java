@@ -26,10 +26,7 @@ public class RedPlasma extends Projectile{
 	
 	@Override
 	public void tick(float dt){
-		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-		if(this.getX() > GameView.WIDTH)
-			live = false;
-		
+		super.tick(dt);
 		distance = velocity.mul(dt);
 		position = position.add(distance);
 	}

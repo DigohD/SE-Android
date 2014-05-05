@@ -65,7 +65,7 @@ public class CollisionManager {
 	 * @param player the player ship
 	 */
 	public static void collisionCheck(Player player) {
-		for (int i = 0; i < enemies.size(); i++) {
+		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
 			if (player != null && e != null)
 				if (collisionBetween(player.getRect(), e.getRect()))

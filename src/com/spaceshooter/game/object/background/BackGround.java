@@ -1,4 +1,4 @@
-package com.spaceshooter.game.object.bg;
+package com.spaceshooter.game.object.background;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -8,11 +8,11 @@ import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
 
-public class BG extends DynamicObject{
+public class BackGround extends DynamicObject{
 
 	private Bitmap nebula;
 	
-	public BG() {
+	public BackGround() {
 		super(new Vector2f(0, 0));
 		
 		this.bitmap = BitmapHandler.loadBitmap("bg/bg");
