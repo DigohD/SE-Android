@@ -75,7 +75,6 @@ public class GameObjectManager {
 				if (go instanceof Enemy) {
 					Enemy e = (Enemy) go;
 					CollisionManager.removeEnemy(e);
-					player.setScore(10);
 				}
 			}
 		}
@@ -118,9 +117,17 @@ public class GameObjectManager {
 			go.draw(canvas, interpolation);
 		
 		projectileManager.draw(canvas, interpolation);
-
+		drawPlayerUI(canvas);
+	}
+	
+	private void drawPlayerUI(Canvas canvas){
+		paint.setColor(Color.WHITE);
+		canvas.drawRect(19, 19, 20 + 151, 20 + 6, paint);
 		paint.setColor(Color.RED);
-		canvas.drawText("SCORE: " + player.getScore(), 20, 20, paint);
+		canvas.drawRect(20, 20, 20 + 150, 20 + 5, paint);
+		paint.setColor(Color.GREEN);
+		canvas.drawRect(20, 20, 20 + ((player.getHp()/player.getMaxHP())*150), 20 + 5, paint);
+		canvas.drawText("SCORE: " + player.getScore(), 20, 42, paint);
 	}
 
 	public List<GameObject> getGameObject() {

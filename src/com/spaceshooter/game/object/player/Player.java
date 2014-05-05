@@ -23,10 +23,12 @@ public class Player extends DynamicObject implements Collideable {
 	private Vector2f targetPosition = new Vector2f(0, 0);
 	private Vector2f targetVelocity;
 	private boolean update = false;
-	private int score = 0;
+	private static int score = 0;
 	private float steps = 10;
 	private int reload;
 	private ConstantEmitter engine;
+	
+	private float hp = 100f, maxHP = 100f;
 	
 	public Player(Vector2f position) {
 		super(position);
@@ -126,11 +128,13 @@ public class Player extends DynamicObject implements Collideable {
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Enemy){
 			live = false;
-			obj.setLive(false);
 		}
 
 		if (obj instanceof Projectile) {
-
+			Projectile p = (Projectile) obj;
+			hp = hp - p.getDamage();
+			p.setLive(false);
+			if(hp <= 0) live = false;
 		}
 
 	}
@@ -147,12 +151,28 @@ public class Player extends DynamicObject implements Collideable {
 		return steps;
 	}
 
-	public void setScore(int value) {
+	public static void setScore(int value) {
 		score = score + value;
 	}
 
-	public int getScore() {
+	public static int getScore() {
 		return score;
+	}
+
+	public float getHp() {
+		return hp;
+	}
+
+	public float getMaxHP() {
+		return maxHP;
+	}
+
+	public void setHp(float hp) {
+		this.hp = hp;
+	}
+
+	public void setMaxHP(float maxHP) {
+		this.maxHP = maxHP;
 	}
 
 }

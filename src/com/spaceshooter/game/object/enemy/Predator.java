@@ -5,11 +5,16 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
+import com.spaceshooter.game.object.projectile.RedPlasma;
+import com.spaceshooter.game.object.projectile.enemy.PredatorProj;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
 
 public class Predator extends Enemy {
+	
+	private int reload;
 	
 	public Predator() {
 		this(new Vector2f(0, 0));
@@ -24,15 +29,24 @@ public class Predator extends Enemy {
 		
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 		
-		speedX = -15f;
+		speedX = -10f;
 		speedY = 0;
 		
 		velocity = new Vector2f(speedX, speedY);
+		hp = 70f;
+		maxHp = 70f;
 	}
 
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);
+		reload++;
+		if(reload > 60){
+			reload = 0;
+			Vector2f v = new Vector2f(position.x, position.y + width/2);
+			new PredatorProj(v);
+			//SoundPlayer.playSound(1);
+		}
 		distance = velocity.mul(dt);
 		position = position.add(distance);
 	}

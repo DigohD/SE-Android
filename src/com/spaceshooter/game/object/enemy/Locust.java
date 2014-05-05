@@ -43,6 +43,9 @@ public class Locust extends Enemy{
 		targetPos = pathNodes.get(nodeIndex);
 		nodeIndex++;
 		diff = targetPos.sub(position);
+		
+		hp = 50f;
+		maxHp = 50f;
 	}
 	
 	

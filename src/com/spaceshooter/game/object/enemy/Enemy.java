@@ -12,12 +12,15 @@ import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 public abstract class Enemy extends DynamicObject implements Collideable {
+	
+	protected float hp, maxHp;
 	
 	protected static List<Vector2f> pathNodes = new ArrayList<Vector2f>();
 
@@ -49,9 +52,16 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 	@Override
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Projectile){
-			live = false;
-			death();
-			obj.setLive(false);
+			Projectile p = (Projectile) obj;
+			hp = hp - p.getDamage();
+			if(hp <= 0){
+				Player.setScore((int) (maxHp * 0.1f));
+				death();
+				live = false;
+			}
+			
+			p.setLive(false);
+			
 		}
 	}
 	

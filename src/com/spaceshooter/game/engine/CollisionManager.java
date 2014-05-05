@@ -80,13 +80,13 @@ public class CollisionManager {
 					if(collisionBetween(p.getRect(), e.getRect()))
 						e.collisionWith(p);
 			}
-//				
-//		for(int i = 0; i < enemyProjectiles.size(); i++){
-//			Projectile p = enemyProjectiles.get(i);
-//			if(p != null && player != null)
-//				if(collisionBetween(p.getRect(), player.getRect()))
-//					player.collisionWith(p);
-//		}
+				
+		for(int i = 0; i < enemyProjectiles.size(); i++){
+			Projectile p = enemyProjectiles.get(i);
+			if(p != null && player != null)
+				if(collisionBetween(p.getRect(), player.getRect()))
+					player.collisionWith(p);
+		}
 		
 	}
 
