@@ -19,7 +19,7 @@ import com.spaceshooter.game.view.GameView;
 
 public abstract class Enemy extends DynamicObject implements Collideable {
 	
-	protected List<Vector2f> pathNodes = new ArrayList<Vector2f>();
+	protected static List<Vector2f> pathNodes = new ArrayList<Vector2f>();
 
 	public Enemy(Vector2f position) {
 		super(position);

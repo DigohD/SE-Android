@@ -1,8 +1,12 @@
 package com.spaceshooter.game.object.enemy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.spaceshooter.game.object.projectile.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
@@ -12,7 +16,12 @@ public class Locust extends Enemy{
 	private Vector2f targetPos = new Vector2f(0,0);
 	private Vector2f diff = new Vector2f(0,0);
 	int timer = 0;
-	int steps = 10;
+	int steps = 20;
+	private int reload;
+	
+	private static int nodeIndex = 0;
+	
+	//private static List<Vector2f> pathNodes = new ArrayList<Vector2f>();
 	
 	public Locust(){
 		this(new Vector2f(0,0));
@@ -31,23 +40,27 @@ public class Locust extends Enemy{
 		
 		velocity = new Vector2f(speedX, speedY);
 		scanPathNodes("enemies/enemyPathNodes");
-		int rnd = Randomizer.getInt(0, pathNodes.size());
-		targetPos = pathNodes.get(rnd);
+		targetPos = pathNodes.get(nodeIndex);
+		nodeIndex++;
 		diff = targetPos.sub(position);
 	}
-
-	private void moveToTarget(){
-		boolean test1 = (int)position.x == (int)targetPos.x && (int)position.y == (int)targetPos.y;
-		boolean test2 = (targetPos.x - position.x) <= 0.1f && (targetPos.y - position.y) <= 0.1f;
-		
-		if(test1 || test2){
-			int rnd = Randomizer.getInt(0, pathNodes.size());
-			targetPos = pathNodes.get(rnd);
-		}
 	
-		diff = targetPos.sub(position);
-		position = position.add(diff.div(steps));
-
+	
+	private void moveToTarget(float dt){
+		boolean check1 = (int)position.x == (int)targetPos.x && (int)position.y == (int)targetPos.y;
+		boolean check2 = (targetPos.x - position.x) <= 0.1f && (targetPos.y - position.y) <= 0.1f;
+		boolean reachedTarget = check1 || check2;
+		
+		if(!reachedTarget){
+			diff = targetPos.sub(position);
+			position = position.add(diff.div(steps));
+		}else{
+			move(dt);
+		}
+		
+		if(position.x <= targetPos.x){
+			move(dt);
+		}
 	}
 	
 	private void move(float dt){
@@ -59,12 +72,8 @@ public class Locust extends Enemy{
 	public void tick(float dt) {
 		timer++;
 		super.tick(dt);
-	
-		if(timer >= 60*3){
-			moveToTarget();
-		}else{
-			move(dt);
-		}
+		move(dt);
+//		moveToTarget(dt);
 	}
 	
 	@Override

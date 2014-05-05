@@ -10,6 +10,7 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ActivityInfo;
+import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -55,6 +56,8 @@ public class GameActivity extends Activity {
         	    WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
         
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        
+        getWindow().setFormat(PixelFormat.RGBA_8888);
         
         new BitmapHandler(this);
 		

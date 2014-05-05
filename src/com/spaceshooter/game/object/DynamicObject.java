@@ -43,4 +43,12 @@ public abstract class DynamicObject extends GameObject {
 		canvas.drawBitmap(bitmap, interpolatedPosition.x, interpolatedPosition.y, null);
 	}
 
+	public Vector2f getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(Vector2f velocity) {
+		this.velocity = velocity;
+	}
+
 }

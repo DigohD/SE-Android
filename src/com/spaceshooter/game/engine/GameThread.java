@@ -4,6 +4,8 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
@@ -31,6 +33,10 @@ public class GameThread implements Runnable {
 	private Lock lock = new ReentrantLock();
 	private Condition okToRun = lock.newCondition();
 	private boolean paused = false;
+	
+	private Bitmap bufferedBmp = Bitmap.createBitmap(800, 480, Config.ARGB_8888);
+	private Canvas bufferedCanvas = new Canvas(bufferedBmp);
+	private Canvas canvas;
 
 	/**
 	 * The constructor for the game thread
@@ -89,7 +95,6 @@ public class GameThread implements Runnable {
 		paused = false;
 		okToRun.signalAll();
 		lock.unlock();
-
 	}
 
 	/**
@@ -107,8 +112,8 @@ public class GameThread implements Runnable {
 	 * 
 	 * @param canvas the canvas which everything will get drawn on
 	 * @param interpolation a factor based on how much time has gone since the last tick,
-	 * which will be used in a prediction function which is defined
-	 * for all dynamic objects
+	 * 		  which will be used in a prediction function which is defined
+	 *        for all dynamic objects
 	 */
 	private void draw(Canvas canvas, float interpolation) {
 		try {
@@ -163,18 +168,9 @@ public class GameThread implements Runnable {
 		int fps = 0;
 		int tps = 0;
 
-		Canvas canvas;
 		boolean shouldDraw;
 
-		
-//		double startTime = 0, endTime = 0;
-//		double finalDelta = 0;
-//		long sleepTime = 0;
-//		double msPerTick = (OPTIMAL_UPDATETIME*1000.0);
-		
-
 		while (running) {
-			
 			lock.lock();
 			while(paused){
 				try {
@@ -197,42 +193,47 @@ public class GameThread implements Runnable {
 			frameCounter += passedTime;
 			previousTime = currentTime;
 
-
-			while (accumulator >= OPTIMAL_UPDATETIME) {
+			while(accumulator >= OPTIMAL_UPDATETIME) {
 				shouldDraw = true;
-				// startTime = System.nanoTime();
 				tick(dt);
 				tps++;
 				accumulator -= OPTIMAL_UPDATETIME;
 			}
 
-			if (shouldDraw) {
+			if(shouldDraw) {
 				interpolation = (float) (accumulator / OPTIMAL_UPDATETIME);
 				draw(canvas, interpolation);
 				fps++;
-
-				// endTime = System.nanoTime();
-				// finalDelta = (endTime - startTime) / 1000000.0;
-				// sleepTime = (long) (msPerTick - finalDelta);
-				//
-				// if(finalDelta < msPerTick){
-				// try {
-				// Thread.sleep(sleepTime);
-				// } catch (InterruptedException e) {
-				// e.printStackTrace();
-				// }
-				// }
 			}
 
-			// fps and tps counter
-			if (frameCounter >= 1) {
-				// System.out.println(tps + " tps, " + fps + " fps" );
+			if(frameCounter >= 1) {
+				//System.out.println(tps + " tps, " + fps + " fps" );
 				tps = 0;
 				fps = 0;
 				frameCounter = 0;
 			}
-
 		}
 	}
+	
+	
+	
+//	double startTime = 0, endTime = 0;
+//	double finalDelta = 0;
+//	long sleepTime = 0;
+//	double msPerTick = (OPTIMAL_UPDATETIME*1000.0);
+	
+	// startTime = System.nanoTime();
+	
+	// endTime = System.nanoTime();
+	// finalDelta = (endTime - startTime) / 1000000.0;
+	// sleepTime = (long) (msPerTick - finalDelta);
+	//
+	// if(finalDelta < msPerTick){
+	// try {
+	// Thread.sleep(sleepTime);
+	// } catch (InterruptedException e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 }

@@ -70,8 +70,8 @@ public class Sequence {
 	protected void scanSequence(){
 		for(int y = 0; y < height; y++)
 			for(int x = 0; x < width; x++){
-				int pixValue = pixels[x + (y*width)];
 				//x = the pixels x position , y * width = the pixels y position
+				int pixValue = pixels[x + (y*width)];
 				if(pixValue != Color.BLACK)
 					//if the color already exists as a key in the map, simply add that pixels position in the arraylist
 					//which holds all positions

@@ -77,13 +77,13 @@ public class EnemyGenerator {
 	 * @param timeStamp the time in seconds that the enemy shall appear
 	 */
 	public void addEnemyToTimeline(Enemy e, int timeStamp){
-		int min = (timeStamp * TPS) - (2*TPS);
-		int max = (timeStamp * TPS) + (2*TPS);
-		
-		//remove a sequence if it is in the time interval defined by min and max
-		for(int i = min; i < max; i++)
-			if(enemyTimeline.containsKey(i))
-				enemyTimeline.remove(i);
+//		int min = (timeStamp * TPS) - (1*TPS);
+//		int max = (timeStamp * TPS) + (1*TPS);
+//		
+//		//remove a sequence if it is in the time interval defined by min and max
+//		for(int i = min; i < max; i++)
+//			if(enemyTimeline.containsKey(i))
+//				enemyTimeline.remove(i);
 				
 		enemyTimeline.put(timeStamp*TPS, e);
 	}

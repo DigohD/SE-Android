@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.view.Display;
@@ -16,10 +17,8 @@ import android.view.WindowManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
-import com.spaceshooter.game.object.bg.BG;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
-import com.spaceshooter.game.util.SoundPlayer;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -35,7 +34,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public static final int WIDTH = 800, HEIGHT = 480; 
 	
 	private MusicPlayer mp;
-	
+	Paint p = new Paint();
 	public GameView(Context context) {
 		super(context);
 		level = new Level(3);
@@ -65,22 +64,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	
-	@Override
-	public void draw(Canvas canvas){
-		super.draw(canvas);
-		
+	public void draw(Canvas canvas, float interpolation){
 		//clear the screen with black pixels
 		canvas.drawColor(Color.BLACK);
-
-	}
-
-	
-	public void draw(Canvas canvas, float interpolation){
-		draw(canvas);
 		level.draw(canvas, interpolation);
-		
 		canvas.drawBitmap(joystick, 40, 320, null);
-		
 	}
 	
 	public void tick(float dt){
