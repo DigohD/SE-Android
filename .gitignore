@@ -217,10 +217,6 @@ pip-log.txt
 project.properties
 gen/com/example/se_android/BuildConfig.java
 =======
-gen/com/example/se_android/BuildConfig.java
-gen/com/example/se_android/BuildConfig.java
-gen/com/example/se_android/BuildConfig.java
 gen/com/example/se_android/R.java
-project.properties
 gen/com/google/android/gms/R.java
 >>>>>>> origin/development
