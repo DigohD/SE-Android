@@ -23,7 +23,7 @@ public class Sequence {
 	//the width and height of the sequence image
 	private int width, height;
 	//the width and height ratio between the sequence image and the view
-	private int widthRatio, heightRatio;
+	private float widthRatio, heightRatio;
 	//the integer values for each pixel in the sequence image
 	private int[] pixels;
 	//list of strings which has the names of the different sequence images
@@ -97,8 +97,8 @@ public class Sequence {
 		Bitmap bmp = BitmapHandler.loadBitmap("sequences/" + path);
 		width = bmp.getWidth();
 		height = bmp.getHeight();
-		widthRatio = GameView.WIDTH / 64;
-		heightRatio = GameView.HEIGHT / 45;
+		widthRatio =  ((float)GameView.WIDTH / (float)64);
+		heightRatio = ((float)GameView.HEIGHT / (float)41);
 		pixels = new int[width*height];
 		bmp.getPixels(pixels, 0, width, 0, 0, width, height);
 		bmp.recycle();

@@ -46,7 +46,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		
 		joystick = BitmapHandler.loadBitmap("ui/joystick");
 		
-		
 		WindowManager wm = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
 		
@@ -54,8 +53,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Point size = new Point();
 		display.getSize(size);
 		
-		scaleX = (float)(size.x / WIDTH);
-		scaleY = (float)(size.y / HEIGHT);
+		scaleX = ((float)size.x / (float)WIDTH);
+		scaleY = ((float)size.y / (float)HEIGHT);
 
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();

@@ -17,7 +17,7 @@ public class ProjectileManager {
 	public static List<Projectile> enemyProjectiles = new ArrayList<Projectile>();
 	public static List<Projectile> eToAdd = new ArrayList<Projectile>();
 	
-	private static Semaphore mutex = new Semaphore(1);
+//	private static Semaphore mutex = new Semaphore(1);
 	
 	private int timer = 0;
 	

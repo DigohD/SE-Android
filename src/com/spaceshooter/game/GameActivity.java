@@ -101,11 +101,11 @@ public class GameActivity extends Activity {
 		builder.setCancelable(false);
 		builder.setTitle("Quit Game?");
 		builder.setMessage("Return to main menu?");
-		builder.setNegativeButton(android.R.string.no, new OnClickListener() {
+		builder.setNegativeButton("Cancel", new OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 gameView.resume();
             }});
-		builder.setPositiveButton(android.R.string.yes, new OnClickListener() {
+		builder.setPositiveButton("Ok", new OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
             	gameView.stop();
                 GameActivity.super.onBackPressed();
