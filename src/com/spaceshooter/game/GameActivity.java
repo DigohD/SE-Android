@@ -99,8 +99,8 @@ public class GameActivity extends Activity {
 		gameView.pause();
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
-		builder.setTitle("Really Exit?");
-		builder.setMessage("Are you sure you want to exit?");
+		builder.setTitle("Quit Game?");
+		builder.setMessage("Return to main menu?");
 		builder.setNegativeButton(android.R.string.no, new OnClickListener() {
             public void onClick(DialogInterface arg0, int arg1) {
                 gameView.resume();
@@ -112,6 +112,10 @@ public class GameActivity extends Activity {
             }});
 		
 		builder.create().show();
+	}
+	
+	public void onBackPressed2(){
+		 GameActivity.super.onBackPressed();
 	}
 	
 	@Override

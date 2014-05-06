@@ -23,6 +23,8 @@ public class BackGround extends DynamicObject{
 
 		
 		velocity = new Vector2f(-5f, 0f);
+		
+		GameObjectManager.addGameObject(this);
 	}
 	
 	@Override

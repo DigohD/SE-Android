@@ -95,9 +95,9 @@ public class EnemyGenerator {
 	public void generateRandomTimeLine(){
 		//the min and max values are used to avoid generating sequences to close to each other
 		//mininum timestamp
-		int min = 3;
+		int min = 4;
 		//maximum timestamo
-		int max = min + 3;
+		int max = 8;
 		//starting timestamp
 		int i = 2;
 		while(i < TIME){

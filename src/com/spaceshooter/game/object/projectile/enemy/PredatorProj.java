@@ -14,8 +14,8 @@ import com.spaceshooter.game.view.GameView;
 public class PredatorProj extends Projectile{
 
 	public PredatorProj(Vector2f position) {
-		super(position, new Vector2f(-50f, 0f));
-		damage = 0.7f;
+		super(position, new Vector2f(-40f, 0f));
+		damage = 1f;
 		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaPurple");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();

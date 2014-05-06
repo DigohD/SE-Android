@@ -18,11 +18,10 @@ public class GameObjectManager {
 	public static List<GameObject> gameObjects;
 	public static List<GameObject> toAdd;
 	private ProjectileManager projectileManager;
-	private Player player;
+	private static Player player;
 	private BackGround bg;
 	private Paint paint;
 	
-
 	public GameObjectManager() {
 		gameObjects = new ArrayList<GameObject>();
 		toAdd = new ArrayList<GameObject>();
@@ -93,9 +92,9 @@ public class GameObjectManager {
 		
 		clearDeadGameObjects();
 		CollisionManager.collisionCheck(player);
-		player.tick(dt);
 		
-		bg.tick(dt);
+		if(player.isLive())
+			player.tick(dt);
 		
 		for(GameObject go : gameObjects)
 			go.tick(dt);
@@ -110,11 +109,11 @@ public class GameObjectManager {
 	 * the interpolated position of a dynamic object
 	 */
 	public void draw(Canvas canvas, float interpolation){
-		bg.draw(canvas, interpolation);
-		player.draw(canvas, interpolation);
-		
 		for(GameObject go : gameObjects)
 			go.draw(canvas, interpolation);
+		
+		if(player.isLive())
+			player.draw(canvas, interpolation);
 		
 		projectileManager.draw(canvas, interpolation);
 		drawPlayerUI(canvas);
@@ -126,6 +125,7 @@ public class GameObjectManager {
 		paint.setColor(Color.RED);
 		canvas.drawRect(20, 20, 20 + 150, 20 + 5, paint);
 		paint.setColor(Color.GREEN);
+		if(player.getHp() <= 0) player.setHp(0);
 		canvas.drawRect(20, 20, 20 + ((player.getHp()/player.getMaxHP())*150), 20 + 5, paint);
 		canvas.drawText("SCORE: " + player.getScore(), 20, 42, paint);
 	}
@@ -134,7 +134,7 @@ public class GameObjectManager {
 		return gameObjects;
 	}
 
-	public Player getPlayer() {
+	public static Player getPlayer() {
 		return player;
 	}
 

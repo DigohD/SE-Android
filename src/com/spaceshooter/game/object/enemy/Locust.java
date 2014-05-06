@@ -10,6 +10,7 @@ import com.spaceshooter.game.object.projectile.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
+import com.spaceshooter.game.view.GameView;
 
 public class Locust extends Enemy{
 	
@@ -24,7 +25,7 @@ public class Locust extends Enemy{
 	//private static List<Vector2f> pathNodes = new ArrayList<Vector2f>();
 	
 	public Locust(){
-		this(new Vector2f(0,0));
+		this(new Vector2f(GameView.WIDTH, 0));
 	}
 
 	public Locust(Vector2f position) {

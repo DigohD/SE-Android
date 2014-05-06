@@ -11,13 +11,14 @@ import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
+import com.spaceshooter.game.view.GameView;
 
 public class Predator extends Enemy {
 	
 	private int reload;
 	
 	public Predator() {
-		this(new Vector2f(0, 0));
+		this(new Vector2f(GameView.WIDTH, 0));
 	}
 
 	public Predator(Vector2f position) {
@@ -33,15 +34,15 @@ public class Predator extends Enemy {
 		speedY = 0;
 		
 		velocity = new Vector2f(speedX, speedY);
-		hp = 70f;
-		maxHp = 70f;
+		hp = 50f;
+		maxHp = 50f;
 	}
 
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);
 		reload++;
-		if(reload > 60){
+		if(reload > 65){
 			reload = 0;
 			Vector2f v = new Vector2f(position.x, position.y + width/2);
 			new PredatorProj(v);

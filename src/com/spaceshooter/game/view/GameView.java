@@ -1,10 +1,12 @@
 package com.spaceshooter.game.view;
 
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.view.Display;
@@ -14,6 +16,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 
+import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
@@ -22,26 +25,27 @@ import com.spaceshooter.game.util.MusicPlayer;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
+	public static final int WIDTH = 800, HEIGHT = 480; 
+	private float scaleX, scaleY;
+	private int timer = 0;
+	
 	private Context context;
 	private SurfaceHolder holder;
 	private GameThread game;
 	private Level level;
-	
-	private float scaleX, scaleY;
-	
-	protected Bitmap joystick;
-	
-	public static final int WIDTH = 800, HEIGHT = 480; 
-	
+	private Bitmap joystick;
 	private MusicPlayer mp;
-	Paint p = new Paint();
+	
 	public GameView(Context context) {
 		super(context);
-		level = new Level(3);
-		game = new GameThread(getHolder(),this);
 		this.context = context;
 		
+		level = new Level(1);
+		game = new GameThread(getHolder(),this);
 		mp = new MusicPlayer(context);
+		
+		joystick = BitmapHandler.loadBitmap("ui/joystick");
+		
 		
 		WindowManager wm = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
@@ -49,40 +53,90 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		Display display = wm.getDefaultDisplay();
 		Point size = new Point();
 		display.getSize(size);
-
-		joystick = BitmapHandler.loadBitmap("ui/joystick");
 		
+		scaleX = (float)(size.x / WIDTH);
+		scaleY = (float)(size.y / HEIGHT);
+
 		setLayerType(View.LAYER_TYPE_HARDWARE, null);
 		holder = getHolder();
 		holder.setFormat(PixelFormat.RGBA_8888);
 		holder.setFixedSize(WIDTH, HEIGHT);
 
-		scaleX = (float)(size.x / WIDTH);
-		scaleY = (float)(size.y / HEIGHT);
-		
 		holder.addCallback(this);
 	}
-
 	
+	/**
+	 * Creates a dialogbox on the screen with a title, message and two buttons
+	 * one button for yes and one for no
+	 * @param title the title of the box, eg "Level completed!" or "You died"
+	 * @param msg the message in the box, eg "Restart the level?"
+	 */
+	private void dialogBox(final String title, final String msg){
+		GameActivity ga = (GameActivity) context;
+		ga.runOnUiThread(new Runnable() {
+            public void run() {
+            	game.pause();
+            	mp.stop();
+            	Builder builder = new AlertDialog.Builder(context);
+        		builder.setCancelable(false);
+        		builder.setTitle(title);
+        		builder.setMessage(msg);
+        		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    	GameActivity ga2 = (GameActivity) context;
+                    	stop();
+                        ga2.onBackPressed2();
+                    }});
+        		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    	GameObjectManager.clear();
+                    	level = new Level(1);
+                    	GameObjectManager.getPlayer().init();
+                    	game.resume();
+                    	mp = new MusicPlayer(context);
+                    }});
+        		builder.create().show();
+            }});
+	}
+
 	public void draw(Canvas canvas, float interpolation){
 		//clear the screen with black pixels
 		canvas.drawColor(Color.BLACK);
+		//draw the level
 		level.draw(canvas, interpolation);
+		//draw the joystick
 		canvas.drawBitmap(joystick, 40, 320, null);
 	}
 	
 	public void tick(float dt){
+		//update the level
 		level.tick(dt);
 		
-		if(mp.isDone())
-			mp = new MusicPlayer(context);
+		if(level.isFinished() && GameObjectManager.getPlayer().isLive()){
+			timer++;
+			if(timer >= 3*60){
+				dialogBox("Level completed!", "Your highscore: " + GameObjectManager.getPlayer().getScore() + "\nRestart level?");
+				timer = 0;
+			}
+		}
+			
+		if(!GameObjectManager.getPlayer().isLive()){
+			timer++;
+			if(timer >= 2*60){
+				dialogBox("You are dead!", "Your highscore: " + GameObjectManager.getPlayer().getScore() + "\nRestart level?");
+				timer = 0;
+			}	
+		}
+
+//		if(mp.isDone())
+//			mp = new MusicPlayer(context);
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
 	    float eventX = event.getX();
 	    float eventY = event.getY();
 	    
-	    float nY = scaleY * 1f;
+	    float nY = scaleY * 0.95f;
 	    
 	    eventX = eventX / scaleX;
 	    eventY = eventY / nY;
@@ -105,7 +159,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    	dX = dX / 8;
 		    	dY = dY / 8;
 		    	
-		     	level.getPlayer().incTargetPos(dX, dY);
+		    	GameObjectManager.getPlayer().incTargetPos(dX, dY);
 	    	}
 	    	if(event.getAction() == MotionEvent.ACTION_DOWN){
 		    	if(eventX > 160)
@@ -123,35 +177,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    	dX = dX / 8;
 		    	dY = dY / 8;
 		    	
-		     	level.getPlayer().incTargetPos(dX, dY);
+		    	GameObjectManager.getPlayer().incTargetPos(dX, dY);
 		    }
+	    	
+	    	if(event.getAction() == MotionEvent.ACTION_UP){
+	    		GameObjectManager.getPlayer().setUpdate(false);
+	    	}
 	    }
-	    
 	    
     	// Schedules a repaint.
     	invalidate();
     	return true;
 	}
 
-	public void pause() {
-		mp.pause();
-		game.pause();
-	}
-	
-	public void stop() {
-		mp.stop();
-		game.stop();
-	}
-
-	public void resume() {
-		mp.resume();
-		game.resume();
-	}
-
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
-		game.start();
-		level.getPlayer().init();
+		start();
 	}
 
 	@Override
@@ -162,9 +203,30 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		mp.stop();
+		stop();
+	}
+	
+	
+	public void start(){
+		game.start();
+		GameObjectManager.getPlayer().init();
+	}
+	
+	public void stop() {
 		GameObjectManager.clear();
+		GameObjectManager.getPlayer().setScore(0);
+		mp.stop();
 		game.stop();
+	}
+	
+	public void pause() {
+		mp.pause();
+		game.pause();
+	}
+
+	public void resume() {
+		mp.resume();
+		game.resume();
 	}
 
 }

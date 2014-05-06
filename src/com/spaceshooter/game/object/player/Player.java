@@ -11,6 +11,7 @@ import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
+import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.object.projectile.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
@@ -22,8 +23,11 @@ public class Player extends DynamicObject implements Collideable {
 
 	private Vector2f targetPosition = new Vector2f(0, 0);
 	private Vector2f targetVelocity;
+	private Vector2f topGunPos;
+	private Vector2f bottomGunPos;
+	
 	private boolean update = false;
-	private static int score = 0;
+	private int score = 0;
 	private float steps = 10;
 	private int reload;
 	private ConstantEmitter engine;
@@ -45,6 +49,9 @@ public class Player extends DynamicObject implements Collideable {
 		
 		targetVelocity = new Vector2f(speedX, speedY);
 		velocity = new Vector2f(0, 0);
+		
+		topGunPos = new Vector2f(position.x, position.y + 4);
+		bottomGunPos = new Vector2f(position.x, position.y + width-6);
 	}
 
 	public void init(){
@@ -52,11 +59,6 @@ public class Player extends DynamicObject implements Collideable {
 				new Vector2f(-7f, 0f));
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		engine.setIsSpread(true);
-	}
-	
-	public void setTargetPos(float x, float y) {
-		targetPosition = new Vector2f(x, y);
-		update = true;
 	}
 	
 	public void incTargetPos(float dX, float dY) {
@@ -109,9 +111,10 @@ public class Player extends DynamicObject implements Collideable {
 		reload++;
 		if(reload > 15){
 			reload = 0;
-			new RedPlasma(position);
-			Vector2f v = new Vector2f(position.x, position.y + width-2);
-			new RedPlasma(v);
+			topGunPos.set(position.x, position.y + 4);
+			bottomGunPos.set(position.x, position.y + width - 6);
+			new RedPlasma(topGunPos);
+			new RedPlasma(bottomGunPos);
 			//SoundPlayer.playSound(1);
 		}
 		if(update) {
@@ -127,16 +130,30 @@ public class Player extends DynamicObject implements Collideable {
 	@Override
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Enemy){
+			if(live)
+				death();
+			hp = 0;
 			live = false;
+			engine.setLive(false);
 		}
 
 		if (obj instanceof Projectile) {
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
 			p.setLive(false);
-			if(hp <= 0) live = false;
+			if(hp <= 0) {
+				if(live) death();
+				live = false;
+				engine.setLive(false);
+			}
 		}
 
+	}
+	
+	public void death() {
+		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
+		new RadialEmitter(8, ParticleID.PURPLE_DOT, center, new Vector2f(20f, 0f));
+		SoundPlayer.playSound(2);
 	}
 
 	public void decreaseSteps(float amount) {
@@ -151,11 +168,11 @@ public class Player extends DynamicObject implements Collideable {
 		return steps;
 	}
 
-	public static void setScore(int value) {
+	public void setScore(int value) {
 		score = score + value;
 	}
 
-	public static int getScore() {
+	public int getScore() {
 		return score;
 	}
 
@@ -173,6 +190,10 @@ public class Player extends DynamicObject implements Collideable {
 
 	public void setMaxHP(float maxHP) {
 		this.maxHP = maxHP;
+	}
+	
+	public void setUpdate(boolean u){
+		update = u;
 	}
 
 }

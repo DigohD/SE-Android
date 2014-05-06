@@ -55,13 +55,11 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
 			if(hp <= 0){
-				Player.setScore((int) (maxHp * 0.1f));
+				GameObjectManager.getPlayer().setScore((int) (maxHp * 0.1f));
 				death();
 				live = false;
 			}
-			
 			p.setLive(false);
-			
 		}
 	}
 	
