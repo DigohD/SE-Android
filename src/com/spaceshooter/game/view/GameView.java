@@ -30,6 +30,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private int timer = 0;
 	
 	private boolean drawJoystick = true;
+	private boolean okToRestartMP = true;
 	
 	private Context context;
 	private SurfaceHolder holder;
@@ -42,7 +43,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		super(context);
 		this.context = context;
 		
-		level = new Level(1);
+		level = new Level(2);
 		game = new GameThread(getHolder(),this);
 		mp = new MusicPlayer(context);
 		
@@ -93,10 +94,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         		builder.setPositiveButton(positiveBtn, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                     	GameObjectManager.clear();
-                    	level = new Level(1);
+                    	level = new Level(2);
                     	GameObjectManager.getPlayer().init();
                     	game.resume();
                     	mp = new MusicPlayer(context);
+                    	okToRestartMP = true;
                     	drawJoystick = true;
                     }});
         		builder.create().show();
@@ -108,6 +110,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		level.tick(dt);
 		
 		if(level.isFinished() && GameObjectManager.getPlayer().isLive()){
+			okToRestartMP = false;
 			timer++;
 			if(timer >= 3*60){
 				dialogBox("Level completed!", 
@@ -119,6 +122,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 			
 		if(!GameObjectManager.getPlayer().isLive()){
+			okToRestartMP = false;
 			timer++;
 			if(timer >= 2*60){
 				dialogBox("You died!", 
@@ -129,8 +133,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}	
 		}
 
-//		if(mp.isDone())
-//			mp = new MusicPlayer(context);
+		if(mp.isDone() && okToRestartMP)
+			mp = new MusicPlayer(context);
 	}
 	
 	public void draw(Canvas canvas, float interpolation){
@@ -234,11 +238,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public void pause() {
+		okToRestartMP = false;
 		mp.pause();
 		game.pause();
 	}
 
 	public void resume() {
+		okToRestartMP = true;
 		mp.resume();
 		game.resume();
 	}
