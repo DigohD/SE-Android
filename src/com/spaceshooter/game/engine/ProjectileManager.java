@@ -27,7 +27,6 @@ public class ProjectileManager {
 	
 	public static void removeEnemyProjectile(Projectile proj){
 		proj.getBitmap().recycle();
-		proj.death();
 		enemyProjectiles.remove(proj);
 	}
 	
@@ -37,7 +36,6 @@ public class ProjectileManager {
 	
 	public static void removePlayerProjectile(Projectile proj){
 		proj.getBitmap().recycle();
-		proj.death();
 		playerProjectiles.remove(proj);
 	}
 	

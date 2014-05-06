@@ -29,6 +29,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private float scaleX, scaleY;
 	private int timer = 0;
 	
+	private boolean drawJoystick = true;
+	
 	private Context context;
 	private SurfaceHolder holder;
 	private GameThread game;
@@ -69,8 +71,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 * one button for yes and one for no
 	 * @param title the title of the box, eg "Level completed!" or "You died"
 	 * @param msg the message in the box, eg "Restart the level?"
+	 * @param positiveBtn the text in the positive button
+	 * @param negativeBtn the text in the negative button
 	 */
-	private void dialogBox(final String title, final String msg){
+	private void dialogBox(final String title, final String msg, final String positiveBtn, final String negativeBtn){
 		GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
             public void run() {
@@ -80,31 +84,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         		builder.setCancelable(false);
         		builder.setTitle(title);
         		builder.setMessage(msg);
-        		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        		builder.setNegativeButton(negativeBtn, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                     	GameActivity ga2 = (GameActivity) context;
                     	stop();
                         ga2.onBackPressed2();
                     }});
-        		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        		builder.setPositiveButton(positiveBtn, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                     	GameObjectManager.clear();
                     	level = new Level(1);
                     	GameObjectManager.getPlayer().init();
                     	game.resume();
                     	mp = new MusicPlayer(context);
+                    	drawJoystick = true;
                     }});
         		builder.create().show();
             }});
-	}
-
-	public void draw(Canvas canvas, float interpolation){
-		//clear the screen with black pixels
-		canvas.drawColor(Color.BLACK);
-		//draw the level
-		level.draw(canvas, interpolation);
-		//draw the joystick
-		canvas.drawBitmap(joystick, 40, 320, null);
 	}
 	
 	public void tick(float dt){
@@ -114,7 +110,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		if(level.isFinished() && GameObjectManager.getPlayer().isLive()){
 			timer++;
 			if(timer >= 3*60){
-				dialogBox("Level completed!", "Your highscore: " + GameObjectManager.getPlayer().getScore() + "\nRestart level?");
+				dialogBox("Level completed!", 
+						  "Highscore: " + GameObjectManager.getPlayer().getScore(), 
+						  "Restart",
+						  "Main Menu" );
 				timer = 0;
 			}
 		}
@@ -122,7 +121,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		if(!GameObjectManager.getPlayer().isLive()){
 			timer++;
 			if(timer >= 2*60){
-				dialogBox("You are dead!", "Your highscore: " + GameObjectManager.getPlayer().getScore() + "\nRestart level?");
+				dialogBox("You died!", 
+						  "Highscore: " + GameObjectManager.getPlayer().getScore(),
+						  "Restart",
+						  "Main Menu" );
 				timer = 0;
 			}	
 		}
@@ -130,12 +132,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 //		if(mp.isDone())
 //			mp = new MusicPlayer(context);
 	}
+	
+	public void draw(Canvas canvas, float interpolation){
+		//clear the screen with black pixels
+		canvas.drawColor(Color.BLACK);
+		//draw the level
+		level.draw(canvas, interpolation);
+
+		if(drawJoystick)
+			canvas.drawBitmap(joystick, 40, 320, null);
+	}
 
 	public boolean onTouchEvent(MotionEvent event) {
 	    float eventX = event.getX();
 	    float eventY = event.getY();
 	    
-	    float nY = scaleY * 0.95f;
+	    float nY = scaleY * 1.0f;
 	    
 	    eventX = eventX / scaleX;
 	    eventY = eventY / nY;
@@ -143,6 +155,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	    //Joystick center point: X = 100, Y = 380
 	    if(eventX < 210 && eventX > 0 && eventY < 480 && eventY > 300){
 	    	if(event.getAction() == MotionEvent.ACTION_MOVE){
+	    		drawJoystick = true;
 		    	if(eventX > 160)
 		    		eventX = 160;
 		    	else if(eventX < 40)
@@ -161,6 +174,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    	GameObjectManager.getPlayer().incTargetPos(dX, dY);
 	    	}
 	    	if(event.getAction() == MotionEvent.ACTION_DOWN){
+	    		drawJoystick = true;
 		    	if(eventX > 160)
 		    		eventX = 160;
 		    	else if(eventX < 40)
@@ -180,7 +194,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    }
 	    	
 	    	if(event.getAction() == MotionEvent.ACTION_UP){
-	    		GameObjectManager.getPlayer().setUpdate(false);
+	    		drawJoystick = false;
+	    		//GameObjectManager.getPlayer().setUpdate(false);
 	    	}
 	    }
 	    

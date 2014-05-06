@@ -3,6 +3,7 @@ package com.spaceshooter.game.object.particle.emitter;
 import android.graphics.Canvas;
 
 import com.spaceshooter.game.object.particle.ParticleID;
+import com.spaceshooter.game.object.particle.PurpleDot;
 import com.spaceshooter.game.object.particle.RedDot;
 import com.spaceshooter.game.object.particle.RedPlasma;
 import com.spaceshooter.game.util.Randomizer;
@@ -33,6 +34,11 @@ public class ImpactEmitter extends Emitter{
 					yVel = impactVelocity.y + Randomizer.getFloat(-20f, 20f);
 					xVel = impactVelocity.x * 0.5f;
 					new RedDot(position, new Vector2f(xVel, yVel));
+					break;
+				case PURPLE_DOT:
+					yVel = impactVelocity.y + Randomizer.getFloat(-20f, 20f);
+					xVel = impactVelocity.x * 0.5f;
+					new PurpleDot(position, new Vector2f(xVel, yVel));
 					break;
 			}
 		}

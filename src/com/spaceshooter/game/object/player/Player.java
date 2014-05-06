@@ -3,8 +3,6 @@ package com.spaceshooter.game.object.player;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.spaceshooter.game.engine.CollisionManager;
-import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
@@ -21,7 +19,7 @@ import com.spaceshooter.game.view.GameView;
 
 public class Player extends DynamicObject implements Collideable {
 
-	private Vector2f targetPosition = new Vector2f(0, 0);
+	private Vector2f targetPosition = new Vector2f(0,0);
 	private Vector2f targetVelocity;
 	private Vector2f topGunPos;
 	private Vector2f bottomGunPos;
@@ -36,7 +34,7 @@ public class Player extends DynamicObject implements Collideable {
 	
 	public Player(Vector2f position) {
 		super(position);
-		
+		targetPosition.set(position.x, position.y);
 		this.bitmap = BitmapHandler.loadBitmap("player/ship");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
@@ -86,22 +84,23 @@ public class Player extends DynamicObject implements Collideable {
 	}
 	
 	private void inBound(){
-		if(position.x < 0) {
-			position.x = 0;
-			targetPosition.x = position.x;
-		}
-		if(position.x + width >= GameView.WIDTH){
+		if(position.x < 0) 
+			position.x = 4;
+		if(position.x + width >= GameView.WIDTH)
 			position.x = (GameView.WIDTH - width) - 4;
-			targetPosition.x = position.x;
-		}
-		if(position.y < 0) {
+		if(position.y < 0) 
 			position.y = 0;
-			targetPosition.y = position.y;
-		}
-		if(position.y + height >= GameView.HEIGHT){
+		if(position.y + height >= GameView.HEIGHT)
 			position.y = (GameView.HEIGHT - height) - 4;
-			targetPosition.y = position.y;
-		}	
+			
+		if(targetPosition.x < 0) 
+			targetPosition.x = 4;
+		if(targetPosition.x + width >= GameView.WIDTH)
+			targetPosition.x = (GameView.WIDTH - width) - 4;
+		if(targetPosition.y < 0) 
+			targetPosition.y = 0;
+		if(targetPosition.y + height >= GameView.HEIGHT)
+			targetPosition.y = (GameView.HEIGHT - height) - 4;
 	}
 	
 	@Override
@@ -140,6 +139,7 @@ public class Player extends DynamicObject implements Collideable {
 		if (obj instanceof Projectile) {
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
+			p.death();
 			p.setLive(false);
 			if(hp <= 0) {
 				if(live) death();
@@ -147,12 +147,11 @@ public class Player extends DynamicObject implements Collideable {
 				engine.setLive(false);
 			}
 		}
-
 	}
 	
 	public void death() {
 		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
-		new RadialEmitter(8, ParticleID.PURPLE_DOT, center, new Vector2f(20f, 0f));
+		new RadialEmitter(8, ParticleID.RED_PLASMA, center, new Vector2f(20f, 0f));
 		SoundPlayer.playSound(2);
 	}
 

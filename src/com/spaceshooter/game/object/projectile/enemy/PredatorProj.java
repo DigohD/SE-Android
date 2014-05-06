@@ -39,7 +39,7 @@ public class PredatorProj extends Projectile{
 
 	@Override
 	public void death() {
-		new ImpactEmitter(3, ParticleID.RED_DOT, 
+		new ImpactEmitter(3, ParticleID.PURPLE_DOT, 
 				position, velocity);
 	}
 

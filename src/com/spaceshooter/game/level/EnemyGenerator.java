@@ -77,25 +77,25 @@ public class EnemyGenerator {
 	 * @param timeStamp the time in seconds that the enemy shall appear
 	 */
 	public void addEnemyToTimeline(Enemy e, int timeStamp){
-//		int min = (timeStamp * TPS) - (1*TPS);
-//		int max = (timeStamp * TPS) + (1*TPS);
-//		
-//		//remove a sequence if it is in the time interval defined by min and max
-//		for(int i = min; i < max; i++)
-//			if(enemyTimeline.containsKey(i))
-//				enemyTimeline.remove(i);
+		int min = (timeStamp * TPS) - (1*TPS);
+		int max = (timeStamp * TPS) + (1*TPS);
+		
+		//remove a sequence if it is in the time interval defined by min and max
+		for(int i = min; i < max; i++)
+			if(enemyTimeline.containsKey(i))
+				enemyTimeline.remove(i);
 				
 		enemyTimeline.put(timeStamp*TPS, e);
 	}
 	
 	/**
-	 * Generates a random timeline of sequences.
+	 * Generates a random timeline of enemy sequences.
 	 * Timestamps are simply the specific time in seconds at which a sequence should get generated
 	 */
 	public void generateRandomTimeLine(){
 		//the min and max values are used to avoid generating sequences to close to each other
 		//mininum timestamp
-		int min = 4;
+		int min = 5;
 		//maximum timestamo
 		int max = 8;
 		//starting timestamp
