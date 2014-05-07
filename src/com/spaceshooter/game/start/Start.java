@@ -10,7 +10,15 @@ public class Start extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		getSettings();
+		getScores();
 		openStartMenu();
+	}
+
+	public void getSettings() {
+	}
+
+	public void getScores() {
 	}
 
 	public void openStartMenu() {

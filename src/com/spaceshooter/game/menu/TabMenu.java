@@ -8,28 +8,30 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
 import com.example.se_android.R;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.spaceshooter.game.GameActivity;
 
 public class TabMenu extends Activity {
+	public boolean musicStatus;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu_tab_view);
-//		AdView adView = (AdView) this.findViewById(R.id.adView);
-//		AdRequest adRequest = new AdRequest.Builder()
-//				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
-//				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas Nexus 4
-//			//	.addTestDevice("e83ab40d") // Simons Note
-//			//	.addTestDevice("0009478f6e129f") // Anders Galaxy S2
-//				.build();
-//		adView.loadAd(adRequest);
-	
+		// AdView adView = (AdView) this.findViewById(R.id.adView);
+		// AdRequest adRequest = new AdRequest.Builder()
+		// .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
+		// .addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas Nexus 4
+		// // .addTestDevice("e83ab40d") // Simons Note
+		// // .addTestDevice("0009478f6e129f") // Anders Galaxy S2
+		// .build();
+		// adView.loadAd(adRequest);
+
 		TabHost th = (TabHost) findViewById(R.id.tabhost);
 		th.setup();
 		TabSpec menuSpecs = th.newTabSpec("tag1");
@@ -49,6 +51,13 @@ public class TabMenu extends Activity {
 		creditsSpecs.setIndicator("Credits");
 		th.addTab(creditsSpecs);
 
+		Switch toggle = (Switch) findViewById(R.id.switchMusic);
+		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			public void onCheckedChanged(CompoundButton buttonView,
+					boolean isChecked) {
+				musicStatus = isChecked;
+			}
+		});
 	}
 
 	private void exitDialog() {
@@ -78,5 +87,6 @@ public class TabMenu extends Activity {
 		Intent intent = new Intent(this, GameActivity.class);
 		startActivity(intent);
 	}
+	// Settings tab options
 
 }
