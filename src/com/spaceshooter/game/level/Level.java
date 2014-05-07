@@ -14,6 +14,7 @@ public class Level {
 	
 	private int timer = 0;
 	private int LEVEL_TIME;
+	private int time;
 	private int TPS = (int) GameThread.TARGET_TPS; 
 	
 	private boolean levelDone = false;
@@ -23,28 +24,52 @@ public class Level {
 	 * @param TIME the time the level will take in minutes
 	 */
 	public Level(int time){
+		this.time = time;
 		int TIME = time * TPS;
 		LEVEL_TIME = TIME * TPS;
+		
 		gameObjectManager = new GameObjectManager();
 		
 		GameObjectManager.getPlayer().setScore(0);
 		GameObjectManager.getPlayer().setHp(100);
+		
 		enemyGen = new EnemyGenerator(time);
 		
-		enemyGen.addSequence(new PredatorSequence());
 //		for(int i = 1; i < TIME; i+=2){
 //			enemyGen.addEnemyToTimeline(new Locust(new Vector2f(GameView.WIDTH, GameView.HEIGHT/2)), i);
 //		}
-			
+		
+		enemyGen.addSequence(new PredatorSequence());
 		enemyGen.generateRandomTimeLine();
+	}
+	
+	public void selectLevel(int level){
+		
+		switch(level){
+			case 2:
+			enemyGen = new EnemyGenerator(time);
+			enemyGen.addSequence(new PredatorSequence());
+			enemyGen.generateRandomTimeLine();
+			break;
+			
+			case 3:
+			enemyGen = new EnemyGenerator(time);
+			enemyGen.addSequence(new PredatorSequence());
+			enemyGen.generateRandomTimeLine();
+			break;
+				
+		}
+		
 	}
 	
 	public void tick(float dt){
 		timer++;
 		if(timer >= LEVEL_TIME){
-			enemyGen.setUpdate(false);
-			if(CollisionManager.enemies.size() == 0)
+			//enemyGen.setUpdate(false);
+			if(CollisionManager.enemies.size() == 0){
 				levelDone = true;
+				timer = 0;
+			}
 		}
 		
 		enemyGen.tick();
@@ -57,6 +82,10 @@ public class Level {
 	
 	public boolean isFinished(){
 		return levelDone;
+	}
+	
+	public void setFinished(boolean finished){
+		levelDone = finished;
 	}
 
 }

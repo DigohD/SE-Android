@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.view.Display;
@@ -27,10 +28,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public static final int WIDTH = 800, HEIGHT = 480; 
 	private float scaleX, scaleY;
-	private int timer = 0;
+	private int timer = 0, timer2 = 0;
+	private int levelID = 2;
 	
 	private boolean drawJoystick = true;
 	private boolean okToRestartMP = true;
+	private boolean newLevel = false, firstLevel = true;
 	
 	private Context context;
 	private SurfaceHolder holder;
@@ -38,12 +41,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private Level level;
 	private Bitmap joystick;
 	private MusicPlayer mp;
+	private Paint p = new Paint();
 	
 	public GameView(Context context) {
 		super(context);
 		this.context = context;
 		
-		level = new Level(2);
+		level = new Level(1);
 		game = new GameThread(getHolder(),this);
 		mp = new MusicPlayer(context);
 		
@@ -94,30 +98,53 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         		builder.setPositiveButton(positiveBtn, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                     	GameObjectManager.clear();
-                    	level = new Level(2);
+                    	level = new Level(1);
                     	GameObjectManager.getPlayer().init();
                     	game.resume();
                     	mp = new MusicPlayer(context);
                     	okToRestartMP = true;
                     	drawJoystick = true;
+                    	level.setFinished(false);
+    					timer = 0;
+    					timer2 = 0;
+    					firstLevel = true;
                     }});
         		builder.create().show();
             }});
 	}
 	
+	
 	public void tick(float dt){
-		//update the level
+		timer2++;
+		
+		if(timer2 >= 2*60)
+			firstLevel = false;
+		
 		level.tick(dt);
 		
 		if(level.isFinished() && GameObjectManager.getPlayer().isLive()){
-			okToRestartMP = false;
 			timer++;
+			
+			if(levelID >= 4)
+				newLevel = false;
+			else newLevel = true;
+			
 			if(timer >= 3*60){
-				dialogBox("Level completed!", 
-						  "Highscore: " + GameObjectManager.getPlayer().getScore(), 
-						  "Restart",
-						  "Main Menu" );
-				timer = 0;
+				newLevel = false;
+				
+				if(levelID >= 4){
+					levelID = 2;
+					okToRestartMP = false;
+					dialogBox("Game completed!", 
+					  "Highscore: " + GameObjectManager.getPlayer().getScore(), 
+					  "Restart",
+					  "Main Menu" );
+				}else{
+					level.selectLevel(levelID);
+					levelID++;
+					level.setFinished(false);
+					timer = 0;
+				}
 			}
 		}
 			
@@ -125,10 +152,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			okToRestartMP = false;
 			timer++;
 			if(timer >= 2*60){
-				dialogBox("You died!", 
+				dialogBox("You died! You made it to level " + (levelID-1), 
 						  "Highscore: " + GameObjectManager.getPlayer().getScore(),
 						  "Restart",
-						  "Main Menu" );
+						  "Main Menu");
 				timer = 0;
 			}	
 		}
@@ -145,6 +172,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		if(drawJoystick)
 			canvas.drawBitmap(joystick, 40, 320, null);
+		
+		if(newLevel){
+			p.setColor(Color.GREEN);
+			canvas.drawText("Level " + (levelID), WIDTH/2, HEIGHT/2, p);
+		}
+		
+		if(firstLevel){
+			p.setColor(Color.GREEN);
+			canvas.drawText("Level " + 1, WIDTH/2, HEIGHT/2, p);
+		}
+			
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
