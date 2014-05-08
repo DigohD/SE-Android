@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.se_android.R;
 import com.spaceshooter.game.database.HighScoreDataHelper;
 import com.spaceshooter.game.database.HighScoreEntry;
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.view.GameView;
@@ -39,6 +40,7 @@ public class GameActivity extends Activity {
 	private EditText score;
 
 	private GameView gameView;
+	private InventoryView invView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +64,13 @@ public class GameActivity extends Activity {
         
         new BitmapHandler(this);
         
-        gameView = new GameView(this);
-        setContentView(gameView);
+//        gameView = new GameView(this);
+//        setContentView(gameView);
+        
+        GameObjectManager go = new GameObjectManager();
+        
+        invView = new InventoryView(this);
+        setContentView(invView);
         
         new SoundPlayer(this);
         
@@ -112,6 +119,11 @@ public class GameActivity extends Activity {
             }});
 		
 		builder.create().show();
+	}
+	
+	public void goToGame(){
+		gameView = new GameView(this);
+		setContentView(gameView);
 	}
 	
 	public void onBackPressed2(){

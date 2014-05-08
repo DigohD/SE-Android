@@ -12,7 +12,10 @@ import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.object.projectile.RedPlasma;
-import com.spaceshooter.game.object.weapon.PlasmaGun;
+import com.spaceshooter.game.object.weapon.BluePlasmaGun;
+import com.spaceshooter.game.object.weapon.GreenPlasmaGun;
+import com.spaceshooter.game.object.weapon.Gun;
+import com.spaceshooter.game.object.weapon.RedPlasmaGun;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
@@ -24,6 +27,9 @@ public class Player extends DynamicObject implements Collideable {
 	private Vector2f targetVelocity;
 	private Vector2f topGunPos;
 	private Vector2f bottomGunPos;
+	
+	private Gun topGun;
+	private Gun bottomGun;
 	
 	private boolean update = false;
 	private int score = 0;
@@ -58,8 +64,8 @@ public class Player extends DynamicObject implements Collideable {
 				new Vector2f(-7f, 0f));
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		engine.setIsSpread(true);
-		new PlasmaGun(topGunPos);
-		new PlasmaGun(bottomGunPos);
+		topGun = new RedPlasmaGun(topGunPos);
+		bottomGun = new RedPlasmaGun(bottomGunPos);
 	}
 	
 	public void incTargetPos(float dX, float dY) {
@@ -199,5 +205,23 @@ public class Player extends DynamicObject implements Collideable {
 	public void setUpdate(boolean u){
 		update = u;
 	}
+	
+	public void setTopGun(Gun gun){
+		topGun = gun;
+	}
+	
+	public void setBottomGun(Gun gun){
+		bottomGun = gun;
+	}
+
+	public Vector2f getTopGunPos() {
+		return topGunPos;
+	}
+
+	public Vector2f getBottomGunPos() {
+		return bottomGunPos;
+	}
+	
+	
 
 }

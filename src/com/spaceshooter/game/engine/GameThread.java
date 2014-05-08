@@ -54,6 +54,19 @@ public class GameThread implements Runnable {
 	public GameThread(SurfaceHolder holder, GameView gameView) {
 		this.gameView = gameView;
 		this.surfaceHolder = holder;
+		inventory = false;
+	}
+	
+	/**
+	 * The constructor for the game thread
+	 * 
+	 * @param holder the surfaceholder which provides the canvas on which to drawon
+	 * @param gameView the main view for the game
+	 */
+	public GameThread(SurfaceHolder holder, InventoryView invView) {
+		this.invView = invView;
+		this.surfaceHolder = holder;
+		inventory = true;
 	}
 
 	/**
