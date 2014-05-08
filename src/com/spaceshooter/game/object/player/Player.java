@@ -64,8 +64,7 @@ public class Player extends DynamicObject implements Collideable {
 				new Vector2f(-7f, 0f));
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		engine.setIsSpread(true);
-		topGun = new RedPlasmaGun(topGunPos);
-		bottomGun = new RedPlasmaGun(bottomGunPos);
+		live = true;
 	}
 	
 	public void incTargetPos(float dX, float dY) {
@@ -220,6 +219,14 @@ public class Player extends DynamicObject implements Collideable {
 
 	public Vector2f getBottomGunPos() {
 		return bottomGunPos;
+	}
+
+	public Gun getTopGun() {
+		return topGun;
+	}
+
+	public Gun getBottomGun() {
+		return bottomGun;
 	}
 	
 	
