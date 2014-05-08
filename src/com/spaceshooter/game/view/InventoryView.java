@@ -32,6 +32,8 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	
 	private Bitmap vapen;
 	
+	private float previousY, offsetY;
+	
 	private boolean okToRestartMP = true;
 	
 	private Context context;
@@ -47,7 +49,7 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 		super(context);
 		this.context = context;
 
-		mp = new MusicPlayer(context);
+//		mp = new MusicPlayer(context);
 		
 		WindowManager wm = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
@@ -122,13 +124,26 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 		canvas.drawColor(Color.BLACK);
 		
 		for(int i = 0; i < 10; i++)
-			canvas.drawBitmap(vapen, 0, i * 120, null);
+			canvas.drawBitmap(vapen, 0, (i * 120) + 80 + offsetY, null);
 		
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
 	    float eventX = event.getX();
 	    float eventY = event.getY();
+	    
+	    float nY = scaleY * 1.0f;
+	    
+	    eventX = eventX / scaleX;
+	    eventY = eventY / nY;
+	    
+	    System.out.println("Moved!!!! Inventory!!!");
+	    
+	    if(event.getAction() == MotionEvent.ACTION_MOVE){
+	    	float dY = eventY - previousY;
+	    	offsetY = offsetY + dY;
+	    	previousY = eventY;
+	    }
 	    
     	invalidate();
     	return true;
