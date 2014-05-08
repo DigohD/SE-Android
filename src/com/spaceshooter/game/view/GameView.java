@@ -46,7 +46,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public GameView(Context context) {
 		super(context);
 		this.context = context;
-		
+	
 		level = new Level(1);
 		game = new GameThread(getHolder(),this);
 		mp = new MusicPlayer(context);

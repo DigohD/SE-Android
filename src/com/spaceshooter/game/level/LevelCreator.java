@@ -2,11 +2,9 @@ package com.spaceshooter.game.level;
 
 import java.util.HashMap;
 
+import com.spaceshooter.game.level.sequence.MantisSequence;
 import com.spaceshooter.game.level.sequence.PredatorSequence;
 import com.spaceshooter.game.level.sequence.Sequence;
-import com.spaceshooter.game.object.enemy.Locust;
-import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
 public class LevelCreator {
 	
@@ -25,7 +23,9 @@ public class LevelCreator {
 			case 0:
 				seqMap.put(seqType, new PredatorSequence());
 				break;
-				
+			case 1:	
+				seqMap.put(seqType, new MantisSequence());
+				break;
 			}
 		}
 		
@@ -38,18 +38,18 @@ public class LevelCreator {
 	public void runLevel(int level){
 		switch(level){
 		case 1:
-			int[] seqTypes = {0};
+			int[] seqTypes = {0,1};
 			initLevel(seqTypes);
 //			for(int i = 1; i < enemyGen.getTime(); i+=2)
 //				enemyGen.addEnemyToTimeline(new Locust(new Vector2f(GameView.WIDTH, GameView.HEIGHT/2)), i);
 		
 			break;
 		case 2:
-			int[] seqTypes2 = {0};
+			int[] seqTypes2 = {0,1};
 			initLevel(seqTypes2);
 			break;
 		case 3:
-			int[] seqTypes3 = {0};
+			int[] seqTypes3 = {0,1};
 			initLevel(seqTypes3);
 			break;
 		}

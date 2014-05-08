@@ -11,7 +11,7 @@ import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
-import com.spaceshooter.game.object.projectile.RedPlasma;
+import com.spaceshooter.game.object.weapon.Gun;
 import com.spaceshooter.game.object.weapon.PlasmaGun;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
@@ -25,12 +25,13 @@ public class Player extends DynamicObject implements Collideable {
 	private Vector2f topGunPos;
 	private Vector2f bottomGunPos;
 	
+	private ConstantEmitter engine;
+	private Gun plasmaGun1, plasmaGun2;
+	
 	private boolean update = false;
 	private int score = 0;
 	private float steps = 10;
 	private int reload;
-	private ConstantEmitter engine;
-	
 	private float hp = 100f, maxHP = 100f;
 	
 	public Player(Vector2f position) {
@@ -58,8 +59,8 @@ public class Player extends DynamicObject implements Collideable {
 				new Vector2f(-7f, 0f));
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		engine.setIsSpread(true);
-		new PlasmaGun(topGunPos);
-		new PlasmaGun(bottomGunPos);
+		plasmaGun1 = new PlasmaGun(topGunPos);
+		plasmaGun2 = new PlasmaGun(bottomGunPos);
 	}
 	
 	public void incTargetPos(float dX, float dY) {
@@ -139,6 +140,8 @@ public class Player extends DynamicObject implements Collideable {
 			hp = 0;
 			live = false;
 			engine.setLive(false);
+			plasmaGun1.setLive(false);
+			plasmaGun2.setLive(false);
 		}
 
 		if (obj instanceof Projectile) {
@@ -150,6 +153,8 @@ public class Player extends DynamicObject implements Collideable {
 				if(live) death();
 				live = false;
 				engine.setLive(false);
+				plasmaGun1.setLive(false);
+				plasmaGun2.setLive(false);
 			}
 		}
 	}

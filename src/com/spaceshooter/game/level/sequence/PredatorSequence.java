@@ -14,7 +14,7 @@ public class PredatorSequence extends Sequence {
 	
 	public PredatorSequence() {
 		super();
-		loadRandomSequence("level1/PredatorSequence", 3);
+		loadRandomSequence("predator/PredatorSequence", 3);
 		enemies.put(Color.RED, new Predator());
 		scanSequence();
 	}
