@@ -24,6 +24,7 @@ import com.spaceshooter.game.database.HighScoreEntry;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.view.GameView;
+import com.spaceshooter.game.view.InventoryView;
 
 public class GameActivity extends Activity {
 
@@ -60,10 +61,9 @@ public class GameActivity extends Activity {
         getWindow().setFormat(PixelFormat.RGBA_8888);
         
         new BitmapHandler(this);
-		
+        
         gameView = new GameView(this);
         setContentView(gameView);
-        
         
         new SoundPlayer(this);
         
