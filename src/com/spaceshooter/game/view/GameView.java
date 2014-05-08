@@ -108,6 +108,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     					timer = 0;
     					timer2 = 0;
     					firstLevel = true;
+    					levelID = 2;
                     }});
         		builder.create().show();
             }});
@@ -125,15 +126,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		if(level.isFinished() && GameObjectManager.getPlayer().isLive()){
 			timer++;
 			
-			if(levelID >= 4)
+			if(levelID >= level.getNumOfLevels()+1)
 				newLevel = false;
 			else newLevel = true;
 			
 			if(timer >= 3*60){
 				newLevel = false;
 				
-				if(levelID >= 4){
-					levelID = 2;
+				if(levelID >= level.getNumOfLevels()+1){
 					okToRestartMP = false;
 					dialogBox("Game completed!", 
 					  "Highscore: " + GameObjectManager.getPlayer().getScore(), 

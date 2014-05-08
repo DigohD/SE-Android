@@ -3,7 +3,7 @@ package com.spaceshooter.game.level.sequence;
 import com.spaceshooter.game.object.enemy.Predator;
 import com.spaceshooter.game.util.Color;
 
-public class PredatorSequence extends Sequence{
+public class PredatorSequence extends Sequence {
 	
 	public PredatorSequence(String path){
 		super();
