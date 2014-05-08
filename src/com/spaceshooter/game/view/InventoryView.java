@@ -168,7 +168,7 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	    }
 	    else if(event.getAction() == MotionEvent.ACTION_DOWN){
 	    	pressTimer = 0;
-	    }else if(event.getAction() == MotionEvent.ACTION_UP && pressTimer < 8){
+	    }else if(event.getAction() == MotionEvent.ACTION_UP && pressTimer < 15){
 	    	int weapon = 0;
 	    	weapon = (int) ((eventY - offsetY - 80) / 120);
 	    	
@@ -218,21 +218,22 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 		stop();
 	}
 	
-	
 	public void start(){
 		game.start();
 	}
 	
 	public void stop() {
-		
+		game.stop();
 	}
 	
 	public void pause() {
-		
+		okToRestartMP = false;
+		game.pause();
 	}
 
 	public void resume() {
-		
+		okToRestartMP = true;
+		game.resume();
 	}
 
 }

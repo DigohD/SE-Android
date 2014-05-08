@@ -41,6 +41,8 @@ public class GameActivity extends Activity {
 
 	private GameView gameView;
 	private InventoryView invView;
+	
+	public boolean isInvView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class GameActivity extends Activity {
         
         GameObjectManager go = new GameObjectManager();
         
+        isInvView = true;
         invView = new InventoryView(this);
         setContentView(invView);
         
@@ -121,7 +124,27 @@ public class GameActivity extends Activity {
 		builder.create().show();
 	}
 	
+	private void exitDialogInv(){
+		invView.pause();
+		Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(false);
+		builder.setTitle("Quit Game?");
+		builder.setMessage("Return to main menu?");
+		builder.setNegativeButton("Cancel", new OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            	invView.resume();
+            }});
+		builder.setPositiveButton("Ok", new OnClickListener() {
+            public void onClick(DialogInterface arg0, int arg1) {
+            	invView.stop();
+                GameActivity.super.onBackPressed();
+            }});
+		
+		builder.create().show();
+	}
+	
 	public void goToGame(){
+		isInvView = false;
 		gameView = new GameView(this);
 		setContentView(gameView);
 	}
@@ -132,7 +155,10 @@ public class GameActivity extends Activity {
 	
 	@Override
 	public void onBackPressed() {
-		exitDialog();
+		
+		if(isInvView)
+			exitDialogInv();
+		else exitDialog();
 	}
 	
 //	public void onStop(){

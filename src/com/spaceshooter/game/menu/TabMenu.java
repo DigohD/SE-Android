@@ -68,6 +68,7 @@ public class TabMenu extends Activity {
 		builder.setPositiveButton("Yes, really", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
 				TabMenu.super.onBackPressed();
+				System.exit(0);
 			}
 		});
 		builder.setNegativeButton("No, not really", new OnClickListener() {

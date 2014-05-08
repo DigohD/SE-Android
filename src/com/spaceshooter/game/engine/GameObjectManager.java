@@ -13,6 +13,7 @@ import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.object.weapon.Gun;
 import com.spaceshooter.game.util.Vector2f;
+import com.spaceshooter.game.view.GameView;
 
 public class GameObjectManager {
 
@@ -31,8 +32,9 @@ public class GameObjectManager {
 		gameObjects = new ArrayList<GameObject>();
 		toAdd = new ArrayList<GameObject>();
 		if(player == null){
-			player = new Player(new Vector2f(400, 240));
+			player = new Player(new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2));
 		}
+		player.setScore(0);
 		topGun = player.getTopGun();
 		bottomGun = player.getBottomGun();
 		bg = new BackGround();

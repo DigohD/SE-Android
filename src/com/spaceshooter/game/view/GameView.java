@@ -49,7 +49,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 		level = new Level(1);
 		game = new GameThread(getHolder(),this);
-		mp = new MusicPlayer(context);
+		if(mp == null)
+			mp = new MusicPlayer(context);
 		
 		joystick = BitmapHandler.loadBitmap("ui/joystick");
 		
@@ -101,7 +102,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     	level = new Level(1);
                     	GameObjectManager.getPlayer().init();
                     	game.resume();
-                    	mp = new MusicPlayer(context);
+                    	if(mp == null)
+                    		mp = new MusicPlayer(context);
                     	okToRestartMP = true;
                     	drawJoystick = true;
                     	level.setFinished(false);
@@ -270,7 +272,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		stop();
 	}
-	
 	
 	public void start(){
 		game.start();

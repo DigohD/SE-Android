@@ -36,7 +36,7 @@ public class Player extends DynamicObject implements Collideable {
 	
 	public Player(Vector2f position) {
 		super(position);
-		targetPosition.set(position.x, position.y);
+		
 		this.bitmap = BitmapHandler.loadBitmap("player/ship");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
@@ -56,6 +56,7 @@ public class Player extends DynamicObject implements Collideable {
 
 	public void init(){
 		position = new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2);
+		targetPosition.set(position.x, position.y);
 		engine = new ConstantEmitter(1, ParticleID.ENGINE, new Vector2f(position.y + height/2, position.x - 8),
 				new Vector2f(-7f, 0f));
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
@@ -166,7 +167,12 @@ public class Player extends DynamicObject implements Collideable {
 	}
 
 	public void setScore(int value) {
-		score = score + value;
+		score = value;
+	}
+	
+
+	public void incScore(int value) {
+		score += value;
 	}
 
 	public int getScore() {
