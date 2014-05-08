@@ -4,12 +4,16 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
+import android.view.ViewGroup;
 
+import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.view.GameView;
+import com.spaceshooter.game.view.InventoryView;
 
 /**
  * The game thread which runs the main loop. The main loop is responsible for
@@ -28,6 +32,7 @@ public class GameThread implements Runnable {
 
 	private Thread thread;
 	private GameView gameView;
+	private InventoryView invView;
 	private SurfaceHolder surfaceHolder;
 	
 	private Lock lock = new ReentrantLock();
@@ -37,6 +42,8 @@ public class GameThread implements Runnable {
 	private Bitmap bufferedBmp = Bitmap.createBitmap(800, 480, Config.ARGB_8888);
 	private Canvas bufferedCanvas = new Canvas(bufferedBmp);
 	private Canvas canvas;
+	
+	private boolean inventory;
 
 	/**
 	 * The constructor for the game thread
@@ -103,7 +110,10 @@ public class GameThread implements Runnable {
 	 * @param dt the delta time variable which is used for physics calculations
 	 */
 	private void tick(float dt) {
-		gameView.tick(dt);
+		if(inventory)
+			invView.tick(dt);
+		else
+			gameView.tick(dt);
 	}
 
 	/**
@@ -120,7 +130,10 @@ public class GameThread implements Runnable {
 			canvas = surfaceHolder.lockCanvas();
 			if (canvas != null) {
 				synchronized (surfaceHolder) {
-					gameView.draw(canvas, interpolation);
+					if(inventory)
+						invView.draw(canvas, interpolation);
+					else
+						gameView.draw(canvas, interpolation);
 				}
 			}
 		} finally {
@@ -215,7 +228,16 @@ public class GameThread implements Runnable {
 		}
 	}
 	
-	
+	public void goInventory(){
+		Context c = gameView.getContext();
+		GameActivity gA = (GameActivity) c;
+		
+		invView = new InventoryView(gameView.getContext());
+		
+		inventory = true;
+		
+		gA.setContentView(invView);
+	}
 	
 //	double startTime = 0, endTime = 0;
 //	double finalDelta = 0;
