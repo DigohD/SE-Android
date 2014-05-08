@@ -10,8 +10,10 @@ import com.spaceshooter.game.level.sequence.PredatorSequence;
 public class Level {
 	
 	private GameObjectManager gameObjectManager;
+	private LevelCreator lvlCreator;
 	private EnemyGenerator enemyGen;
 	
+	private int numOfLevels = 3;
 	private int timer = 0;
 	private int LEVEL_TIME;
 	private int time;
@@ -34,38 +36,18 @@ public class Level {
 		GameObjectManager.getPlayer().setHp(100);
 		
 		enemyGen = new EnemyGenerator(time);
-		
-//		for(int i = 1; i < TIME; i+=2){
-//			enemyGen.addEnemyToTimeline(new Locust(new Vector2f(GameView.WIDTH, GameView.HEIGHT/2)), i);
-//		}
-		
-		enemyGen.addSequence(new PredatorSequence());
-		enemyGen.generateRandomTimeLine();
+		lvlCreator = new LevelCreator(enemyGen);
+		lvlCreator.runLevel(1);
 	}
 	
 	public void selectLevel(int level){
-		
-		switch(level){
-			case 2:
-			enemyGen = new EnemyGenerator(time);
-			enemyGen.addSequence(new PredatorSequence());
-			enemyGen.generateRandomTimeLine();
-			break;
-			
-			case 3:
-			enemyGen = new EnemyGenerator(time);
-			enemyGen.addSequence(new PredatorSequence());
-			enemyGen.generateRandomTimeLine();
-			break;
-				
-		}
-		
+		enemyGen = new EnemyGenerator(time);
+		new LevelCreator(enemyGen).runLevel(level);	
 	}
 	
 	public void tick(float dt){
 		timer++;
 		if(timer >= LEVEL_TIME){
-			//enemyGen.setUpdate(false);
 			if(CollisionManager.enemies.size() == 0){
 				levelDone = true;
 				timer = 0;
@@ -86,6 +68,10 @@ public class Level {
 	
 	public void setFinished(boolean finished){
 		levelDone = finished;
+	}
+
+	public int getNumOfLevels() {
+		return numOfLevels;
 	}
 
 }
