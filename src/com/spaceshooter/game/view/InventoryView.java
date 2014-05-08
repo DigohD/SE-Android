@@ -21,6 +21,9 @@ import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
+import com.spaceshooter.game.object.weapon.BluePlasmaGun;
+import com.spaceshooter.game.object.weapon.GreenPlasmaGun;
+import com.spaceshooter.game.object.weapon.RedPlasmaGun;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
 
@@ -30,7 +33,10 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	private float scaleX, scaleY;
 	private int timer = 0, timer2 = 0;
 	
-	private Bitmap vapen;
+	private Bitmap banner;
+	private Bitmap banner2;
+	
+	private Bitmap[] vapen = new Bitmap[5];
 	
 	private float previousY, offsetY;
 	
@@ -43,13 +49,15 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	private MusicPlayer mp;
 	private Paint p = new Paint();
 	
-	
+	private int pressTimer;
 	
 	public InventoryView(Context context) {
 		super(context);
 		this.context = context;
 
 //		mp = new MusicPlayer(context);
+		
+		game = new GameThread(getHolder(),this);
 		
 		WindowManager wm = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
@@ -68,7 +76,12 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 
 		holder.addCallback(this);
 		
-		this.vapen = BitmapHandler.loadBitmap("ui/VapenMall");
+		banner = BitmapHandler.loadBitmap("ui/weaponOne");
+		banner2 = BitmapHandler.loadBitmap("ui/weaponTwo");
+		
+		this.vapen[0] = BitmapHandler.loadBitmap("ui/RedPlasma");
+		this.vapen[1] = BitmapHandler.loadBitmap("ui/BluePlasma");
+		this.vapen[2] = BitmapHandler.loadBitmap("ui/GreenPlasma");
 	}
 	
 	/**
@@ -116,15 +129,20 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	
 	
 	public void tick(float dt){
-		
+		pressTimer++;
 	}
 	
 	public void draw(Canvas canvas, float interpolation){
 		//clear the screen with black pixels
 		canvas.drawColor(Color.BLACK);
 		
-		for(int i = 0; i < 10; i++)
-			canvas.drawBitmap(vapen, 0, (i * 120) + 80 + offsetY, null);
+		for(int i = 0; i < 3; i++)
+			canvas.drawBitmap(vapen[i], 0, (i * 120) + 80 + offsetY, null);
+		
+		canvas.drawBitmap(banner, 0, 0, null);
+		
+//		for(int i = 0; i < 10; i++)
+//			canvas.drawBitmap(vapen, 0, (i * 120) + 80 + offsetY, null);
 		
 	}
 
@@ -137,12 +155,47 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	    eventX = eventX / scaleX;
 	    eventY = eventY / nY;
 	    
-	    System.out.println("Moved!!!! Inventory!!!");
-	    
 	    if(event.getAction() == MotionEvent.ACTION_MOVE){
 	    	float dY = eventY - previousY;
+	    	
+	    	if(dY > 100 || dY < -100){
+	    		previousY = eventY;
+	    		return true;
+	    	}
+	    	
 	    	offsetY = offsetY + dY;
 	    	previousY = eventY;
+	    }
+	    else if(event.getAction() == MotionEvent.ACTION_DOWN){
+	    	pressTimer = 0;
+	    }else if(event.getAction() == MotionEvent.ACTION_UP && pressTimer < 8){
+	    	int weapon = 0;
+	    	weapon = (int) ((eventY - offsetY - 80) / 120);
+	    	
+	    	switch(weapon){
+		    	case 0:
+		    		GameObjectManager.getPlayer().setBottomGun(new RedPlasmaGun(
+		    				GameObjectManager.getPlayer().getBottomGunPos()));
+		    		GameObjectManager.getPlayer().setTopGun(new RedPlasmaGun(
+		    				GameObjectManager.getPlayer().getTopGunPos()));
+		    		break;
+		    	case 1:
+		    		GameObjectManager.getPlayer().setBottomGun(new BluePlasmaGun(
+		    				GameObjectManager.getPlayer().getBottomGunPos()));
+		    		GameObjectManager.getPlayer().setTopGun(new BluePlasmaGun(
+		    				GameObjectManager.getPlayer().getTopGunPos()));
+		    		break;
+		    	case 2:
+		    		GameObjectManager.getPlayer().setBottomGun(new GreenPlasmaGun(
+		    				GameObjectManager.getPlayer().getBottomGunPos()));
+		    		GameObjectManager.getPlayer().setTopGun(new GreenPlasmaGun(
+		    				GameObjectManager.getPlayer().getTopGunPos()));
+		    		break;
+	    	}
+	    	
+	    	GameActivity gA = (GameActivity) context;
+	    	gA.goToGame();
+	    	
 	    }
 	    
     	invalidate();
@@ -167,7 +220,7 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	
 	
 	public void start(){
-		
+		game.start();
 	}
 	
 	public void stop() {
