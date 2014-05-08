@@ -11,11 +11,7 @@ import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
-import com.spaceshooter.game.object.projectile.RedPlasma;
-import com.spaceshooter.game.object.weapon.BluePlasmaGun;
-import com.spaceshooter.game.object.weapon.GreenPlasmaGun;
 import com.spaceshooter.game.object.weapon.Gun;
-import com.spaceshooter.game.object.weapon.RedPlasmaGun;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
@@ -28,15 +24,14 @@ public class Player extends DynamicObject implements Collideable {
 	private Vector2f topGunPos;
 	private Vector2f bottomGunPos;
 	
+	private ConstantEmitter engine;
+	
 	private Gun topGun;
 	private Gun bottomGun;
 	
 	private boolean update = false;
 	private int score = 0;
 	private float steps = 10;
-	private int reload;
-	private ConstantEmitter engine;
-	
 	private float hp = 100f, maxHP = 100f;
 	
 	public Player(Vector2f position) {
@@ -118,15 +113,7 @@ public class Player extends DynamicObject implements Collideable {
 	public void tick(float dt) {
 		inBound();
 		super.tick(dt);
-		reload++;
-//		if(reload > 15){
-//			reload = 0;
-//			topGunPos.set(position.x, position.y + 4);
-//			bottomGunPos.set(position.x, position.y + width - 6);
-//			new RedPlasma(topGunPos);
-//			new RedPlasma(bottomGunPos);
-//			//SoundPlayer.playSound(1);
-//		}
+
 		if(update) {
 			move(dt);
 		}
