@@ -11,6 +11,7 @@ import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.background.BackGround;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.player.Player;
+import com.spaceshooter.game.object.weapon.Gun;
 import com.spaceshooter.game.util.Vector2f;
 
 public class GameObjectManager {
@@ -18,15 +19,22 @@ public class GameObjectManager {
 	public static List<GameObject> gameObjects;
 	public static List<GameObject> toAdd;
 	private ProjectileManager projectileManager;
+	
 	private static Player player;
+	private	static Gun topGun;
+	private static Gun bottomGun;
+	
 	private BackGround bg;
 	private Paint paint;
 	
 	public GameObjectManager() {
 		gameObjects = new ArrayList<GameObject>();
 		toAdd = new ArrayList<GameObject>();
-		if(player == null)
+		if(player == null){
 			player = new Player(new Vector2f(400, 240));
+		}
+		topGun = player.getTopGun();
+		bottomGun = player.getBottomGun();
 		bg = new BackGround();
 		projectileManager = new ProjectileManager();
 		paint = new Paint();
@@ -94,8 +102,11 @@ public class GameObjectManager {
 		clearDeadGameObjects();
 		CollisionManager.collisionCheck(player);
 		
-		if(player.isLive())
+		if(player.isLive()){
 			player.tick(dt);
+			topGun.tick(dt);
+			bottomGun.tick(dt);
+		}
 		
 		for(GameObject go : gameObjects)
 			go.tick(dt);
