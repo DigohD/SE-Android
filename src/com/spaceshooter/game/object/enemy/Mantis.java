@@ -5,7 +5,7 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
-import com.spaceshooter.game.object.projectile.enemy.PredatorProj;
+import com.spaceshooter.game.object.projectile.enemy.MantisProj;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
@@ -89,8 +89,8 @@ public class Mantis extends Enemy {
 			reload++;
 			if(reload > 20){
 				reload = 0;
-				Vector2f v = new Vector2f(position.x, position.y + width/2);
-				new PredatorProj(v);
+				Vector2f v = new Vector2f(position.x, position.y + 2);
+				new MantisProj(v);
 				//SoundPlayer.playSound(1);
 			}
 		}

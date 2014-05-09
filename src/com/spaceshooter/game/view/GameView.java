@@ -118,7 +118,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	
 	public void tick(float dt){
-		timer2++;
+		
+		if(firstLevel)
+			timer2++;
 		
 		if(timer2 >= 2*60)
 			firstLevel = false;
