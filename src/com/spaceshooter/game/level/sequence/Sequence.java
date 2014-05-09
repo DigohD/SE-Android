@@ -26,6 +26,8 @@ public class Sequence {
 	private float widthRatio, heightRatio;
 	//the integer values for each pixel in the sequence image
 	private int[] pixels;
+	//used to check whether it is necessary to calculate a larger timeinterval for the sequence
+	protected boolean timeLimit;
 	//list of strings which has the names of the different sequence images
 	private ArrayList<String> sequences;
 	//maps a specific pixel in the sequence image to a certain type of enemy 
@@ -120,6 +122,10 @@ public class Sequence {
 	
 	public ArrayList<String> getSequences() {
 		return sequences;
+	}
+
+	public boolean isTimeLimit() {
+		return timeLimit;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.spaceshooter.game.engine.GameThread;
+import com.spaceshooter.game.level.sequence.PredatorSequence;
 import com.spaceshooter.game.level.sequence.Sequence;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.util.Randomizer;
@@ -58,16 +59,25 @@ public class EnemyGenerator {
 	 * @param timeStamp the time in seconds that the sequence shall appear
 	 */
 	public void addSequenceToTimeline(Sequence seq, int timeStamp){
-		//a min and max time to ensure that the added sequence wont be too close to 
-		//another sequence in the timeline
-		int min = (timeStamp * TPS) - (5*TPS);
-		int max = (timeStamp * TPS) + (5*TPS);
-		
-		//remove a sequence if it is in the time interval defined by min and max
-		for(int i = min; i < max; i++)
-			if(sequenceTimeline.containsKey(i))
-				sequenceTimeline.remove(i);
-				
+		if(seq.isTimeLimit()){
+			//a min and max time to ensure that the added sequence wont be too close to 
+			//another sequence in the timeline
+			int min = (timeStamp * TPS) - (5*TPS);
+			int max = (timeStamp * TPS) + (5*TPS);
+			
+			//remove a sequence if it is in the time interval defined by min and max
+			for(int i = min; i < max; i++)
+				if(sequenceTimeline.containsKey(i))
+					sequenceTimeline.remove(i);
+		}else{
+			int min = (timeStamp * TPS) - (2*TPS);
+			int max = (timeStamp * TPS) + (2*TPS);
+			
+			//remove a sequence if it is in the time interval defined by min and max
+			for(int i = min; i < max; i++)
+				if(enemyTimeline.containsKey(i))
+					enemyTimeline.remove(i);
+		}		
 		sequenceTimeline.put(timeStamp*TPS, seq);
 	}
 	
@@ -105,6 +115,13 @@ public class EnemyGenerator {
 			//if the there is only one sequences then there is no need to make a new instance
 			if(sequences.get(r).getSequences().size() == 1){
 				sequenceTimeline.put(i*TPS, sequences.get(r));
+				if(!sequences.get(r).isTimeLimit()){
+					min = 2;
+					max = 5;
+				}else{
+					min = 5;
+					max = 8;
+				}
 				int timeStamp = Randomizer.getInt2(min, max);
 				i += timeStamp;
 			//if however there are several sequences to choose from then we must make a new instance
@@ -119,6 +136,14 @@ public class EnemyGenerator {
 					e.printStackTrace();
 				}
 				sequenceTimeline.put(i*TPS, seq);
+				
+				if(!seq.isTimeLimit()){
+					min = 2;
+					max = 5;
+				}else{
+					min = 5;
+					max = 8;
+				}
 				int timeStamp = Randomizer.getInt2(min, max);
 				i += timeStamp;
 			}
