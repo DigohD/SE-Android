@@ -48,12 +48,13 @@ public class Mantis extends Enemy {
 	}
 	
 	boolean directionChoosed = false;
+	boolean fire = false;
 	boolean top , bottom;
+
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);
 		
-
 		if(position.y > GameView.HEIGHT/2 && position.x < GameView.WIDTH - 30 && !directionChoosed){
 			targetVelocity.y = -50f;
 			directionChoosed = true;
@@ -66,20 +67,31 @@ public class Mantis extends Enemy {
 			bottom = true;
 		}
 		
-		if(position.x <= GameView.WIDTH/2 + 100){
+		if(position.x <= GameView.WIDTH/2 + 120 && !fire){
 			targetVelocity.y = 0;
-			targetVelocity.x = -25f;
+			targetVelocity.x = -15f;
+			fire = true;
 		}
 		
-		
 		if(position.x <= GameView.WIDTH/2){
+			fire = false;
 			if(top) {
 				targetVelocity.y = 50f;
-				targetVelocity.x = -25f;
+				targetVelocity.x = -20f;
 			}
 			if(bottom) {
 				targetVelocity.y = -50f;
-				targetVelocity.x = -25f;
+				targetVelocity.x = -20f;
+			}
+		}
+		
+		if(fire){
+			reload++;
+			if(reload > 20){
+				reload = 0;
+				Vector2f v = new Vector2f(position.x, position.y + width/2);
+				new PredatorProj(v);
+				//SoundPlayer.playSound(1);
 			}
 		}
 		

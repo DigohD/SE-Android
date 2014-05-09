@@ -40,9 +40,6 @@ public class LevelCreator {
 		case 1:
 			int[] seqTypes = {0,1};
 			initLevel(seqTypes);
-//			for(int i = 1; i < enemyGen.getTime(); i+=2)
-//				enemyGen.addEnemyToTimeline(new Locust(new Vector2f(GameView.WIDTH, GameView.HEIGHT/2)), i);
-		
 			break;
 		case 2:
 			int[] seqTypes2 = {0,1};
