@@ -1,8 +1,6 @@
 package com.spaceshooter.game.object.weapon;
 
-import com.spaceshooter.game.object.projectile.BluePlasma;
-import com.spaceshooter.game.object.projectile.GreenPlasma;
-import com.spaceshooter.game.object.projectile.RedPlasma;
+import com.spaceshooter.game.object.projectile.player.GreenPlasma;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 

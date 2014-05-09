@@ -23,18 +23,14 @@ public abstract class DynamicObject extends GameObject {
 	protected void interpolate(float interpolation) {
 		currentPosition = position;
 		nextPosition = currentPosition.add(distance);
-		// predict where the new position will be
+		// predict where the new position to draw will be
 		interpolatedPosition = currentPosition.mul(interpolation).add(
 				nextPosition.mul((1.0f - interpolation)));
 	}
 
-	// public abstract void move();
-
 	@Override
 	public void tick(float dt) {
-		if(this.getX() < -width)
-			live = false;
-		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+		
 	}
 
 	@Override

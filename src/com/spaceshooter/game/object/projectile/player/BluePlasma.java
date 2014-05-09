@@ -1,4 +1,4 @@
-package com.spaceshooter.game.object.projectile;
+package com.spaceshooter.game.object.projectile.player;
 
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -6,16 +6,16 @@ import android.graphics.Rect;
 import com.spaceshooter.game.engine.ProjectileManager;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ImpactEmitter;
+import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
-public class RedPlasma extends Projectile{
+public class BluePlasma extends Projectile{
 
-	public RedPlasma(Vector2f position) {
+	public BluePlasma(Vector2f position) {
 		super(position, new Vector2f(80f, 0f));
-		damage = 20f;
-		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaRed");
+		damage = 8f;
+		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaBlue");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 	
@@ -24,10 +24,10 @@ public class RedPlasma extends Projectile{
 		ProjectileManager.addPlayerProjectile(this);
 	}
 	
-	public RedPlasma(Vector2f position, Vector2f velocity) {
+	public BluePlasma(Vector2f position, Vector2f velocity) {
 		super(position, velocity);
-		damage = 20f;
-		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaRed");
+		damage = 8f;
+		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaBlue");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 	
@@ -50,7 +50,7 @@ public class RedPlasma extends Projectile{
 
 	@Override
 	public void death() {
-		new ImpactEmitter(3, ParticleID.RED_DOT, 
+		new ImpactEmitter(1, ParticleID.LBlueBall, 
 				position, velocity);
 	}
 	

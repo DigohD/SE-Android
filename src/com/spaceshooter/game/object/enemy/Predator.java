@@ -5,10 +5,8 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
-import com.spaceshooter.game.object.projectile.RedPlasma;
 import com.spaceshooter.game.object.projectile.enemy.PredatorProj;
 import com.spaceshooter.game.util.BitmapHandler;
-import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;

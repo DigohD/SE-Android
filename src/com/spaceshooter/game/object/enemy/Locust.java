@@ -1,14 +1,9 @@
 package com.spaceshooter.game.object.enemy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
-import com.spaceshooter.game.object.projectile.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
-import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 

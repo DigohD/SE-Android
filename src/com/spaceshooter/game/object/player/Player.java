@@ -113,11 +113,9 @@ public class Player extends DynamicObject implements Collideable {
 	@Override
 	public void tick(float dt) {
 		inBound();
-		super.tick(dt);
-
-		if(update) {
+		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+		if(update) 
 			move(dt);
-		}
 	}
 
 	@Override
@@ -154,17 +152,6 @@ public class Player extends DynamicObject implements Collideable {
 		SoundPlayer.playSound(2);
 	}
 
-	public void decreaseSteps(float amount) {
-		steps -= amount;
-	}
-
-	public void increaseSteps(float amount) {
-		steps += amount;
-	}
-
-	public float getSteps() {
-		return steps;
-	}
 
 	public void setScore(int value) {
 		score = value;

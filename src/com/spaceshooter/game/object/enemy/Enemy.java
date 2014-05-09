@@ -31,7 +31,9 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 
 	@Override
 	public void tick(float dt) {
-		super.tick(dt);
+		if(getX() < -width)
+			live = false;
+		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	}
 	
 	/**

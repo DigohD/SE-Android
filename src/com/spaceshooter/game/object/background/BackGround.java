@@ -10,6 +10,9 @@ import com.spaceshooter.game.util.Vector2f;
 
 public class BackGround extends DynamicObject{
 
+	private float offset1 = 0;
+	private float offset2 = 0;
+	
 	private Bitmap nebula;
 	
 	public BackGround() {
@@ -21,7 +24,6 @@ public class BackGround extends DynamicObject{
 		
 		nebula = BitmapHandler.loadBitmap("bg/nebula");
 
-		
 		velocity = new Vector2f(-5f, 0f);
 		
 		GameObjectManager.addGameObject(this);
@@ -31,22 +33,19 @@ public class BackGround extends DynamicObject{
 	public void tick(float dt) {
 		distance = velocity.mul(dt);
 		position = position.add(distance);
-		
 	}
-	
-	float i = 0, j = 0;
 	
 	@Override
 	public void draw(Canvas canvas,  float interpolation) {
 		interpolate(interpolation);
 		
-		if(interpolatedPosition.x + i < 0)
-			i+=800;
-		if(interpolatedPosition.x + j < -800)
-			j+=800;
+		if(interpolatedPosition.x + offset1 < 0)
+			offset1+=800;
+		if(interpolatedPosition.x + offset2 < -800)
+			offset2+=800;
 			
-		canvas.drawBitmap(bitmap, interpolatedPosition.x + j, interpolatedPosition.y, null);
-		canvas.drawBitmap(bitmap, interpolatedPosition.x + i, interpolatedPosition.y, null);
+		canvas.drawBitmap(bitmap, interpolatedPosition.x + offset2, interpolatedPosition.y, null);
+		canvas.drawBitmap(bitmap, interpolatedPosition.x + offset1, interpolatedPosition.y, null);
 	}
 
 }
