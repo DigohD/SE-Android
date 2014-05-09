@@ -17,7 +17,7 @@ public class Mantis extends Enemy {
 	private Vector2f targetVelocity;
 	
 	public Mantis() {
-		this(new Vector2f(GameView.WIDTH, 0));
+		this(new Vector2f(GameView.WIDTH-10, 0));
 	}
 
 	public Mantis(Vector2f position) {

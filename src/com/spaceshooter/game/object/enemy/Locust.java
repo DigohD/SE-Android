@@ -20,7 +20,7 @@ public class Locust extends Enemy{
 	//private static List<Vector2f> pathNodes = new ArrayList<Vector2f>();
 	
 	public Locust(){
-		this(new Vector2f(GameView.WIDTH, 0));
+		this(new Vector2f(GameView.WIDTH - 10, 0));
 	}
 
 	public Locust(Vector2f position) {

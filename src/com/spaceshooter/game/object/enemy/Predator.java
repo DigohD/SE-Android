@@ -16,7 +16,7 @@ public class Predator extends Enemy {
 	private int reload;
 	
 	public Predator() {
-		this(new Vector2f(GameView.WIDTH, 0));
+		this(new Vector2f(GameView.WIDTH-10, 0));
 	}
 
 	public Predator(Vector2f position) {

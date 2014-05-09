@@ -3,6 +3,7 @@ package com.spaceshooter.game.level;
 import java.util.HashMap;
 
 import com.spaceshooter.game.level.sequence.MantisSequence;
+import com.spaceshooter.game.level.sequence.MixedSequence;
 import com.spaceshooter.game.level.sequence.PredatorSequence;
 import com.spaceshooter.game.level.sequence.Sequence;
 
@@ -26,6 +27,9 @@ public class LevelCreator {
 			case 1:	
 				seqMap.put(seqType, new MantisSequence());
 				break;
+			case 2:
+				seqMap.put(seqType, new MixedSequence());
+				break;
 			}
 		}
 		
@@ -38,15 +42,15 @@ public class LevelCreator {
 	public void runLevel(int level){
 		switch(level){
 		case 1:
-			int[] seqTypes = {0,1};
+			int[] seqTypes = {0,1,2};
 			initLevel(seqTypes);
 			break;
 		case 2:
-			int[] seqTypes2 = {0,1};
+			int[] seqTypes2 = {0,1,2};
 			initLevel(seqTypes2);
 			break;
 		case 3:
-			int[] seqTypes3 = {0,1};
+			int[] seqTypes3 = {0,1,2};
 			initLevel(seqTypes3);
 			break;
 		}
