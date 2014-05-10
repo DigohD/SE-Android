@@ -35,18 +35,6 @@ public class BluePlasma extends Projectile{
 	
 		ProjectileManager.addPlayerProjectile(this);
 	}
-	
-	@Override
-	public void tick(float dt){
-		super.tick(dt);
-		distance = velocity.mul(dt);
-		position = position.add(distance);
-	}
-	
-	@Override
-	public void draw(Canvas canvas,  float interpolation) {
-		super.draw(canvas, interpolation);
-	}
 
 	@Override
 	public void death() {

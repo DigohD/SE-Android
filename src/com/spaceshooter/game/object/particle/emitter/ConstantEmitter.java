@@ -1,10 +1,7 @@
 package com.spaceshooter.game.object.particle.emitter;
 
-import android.graphics.Canvas;
-
 import com.spaceshooter.game.object.particle.Engine;
 import com.spaceshooter.game.object.particle.ParticleID;
-import com.spaceshooter.game.object.particle.RedPlasma;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 
@@ -37,11 +34,6 @@ public class ConstantEmitter extends Emitter{
 	@Override
 	public void tick(float dt) {
 		emit();
-	}
-
-	@Override
-	public void draw(Canvas canvas, float interpolation) {
-		return;
 	}
 	
 	public void setIsSpread(boolean spread){

@@ -160,7 +160,7 @@ public class EnemyGenerator {
 		if(update){
 			timelineTime++;
 			if(enemyTimeline.containsKey(timelineTime)){
-				enemyTimeline.get(timelineTime).addToManagerLists();
+				enemyTimeline.get(timelineTime).init();
 				enemyTimeline.remove(timelineTime);
 			}
 			if(sequenceTimeline.containsKey(timelineTime)){

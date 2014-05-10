@@ -7,16 +7,18 @@ import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.object.projectile.enemy.PredatorProj;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 public class Predator extends Enemy {
 	
+	private Vector2f targetVelocity;
 	private int reload;
 	
 	public Predator() {
-		this(new Vector2f(GameView.WIDTH-10, 0));
+		this(new Vector2f(GameView.WIDTH + 40, 0));
 	}
 
 	public Predator(Vector2f position) {
@@ -32,6 +34,7 @@ public class Predator extends Enemy {
 		speedY = 0;
 		
 		velocity = new Vector2f(speedX, speedY);
+		targetVelocity = new Vector2f(speedX,speedY);
 		hp = 50f;
 		maxHp = 50f;
 	}
@@ -46,8 +49,22 @@ public class Predator extends Enemy {
 			new PredatorProj(v);
 			//SoundPlayer.playSound(1);
 		}
-		distance = velocity.mul(dt);
-		position = position.add(distance);
+		
+		if(position.x <= (GameView.WIDTH - width)){
+			targetVelocity.x = -15f;
+		}
+		
+		if(position.x <= GameView.WIDTH/2 + 100){
+			targetVelocity.x = -10f;
+		}
+		
+		if(position.x <= GameView.WIDTH/4 + 50){
+			targetVelocity.x = -15f;
+		}
+		
+		velocity.x = approach(targetVelocity.x, velocity.x, dt);
+		velocity.y = approach(targetVelocity.y, velocity.y, dt);
+		move(dt);
 	}
 
 	@Override

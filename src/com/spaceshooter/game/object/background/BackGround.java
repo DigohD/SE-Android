@@ -31,8 +31,7 @@ public class BackGround extends DynamicObject{
 	
 	@Override
 	public void tick(float dt) {
-		distance = velocity.mul(dt);
-		position = position.add(distance);
+		move(dt);
 	}
 	
 	@Override

@@ -42,7 +42,7 @@ public class LevelCreator {
 	public void runLevel(int level){
 		switch(level){
 		case 1:
-			int[] seqTypes = {0};
+			int[] seqTypes = {0,2};
 			initLevel(seqTypes);
 			break;
 		case 2:

@@ -53,7 +53,7 @@ public class Sequence {
 					Enemy e;
 					try {
 						e = enemies.get(i).getClass().newInstance();
-						e.addToManagerLists();
+						e.init();
 						e.setPosition(v);
 					} catch (InstantiationException e1) {
 						e1.printStackTrace();

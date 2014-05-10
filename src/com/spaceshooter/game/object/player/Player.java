@@ -33,6 +33,7 @@ public class Player extends DynamicObject implements Collideable {
 	private int score = 0;
 	private float steps = 10;
 	private float hp = 100f, maxHP = 100f;
+	private float dX, dY;
 	
 	public Player(Vector2f position) {
 		super(position);
@@ -65,24 +66,19 @@ public class Player extends DynamicObject implements Collideable {
 	}
 	
 	public void incTargetPos(float dX, float dY) {
-		Vector2f newTarget = new Vector2f(targetPosition.x + dX, targetPosition.y + dY);
-		targetPosition = newTarget;
+		this.dX = dX;
+		this.dY = dY;
 		update = true;
 	}
-	
-	private float approach(float target, float current, float dt){
-		float diff = target - current;
-		if(diff > dt)
-			return current + dt;
-		if(diff < -dt)
-			return current - dt;
-		return target;
-	}
-	
-	private void move(float dt){
+
+	@Override
+	public void move(float dt){
+		targetPosition.x = targetPosition.x + dX;
+		targetPosition.y = targetPosition.y + dY;
+		
 		velocity.x = approach(targetVelocity.x, velocity.x, dt*20f);
 		velocity.y = approach(targetVelocity.y, velocity.y, dt*20f);
-		distance = velocity.mul(dt);
+		distance = velocity.mul(dt*0.5f);
 		Vector2f diff = targetPosition.sub(position).div(steps);
 		position = position.add(diff.div(distance));
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
@@ -114,8 +110,7 @@ public class Player extends DynamicObject implements Collideable {
 	public void tick(float dt) {
 		inBound();
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-		if(update) 
-			move(dt);
+		if(update) move(dt);
 	}
 
 	@Override
@@ -126,8 +121,7 @@ public class Player extends DynamicObject implements Collideable {
 	@Override
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Enemy){
-			if(live)
-				death();
+			if(live) death();
 			hp = 0;
 			live = false;
 			engine.setLive(false);

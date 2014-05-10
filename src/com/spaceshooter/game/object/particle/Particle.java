@@ -1,5 +1,6 @@
 package com.spaceshooter.game.object.particle;
 
+import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.spaceshooter.game.object.DynamicObject;
@@ -17,6 +18,18 @@ public abstract class Particle extends DynamicObject{
 		this.pID = pID;
 	}
 	
+	@Override
+	public void tick(float dt){
+		timeLived++;
+		if(timeLived > lifetime)
+			live = false;
+		
+		move(dt);
+	}
 	
+	@Override
+	public void draw(Canvas canvas,  float interpolation) {
+		super.draw(canvas, interpolation);
+	}
 
 }

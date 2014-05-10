@@ -20,7 +20,7 @@ public class Locust extends Enemy{
 	//private static List<Vector2f> pathNodes = new ArrayList<Vector2f>();
 	
 	public Locust(){
-		this(new Vector2f(GameView.WIDTH - 10, 0));
+		this(new Vector2f(GameView.WIDTH + 40, 0));
 	}
 
 	public Locust(Vector2f position) {
@@ -54,24 +54,18 @@ public class Locust extends Enemy{
 			diff = targetPos.sub(position);
 			position = position.add(diff.div(steps));
 		}else{
-			move(dt);
+			super.tick(dt);
 		}
 		
 		if(position.x <= targetPos.x){
-			move(dt);
+			super.tick(dt);
 		}
-	}
-	
-	private void move(float dt){
-		distance = velocity.mul(dt);
-		position = position.add(distance);
 	}
 	
 	@Override
 	public void tick(float dt) {
 		timer++;
 		super.tick(dt);
-		move(dt);
 //		moveToTarget(dt);
 	}
 	

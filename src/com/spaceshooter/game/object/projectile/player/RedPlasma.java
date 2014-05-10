@@ -37,18 +37,6 @@ public class RedPlasma extends Projectile{
 	}
 	
 	@Override
-	public void tick(float dt){
-		super.tick(dt);
-		distance = velocity.mul(dt);
-		position = position.add(distance);
-	}
-	
-	@Override
-	public void draw(Canvas canvas,  float interpolation) {
-		super.draw(canvas, interpolation);
-	}
-
-	@Override
 	public void death() {
 		new ImpactEmitter(3, ParticleID.RED_DOT, 
 				position, velocity);

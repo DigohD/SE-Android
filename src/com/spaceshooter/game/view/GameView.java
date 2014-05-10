@@ -219,9 +219,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    	
 		    	float dX = eventX - 100;
 		    	float dY = eventY - 380;
-		    	
+
 		    	dX = dX / 8;
 		    	dY = dY / 8;
+		    	
+		    	//System.out.println("dX: " + dX + ", dY: " + dY);
 		    	
 		    	GameObjectManager.getPlayer().incTargetPos(dX, dY);
 	    	}
@@ -241,7 +243,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    	
 		    	dX = dX / 8;
 		    	dY = dY / 8;
-		    	
+
 		    	GameObjectManager.getPlayer().incTargetPos(dX, dY);
 		    	
 		    	if(eventX > 700)

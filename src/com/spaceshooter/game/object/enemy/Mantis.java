@@ -16,8 +16,12 @@ public class Mantis extends Enemy {
 	private int reload;
 	private Vector2f targetVelocity;
 	
+	private boolean directionChoosed = false;
+	private boolean fire = false;
+	private boolean top , bottom;
+	
 	public Mantis() {
-		this(new Vector2f(GameView.WIDTH-10, 0));
+		this(new Vector2f(GameView.WIDTH + 40, 0));
 	}
 
 	public Mantis(Vector2f position) {
@@ -37,19 +41,6 @@ public class Mantis extends Enemy {
 		hp = 20f;
 		maxHp = 20f;
 	}
-	
-	private float approach(float target, float current, float dt){
-		float diff = target - current;
-		if(diff > dt)
-			return current + dt;
-		if(diff < -dt)
-			return current - dt;
-		return target;
-	}
-	
-	boolean directionChoosed = false;
-	boolean fire = false;
-	boolean top , bottom;
 
 	@Override
 	public void tick(float dt) {
@@ -97,8 +88,8 @@ public class Mantis extends Enemy {
 		
 		velocity.x = approach(targetVelocity.x, velocity.x, dt);
 		velocity.y = approach(targetVelocity.y, velocity.y, dt);
-		distance = velocity.mul(dt);
-		position = position.add(distance);
+		
+		move(dt);
 	}
 
 	@Override

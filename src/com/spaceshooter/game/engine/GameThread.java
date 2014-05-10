@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
-import android.view.ViewGroup;
 
 import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.view.GameView;
@@ -195,8 +194,9 @@ public class GameThread implements Runnable {
 		int tps = 0;
 
 		boolean shouldDraw;
-
+		
 		while (running) {
+	
 			lock.lock();
 			while(paused){
 				try {
@@ -209,7 +209,7 @@ public class GameThread implements Runnable {
 			
 			canvas = null;
 			shouldDraw = false;
-
+			
 			currentTime = System.nanoTime();
 			passedTime = (currentTime - previousTime) / 1000000000.0;
 			//set a max limit for passedtime to avoid spiral of death
@@ -225,10 +225,10 @@ public class GameThread implements Runnable {
 				tps++;
 				accumulator -= OPTIMAL_UPDATETIME;
 			}
-
-			if(shouldDraw) {
+			
+			if(shouldDraw){
 				interpolation = (float) (accumulator / OPTIMAL_UPDATETIME);
-				draw(canvas, interpolation);
+				draw(canvas, interpolation);	
 				fps++;
 			}
 
@@ -252,23 +252,43 @@ public class GameThread implements Runnable {
 		gA.setContentView(invView);
 	}
 	
+
+	
+	
+	
 //	double startTime = 0, endTime = 0;
-//	double finalDelta = 0;
+//	double frameTime = 0;
 //	long sleepTime = 0;
-//	double msPerTick = (OPTIMAL_UPDATETIME*1000.0);
+//	double targetFrameTime = (OPTIMAL_UPDATETIME*1000.0);
+//	
+//	int framesSkipped;
+//	final int MAX_SKIPS = 5;
 	
-	// startTime = System.nanoTime();
+//	framesSkipped = 0;
 	
-	// endTime = System.nanoTime();
-	// finalDelta = (endTime - startTime) / 1000000.0;
-	// sleepTime = (long) (msPerTick - finalDelta);
-	//
-	// if(finalDelta < msPerTick){
-	// try {
-	// Thread.sleep(sleepTime);
-	// } catch (InterruptedException e) {
-	// e.printStackTrace();
-	// }
-	// }
+//	startTime = System.nanoTime();
+//	tick(dt);
+//	interpolation = (float) (accumulator / OPTIMAL_UPDATETIME);
+//	draw(canvas, interpolation);	
+//endTime = System.nanoTime();
+//
+//frameTime = (endTime - startTime) / 1000000.0;
+//sleepTime = (long) (targetFrameTime - frameTime);
+//	
+//if(frameTime < targetFrameTime){
+//	try {
+//		Thread.sleep(sleepTime);
+//	} catch (InterruptedException e) {
+//		e.printStackTrace();
+//	}
+//}
+//	
+//while(frameTime > targetFrameTime && framesSkipped < MAX_SKIPS){
+//	tick(dt);
+//	frameTime -= targetFrameTime;
+//	framesSkipped = 0;
+//}
+	
+	
 
 }

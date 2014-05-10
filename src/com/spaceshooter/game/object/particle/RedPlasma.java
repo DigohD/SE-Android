@@ -33,19 +33,4 @@ public class RedPlasma extends Particle{
 		GameObjectManager.addGameObject(this);
 	}
 	
-	@Override
-	public void tick(float dt){
-		timeLived++;
-		if(timeLived > lifetime)
-			live = false;
-		
-		distance = velocity.mul(dt);
-		position = position.add(distance);
-	}
-	
-	@Override
-	public void draw(Canvas canvas,  float interpolation) {
-		super.draw(canvas, interpolation);
-	}
-	
 }

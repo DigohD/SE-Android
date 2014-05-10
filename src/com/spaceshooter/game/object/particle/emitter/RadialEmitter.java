@@ -1,7 +1,5 @@
 package com.spaceshooter.game.object.particle.emitter;
 
-import android.graphics.Canvas;
-
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.PurpleDot;
 import com.spaceshooter.game.object.particle.RedPlasma;
@@ -31,19 +29,6 @@ public class RadialEmitter extends Emitter{
 					break;
 			}
 		}
-	}
-
-	@Override
-	public void tick(float dt) {
-		timeLived++;
-		if(timeLived > lifetime)
-			this.closeEmitter();
-		emit();
-	}
-
-	@Override
-	public void draw(Canvas canvas, float interpolation) {
-		return;
 	}
 
 }

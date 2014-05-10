@@ -1,14 +1,9 @@
 package com.spaceshooter.game.object.particle;
 
-import android.graphics.Canvas;
-import android.graphics.Rect;
-
 import com.spaceshooter.game.engine.GameObjectManager;
-import com.spaceshooter.game.engine.ProjectileManager;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
 public class LBlueBall extends Particle{
 
@@ -32,21 +27,6 @@ public class LBlueBall extends Particle{
 		timeLived = 0;
 		
 		GameObjectManager.addGameObject(this);
-	}
-	
-	@Override
-	public void tick(float dt){
-		timeLived++;
-		if(timeLived > lifetime)
-			live = false;
-		
-		distance = velocity.mul(dt);
-		position = position.add(distance);
-	}
-	
-	@Override
-	public void draw(Canvas canvas,  float interpolation) {
-		super.draw(canvas, interpolation);
 	}
 	
 }

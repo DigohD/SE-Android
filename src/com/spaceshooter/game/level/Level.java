@@ -13,7 +13,7 @@ public class Level {
 	private LevelCreator lvlCreator;
 	private EnemyGenerator enemyGen;
 	
-	private int numOfLevels = 3;
+	private static int numOfLevels = 3;
 	private int timer = 0;
 	private int LEVEL_TIME;
 	private int time;
@@ -70,7 +70,7 @@ public class Level {
 		levelDone = finished;
 	}
 
-	public int getNumOfLevels() {
+	public static int getNumOfLevels() {
 		return numOfLevels;
 	}
 
