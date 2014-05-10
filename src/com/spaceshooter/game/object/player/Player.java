@@ -33,8 +33,7 @@ public class Player extends DynamicObject implements Collideable {
 	private int score = 0;
 	private float steps = 10;
 	private float hp = 100f, maxHP = 100f;
-	private float dX, dY;
-	
+
 	public Player(Vector2f position) {
 		super(position);
 		
@@ -63,24 +62,34 @@ public class Player extends DynamicObject implements Collideable {
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		engine.setIsSpread(true);
 		live = true;
+		update = false;
+		targetVelocity.x = 0;
+		targetVelocity.y = 0;
 	}
 	
 	public void incTargetPos(float dX, float dY) {
-		this.dX = dX;
-		this.dY = dY;
+		targetVelocity.x = dX;
+		targetVelocity.y = dY;
 		update = true;
 	}
 
 	@Override
 	public void move(float dt){
-		targetPosition.x = targetPosition.x + dX;
-		targetPosition.y = targetPosition.y + dY;
+		if(!update){
+			targetVelocity.x = 0;
+			targetVelocity.y = 0;
+		}
 		
-		velocity.x = approach(targetVelocity.x, velocity.x, dt*20f);
-		velocity.y = approach(targetVelocity.y, velocity.y, dt*20f);
-		distance = velocity.mul(dt*0.5f);
+		velocity.x = approach(targetVelocity.x, velocity.x , dt*5f);
+		velocity.y = approach(targetVelocity.y, velocity.y , dt*5f);
+
+		targetPosition.x = targetPosition.x + velocity.x;
+		targetPosition.y = targetPosition.y + velocity.y;
+		
 		Vector2f diff = targetPosition.sub(position).div(steps);
-		position = position.add(diff.div(distance));
+		distance = diff;
+		position = position.add(diff);
+	
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		topGunPos.set(position.x, position.y + 4);
 		bottomGunPos.set(position.x, position.y + width - 6);
@@ -110,7 +119,7 @@ public class Player extends DynamicObject implements Collideable {
 	public void tick(float dt) {
 		inBound();
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-		if(update) move(dt);
+		move(dt);
 	}
 
 	@Override
@@ -203,7 +212,9 @@ public class Player extends DynamicObject implements Collideable {
 	public Gun getBottomGun() {
 		return bottomGun;
 	}
-	
-	
+
+	public Vector2f getTargetPosition() {
+		return targetPosition;
+	}
 
 }

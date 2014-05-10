@@ -207,44 +207,34 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	    //Joystick center point: X = 100, Y = 380
 	    if(eventX < 210 && eventX > 0 && eventY < 480 && eventY > 300){
 	    	if(event.getAction() == MotionEvent.ACTION_MOVE){
+	    		
 	    		drawJoystick = true;
-		    	if(eventX > 160)
-		    		eventX = 160;
-		    	else if(eventX < 40)
-		    		eventX = 40;
-		    	if(eventY > 440)
-		    		eventY = 440;
-		    	else if(eventY < 320)
-		    		eventY = 320;
-		    	
-		    	float dX = eventX - 100;
-		    	float dY = eventY - 380;
+	    		
+		    	if(eventX <= 190 && eventX >= 20 && eventY <= 470 && eventY >= 300){  
+		    		float dX = eventX - 100;
+			    	float dY = eventY - 380;
 
-		    	dX = dX / 8;
-		    	dY = dY / 8;
-		    	
-		    	//System.out.println("dX: " + dX + ", dY: " + dY);
-		    	
-		    	GameObjectManager.getPlayer().incTargetPos(dX, dY);
+			    	dX = dX / 8;
+			    	dY = dY / 8;
+
+			    	GameObjectManager.getPlayer().incTargetPos(dX, dY);
+			    	
+		    	}else GameObjectManager.getPlayer().setUpdate(false);
+
 	    	}
 	    	if(event.getAction() == MotionEvent.ACTION_DOWN){
 	    		drawJoystick = true;
-		    	if(eventX > 160)
-		    		eventX = 160;
-		    	else if(eventX < 40)
-		    		eventX = 40;
-		    	if(eventY > 440)
-		    		eventY = 440;
-		    	else if(eventY < 320)
-		    		eventY = 320;
-		    	
-		    	float dX = eventX - 100;
-		    	float dY = eventY - 380;
-		    	
-		    	dX = dX / 8;
-		    	dY = dY / 8;
+	    	
+		    	if(eventX <= 190 && eventX >= 20 && eventY <= 470 && eventY >= 300){  
+		    		float dX = eventX - 100;
+			    	float dY = eventY - 380;
 
-		    	GameObjectManager.getPlayer().incTargetPos(dX, dY);
+			    	dX = dX / 8;
+			    	dY = dY / 8;
+
+			    	GameObjectManager.getPlayer().incTargetPos(dX, dY);
+			    	
+		    	}else GameObjectManager.getPlayer().setUpdate(false);
 		    	
 		    	if(eventX > 700)
 		    		game.goInventory();
@@ -252,7 +242,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	    	
 	    	if(event.getAction() == MotionEvent.ACTION_UP){
 	    		drawJoystick = false;
-	    		//GameObjectManager.getPlayer().setUpdate(false);
+	    		GameObjectManager.getPlayer().setUpdate(false);
 	    	}
 	    }
 	    
