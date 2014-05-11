@@ -34,7 +34,7 @@ public class Player extends DynamicObject implements Collideable {
 	
 	private float steps = 15;
 	//lower values result in more inertia, eg the ship feels heavier and takes more time to stop
-	private float inertia = 9.82f;
+	private float dtSteps = 9.82f;
 	private float hp = 100f, maxHP = 100f;
 	
 	public Player(Vector2f position) {
@@ -80,8 +80,8 @@ public class Player extends DynamicObject implements Collideable {
 			targetVelocity.y = 0;
 		}
 		
-		velocity.x = approach(targetVelocity.x, velocity.x , dt*inertia);
-		velocity.y = approach(targetVelocity.y, velocity.y , dt*inertia);
+		velocity.x = approach(targetVelocity.x, velocity.x , dt*dtSteps);
+		velocity.y = approach(targetVelocity.y, velocity.y , dt*dtSteps);
 
 		targetPosition.x = targetPosition.x + velocity.x;
 		targetPosition.y = targetPosition.y + velocity.y;

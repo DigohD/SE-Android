@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 
 import com.spaceshooter.game.util.Vector2f;
 
-public abstract class DynamicObject extends GameObject implements Moveable {
+public abstract class DynamicObject extends GameObject {
 
 	protected float speedX, speedY;
 
@@ -36,7 +36,6 @@ public abstract class DynamicObject extends GameObject implements Moveable {
 				nextPosition.mul((1.0f - interpolation)));
 	}
 	
-	@Override
 	public void move(float dt){
 		distance = velocity.mul(dt);
 		position = position.add(distance);

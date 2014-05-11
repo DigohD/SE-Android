@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
-import com.spaceshooter.game.level.sequence.PredatorSequence;
 
 public class Level {
 	
@@ -23,12 +22,11 @@ public class Level {
 	
 	/**
 	 * Creates a new level that will last for the given time
-	 * @param TIME the time the level will take in minutes
+	 * @param TIME the time the level will take in seconds
 	 */
 	public Level(int time){
 		this.time = time;
-		int TIME = time * TPS;
-		LEVEL_TIME = TIME * TPS;
+		LEVEL_TIME = time * TPS;
 		
 		gameObjectManager = new GameObjectManager();
 		

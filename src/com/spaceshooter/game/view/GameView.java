@@ -27,10 +27,15 @@ import com.spaceshooter.game.util.MusicPlayer;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public static final int WIDTH = 800, HEIGHT = 480; 
-	private float scaleX, scaleY;
+	
 	private int timer = 0, timer2 = 0;
+	private int levelTime = 60;
 	private int levelID = 2;
 	
+	private float scaleX, scaleY;
+	private float knobX;
+	private float knobY;
+
 	private boolean drawJoystick = true;
 	private boolean okToRestartMP = true;
 	private boolean newLevel = false, firstLevel = true;
@@ -42,15 +47,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private Bitmap joystick, knob;
 	private MusicPlayer mp;
 	private Paint p = new Paint();
-	
-	private float knobX;
-	private float knobY;
-	
+
 	public GameView(Context context) {
 		super(context);
 		this.context = context;
 	
-		level = new Level(1);
+		level = new Level(levelTime);
 		game = new GameThread(getHolder(),this);
 		if(mp == null)
 			mp = new MusicPlayer(context);
@@ -106,7 +108,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         		builder.setPositiveButton(positiveBtn, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
                     	GameObjectManager.clear();
-                    	level = new Level(1);
+                    	level = new Level(levelTime);
                     	GameObjectManager.getPlayer().init();
                     	game.resume();
                     	if(mp == null)
@@ -243,6 +245,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    		
 		    		knobX = eventX - knob.getWidth()/2;
 		    		knobY = eventY - knob.getHeight()/2;
+		    		
 		    		float dX = eventX - 100;
 			    	float dY = eventY - 380;
 

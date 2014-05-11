@@ -49,19 +49,7 @@ public class Predator extends Enemy {
 			new PredatorProj(v);
 			//SoundPlayer.playSound(1);
 		}
-		
-		if(position.x <= (GameView.WIDTH - width)){
-			targetVelocity.x = -15f;
-		}
-		
-		if(position.x <= GameView.WIDTH/2 + 100){
-			targetVelocity.x = -10f;
-		}
-		
-		if(position.x <= GameView.WIDTH/4 + 50){
-			targetVelocity.x = -15f;
-		}
-		
+
 		velocity.x = approach(targetVelocity.x, velocity.x, dt);
 		velocity.y = approach(targetVelocity.y, velocity.y, dt);
 		move(dt);
