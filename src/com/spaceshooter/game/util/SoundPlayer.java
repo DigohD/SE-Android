@@ -11,7 +11,7 @@ public class SoundPlayer {
 	
 	private static SoundPool soundPool;
 	private static boolean loaded;
-	private static int laser, explosion;
+	private static int laser, explosion, lasershot;
 	
 	public SoundPlayer(Activity activity){
 		soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
@@ -24,6 +24,7 @@ public class SoundPlayer {
 	    });
 	    laser = soundPool.load(activity, com.example.se_android.R.raw.laser, 1);
 	    explosion = soundPool.load(activity, com.example.se_android.R.raw.explosion, 1);
+	    lasershot = soundPool.load(activity, com.example.se_android.R.raw.laser_shoot, 1);
 	}
 	
 	public static void playSound(int ID){
@@ -34,6 +35,9 @@ public class SoundPlayer {
 					break;
 				case 2:
 			        soundPool.play(explosion, 1.0f, 1.0f, 1, 0, 1f);
+					break;
+				case 3:
+			        soundPool.play(lasershot, 1.0f, 1.0f, 1, 0, 1f);
 					break;
 			}
 	      }
