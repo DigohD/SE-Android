@@ -53,6 +53,23 @@ public class Player extends DynamicObject implements Collideable {
 		topGunPos = new Vector2f(position.x, position.y + 4);
 		bottomGunPos = new Vector2f(position.x, position.y + width-6);
 	}
+	
+	//used for unit testing
+	public Player(Vector2f position, int width, int height) {
+		super(position);
+		
+		this.width = width;
+		this.height = height;
+
+		rect = new Rect((int) position.x, (int) position.y, (int) position.x
+				+ width, (int) position.y + height);
+
+		targetVelocity = new Vector2f(0, 0);
+		velocity = new Vector2f(0, 0);
+		
+		topGunPos = new Vector2f(position.x, position.y + 4);
+		bottomGunPos = new Vector2f(position.x, position.y + width-6);
+	}
 
 	public void init(){
 		position = new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2);
@@ -97,22 +114,22 @@ public class Player extends DynamicObject implements Collideable {
 	
 	private void inBound(){
 		if(position.x < 0) 
-			position.x = 4;
+			position.x = 2;
 		if(position.x + width >= GameView.WIDTH)
-			position.x = (GameView.WIDTH - width) - 4;
+			position.x = (GameView.WIDTH - width) - 2;
 		if(position.y < 0) 
 			position.y = 0;
 		if(position.y + height >= GameView.HEIGHT)
-			position.y = (GameView.HEIGHT - height) - 4;
+			position.y = (GameView.HEIGHT - height) - 2;
 			
 		if(targetPosition.x < 0) 
-			targetPosition.x = 4;
+			targetPosition.x = 2;
 		if(targetPosition.x + width >= GameView.WIDTH)
-			targetPosition.x = (GameView.WIDTH - width) - 4;
+			targetPosition.x = (GameView.WIDTH - width) - 2;
 		if(targetPosition.y < 0) 
 			targetPosition.y = 0;
 		if(targetPosition.y + height >= GameView.HEIGHT)
-			targetPosition.y = (GameView.HEIGHT - height) - 4;
+			targetPosition.y = (GameView.HEIGHT - height) - 2;
 	}
 	
 	@Override

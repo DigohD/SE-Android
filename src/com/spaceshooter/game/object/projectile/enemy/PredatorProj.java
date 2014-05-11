@@ -1,6 +1,5 @@
 package com.spaceshooter.game.object.projectile.enemy;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.spaceshooter.game.engine.ProjectileManager;
@@ -9,7 +8,6 @@ import com.spaceshooter.game.object.particle.emitter.ImpactEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
 public class PredatorProj extends Projectile{
 
@@ -24,6 +22,19 @@ public class PredatorProj extends Projectile{
 	
 		ProjectileManager.addEnemyProjectile(this);
 	}
+	
+	//used for unit testing
+	public PredatorProj(Vector2f position, int width, int height) {
+		super(position, new Vector2f(80f, 0f));
+		damage = 20f;
+				
+		this.width = width;
+		this.height = height;
+			
+		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+			
+		ProjectileManager.addPlayerProjectile(this);
+	}		
 
 	@Override
 	public void death() {

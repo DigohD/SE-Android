@@ -17,7 +17,7 @@ public abstract class Projectile extends DynamicObject {
 	
 	@Override
 	public void tick(float dt){
-		if(getX() > GameView.WIDTH || getX() < -width || getY() > GameView.HEIGHT || getY() < -height)
+		if(isOutOfBound())
 			live = false;
 		
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
@@ -27,6 +27,10 @@ public abstract class Projectile extends DynamicObject {
 	@Override
 	public void draw(Canvas canvas,  float interpolation) {
 		super.draw(canvas, interpolation);
+	}
+	
+	public boolean isOutOfBound(){
+		return getX() >= GameView.WIDTH || getX() <= -width || getY() >= GameView.HEIGHT || getY() <= -height;
 	}
 	
 	public abstract void death();

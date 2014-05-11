@@ -217,7 +217,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	    		
 	    		drawJoystick = true;
 	    		
-		    	if(eventX <= 190 && eventX >= 20 && eventY <= 470 && eventY >= 300){  
+		    	if(eventX <= 180 && eventX >= 20 && eventY <= 470 && eventY >= 308){  
 		    		
 		    		knobX = eventX - knob.getWidth()/2;
 		    		knobY = eventY - knob.getHeight()/2;
@@ -241,7 +241,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	    	if(event.getAction() == MotionEvent.ACTION_DOWN){
 	    		drawJoystick = true;
 	    	
-		    	if(eventX <= 190 && eventX >= 20 && eventY <= 470 && eventY >= 300){ 
+	    		if(eventX <= 180 && eventX >= 20 && eventY <= 470 && eventY >= 308){  
 		    		
 		    		knobX = eventX - knob.getWidth()/2;
 		    		knobY = eventY - knob.getHeight()/2;

@@ -1,6 +1,7 @@
 package com.spaceshooter.game;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +23,15 @@ import com.example.se_android.R;
 import com.spaceshooter.game.database.HighScoreDataHelper;
 import com.spaceshooter.game.database.HighScoreEntry;
 import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.object.projectile.Projectile;
+import com.spaceshooter.game.object.projectile.enemy.MantisProj;
+import com.spaceshooter.game.object.projectile.enemy.PredatorProj;
+import com.spaceshooter.game.object.projectile.player.BluePlasma;
+import com.spaceshooter.game.object.projectile.player.GreenPlasma;
+import com.spaceshooter.game.object.projectile.player.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
+import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 import com.spaceshooter.game.view.InventoryView;
 
@@ -223,5 +231,41 @@ public class GameActivity extends Activity {
 			highScoreAccessor.insert(entry);
 		}
 	}
+	
+//UNIT TEST FOR PROJECTILES
+	
+//	public void testProjectileOutOfBound(){
+//		List<Projectile> projectiles = new ArrayList<Projectile>();
+//		
+//		Projectile p1 = new RedPlasma(new Vector2f(GameView.WIDTH,0), 20, 5);
+//		Projectile p2 = new BluePlasma(new Vector2f(GameView.WIDTH/2, -12), 12, 12);
+//		Projectile p3 = new GreenPlasma(new Vector2f(GameView.WIDTH/2, GameView.HEIGHT+12), 30, 12);
+//		Projectile p4 = new MantisProj(new Vector2f(-20,GameView.HEIGHT/2), 20, 2);
+//		Projectile p5 = new PredatorProj(new Vector2f(-20,GameView.HEIGHT/2), 20, 5);
+//		
+//		projectiles.add(p1);
+//		projectiles.add(p2);
+//		projectiles.add(p3);
+//		projectiles.add(p4);
+//		projectiles.add(p5);
+//		
+//		boolean[] projsOutofBound = new boolean[5];
+//		
+//		for(int i = 0; i < projsOutofBound.length; i++)
+//			projsOutofBound[i] = false;
+//		
+//		for(int i = 0; i < projectiles.size(); i++){
+//			Projectile p = projectiles.get(i);
+//			if(p.isOutOfBound())
+//				projsOutofBound[i] = true;
+//		}
+//		
+//		int count = 0;
+//		for(int i = 0; i < projsOutofBound.length; i++)
+//			if(projsOutofBound[i])
+//				count++;
+//			
+//		assertEquals(projectiles.size(), count);
+//	}
 
 }
