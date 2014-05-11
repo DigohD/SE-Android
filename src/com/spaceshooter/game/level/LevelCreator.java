@@ -42,14 +42,16 @@ public class LevelCreator {
 	public void runLevel(int level){
 		switch(level){
 		case 1:
-			int[] seqTypes = {0,2};
+			int[] seqTypes = {0};
 			initLevel(seqTypes);
 			break;
 		case 2:
+			enemyGen.setTime(40);
 			int[] seqTypes2 = {0,1};
 			initLevel(seqTypes2);
 			break;
 		case 3:
+			enemyGen.setTime(60);
 			int[] seqTypes3 = {0,1,2};
 			initLevel(seqTypes3);
 			break;

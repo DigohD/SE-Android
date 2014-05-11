@@ -30,6 +30,7 @@ import com.spaceshooter.game.object.projectile.player.BluePlasma;
 import com.spaceshooter.game.object.projectile.player.GreenPlasma;
 import com.spaceshooter.game.object.projectile.player.RedPlasma;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
@@ -232,7 +233,36 @@ public class GameActivity extends Activity {
 		}
 	}
 	
-//UNIT TEST FOR PROJECTILES
+//UNIT TESTS
+	
+	
+//	public void testVector2fNormalizeAndLength(){
+//		for(int i = 0; i < 10000; i++){
+//			float rX = Randomizer.getFloat(1, 800);
+//			float rY = Randomizer.getFloat(1, 480);
+//			Vector2f v = new Vector2f(rX, rY);
+//			assertEquals(1.0f, v.normalize().length());
+//		}
+//	}
+//	
+//	public void testVector2fDot(){
+//		Vector2f v1 = new Vector2f(5, 6);
+//		Vector2f v2 = new Vector2f(3, 7);
+//		
+//		Vector2f v3 = new Vector2f(15, 5);
+//		Vector2f v4 = new Vector2f(12, 8);
+//		
+//		Vector2f v5 = new Vector2f(11, 27);
+//		Vector2f v6 = new Vector2f(38, 70);
+//		
+//		Vector2f v7 = new Vector2f(130, 78);
+//		Vector2f v8 = new Vector2f(56, 18);
+//		
+//		assertEquals(57.0f, v1.dot(v2));
+//		assertEquals(220.0f, v3.dot(v4));
+//		assertEquals(2308.0f, v5.dot(v6));
+//		assertEquals(8684.0f, v7.dot(v8));
+//	}
 	
 //	public void testProjectileOutOfBound(){
 //		List<Projectile> projectiles = new ArrayList<Projectile>();

@@ -29,7 +29,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public static final int WIDTH = 800, HEIGHT = 480; 
 	
 	private int timer = 0, timer2 = 0;
-	private int levelTime = 60;
+	private int levelTime = 30;
 	private int levelID = 2;
 	
 	private float scaleX, scaleY;

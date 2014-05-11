@@ -29,7 +29,8 @@ public class Vector2f {
 	 * @return returns the length of the vector
 	 */
 	public float length() {
-		return (float) Math.sqrt(x * x + y * y);
+		float len = (float) Math.sqrt(x * x + y * y);
+		return Math.round(len);
 	}
 
 	/**
@@ -61,7 +62,6 @@ public class Vector2f {
 	 * @return returns a new rotated vector
 	 */
 	public Vector2f rotate(float angle) {
-
 		float rad = (float) Math.toRadians(angle);
 		float cos = (float) Math.cos(rad);
 		float sin = (float) Math.sin(rad);
@@ -76,7 +76,6 @@ public class Vector2f {
 	 * @return returns a new rotated vector
 	 */
 	public Vector2f rotate(Vector2f v, float angle){
-		
 		float rad = (float)Math.toRadians(angle);
 		float cos = (float)Math.cos(rad);
 		float sin = (float)Math.sin(rad);
