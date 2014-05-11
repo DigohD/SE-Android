@@ -9,15 +9,9 @@ import com.spaceshooter.game.view.GameView;
 
 public class Locust extends Enemy{
 	
-	private Vector2f targetPos = new Vector2f(0,0);
-	private Vector2f diff = new Vector2f(0,0);
 	int timer = 0;
 	int steps = 20;
 	private int reload;
-	
-	private static int nodeIndex = 0;
-	
-	//private static List<Vector2f> pathNodes = new ArrayList<Vector2f>();
 	
 	public Locust(){
 		this(new Vector2f(GameView.WIDTH + 40, 0));
@@ -35,38 +29,16 @@ public class Locust extends Enemy{
 		speedY = 0;
 		
 		velocity = new Vector2f(speedX, speedY);
-		scanPathNodes("enemies/enemyPathNodes");
-		targetPos = pathNodes.get(nodeIndex);
-		nodeIndex++;
-		diff = targetPos.sub(position);
-		
+
 		hp = 50f;
 		maxHp = 50f;
-	}
-	
-	
-	private void moveToTarget(float dt){
-		boolean check1 = (int)position.x == (int)targetPos.x && (int)position.y == (int)targetPos.y;
-		boolean check2 = (targetPos.x - position.x) <= 0.1f && (targetPos.y - position.y) <= 0.1f;
-		boolean reachedTarget = check1 || check2;
-		
-		if(!reachedTarget){
-			diff = targetPos.sub(position);
-			position = position.add(diff.div(steps));
-		}else{
-			super.tick(dt);
-		}
-		
-		if(position.x <= targetPos.x){
-			super.tick(dt);
-		}
 	}
 	
 	@Override
 	public void tick(float dt) {
 		timer++;
 		super.tick(dt);
-//		moveToTarget(dt);
+		move(dt);
 	}
 	
 	@Override
