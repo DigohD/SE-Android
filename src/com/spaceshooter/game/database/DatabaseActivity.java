@@ -1,21 +1,21 @@
 package com.spaceshooter.game.database;
 
 
-import com.example.se_android.R;
-import com.spaceshooter.game.GameActivity;
-import com.spaceshooter.game.engine.GameObjectManager;
-
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.se_android.R;
+import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.menu.TabMenu;
 
 public class DatabaseActivity extends Activity {
 
 	private int i=0, x=0;
-	DBAdapter myDb;
+	private DBAdapter myDb;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +25,12 @@ public class DatabaseActivity extends Activity {
 		openDB();
 	}
 	
-	@Override
-	public void onBackPressed() {
-		
-		Intent intent = new Intent(this, GameActivity.class);
-		startActivity(intent);
-	}
-	
+//	@Override
+//	public void onBackPressed() {
+//		Intent intent = new Intent(this, TabMenu.class);
+//		startActivity(intent);
+//	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();	
@@ -41,7 +40,8 @@ public class DatabaseActivity extends Activity {
 	public void openDB() {
 		myDb.open();
 		//myDb.deleteAll();
-		addHighscore(1,GameObjectManager.getPlayer().getScore());
+		if(GameObjectManager.getPlayer() != null)
+			addHighscore(1,GameObjectManager.getPlayer().getScore());
 	}
 	
 	public void closeDB() {
@@ -79,7 +79,6 @@ public class DatabaseActivity extends Activity {
 		int oldHighscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
 		long id = cursor.getLong(DBAdapter.COL_ROWID);
 		if(oldHighscore < newHighscore){
-			
 			oldHighscore = newHighscore;
 		}
 		myDb.updateRow(id, level, oldHighscore);

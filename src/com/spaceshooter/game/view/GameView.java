@@ -92,18 +92,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 * @param positiveBtn the text in the positive button
 	 * @param negativeBtn the text in the negative button
 	 */
-	private void dialogBox(final String title, final String msg, final String positiveBtn, final String negativeBtn){
+	private void dialogBox(final String title, final String msg, final String positiveBtn,
+		final String neutralBtn, final String negativeBtn){
+		
 		final GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
             public void run() {
-            	
-            	            	
             	game.pause();
             	mp.stop();
-            	
-            	ga.database();
-            	
-            	
+
             	Builder builder = new AlertDialog.Builder(context);
         		builder.setCancelable(false);
         		builder.setTitle(title);
@@ -113,6 +110,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     	GameActivity ga2 = (GameActivity) context;
                     	stop();
                         ga2.onBackPressed2();
+                    }});
+        		builder.setNeutralButton(neutralBtn, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface arg0, int arg1) {
+                    	ga.database();
+                    	
                     }});
         		builder.setPositiveButton(positiveBtn, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface arg0, int arg1) {
@@ -162,6 +164,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					dialogBox("Game completed!", 
 					  "Highscore: " + GameObjectManager.getPlayer().getScore(), 
 					  "Restart",
+					  "LeaderBoard",
 					  "Main Menu" );
 				}else{
 					level.selectLevel(levelID);
@@ -179,6 +182,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				dialogBox("You died! You made it to level " + (levelID-1), 
 						  "Highscore: " + GameObjectManager.getPlayer().getScore(),
 						  "Restart",
+						  "LeaderBoard",
 						  "Main Menu");
 				timer = 0;
 			}	

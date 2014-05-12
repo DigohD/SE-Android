@@ -76,14 +76,14 @@ public class Player extends DynamicObject implements Collideable {
 	public void init(){
 		position = new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2);
 		targetPosition.set(position.x, position.y);
+		targetVelocity.x = 0;
+		targetVelocity.y = 0;
 		engine = new ConstantEmitter(1, ParticleID.ENGINE, new Vector2f(position.y + height/2, position.x - 8),
 				new Vector2f(-7f, 0f));
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		engine.setIsSpread(true);
 		live = true;
 		update = false;
-		targetVelocity.x = 0;
-		targetVelocity.y = 0;
 	}
 	
 	public void incTargetPos(float dX, float dY) {

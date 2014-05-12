@@ -35,7 +35,7 @@ public class DBAdapter {
 			+ KEY_HIGHSCORE + " integer not null"
 			+ ");";
 	
-private final Context context;
+	private final Context context;
 	
 	private DatabaseHelper DBHelper;
 	private SQLiteDatabase db;

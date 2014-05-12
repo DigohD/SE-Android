@@ -90,10 +90,10 @@ public class TabMenu extends Activity {
 		startActivity(intent);
 	}
 	
-	public void highscore(View view) {
-		Intent intent = new Intent(this, DatabaseActivity.class);
-		startActivity(intent);
-	}
+//	public void highscore(View view) {
+//		Intent intent = new Intent(this, DatabaseActivity.class);
+//		startActivity(intent);
+//	}
 	// Settings tab options
 
 }

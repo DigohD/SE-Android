@@ -58,13 +58,11 @@ public class GameActivity extends Activity {
         setContentView(invView);
         
         new SoundPlayer(this);
-        
-        
-       
-
 	}
+	
 	public void database() {
 		Intent intent = new Intent(this, DatabaseActivity.class);
+		finish();
 		startActivity(intent);
 	}
 	
