@@ -2,9 +2,12 @@ package com.spaceshooter.game.database;
 
 
 import com.example.se_android.R;
+import com.spaceshooter.game.GameActivity;
+import com.spaceshooter.game.engine.GameObjectManager;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.TextView;
@@ -18,8 +21,15 @@ public class DatabaseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.database_main);
-		
+		myDb = new DBAdapter(this);
 		openDB();
+	}
+	
+	@Override
+	public void onBackPressed() {
+		
+		Intent intent = new Intent(this, GameActivity.class);
+		startActivity(intent);
 	}
 	
 	@Override
@@ -28,27 +38,13 @@ public class DatabaseActivity extends Activity {
 		closeDB();
 	}
 
-	private void openDB() {
-		myDb = new DBAdapter(this);
+	public void openDB() {
 		myDb.open();
-		myDb.deleteAll();
-		addHighscore(1, 0);
-		addHighscore(2, 0);
-		addHighscore(3, 0);
-		addHighscore(4, 0);
-		addHighscore(5, 0);
-		updateHighscore(1, 1000);
-		updateHighscore(2, 2000);
-		updateHighscore(2, 500);
-		updateHighscore(3, 3000);
-		updateHighscore(4, 4000);
-		updateHighscore(5, 5000);
-		updateHighscore(5, 4000);
-		updateHighscore(1, 444400);
-		
+		//myDb.deleteAll();
+		addHighscore(1,GameObjectManager.getPlayer().getScore());
 	}
 	
-	private void closeDB() {
+	public void closeDB() {
 		myDb.close();
 	}
 

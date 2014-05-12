@@ -17,4 +17,16 @@
         android:onClick="play"
         android:text="@string/play" />
 
+    <Button
+        android:id="@+id/buttonHighscore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="46dp"
+        android:minWidth="200dp"
+        android:onClick="highscore"
+        android:text="highscore" />
+
 </RelativeLayout>

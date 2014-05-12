@@ -15,6 +15,7 @@ import android.widget.TabHost.TabSpec;
 
 import com.example.se_android.R;
 import com.spaceshooter.game.GameActivity;
+import com.spaceshooter.game.database.DatabaseActivity;
 
 public class TabMenu extends Activity {
 	public boolean musicStatus;
@@ -86,6 +87,11 @@ public class TabMenu extends Activity {
 	// Menu tab options
 	public void play(View view) {
 		Intent intent = new Intent(this, GameActivity.class);
+		startActivity(intent);
+	}
+	
+	public void highscore(View view) {
+		Intent intent = new Intent(this, DatabaseActivity.class);
 		startActivity(intent);
 	}
 	// Settings tab options

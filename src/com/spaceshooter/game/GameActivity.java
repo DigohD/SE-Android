@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
@@ -11,6 +12,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.spaceshooter.game.database.DatabaseActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
@@ -60,6 +62,10 @@ public class GameActivity extends Activity {
         
        
 
+	}
+	public void database() {
+		Intent intent = new Intent(this, DatabaseActivity.class);
+		startActivity(intent);
 	}
 	
 	private void exitDialog(){
