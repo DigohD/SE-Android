@@ -30,7 +30,7 @@ public class GameActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// we'll use this to manipulate the list of high scores
 
-		new BitmapHandler(this);
+		
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -44,7 +44,7 @@ public class GameActivity extends Activity {
         
         getWindow().setFormat(PixelFormat.RGBA_8888);
         
-      
+        new BitmapHandler(this);
         
 //        gameView = new GameView(this);
 //        setContentView(gameView);
