@@ -93,6 +93,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
             public void run() {
+            	
+            	GameObjectManager.getPlayer().getName();
+            	GameObjectManager.getPlayer().getScore();
+            	
             	game.pause();
             	mp.stop();
             	Builder builder = new AlertDialog.Builder(context);

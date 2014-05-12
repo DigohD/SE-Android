@@ -18,7 +18,9 @@ import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 public class Player extends DynamicObject implements Collideable {
-
+	
+	private String name = "Player1";
+	
 	private Vector2f targetPosition = new Vector2f(0,0);
 	private Vector2f targetVelocity;
 	private Vector2f topGunPos;
@@ -232,6 +234,10 @@ public class Player extends DynamicObject implements Collideable {
 
 	public Vector2f getTargetPosition() {
 		return targetPosition;
+	}
+	
+	public String getName(){
+		return name;
 	}
 
 }
