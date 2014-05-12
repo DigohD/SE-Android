@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="?android:attr/listPreferredItemHeight"
-	android:padding="6dip">
-		<TextView android:text="@string/player" style="@style/EntryListHeader" />
-		<TextView android:text="@string/gameId" style="@style/EntryListHeader.Number" />
-		<TextView android:text="@string/score" style="@style/EntryListHeader.Number" />
-		<TextView android:text="@string/date" style="@style/EntryListHeader.Number" />
-</LinearLayout>
