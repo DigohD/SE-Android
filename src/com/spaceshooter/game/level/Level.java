@@ -40,6 +40,7 @@ public class Level {
 	
 	public void selectLevel(int level){
 		enemyGen = new EnemyGenerator(time);
+		enemyGen.setUpdate(true);
 		new LevelCreator(enemyGen).runLevel(level);	
 	}
 	
@@ -47,6 +48,7 @@ public class Level {
 		timer++;
 		if(timer >= LEVEL_TIME){
 			if(CollisionManager.enemies.size() == 0){
+				enemyGen.setUpdate(false);
 				levelDone = true;
 				timer = 0;
 			}
