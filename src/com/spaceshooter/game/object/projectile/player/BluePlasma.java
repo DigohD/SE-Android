@@ -7,6 +7,8 @@ import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ImpactEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.SoundPlayer;
+import com.spaceshooter.game.util.SoundPlayer.SoundID;
 import com.spaceshooter.game.util.Vector2f;
 
 public class BluePlasma extends Projectile{
@@ -52,6 +54,7 @@ public class BluePlasma extends Projectile{
 	public void death() {
 		new ImpactEmitter(1, ParticleID.LBlueBall, 
 				position, velocity);
+		SoundPlayer.playSound(SoundID.hit_BluePlasma);
 	}
 	
 }

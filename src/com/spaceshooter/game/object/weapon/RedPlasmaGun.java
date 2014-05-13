@@ -3,6 +3,7 @@ package com.spaceshooter.game.object.weapon;
 import com.spaceshooter.game.object.projectile.player.RedPlasma;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
+import com.spaceshooter.game.util.SoundPlayer.SoundID;
 import com.spaceshooter.game.util.Vector2f;
 
 public class RedPlasmaGun extends Gun{
@@ -15,7 +16,7 @@ public class RedPlasmaGun extends Gun{
 	public void fire() {
 		Vector2f finalV = pVelocity.rotate(Randomizer.getFloat(-spread, spread));
 		new RedPlasma(gunPos, finalV);
-		SoundPlayer.playSound(3);
+		SoundPlayer.playSound(SoundID.fire_RedPlasma);
 	}
 
 	@Override

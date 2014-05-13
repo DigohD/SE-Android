@@ -7,7 +7,9 @@ import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ImpactEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
+import com.spaceshooter.game.util.SoundPlayer.SoundID;
 
 public class GreenPlasma extends Projectile{
 
@@ -52,6 +54,7 @@ public class GreenPlasma extends Projectile{
 	public void death() {
 		new ImpactEmitter(2, ParticleID.GreenBall, 
 				position, velocity);
+		SoundPlayer.playSound(SoundID.hit_GreenPlasma);
 	}
 	
 }

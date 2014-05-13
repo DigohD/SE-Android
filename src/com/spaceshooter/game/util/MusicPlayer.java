@@ -12,7 +12,7 @@ public class MusicPlayer {
 	
 	public MusicPlayer(Context context){
 		mp = MediaPlayer.create(context, com.example.se_android.R.raw.starduster);	
-		mp.setVolume(0.8f, 0.8f);
+		mp.setVolume(1f, 1f);
 		mp.start();
 	}
 	

@@ -9,6 +9,7 @@ import com.spaceshooter.game.object.projectile.enemy.PredatorProj;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
+import com.spaceshooter.game.util.SoundPlayer.SoundID;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
@@ -64,7 +65,7 @@ public class Predator extends Enemy {
 	public void death() {
 		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
 		new RadialEmitter(8, ParticleID.PURPLE_DOT, center, new Vector2f(20f, 0f));
-		SoundPlayer.playSound(2);
+		SoundPlayer.playSound(SoundID.exp_1);
 	}
 
 }

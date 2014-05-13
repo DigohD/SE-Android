@@ -34,7 +34,7 @@ public abstract class Projectile extends DynamicObject {
 	}
 	
 	public abstract void death();
-
+	
 	public float getDamage() {
 		return damage;
 	}
