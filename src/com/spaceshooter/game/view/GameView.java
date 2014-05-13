@@ -42,7 +42,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean okToRestartMP = true;
 	private boolean newLevel = false, firstLevel = true;
 	
-	DatabaseActivity DBA = new DatabaseActivity();
 	private Context context;
 	private SurfaceHolder holder;
 	private GameThread game;
@@ -280,7 +279,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		    }
 	    	
 	    	if(event.getAction() == MotionEvent.ACTION_UP){
-	    		//drawJoystick = false;
+	    		drawJoystick = false;
 	    		knobX = 40 + (joystick.getWidth()/2) - (knob.getWidth()/2);
 	    		knobY = 320 + (joystick.getHeight()/2) - (knob.getHeight()/2);
 	    		GameObjectManager.getPlayer().setUpdate(false);

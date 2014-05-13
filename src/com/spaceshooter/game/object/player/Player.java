@@ -178,6 +178,7 @@ public class Player extends DynamicObject implements Collideable {
 					hp = hp + hpack.getHp();
 					if(hp > maxHP) hp = maxHP;
 				}
+				hpack.death();
 				hpack.setLive(false);
 			}
 		}
