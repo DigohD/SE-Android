@@ -32,7 +32,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private int timer = 0, timer2 = 0;
 	private int levelTime = 30;
-	private int levelID = 2;
+	private static int levelID = 2;
 	
 	private float scaleX, scaleY;
 	private float knobX;
@@ -330,6 +330,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		okToRestartMP = true;
 		mp.resume();
 		game.resume();
+	}
+	
+	public static int getLevelID(){
+		return levelID - 1;
 	}
 
 }
