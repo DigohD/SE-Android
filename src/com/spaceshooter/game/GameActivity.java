@@ -15,7 +15,9 @@ import android.view.WindowManager;
 import com.spaceshooter.game.database.DatabaseActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.util.BitmapHandler;
+import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
+import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 import com.spaceshooter.game.view.InventoryView;
 
@@ -144,7 +146,7 @@ public class GameActivity extends Activity {
 //UNIT TESTS
 	
 	
-//	public void testVector2fNormalizeAndLength(){
+//	public void testVector2fNormalize(){
 //		for(int i = 0; i < 10000; i++){
 //			float rX = Randomizer.getFloat(1, 800);
 //			float rY = Randomizer.getFloat(1, 480);
