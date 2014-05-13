@@ -89,7 +89,7 @@ public class GameObjectManager {
 				}
 				if (go instanceof Loot){
 					Loot l = (Loot) go;
-					CollisionManager.removeEnemy(l);
+					CollisionManager.removeLoot(l);
 				}
 			}
 		}
@@ -141,12 +141,18 @@ public class GameObjectManager {
 	private void drawPlayerUI(Canvas canvas){
 		paint.setColor(Color.WHITE);
 		canvas.drawRect(19, 19, 20 + 151, 20 + 6, paint);
+		
 		paint.setColor(Color.RED);
 		canvas.drawRect(20, 20, 20 + 150, 20 + 5, paint);
+		
 		paint.setColor(Color.GREEN);
 		if(player.getHp() <= 0) player.setHp(0);
 		canvas.drawRect(20, 20, 20 + ((player.getHp()/player.getMaxHP())*150), 20 + 5, paint);
+		
 		canvas.drawText("SCORE: " + player.getScore(), 20, 42, paint);
+		
+		paint.setColor(Color.GREEN);
+		canvas.drawText("COMBO: " + player.getCombo(), 100, 42, paint);
 	}
 
 	public List<GameObject> getGameObject() {

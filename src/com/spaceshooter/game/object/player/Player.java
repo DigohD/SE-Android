@@ -1,6 +1,5 @@
 package com.spaceshooter.game.object.player;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.spaceshooter.game.object.Collideable;
@@ -35,6 +34,11 @@ public class Player extends DynamicObject implements Collideable {
 	private Gun bottomGun;
 	
 	private boolean update = false;
+	private boolean startCombo = false;
+	
+	private int enemyKillCount = 0;
+	private int timer = 0;
+	private int combo = 0;
 	private int score = 0;
 	
 	private float steps = 15;
@@ -87,6 +91,9 @@ public class Player extends DynamicObject implements Collideable {
 		engine.setIsSpread(true);
 		live = true;
 		update = false;
+		combo = 0;
+		timer = 0;
+		enemyKillCount = 0;
 	}
 	
 	public void incTargetPos(float dX, float dY) {
@@ -142,11 +149,21 @@ public class Player extends DynamicObject implements Collideable {
 		inBound();
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 		move(dt);
-	}
+		
+		if(startCombo){
+			timer++;
+			if(timer > 60*1){
+				startCombo = false;
+				enemyKillCount = 0;
+				combo = 0;
+				timer = 0;
+			}
+			if(timer <= 60*1 && combo != enemyKillCount){
+				combo = enemyKillCount;
+				timer = 0;
+			}
+		}
 
-	@Override
-	public void draw(Canvas canvas, float interpolation) {
-		super.draw(canvas, interpolation);
 	}
 
 	@Override
@@ -190,6 +207,18 @@ public class Player extends DynamicObject implements Collideable {
 		SoundPlayer.playSound(SoundID.exp_1);
 	}
 
+	public int getCombo(){
+		return combo;
+	}
+
+	public int getEnemyKillCount() {
+		return enemyKillCount;
+	}
+
+	public void incEnemyKillCount(int enemyKillCount) {
+		startCombo = true;
+		this.enemyKillCount += enemyKillCount;
+	}
 
 	public void setScore(int value) {
 		score = value;

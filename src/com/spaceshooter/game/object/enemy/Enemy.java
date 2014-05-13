@@ -47,7 +47,10 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 	}
 
 	public void calculatePlayerScore(int level){
-		totalScore = (int) (enemyPoints * Math.pow(1.2f, level) * combo);
+		if(GameObjectManager.getPlayer().getCombo() == 0)
+			totalScore = (int) (enemyPoints * Math.pow(1.2f, level) * 1.0f);
+		else
+			totalScore = (int) (enemyPoints * Math.pow(1.2f, level) * GameObjectManager.getPlayer().getCombo());
 	}
 	
 	@Override
@@ -56,13 +59,14 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
 			if(hp <= 0){
+				GameObjectManager.getPlayer().incEnemyKillCount(1);
 				calculatePlayerScore(GameView.getLevelID());
 				GameObjectManager.getPlayer().incScore(totalScore);
 				death();
 				live = false;
 				int rn = Randomizer.getInt(0, 8);
 				if(rn == 2){
-					new HealthPack(position, 10);
+					new HealthPack(position, velocity, 10);
 				}
 			}
 			p.death();

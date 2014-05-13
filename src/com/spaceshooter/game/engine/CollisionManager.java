@@ -49,12 +49,20 @@ public class CollisionManager {
 	
 	
 
+	/**
+	 * Adds the loot to the loots list
+	 * @param loot the loot to be added
+	 */
 	public static void addLoot(Loot loot){
 		loots.add(loot);
 	}
 
 
-	public static void removeEnemy(Loot loot){
+	/**
+	 * Removes the loot from the loots list
+	 * @param loot the loot to be removed
+	 */
+	public static void removeLoot(Loot loot){
 		loots.remove(loot);
 	}
 
