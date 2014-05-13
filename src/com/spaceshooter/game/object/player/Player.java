@@ -34,7 +34,7 @@ public class Player extends DynamicObject implements Collideable {
 	private Gun bottomGun;
 	
 	private boolean update = false;
-	private boolean startCombo = false;
+	private boolean startComboCount = false;
 	
 	private int enemyKillCount = 0;
 	private int timer = 0;
@@ -150,10 +150,10 @@ public class Player extends DynamicObject implements Collideable {
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 		move(dt);
 		
-		if(startCombo){
+		if(startComboCount){
 			timer++;
 			if(timer > 60*1){
-				startCombo = false;
+				startComboCount = false;
 				enemyKillCount = 0;
 				combo = 0;
 				timer = 0;
@@ -216,7 +216,7 @@ public class Player extends DynamicObject implements Collideable {
 	}
 
 	public void incEnemyKillCount(int enemyKillCount) {
-		startCombo = true;
+		startComboCount = true;
 		this.enemyKillCount += enemyKillCount;
 	}
 

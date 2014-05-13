@@ -40,6 +40,25 @@ public class Predator extends Enemy {
 		maxHp = 50f;
 		enemyPoints = 20;
 	}
+	
+	//for unit testing
+	public Predator(Vector2f position, int width, int height) {
+		super(position);
+		
+		this.width = width;
+		this.height = height;
+		
+		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+		
+		speedX = -10f;
+		speedY = 0;
+		
+		velocity = new Vector2f(speedX, speedY);
+		targetVelocity = new Vector2f(speedX,speedY);
+		hp = 50f;
+		maxHp = 50f;
+		enemyPoints = 20;
+	}
 
 	@Override
 	public void tick(float dt) {

@@ -151,8 +151,12 @@ public class GameObjectManager {
 		
 		canvas.drawText("SCORE: " + player.getScore(), 20, 42, paint);
 		
-		paint.setColor(Color.GREEN);
-		canvas.drawText("COMBO: " + player.getCombo(), 100, 42, paint);
+		
+		if(player.getCombo() == 0)
+			paint.setColor(Color.RED);
+		else paint.setColor(Color.GREEN);
+		
+		canvas.drawText("COMBO: " + player.getCombo(), 20, 62, paint);
 	}
 
 	public List<GameObject> getGameObject() {

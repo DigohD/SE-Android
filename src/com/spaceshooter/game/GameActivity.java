@@ -14,6 +14,8 @@ import android.view.WindowManager;
 
 import com.spaceshooter.game.database.DatabaseActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.object.enemy.Enemy;
+import com.spaceshooter.game.object.enemy.Predator;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
@@ -145,6 +147,21 @@ public class GameActivity extends Activity {
 	
 //UNIT TESTS
 	
+//	public void testCalculatePlayerScore(){
+//		Enemy e = new Predator(new Vector2f(0,0), 40, 40);
+//		// 10 * 1.2^1 * 5
+//		int test1 = e.calculatePlayerScore(10, 1, 5);
+//		int test2 = e.calculatePlayerScore(20, 2, 8);
+//		int test3 = e.calculatePlayerScore(15, 3, 2);
+//		int test4 = e.calculatePlayerScore(30, 4, 4);
+//		int test5 = e.calculatePlayerScore(50, 5, 12);
+//		
+//		assertEquals(60, test1);
+//		assertEquals(230, test2);
+//		assertEquals(51, test3);
+//		assertEquals(248, test4);
+//		assertEquals(1492, test5);
+//	}
 	
 //	public void testVector2fNormalize(){
 //		for(int i = 0; i < 10000; i++){
