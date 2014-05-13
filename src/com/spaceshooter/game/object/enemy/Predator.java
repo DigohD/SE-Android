@@ -37,6 +37,7 @@ public class Predator extends Enemy {
 		targetVelocity = new Vector2f(speedX,speedY);
 		hp = 50f;
 		maxHp = 50f;
+		enemyPoints = 20;
 	}
 
 	@Override

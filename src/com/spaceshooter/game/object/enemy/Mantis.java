@@ -40,6 +40,7 @@ public class Mantis extends Enemy {
 		targetVelocity = new Vector2f(speedX,speedY);
 		hp = 20f;
 		maxHp = 20f;
+		enemyPoints = 10;
 	}
 
 	@Override

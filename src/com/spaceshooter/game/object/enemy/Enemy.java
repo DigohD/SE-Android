@@ -9,10 +9,13 @@ import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.Vector2f;
+import com.spaceshooter.game.view.GameView;
 
 public abstract class Enemy extends DynamicObject implements Collideable {
 	
 	protected float hp, maxHp;
+	protected float enemyPoints, combo = 1.0f;
+	protected int totalScore = 0;
 
 	public Enemy(Vector2f position) {
 		super(position);
@@ -41,13 +44,18 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 		super.draw(canvas, interpolation);
 	}
 
+	public void calculatePlayerScore(int level){
+		totalScore = (int) (enemyPoints * Math.pow(1.2f, level) * combo);
+	}
+	
 	@Override
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Projectile){
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
 			if(hp <= 0){
-				GameObjectManager.getPlayer().incScore((int) (maxHp * 1.5f));
+				calculatePlayerScore(GameView.getLevelID());
+				GameObjectManager.getPlayer().incScore(totalScore);
 				death();
 				live = false;
 			}
