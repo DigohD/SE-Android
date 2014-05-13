@@ -17,7 +17,7 @@ public class YellowPlasmaGun extends Gun{
 	public void fire() {
 		Vector2f finalV = pVelocity.rotate(Randomizer.getFloat(-spread, spread));
 		new YellowPlasma(gunPos, finalV);
-//		SoundPlayer.playSound(SoundID.fire_RedPlasma);
+		SoundPlayer.playSound(SoundID.fire_YellowPlasma);
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class YellowPlasma extends Projectile{
 	public void death() {
 		new ImpactEmitter(1, ParticleID.YellowPlasma, 
 				position, velocity);
-//		SoundPlayer.playSound(SoundID.hit_RedPlasma);
+		SoundPlayer.playSound(SoundID.hit_YellowPlasma);
 	}
 	
 }
