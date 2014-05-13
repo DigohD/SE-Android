@@ -49,15 +49,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private Bitmap joystick, knob;
 	private MusicPlayer mp;
 	private Paint p = new Paint();
-
+	private int musicStartTimer;
+	
+	
 	public GameView(Context context) {
 		super(context);
 		this.context = context;
 	
+		mp = null;
+		musicStartTimer = 0;
+		
 		level = new Level(levelTime);
 		game = new GameThread(getHolder(),this);
-		if(mp == null)
-			mp = new MusicPlayer(context);
 		
 		joystick = BitmapHandler.loadBitmap("ui/joystick");
 		knob = BitmapHandler.loadBitmap("ui/joystickKnob");
@@ -139,6 +142,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	
 	public void tick(float dt){
+		if(mp == null){
+			musicStartTimer++;
+			if(musicStartTimer > 10)
+				mp = new MusicPlayer(context);
+		}
 		
 		if(firstLevel)
 			timer2++;
@@ -187,7 +195,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}	
 		}
 
-		if(mp.isDone() && okToRestartMP)
+		if(mp != null && mp.isDone() && okToRestartMP)
 			mp = new MusicPlayer(context);
 	}
 	

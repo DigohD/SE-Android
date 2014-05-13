@@ -8,7 +8,7 @@ import android.media.MediaPlayer;
 
 public class MusicPlayer {
 
-	private MediaPlayer mp;
+	private static MediaPlayer mp;
 	
 	public MusicPlayer(Context context){
 		mp = MediaPlayer.create(context, com.example.se_android.R.raw.starduster);	
@@ -16,19 +16,19 @@ public class MusicPlayer {
 		mp.start();
 	}
 	
-	public boolean isDone(){
+	public static boolean isDone(){
 		return !mp.isPlaying();
 	}
 	
-	public void pause(){
+	public static void pause(){
 		mp.pause();
 	}
 	
-	public void stop(){
+	public static void stop(){
 		mp.stop();
 	}
 	
-	public void resume(){
+	public static void resume(){
 		mp.start();
 	}
 	

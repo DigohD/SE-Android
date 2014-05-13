@@ -27,6 +27,8 @@ import com.spaceshooter.game.object.weapon.RedPlasmaGun;
 import com.spaceshooter.game.object.weapon.YellowPlasmaGun;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
+import com.spaceshooter.game.util.SoundPlayer;
+import com.spaceshooter.game.util.SoundPlayer.SoundID;
 
 public class InventoryView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -50,13 +52,17 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	private MusicPlayer mp;
 	private Paint p = new Paint();
 	
-	private int pressTimer;
+	private int pressTimer, startTimer;
+	private boolean start = false;;
 	
 	public InventoryView(Context context) {
 		super(context);
 		this.context = context;
 
 //		mp = new MusicPlayer(context);
+		
+		startTimer = 0;
+		start = false;
 		
 		game = new GameThread(getHolder(),this);
 		
@@ -133,6 +139,18 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	
 	public void tick(float dt){
 		pressTimer++;
+		if(start){
+			startTimer++;
+			if(startTimer > 150){
+            	final GameActivity gA = (GameActivity) context;
+				gA.runOnUiThread(new Runnable() {
+		            public void run() {
+				    	gA.goToGame();
+		            }
+				});
+				
+			}
+		}
 	}
 	
 	public void draw(Canvas canvas, float interpolation){
@@ -175,6 +193,8 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 	    	int weapon = 0;
 	    	weapon = (int) ((eventY - offsetY - 80) / 120);
 	    	
+	    	SoundPlayer.playSound(SoundID.ui_guns);
+	    	
 	    	switch(weapon){
 		    	case 0:
 		    		GameObjectManager.getPlayer().setBottomGun(new RedPlasmaGun(
@@ -201,10 +221,7 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 		    				GameObjectManager.getPlayer().getTopGunPos()));
 		    		break;
 	    	}
-	    	
-	    	GameActivity gA = (GameActivity) context;
-	    	gA.goToGame();
-	    	
+	    	start = true;
 	    }
 	    
     	invalidate();
