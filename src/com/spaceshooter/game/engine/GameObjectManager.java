@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.background.BackGround;
 import com.spaceshooter.game.object.enemy.Enemy;
+import com.spaceshooter.game.object.loot.Loot;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.object.weapon.Gun;
 import com.spaceshooter.game.util.Vector2f;
@@ -85,6 +86,10 @@ public class GameObjectManager {
 				if (go instanceof Enemy) {
 					Enemy e = (Enemy) go;
 					CollisionManager.removeEnemy(e);
+				}
+				if (go instanceof Loot){
+					Loot l = (Loot) go;
+					CollisionManager.removeEnemy(l);
 				}
 			}
 		}

@@ -7,7 +7,9 @@ import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.projectile.Projectile;
+import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
@@ -58,6 +60,10 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 				GameObjectManager.getPlayer().incScore(totalScore);
 				death();
 				live = false;
+				int rn = Randomizer.getInt(0, 8);
+				if(rn == 2){
+					new HealthPack(position, 10);
+				}
 			}
 			p.death();
 			p.setLive(false);

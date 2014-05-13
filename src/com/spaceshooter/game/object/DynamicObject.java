@@ -43,7 +43,7 @@ public abstract class DynamicObject extends GameObject {
 
 	@Override
 	public void tick(float dt) {
-		
+		move(dt);
 	}
 
 	@Override
