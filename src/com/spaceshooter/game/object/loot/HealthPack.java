@@ -7,16 +7,13 @@ import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.util.BitmapHandler;
-import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.util.SoundPlayer.SoundID;
 
 public class HealthPack extends Loot{
 	
 	private int hp;
 	
-
-	public HealthPack(Vector2f position, int hp) {
+	public HealthPack(Vector2f position, Vector2f velocity, int hp) {
 		super(position);
 		
 		this.hp = hp;
@@ -25,8 +22,8 @@ public class HealthPack extends Loot{
 		this.height = bitmap.getHeight();
 		
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-		velocity = new Vector2f(-15f, 0);
-		targetVelocity = new Vector2f(-20f, 0);
+		this.velocity = new Vector2f(0, 0);
+		targetVelocity = velocity;
 		
 		GameObjectManager.addGameObject(this);
 		CollisionManager.addLoot(this);
