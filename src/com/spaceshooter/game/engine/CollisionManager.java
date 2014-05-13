@@ -1,7 +1,7 @@
 package com.spaceshooter.game.engine;
 
-import static com.spaceshooter.game.engine.ProjectileManager.playerProjectiles;
 import static com.spaceshooter.game.engine.ProjectileManager.enemyProjectiles;
+import static com.spaceshooter.game.engine.ProjectileManager.playerProjectiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import java.util.List;
 import android.graphics.Rect;
 
 import com.spaceshooter.game.object.enemy.Enemy;
+import com.spaceshooter.game.object.loot.Loot;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.object.projectile.Projectile;
 
@@ -22,6 +23,8 @@ public class CollisionManager {
 
 	// the list of enemies which will be checked for collisions
 	public static List<Enemy> enemies = new ArrayList<Enemy>();
+	// the list of loot which will be checked for collisions
+	public static List<Loot> loots = new ArrayList<Loot>();
 
 	/**
 	 * Stores an enemy in the enemy collision list. The list will be traversed
@@ -42,6 +45,17 @@ public class CollisionManager {
 
 	public static void removeEnemy(Enemy e){
 		enemies.remove(e);
+	}
+	
+	
+
+	public static void addLoot(Loot loot){
+		loots.add(loot);
+	}
+
+
+	public static void removeEnemy(Loot loot){
+		loots.remove(loot);
 	}
 
 	/**
@@ -67,6 +81,13 @@ public class CollisionManager {
 	public static void collisionCheck(Player player) {
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
+			if (player != null && e != null)
+				if (collisionBetween(player.getRect(), e.getRect()))
+					player.collisionWith(e);
+		}
+		
+		for(int i = 0; i < loots.size(); i++) {
+			Loot e = loots.get(i);
 			if (player != null && e != null)
 				if (collisionBetween(player.getRect(), e.getRect()))
 					player.collisionWith(e);

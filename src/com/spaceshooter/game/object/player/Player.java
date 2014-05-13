@@ -7,6 +7,8 @@ import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.enemy.Enemy;
+import com.spaceshooter.game.object.loot.HealthPack;
+import com.spaceshooter.game.object.loot.Loot;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
@@ -156,7 +158,7 @@ public class Player extends DynamicObject implements Collideable {
 			engine.setLive(false);
 		}
 
-		if (obj instanceof Projectile) {
+		if(obj instanceof Projectile) {
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
 			p.death();
@@ -165,6 +167,18 @@ public class Player extends DynamicObject implements Collideable {
 				if(live) death();
 				live = false;
 				engine.setLive(false);
+			}
+		}
+		
+		if(obj instanceof Loot){
+			Loot loot = (Loot) obj;
+			if(loot instanceof HealthPack){
+				HealthPack hpack = (HealthPack) obj;
+				if(hp < maxHP){
+					hp = hp + hpack.getHp();
+					if(hp > maxHP) hp = maxHP;
+				}
+				hpack.setLive(false);
 			}
 		}
 	}
