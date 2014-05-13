@@ -19,7 +19,7 @@ public class SoundPlayer {
 	
 	public enum SoundID {
 		nullValue,
-		pick,
+		ui_guns,
 		fire_RedPlasma, fire_BluePlasma, fire_GreenPlasma, fire_YellowPlasma,
 		hit_RedPlasma, hit_BluePlasma, hit_GreenPlasma, hit_YellowPlasma,
 		exp_1, exp_2
@@ -39,7 +39,7 @@ public class SoundPlayer {
 	    		
 	    sounds.put(SoundID.nullValue, soundPool.load(activity, com.example.se_android.R.raw.laser, 1));
 	    
-	    sounds.put(SoundID.pick, soundPool.load(activity, com.example.se_android.R.raw.pick, 1));
+	    sounds.put(SoundID.ui_guns, soundPool.load(activity, com.example.se_android.R.raw.ui_guns, 1));
 	    
 	    sounds.put(SoundID.exp_1, soundPool.load(activity, com.example.se_android.R.raw.exp_1, 1));
 	    sounds.put(SoundID.exp_2, soundPool.load(activity, com.example.se_android.R.raw.exp_2, 1));
