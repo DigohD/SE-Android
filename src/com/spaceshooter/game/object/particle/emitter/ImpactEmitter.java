@@ -6,6 +6,7 @@ import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.PurpleDot;
 import com.spaceshooter.game.object.particle.RedDot;
 import com.spaceshooter.game.object.particle.RedPlasma;
+import com.spaceshooter.game.object.particle.YellowPlasma;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
 
@@ -49,6 +50,11 @@ public class ImpactEmitter extends Emitter{
 					yVel = impactVelocity.y + Randomizer.getFloat(-20f, 20f);
 					xVel = impactVelocity.x * 0.5f;
 					new GreenBall(position, new Vector2f(xVel, yVel));
+					break;
+				case YellowPlasma:
+					yVel = impactVelocity.y + Randomizer.getFloat(-40f, 40f);
+					xVel = impactVelocity.x * 0.5f;
+					new YellowPlasma(position, new Vector2f(xVel, yVel));
 					break;
 			}
 		}
