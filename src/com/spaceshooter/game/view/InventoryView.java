@@ -24,6 +24,7 @@ import com.spaceshooter.game.level.Level;
 import com.spaceshooter.game.object.weapon.BluePlasmaGun;
 import com.spaceshooter.game.object.weapon.GreenPlasmaGun;
 import com.spaceshooter.game.object.weapon.RedPlasmaGun;
+import com.spaceshooter.game.object.weapon.YellowPlasmaGun;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
 
@@ -82,6 +83,8 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 		this.vapen[0] = BitmapHandler.loadBitmap("ui/RedPlasma");
 		this.vapen[1] = BitmapHandler.loadBitmap("ui/BluePlasma");
 		this.vapen[2] = BitmapHandler.loadBitmap("ui/GreenPlasma");
+		this.vapen[3] = BitmapHandler.loadBitmap("ui/YellowPlasma");
+
 	}
 	
 	/**
@@ -136,7 +139,7 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 		//clear the screen with black pixels
 		canvas.drawColor(Color.BLACK);
 		
-		for(int i = 0; i < 3; i++)
+		for(int i = 0; i < 4; i++)
 			canvas.drawBitmap(vapen[i], 0, (i * 120) + 80 + offsetY, null);
 		
 		canvas.drawBitmap(banner, 0, 0, null);
@@ -189,6 +192,12 @@ public class InventoryView extends SurfaceView implements SurfaceHolder.Callback
 		    		GameObjectManager.getPlayer().setBottomGun(new GreenPlasmaGun(
 		    				GameObjectManager.getPlayer().getBottomGunPos()));
 		    		GameObjectManager.getPlayer().setTopGun(new GreenPlasmaGun(
+		    				GameObjectManager.getPlayer().getTopGunPos()));
+		    		break;
+		    	case 3:
+		    		GameObjectManager.getPlayer().setBottomGun(new YellowPlasmaGun(
+		    				GameObjectManager.getPlayer().getBottomGunPos()));
+		    		GameObjectManager.getPlayer().setTopGun(new YellowPlasmaGun(
 		    				GameObjectManager.getPlayer().getTopGunPos()));
 		    		break;
 	    	}

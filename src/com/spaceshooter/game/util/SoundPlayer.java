@@ -37,7 +37,7 @@ public class SoundPlayer {
 	    
 	    sounds = new HashMap<SoundID, Integer>();
 	    		
-//	    sounds.put(SoundID.nullValue, soundPool.load(activity, com.example.se_android.R.raw.laser, 1));
+	    sounds.put(SoundID.nullValue, soundPool.load(activity, com.example.se_android.R.raw.laser, 1));
 	    sounds.put(SoundID.exp_1, soundPool.load(activity, com.example.se_android.R.raw.exp_1, 1));
 	    sounds.put(SoundID.exp_2, soundPool.load(activity, com.example.se_android.R.raw.exp_2, 1));
 	    sounds.put(SoundID.fire_RedPlasma, soundPool.load(activity, com.example.se_android.R.raw.fire_redplasma, 1));
