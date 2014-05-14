@@ -90,6 +90,8 @@ public class TabMenu extends Activity {
 		startActivity(intent);
 	}
 	
+	// Add methods for everything that is handled in the menus, e.g. scores etc.
+	
 //	public void highscore(View view) {
 //		Intent intent = new Intent(this, DatabaseActivity.class);
 //		startActivity(intent);
