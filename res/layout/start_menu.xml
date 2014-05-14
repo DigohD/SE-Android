@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonPlay"
         android:layout_centerHorizontal="true"
+        android:checked="true"
         android:minWidth="128dp"
         android:onClick="onToggleClicked"
         android:textOff="Music off"

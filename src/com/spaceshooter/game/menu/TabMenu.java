@@ -13,24 +13,26 @@ import android.widget.TabHost.TabSpec;
 import android.widget.ToggleButton;
 
 import com.example.se_android.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.spaceshooter.game.GameActivity;
 
 public class TabMenu extends Activity {
 
-	public boolean musicState;
+	public boolean musicState = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.menu_tab_view);
-		// AdView adView = (AdView) this.findViewById(R.id.adView);
-		// AdRequest adRequest = new AdRequest.Builder()
-		// .addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
-		// .addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas Nexus 4
-		// // .addTestDevice("e83ab40d") // Simons Note
-		// // .addTestDevice("0009478f6e129f") // Anders Galaxy S2
-		// .build();
-		// adView.loadAd(adRequest);
+		AdView adView = (AdView) this.findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
+				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas Nexus 4
+				.addTestDevice("e83ab40d") // Simons Note (var fel värde, leta upp rätt under körning i LogCat
+				.addTestDevice("0009478f6e129f") // Anders Galaxy S2
+				.build();
+		adView.loadAd(adRequest);
 
 		TabHost th = (TabHost) findViewById(R.id.tabhost);
 		th.setup();
