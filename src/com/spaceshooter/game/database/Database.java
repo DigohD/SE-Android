@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.TextView;
 
-import com.example.se_android.R;
+import com.spaceshooter.game.R;
 import com.spaceshooter.game.menu.TabMenu;
 
 public class Database{

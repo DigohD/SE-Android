@@ -13,10 +13,10 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.ToggleButton;
 
-import com.example.se_android.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.spaceshooter.game.GameActivity;
+import com.spaceshooter.game.R;
 import com.spaceshooter.game.database.Database;
 
 public class TabMenu extends Activity {
