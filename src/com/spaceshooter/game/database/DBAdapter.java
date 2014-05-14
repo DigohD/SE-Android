@@ -15,13 +15,13 @@ public class DBAdapter {
 	public static final String KEY_ROWID = "_id";
 	public static final int COL_ROWID = 0;
 	
-	public static final String KEY_LEVEL = "level";
+	public static final String KEY_NAME = "level";
 	public static final String KEY_HIGHSCORE = "highscore";
 	
-	public static final int COL_LEVEL = 1;
+	public static final int COL_NAME = 1;
 	public static final int COL_HIGHSCORE = 2;
 	
-	public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_LEVEL, KEY_HIGHSCORE};
+	public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_HIGHSCORE};
 	
 	public static final String DATABASE_NAME = "Spaceshooter";
 	public static final String DATABASE_TABLE = "highScores";
@@ -31,7 +31,7 @@ public class DBAdapter {
 	private static final String DATABASE_CREATE_SQL = 
 			"create table " + DATABASE_TABLE 
 			+ " (" + KEY_ROWID + " integer primary key autoincrement, "
-			+ KEY_LEVEL + " integer not null, "
+			+ KEY_NAME + " String not null, "
 			+ KEY_HIGHSCORE + " integer not null"
 			+ ");";
 	
@@ -54,7 +54,7 @@ public class DBAdapter {
 		DBHelper.close();
 	}
 	
-	public long insertRow(int level, int highscore) {
+	public long insertRow(String name, int highscore) {
 		/*
 		 * CHANGE 3:
 		 */		
@@ -62,7 +62,7 @@ public class DBAdapter {
 		// TODO: Also change the function's arguments to be what you need!
 		// Create row's data:
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(KEY_LEVEL, level);
+		initialValues.put(KEY_NAME, name);
 		initialValues.put(KEY_HIGHSCORE, highscore);
 		
 		// Insert it into the database.
@@ -104,8 +104,8 @@ public class DBAdapter {
 	*/
 	
 	public Cursor getAllRows() {
-		Cursor c = 	db.query(DATABASE_TABLE, new String[]{KEY_ROWID, KEY_LEVEL, KEY_HIGHSCORE}, 
-				null, null, null, null, KEY_LEVEL + " ASC");
+		Cursor c = 	db.query(DATABASE_TABLE, new String[]{KEY_ROWID, KEY_NAME, KEY_HIGHSCORE}, 
+				null, null, null, null, KEY_NAME + " ASC");
 		if (c != null) {
 			c.moveToFirst();
 		}
@@ -122,8 +122,8 @@ public class DBAdapter {
 		return c;
 	}
 	
-	public Cursor getRowWithLevel(int level) {
-		String where = KEY_LEVEL + "=" + level;
+	public Cursor getRowWithName(String name) {
+		String where = KEY_NAME + "=" + name;
 		Cursor c = 	db.query(true, DATABASE_TABLE, ALL_KEYS, 
 						where, null, null, null, null, null);
 		if (c != null) {
@@ -132,11 +132,11 @@ public class DBAdapter {
 		return c;
 	}
 	
-	public void updateRow(long rowId, int level, int highscore) {
+	public void updateRow(long rowId, String name, int highscore) {
 		String where = KEY_ROWID + "=" + rowId;
 
 		ContentValues newValues = new ContentValues();
-		newValues.put(KEY_LEVEL, level);
+		newValues.put(KEY_NAME, name);
 		newValues.put(KEY_HIGHSCORE, highscore);
 		
 		// Insert it into the database.

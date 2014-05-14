@@ -2,7 +2,6 @@ package com.spaceshooter.game.database;
 
 
 import android.app.Activity;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -10,13 +9,11 @@ import android.widget.TextView;
 
 import com.example.se_android.R;
 import com.spaceshooter.game.engine.GameObjectManager;
-import com.spaceshooter.game.menu.TabMenu;
 
 public class DatabaseActivity extends Activity {
 
-	private int i=0, x=0;
 	private DBAdapter myDb;
-	
+	private long id;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -41,7 +38,7 @@ public class DatabaseActivity extends Activity {
 		myDb.open();
 		//myDb.deleteAll();
 		if(GameObjectManager.getPlayer() != null)
-			addHighscore(1,GameObjectManager.getPlayer().getScore());
+			addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
 	}
 	
 	public void closeDB() {
@@ -58,68 +55,47 @@ public class DatabaseActivity extends Activity {
         textView.setText(message);
 	}
 	
-	public void onClick_AddHighscore(View v) {
-
-		long newId = myDb.insertRow(i, x);
-		i ++;
-		x += 1000;
-		
-		Cursor cursor = myDb.getRow(newId);
-		displayHighscores(cursor);
-	}
 	
-	long id;
-	public void addHighscore(int level, int highscore) {
+	public void addHighscore(String name, int highscore) {
 		
-		Cursor c = myDb.getRowWithLevel(level);
+		Cursor c = myDb.getRow(1);
 		long newId;
 		if(c != null && c.getCount() > 0){
-			updateHighscore(level, highscore);
+			updateHighscore(name, highscore);
 			newId = id;
 			c = myDb.getRow(newId);
 		}else{
-			newId = myDb.insertRow(level, highscore);
+			newId = myDb.insertRow(name, highscore);
 			c = myDb.getRow(newId);
 		}
 		
 		displayHighscores(c);
 	}
 	
-	public void updateHighscore(int level, int newHighscore){
-		Cursor cursor = myDb.getRowWithLevel(level);
+	public void updateHighscore(String name, int newHighscore){
+		Cursor cursor = myDb.getRow(1);
 		int oldHighscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
 		id = cursor.getLong(DBAdapter.COL_ROWID);
 		if(oldHighscore < newHighscore){
 			oldHighscore = newHighscore;
 		}
-		myDb.updateRow(id, level, oldHighscore);
-	}
-	
-	public void onClick_ClearAllHighscores(View v) {
-		displayText("Cleared level!");
-		displayHighscore("Cleared higscore!");
-		myDb.deleteAll();
-	}
-
-	public void onClick_DisplayHighscores(View v) {
-		Cursor cursor = myDb.getAllRows();
-		displayHighscores(cursor);
+		myDb.updateRow(id, name, oldHighscore);
 	}
 	
 	// Display an entire recordset to the screen.
 	private void displayHighscores(Cursor cursor) {
-		String messageLevel = "", messageHighscore = "";
+		String messageName = "", messageHighscore = "";
 		// populate the message from the cursor
 
 		// Reset cursor to start, checking to see if there's data:
 		if (cursor.moveToFirst()) {
 			do {
 				// Process the data:
-				int level = cursor.getInt(DBAdapter.COL_LEVEL);
+				String name = cursor.getString(DBAdapter.COL_NAME);
 				int highscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
 			
 				// Append data to the message:
-				messageLevel += level
+				messageName += name
 						   +"\n";
 				messageHighscore += highscore + "\n"; 
 			} while(cursor.moveToNext());
@@ -128,7 +104,7 @@ public class DatabaseActivity extends Activity {
 		// Close the cursor to avoid a resource leak.
 		cursor.close();
 		
-		displayText(messageLevel);
+		displayText(messageName);
 		displayHighscore(messageHighscore);
 	}
 }
