@@ -23,28 +23,23 @@ import com.spaceshooter.game.GameActivity;
 public class TabMenu extends Activity {
 
 	public boolean musicState = true;
-
+	public TabHost th;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
 				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
-																	// Nexus 4
-				.addTestDevice("e83ab40d") // Simons Note (var fel värde, leta
-											// upp rätt under körning i LogCat
-				.addTestDevice("0009478f6e129f") // Anders Galaxy S2
+				.addTestDevice("e83ab40d") // Simon
+				.addTestDevice("0009478f6e129f") // Anders
 				.build();
 		adView.loadAd(adRequest);
 
-		TabHost th = (TabHost) findViewById(R.id.tabhost);
+		th = (TabHost) findViewById(R.id.tabhost);
 		th.setup();
 		TabSpec menuSpecs = th.newTabSpec("tag1");
 		menuSpecs.setContent(R.id.tabMenu);
@@ -92,6 +87,10 @@ public class TabMenu extends Activity {
 
 	public void onToggleClicked(View view) {
 		musicState = ((ToggleButton) view).isChecked();
+	}
+
+	public void showScoreTab() {
+		th.setCurrentTab(1);
 	}
 
 	// Add methods for everything that is handled in the menus, e.g. scores etc.
