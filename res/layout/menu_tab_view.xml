@@ -52,13 +52,7 @@
 
                 </RelativeLayout>
 
-                <RelativeLayout
-                    android:id="@+id/tabSettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
-
-                    <include layout="@layout/settings" />
-                </RelativeLayout>
+               
 
                 <RelativeLayout
                     android:id="@+id/tabCredits"

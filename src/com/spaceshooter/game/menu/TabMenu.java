@@ -15,7 +15,6 @@ import android.widget.TabHost.TabSpec;
 
 import com.example.se_android.R;
 import com.spaceshooter.game.GameActivity;
-import com.spaceshooter.game.database.DatabaseActivity;
 
 public class TabMenu extends Activity {
 	public boolean musicStatus;
@@ -43,11 +42,7 @@ public class TabMenu extends Activity {
 		ScoresSpecs.setContent(R.id.tabScores);
 		ScoresSpecs.setIndicator("Scores");
 		th.addTab(ScoresSpecs);
-		TabSpec SettingsSpecs = th.newTabSpec("tag3");
-		SettingsSpecs.setContent(R.id.tabSettings);
-		SettingsSpecs.setIndicator("Settings");
-		th.addTab(SettingsSpecs);
-		TabSpec creditsSpecs = th.newTabSpec("tag4");
+		TabSpec creditsSpecs = th.newTabSpec("tag3");
 		creditsSpecs.setContent(R.id.tabCredits);
 		creditsSpecs.setIndicator("Credits");
 		th.addTab(creditsSpecs);
@@ -89,13 +84,13 @@ public class TabMenu extends Activity {
 		Intent intent = new Intent(this, GameActivity.class);
 		startActivity(intent);
 	}
-	
+
 	// Add methods for everything that is handled in the menus, e.g. scores etc.
-	
-//	public void highscore(View view) {
-//		Intent intent = new Intent(this, DatabaseActivity.class);
-//		startActivity(intent);
-//	}
+
+	// public void highscore(View view) {
+	// Intent intent = new Intent(this, DatabaseActivity.class);
+	// startActivity(intent);
+	// }
 	// Settings tab options
 
 }
