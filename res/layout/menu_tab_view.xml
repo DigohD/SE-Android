@@ -14,6 +14,7 @@
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3638109491407160/3494255688" >
     </com.google.android.gms.ads.AdView>
+
     <TabHost
         android:id="@+id/tabhost"
         android:layout_width="match_parent"
@@ -47,12 +48,9 @@
                     android:id="@+id/tabScores"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
-                    
+
                     <include layout="@layout/database_main" />
-
                 </RelativeLayout>
-
-               
 
                 <RelativeLayout
                     android:id="@+id/tabCredits"

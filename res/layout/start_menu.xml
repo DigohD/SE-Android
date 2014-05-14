@@ -17,15 +17,15 @@
         android:onClick="play"
         android:text="@string/play" />
 
-    <Switch
-        android:id="@+id/switchMusic"
+    <ToggleButton
+        android:id="@+id/toggleMusic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonPlay"
         android:layout_centerHorizontal="true"
+        android:minWidth="128dp"
         android:onClick="onToggleClicked"
-        android:text="Music"
-        android:textOff="off"
-        android:textOn="on" />
+        android:textOff="Music off"
+        android:textOn="Music on" />
 
 </RelativeLayout>

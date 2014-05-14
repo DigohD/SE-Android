@@ -8,16 +8,16 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.ToggleButton;
 
 import com.example.se_android.R;
 import com.spaceshooter.game.GameActivity;
 
 public class TabMenu extends Activity {
-	public boolean musicStatus;
+
+	public boolean musicState;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +46,6 @@ public class TabMenu extends Activity {
 		creditsSpecs.setContent(R.id.tabCredits);
 		creditsSpecs.setIndicator("Credits");
 		th.addTab(creditsSpecs);
-
-		Switch toggle = (Switch) findViewById(R.id.switchMusic);
-		toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,
-					boolean isChecked) {
-				musicStatus = isChecked;
-			}
-		});
 	}
 
 	private void exitDialog() {
@@ -82,7 +74,12 @@ public class TabMenu extends Activity {
 	// Menu tab options
 	public void play(View view) {
 		Intent intent = new Intent(this, GameActivity.class);
+		intent.putExtra("EXTRA_musicState", musicState);
 		startActivity(intent);
+	}
+
+	public void onToggleClicked(View view) {
+		musicState = ((ToggleButton) view).isChecked();
 	}
 
 	// Add methods for everything that is handled in the menus, e.g. scores etc.
