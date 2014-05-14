@@ -41,7 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
 
-                    <include layout="@layout/start_menu" />
+                    <include layout="@layout/tab_start" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
 
-                    <include layout="@layout/credits" />
+                    <include layout="@layout/tab_credits" />
                 </RelativeLayout>
             </FrameLayout>
         </LinearLayout>
