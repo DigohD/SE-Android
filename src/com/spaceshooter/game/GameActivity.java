@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.spaceshooter.game.database.DatabaseActivity;
+import com.spaceshooter.game.database.Database;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.enemy.Predator;
@@ -68,7 +68,7 @@ public class GameActivity extends Activity {
 	}
 
 	public void database() {
-		Intent intent = new Intent(this, DatabaseActivity.class);
+		Intent intent = new Intent(this, Database.class);
 		finish();
 		startActivity(intent);
 	}

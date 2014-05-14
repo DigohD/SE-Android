@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.spaceshooter.game.GameActivity;
-import com.spaceshooter.game.database.DatabaseActivity;
+import com.spaceshooter.game.database.Database;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
@@ -110,13 +110,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			public void run() {
 				game.pause();
 				if (gwMusicState) {
-					mp.stop();
+					MusicPlayer.stop();
 				}
-				
-				
 
-				TabMenu.newScore(true);
-				
+				TabMenu.db.openDB();
+				TabMenu.db.addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
+				TabMenu.db.closeDB();
 				
 				Builder builder = new AlertDialog.Builder(context);
 				builder.setCancelable(false);
@@ -218,7 +217,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 		if (gwMusicState) {
-			if (mp != null && mp.isDone() && okToRestartMP)
+			if (mp != null && MusicPlayer.isDone() && okToRestartMP)
 				mp = new MusicPlayer(context);
 		}
 	}
@@ -355,7 +354,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		GameObjectManager.clear();
 		GameObjectManager.getPlayer().setScore(0);
 		if (gwMusicState) {
-			mp.stop();
+			MusicPlayer.stop();
 		}
 		game.stop();
 	}
@@ -363,7 +362,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void pause() {
 		okToRestartMP = false;
 		if (gwMusicState) {
-			mp.pause();
+			MusicPlayer.pause();
 		}
 		game.pause();
 	}
@@ -371,7 +370,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void resume() {
 		okToRestartMP = true;
 		if (gwMusicState) {
-			mp.resume();
+			MusicPlayer.resume();
 		}
 		game.resume();
 	}

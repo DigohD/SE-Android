@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.spaceshooter.game.database.DatabaseActivity"
+            android:name="com.spaceshooter.game.database.Database"
             android:label="@string/app_name"
             android:noHistory="true"
             android:screenOrientation="landscape" >

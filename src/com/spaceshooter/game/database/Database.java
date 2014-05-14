@@ -1,33 +1,28 @@
 package com.spaceshooter.game.database;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.se_android.R;
-import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.menu.TabMenu;
 
-public class DatabaseActivity{
+public class Database{
 
 	private DBAdapter myDb;
-	private long id;
 	private Context context;
-	public DatabaseActivity(Context context){
+	private Cursor cursor;
+	private long id;
+	
+	public Database(Context context){
 		this.context = context;
 		myDb = new DBAdapter(context);
 	}
 
 	public void openDB() {
 		myDb.open();
-		//myDb.deleteAll();
-		//if(GameObjectManager.getPlayer() != null)
-			//addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
-		//addHighscore("JOSEF", 1);
+		cursor  = myDb.getRow(1);
 	}
 	
 	public void closeDB() {
@@ -36,7 +31,6 @@ public class DatabaseActivity{
 
 	private void displayName(String message) {
 		TabMenu tm = (TabMenu) context;
-		
         TextView textView = (TextView) tm.findViewById(R.id.textView3);
         textView.setText(message);
 	}
@@ -49,23 +43,20 @@ public class DatabaseActivity{
 	
 	
 	public void addHighscore(String name, int highscore) {
-		
-		Cursor c = myDb.getRow(1);
+		cursor  = myDb.getRow(1);
 		long newId;
-		if(c != null && c.getCount() > 0){
+		if(cursor != null && cursor.getCount() > 0){
 			updateHighscore(name, highscore);
 			newId = id;
-			c = myDb.getRow(newId);
+			cursor = myDb.getRow(newId);
 		}else{
 			newId = myDb.insertRow(name, highscore);
-			c = myDb.getRow(newId);
+			cursor = myDb.getRow(newId);
 		}
-		
-		
 	}
 	
 	public void updateHighscore(String name, int newHighscore){
-		Cursor cursor = myDb.getRow(1);
+		cursor  = myDb.getRow(1);
 		int oldHighscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
 		id = cursor.getLong(DBAdapter.COL_ROWID);
 		if(oldHighscore < newHighscore){
@@ -75,8 +66,8 @@ public class DatabaseActivity{
 	}
 	
 	public void showHighscore(){
-		Cursor cursor = myDb.getRow(1);
-		displayHighscores(cursor);
+		if(cursor != null)
+			displayHighscores(cursor);
 	}
 	
 	// Display an entire recordset to the screen.

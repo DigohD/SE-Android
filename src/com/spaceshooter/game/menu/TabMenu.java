@@ -19,12 +19,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.database.DBAdapter;
-import com.spaceshooter.game.database.DatabaseActivity;
+import com.spaceshooter.game.database.Database;
 import com.spaceshooter.game.engine.GameObjectManager;
 
 public class TabMenu extends Activity {
 
-	public static DatabaseActivity db;
+	public static Database db;
 	public boolean musicState = true;
 	public TabHost th;
 
@@ -62,13 +62,10 @@ public class TabMenu extends Activity {
 		creditsSpecs.setContent(R.id.tabCredits);
 		creditsSpecs.setIndicator("Credits");
 		th.addTab(creditsSpecs);
-		db = new DatabaseActivity(this);
+		
+		db = new Database(this);
 		db.openDB();
 		db.showHighscore();
-	}
-
-	public static void newScore(Boolean b){
-		db.addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
 	}
 	
 	private void exitDialog() {
@@ -88,12 +85,13 @@ public class TabMenu extends Activity {
 		});
 		builder.create().show();
 	}
-	public void onResume()
-	{
+	
+	public void onResume(){
 		super.onResume();
 		db.openDB();
 		db.showHighscore();
-		}
+	}
+	
 	@Override
 	public void onBackPressed() {
 		exitDialog();
@@ -106,9 +104,9 @@ public class TabMenu extends Activity {
 
 	// Menu tab options
 	public void play(View view) {
+		db.closeDB();
 		Intent intent = new Intent(this, GameActivity.class);
 		intent.putExtra("EXTRA_musicState", musicState);
-		
 		startActivity(intent);
 	}
 
