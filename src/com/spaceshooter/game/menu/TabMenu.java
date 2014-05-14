@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 import android.widget.ToggleButton;
 
@@ -18,9 +17,7 @@ import com.example.se_android.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.spaceshooter.game.GameActivity;
-import com.spaceshooter.game.database.DBAdapter;
 import com.spaceshooter.game.database.Database;
-import com.spaceshooter.game.engine.GameObjectManager;
 
 public class TabMenu extends Activity {
 
@@ -62,12 +59,12 @@ public class TabMenu extends Activity {
 		creditsSpecs.setContent(R.id.tabCredits);
 		creditsSpecs.setIndicator("Credits");
 		th.addTab(creditsSpecs);
-		
+
 		db = new Database(this);
 		db.openDB();
 		db.showHighscore();
 	}
-	
+
 	private void exitDialog() {
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
@@ -85,19 +82,19 @@ public class TabMenu extends Activity {
 		});
 		builder.create().show();
 	}
-	
-	public void onResume(){
+
+	public void onResume() {
 		super.onResume();
 		db.openDB();
 		db.showHighscore();
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		exitDialog();
 	}
-	
-	public void onDestroy(){
+
+	public void onDestroy() {
 		super.onDestroy();
 		db.closeDB();
 	}
@@ -113,7 +110,6 @@ public class TabMenu extends Activity {
 	public void onToggleClicked(View view) {
 		musicState = ((ToggleButton) view).isChecked();
 	}
-	
 
 	public void showScoreTab() {
 		th.setCurrentTab(1);
@@ -121,6 +117,7 @@ public class TabMenu extends Activity {
 
 	public void resetScores(View view) {
 		db.getDBAdapter().deleteAll();
+		db.showHighscore();
 	}
 
 	// Add methods for everything that is handled in the menus, e.g. scores etc.
