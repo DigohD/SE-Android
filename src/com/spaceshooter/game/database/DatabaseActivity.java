@@ -68,16 +68,27 @@ public class DatabaseActivity extends Activity {
 		displayHighscores(cursor);
 	}
 	
+	long id;
 	public void addHighscore(int level, int highscore) {
-		long newId = myDb.insertRow(level, highscore);
-		Cursor cursor = myDb.getRow(newId);
-		displayHighscores(cursor);
+		
+		Cursor c = myDb.getRowWithLevel(level);
+		long newId;
+		if(c != null && c.getCount() > 0){
+			updateHighscore(level, highscore);
+			newId = id;
+			c = myDb.getRow(newId);
+		}else{
+			newId = myDb.insertRow(level, highscore);
+			c = myDb.getRow(newId);
+		}
+		
+		displayHighscores(c);
 	}
 	
 	public void updateHighscore(int level, int newHighscore){
 		Cursor cursor = myDb.getRowWithLevel(level);
 		int oldHighscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
-		long id = cursor.getLong(DBAdapter.COL_ROWID);
+		id = cursor.getLong(DBAdapter.COL_ROWID);
 		if(oldHighscore < newHighscore){
 			oldHighscore = newHighscore;
 		}
