@@ -15,7 +15,6 @@
         android:layout_alignParentRight="true"
         ads:adSize="BANNER"
         ads:adUnitId="ca-app-pub-3638109491407160/3494255688" >
-
     </com.google.android.gms.ads.AdView>
 
     <TabHost
@@ -45,7 +44,6 @@
                     android:layout_height="match_parent" >
 
                     <include layout="@layout/tab_start" />
-
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -54,6 +52,14 @@
                     android:layout_height="match_parent" >
 
                     <include layout="@layout/database_main" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/tabSettings"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" >
+
+                    <include layout="@layout/tab_settings" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -70,7 +76,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/tab_bg_image" />
-
         </LinearLayout>
     </TabHost>
 
