@@ -20,7 +20,6 @@ public abstract class GameObject {
 	}
 
 	public abstract void tick(float dt);
-
 	public abstract void draw(Canvas canvas, float interpolation);
 
 	public Vector2f getPosition() {
