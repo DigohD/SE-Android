@@ -122,7 +122,7 @@ public class TabMenu extends Activity {
 	}
 
 	public void resetScores(View view) {
-		// insert database reset function here
+		db.getDBAdapter().deleteAll();
 	}
 
 	// Add methods for everything that is handled in the menus, e.g. scores etc.

@@ -104,4 +104,8 @@ public class DatabaseActivity{
 		displayName(messageName);
 		displayHighscore(messageHighscore);
 	}
+	
+	public DBAdapter getDBAdapter(){
+		return myDb;
+	}
 }
