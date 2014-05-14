@@ -6,7 +6,7 @@ import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.SoundPlayer.SoundID;
 import com.spaceshooter.game.util.Vector2f;
 
-public class BluePlasmaGun extends Gun{
+public class BluePlasmaGun extends Gun {
 
 	public BluePlasmaGun(Vector2f gunPos) {
 		super(gunPos);
@@ -14,7 +14,8 @@ public class BluePlasmaGun extends Gun{
 
 	@Override
 	public void fire() {
-		Vector2f finalV = pVelocity.rotate(Randomizer.getFloat(-spread, spread));
+		Vector2f finalV = pVelocity
+				.rotate(Randomizer.getFloat(-spread, spread));
 		new BluePlasma(gunPos, finalV);
 		SoundPlayer.playSound(SoundID.fire_BluePlasma);
 	}

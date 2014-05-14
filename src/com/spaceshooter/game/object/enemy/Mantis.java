@@ -13,14 +13,14 @@ import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 public class Mantis extends Enemy {
-	
+
 	private int reload;
 	private Vector2f targetVelocity;
-	
+
 	private boolean directionChoosed = false;
 	private boolean fire = false;
-	private boolean top , bottom;
-	
+	private boolean top, bottom;
+
 	public Mantis() {
 		this(new Vector2f(GameView.WIDTH + 40, 0));
 	}
@@ -28,17 +28,18 @@ public class Mantis extends Enemy {
 	public Mantis(Vector2f position) {
 		super(position);
 		this.bitmap = BitmapHandler.loadBitmap("enemies/mantis");
-		
+
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
-		
-		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-		
+
+		rect = new Rect((int) position.x, (int) position.y, (int) position.x
+				+ width, (int) position.y + height);
+
 		speedX = -25f;
 		speedY = 0;
-		
+
 		velocity = new Vector2f(speedX, speedY);
-		targetVelocity = new Vector2f(speedX,speedY);
+		targetVelocity = new Vector2f(speedX, speedY);
 		hp = 20f;
 		maxHp = 20f;
 		enemyPoints = 10;
@@ -47,50 +48,52 @@ public class Mantis extends Enemy {
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);
-		
-		if(position.y > GameView.HEIGHT/2 && position.x < GameView.WIDTH - 30 && !directionChoosed){
+
+		if (position.y > GameView.HEIGHT / 2
+				&& position.x < GameView.WIDTH - 30 && !directionChoosed) {
 			targetVelocity.y = -50f;
 			directionChoosed = true;
 			top = true;
 		}
-		
-		if(position.y < GameView.HEIGHT/2 && position.x < GameView.WIDTH - 30 && !directionChoosed){
+
+		if (position.y < GameView.HEIGHT / 2
+				&& position.x < GameView.WIDTH - 30 && !directionChoosed) {
 			targetVelocity.y = 50f;
 			directionChoosed = true;
 			bottom = true;
 		}
-		
-		if(position.x <= GameView.WIDTH/2 + 120 && !fire){
+
+		if (position.x <= GameView.WIDTH / 2 + 120 && !fire) {
 			targetVelocity.y = 0;
 			targetVelocity.x = -15f;
 			fire = true;
 		}
-		
-		if(position.x <= GameView.WIDTH/2){
+
+		if (position.x <= GameView.WIDTH / 2) {
 			fire = false;
-			if(top) {
+			if (top) {
 				targetVelocity.y = 50f;
 				targetVelocity.x = -20f;
 			}
-			if(bottom) {
+			if (bottom) {
 				targetVelocity.y = -50f;
 				targetVelocity.x = -20f;
 			}
 		}
-		
-		if(fire){
+
+		if (fire) {
 			reload++;
-			if(reload > 20){
+			if (reload > 20) {
 				reload = 0;
 				Vector2f v = new Vector2f(position.x, position.y + 2);
 				new MantisProj(v);
-				//SoundPlayer.playSound(1);
+				// SoundPlayer.playSound(1);
 			}
 		}
-		
+
 		velocity.x = approach(targetVelocity.x, velocity.x, dt);
 		velocity.y = approach(targetVelocity.y, velocity.y, dt);
-		
+
 		move(dt);
 	}
 
@@ -101,8 +104,9 @@ public class Mantis extends Enemy {
 
 	@Override
 	public void death() {
-		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
-		new RadialEmitter(8, ParticleID.PURPLE_DOT, center, new Vector2f(20f, 0f));
+		Vector2f center = position.add(new Vector2f(width / 2f, height / 2f));
+		new RadialEmitter(8, ParticleID.PURPLE_DOT, center, new Vector2f(20f,
+				0f));
 		SoundPlayer.playSound(SoundID.exp_2);
 	}
 

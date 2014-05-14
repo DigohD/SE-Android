@@ -14,7 +14,7 @@ import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 public abstract class Enemy extends DynamicObject implements Collideable {
-	
+
 	protected float hp, maxHp;
 	protected float enemyPoints, combo = 1.0f;
 	protected int totalScore = 0;
@@ -26,17 +26,18 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 
 	@Override
 	public void tick(float dt) {
-		if(getX() < -width)
+		if (getX() < -width)
 			live = false;
-		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+		rect.set((int) position.x, (int) position.y, (int) position.x + width,
+				(int) position.y + height);
 	}
-	
+
 	/**
-	 * Adds the enemy to the gameobject list so that it will be updated and drawn.
-	 * The enemy also gets added to the list of enemies in CollisionManager so that it
-	 * can be checked for collisions
+	 * Adds the enemy to the gameobject list so that it will be updated and
+	 * drawn. The enemy also gets added to the list of enemies in
+	 * CollisionManager so that it can be checked for collisions
 	 */
-	public void init(){
+	public void init() {
 		GameObjectManager.addGameObject(this);
 		CollisionManager.addEnemy(this);
 	}
@@ -46,26 +47,28 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 		super.draw(canvas, interpolation);
 	}
 
-	public int calculatePlayerScore(float points, int level, float combo){
-		if(combo == 0)
+	public int calculatePlayerScore(float points, int level, float combo) {
+		if (combo == 0)
 			return (int) (points * Math.pow(1.2f, level) * 1.0f);
 		else
 			return (int) (points * Math.pow(1.2f, level) * combo);
 	}
-	
+
 	@Override
 	public void collisionWith(GameObject obj) {
-		if(obj instanceof Projectile){
+		if (obj instanceof Projectile) {
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
-			if(hp <= 0){
+			if (hp <= 0) {
 				GameObjectManager.getPlayer().incEnemyKillCount(1);
-				int score = calculatePlayerScore(enemyPoints, GameView.getLevelID(), GameObjectManager.getPlayer().getCombo());
+				int score = calculatePlayerScore(enemyPoints,
+						GameView.getLevelID(), GameObjectManager.getPlayer()
+								.getCombo());
 				GameObjectManager.getPlayer().incScore(score);
 				death();
 				live = false;
 				int rn = Randomizer.getInt(0, 8);
-				if(rn == 2){
+				if (rn == 2) {
 					new HealthPack(position, velocity, 10);
 				}
 			}

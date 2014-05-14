@@ -4,15 +4,15 @@ import com.spaceshooter.game.object.enemy.Predator;
 import com.spaceshooter.game.util.Color;
 
 public class PredatorSequence extends Sequence {
-	
-	public PredatorSequence(String path){
+
+	public PredatorSequence(String path) {
 		super();
 		timeLimit = true;
 		loadSequence(path);
 		enemies.put(Color.RED, new Predator());
 		scanSequence();
 	}
-	
+
 	public PredatorSequence() {
 		super();
 		timeLimit = true;
@@ -20,5 +20,4 @@ public class PredatorSequence extends Sequence {
 		enemies.put(Color.RED, new Predator());
 		scanSequence();
 	}
-	
 }

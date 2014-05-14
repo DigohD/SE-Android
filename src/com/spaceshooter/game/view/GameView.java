@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.spaceshooter.game.GameActivity;
-import com.spaceshooter.game.database.DatabaseActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
@@ -43,7 +41,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean okToRestartMP = true;
 	private boolean newLevel = false, firstLevel = true;
 	public boolean gwMusicState;
-	
+
 	private Context context;
 	private SurfaceHolder holder;
 	private GameThread game;
@@ -112,12 +110,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				if (gwMusicState) {
 					mp.stop();
 				}
-				
-				
 
 				TabMenu.newScore(true);
-				
-				
+
 				Builder builder = new AlertDialog.Builder(context);
 				builder.setCancelable(false);
 				builder.setTitle(title);

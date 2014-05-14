@@ -9,7 +9,7 @@ public class Vector2f {
 
 	public float x;
 	public float y;
-	
+
 	public static boolean normalizing = false;
 
 	/**
@@ -31,10 +31,10 @@ public class Vector2f {
 	 * @return returns the length of the vector
 	 */
 	public float length() {
-		if(normalizing){
+		if (normalizing) {
 			float len = (float) Math.sqrt(x * x + y * y);
 			return Math.round(len);
-		}else{
+		} else {
 			return (float) Math.sqrt(x * x + y * y);
 		}
 	}
@@ -65,7 +65,10 @@ public class Vector2f {
 
 	/**
 	 * Rotates the vector around origo by the given angle
-	 * @param angle the angle in degrees which the vector will be rotated by around origo
+	 * 
+	 * @param angle
+	 *            the angle in degrees which the vector will be rotated by
+	 *            around origo
 	 * @return returns a new rotated vector
 	 */
 	public Vector2f rotate(float angle) {
@@ -78,18 +81,21 @@ public class Vector2f {
 
 	/**
 	 * Rotates the vector around the given vector by the given angle
-	 * @param v the vector to rotate around
-	 * @param angle the angle in degrees which the vector will be rotated by
+	 * 
+	 * @param v
+	 *            the vector to rotate around
+	 * @param angle
+	 *            the angle in degrees which the vector will be rotated by
 	 * @return returns a new rotated vector
 	 */
-	public Vector2f rotate(Vector2f v, float angle){
-		float rad = (float)Math.toRadians(angle);
-		float cos = (float)Math.cos(rad);
-		float sin = (float)Math.sin(rad);
-		
+	public Vector2f rotate(Vector2f v, float angle) {
+		float rad = (float) Math.toRadians(angle);
+		float cos = (float) Math.cos(rad);
+		float sin = (float) Math.sin(rad);
+
 		float newX = cos * (x - v.x) - sin * (y - v.y) + v.x;
 		float newY = sin * (x - v.x) + cos * (y - v.y) + v.y;
-		
+
 		return new Vector2f(newX, newY);
 	}
 
@@ -198,10 +204,13 @@ public class Vector2f {
 
 	/**
 	 * Sets a new position to this vector
-	 * @param x the new x position
-	 * @param y the new y position
+	 * 
+	 * @param x
+	 *            the new x position
+	 * @param y
+	 *            the new y position
 	 */
-	public void set(float x, float y){
+	public void set(float x, float y) {
 		this.x = x;
 		this.y = y;
 	}

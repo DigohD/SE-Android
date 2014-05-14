@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -14,12 +14,8 @@ import android.view.WindowManager;
 
 import com.spaceshooter.game.database.DatabaseActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
-import com.spaceshooter.game.object.enemy.Enemy;
-import com.spaceshooter.game.object.enemy.Predator;
 import com.spaceshooter.game.util.BitmapHandler;
-import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
-import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 import com.spaceshooter.game.view.InventoryView;
 

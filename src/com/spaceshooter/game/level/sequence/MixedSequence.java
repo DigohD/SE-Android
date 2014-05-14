@@ -4,9 +4,9 @@ import com.spaceshooter.game.object.enemy.Mantis;
 import com.spaceshooter.game.object.enemy.Predator;
 import com.spaceshooter.game.util.Color;
 
-public class MixedSequence extends Sequence{
-	
-	public MixedSequence(String path){
+public class MixedSequence extends Sequence {
+
+	public MixedSequence(String path) {
 		super();
 		timeLimit = true;
 		loadSequence(path);
@@ -14,7 +14,7 @@ public class MixedSequence extends Sequence{
 		enemies.put(Color.RED, new Mantis());
 		scanSequence();
 	}
-	
+
 	public MixedSequence() {
 		super();
 		timeLimit = true;
@@ -23,5 +23,4 @@ public class MixedSequence extends Sequence{
 		enemies.put(Color.RED, new Mantis());
 		scanSequence();
 	}
-
 }

@@ -19,15 +19,15 @@ public abstract class DynamicObject extends GameObject {
 		super(position);
 	}
 
-	protected float approach(float target, float current, float dt){
+	protected float approach(float target, float current, float dt) {
 		float diff = target - current;
-		if(diff > dt)
+		if (diff > dt)
 			return current + dt;
-		if(diff < -dt)
+		if (diff < -dt)
 			return current - dt;
 		return target;
 	}
-	
+
 	protected void interpolate(float interpolation) {
 		currentPosition = position;
 		nextPosition = currentPosition.add(distance);
@@ -35,21 +35,22 @@ public abstract class DynamicObject extends GameObject {
 		interpolatedPosition = currentPosition.mul(interpolation).add(
 				nextPosition.mul((1.0f - interpolation)));
 	}
-	
-	public void move(float dt){
+
+	public void move(float dt) {
 		distance = velocity.mul(dt);
 		position = position.add(distance);
 	}
 
 	@Override
 	public void tick(float dt) {
-		
+
 	}
 
 	@Override
 	public void draw(Canvas canvas, float interpolation) {
 		interpolate(interpolation);
-		canvas.drawBitmap(bitmap, interpolatedPosition.x, interpolatedPosition.y, null);
+		canvas.drawBitmap(bitmap, interpolatedPosition.x,
+				interpolatedPosition.y, null);
 	}
 
 	public Vector2f getVelocity() {

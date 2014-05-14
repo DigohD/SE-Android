@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.TabHost;
-import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 import android.widget.ToggleButton;
 
@@ -18,7 +17,6 @@ import com.example.se_android.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.spaceshooter.game.GameActivity;
-import com.spaceshooter.game.database.DBAdapter;
 import com.spaceshooter.game.database.DatabaseActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 
@@ -67,10 +65,11 @@ public class TabMenu extends Activity {
 		db.showHighscore();
 	}
 
-	public static void newScore(Boolean b){
-		db.addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
+	public static void newScore(Boolean b) {
+		db.addHighscore(GameObjectManager.getPlayer().getName(),
+				GameObjectManager.getPlayer().getScore());
 	}
-	
+
 	private void exitDialog() {
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
@@ -88,18 +87,19 @@ public class TabMenu extends Activity {
 		});
 		builder.create().show();
 	}
-	public void onResume()
-	{
+
+	public void onResume() {
 		super.onResume();
 		db.openDB();
 		db.showHighscore();
-		}
+	}
+
 	@Override
 	public void onBackPressed() {
 		exitDialog();
 	}
-	
-	public void onDestroy(){
+
+	public void onDestroy() {
 		super.onDestroy();
 		db.closeDB();
 	}
@@ -108,14 +108,12 @@ public class TabMenu extends Activity {
 	public void play(View view) {
 		Intent intent = new Intent(this, GameActivity.class);
 		intent.putExtra("EXTRA_musicState", musicState);
-		
 		startActivity(intent);
 	}
 
 	public void onToggleClicked(View view) {
 		musicState = ((ToggleButton) view).isChecked();
 	}
-	
 
 	public void showScoreTab() {
 		th.setCurrentTab(1);
@@ -123,6 +121,7 @@ public class TabMenu extends Activity {
 
 	public void resetScores(View view) {
 		db.getDBAdapter().deleteAll();
+		db.showHighscore();
 	}
 
 	// Add methods for everything that is handled in the menus, e.g. scores etc.
