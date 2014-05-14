@@ -23,6 +23,7 @@ import com.spaceshooter.game.database.DatabaseActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
+import com.spaceshooter.game.menu.TabMenu;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
 
@@ -42,7 +43,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean okToRestartMP = true;
 	private boolean newLevel = false, firstLevel = true;
 	public boolean gwMusicState;
-
+	
 	private Context context;
 	private SurfaceHolder holder;
 	private GameThread game;
@@ -111,7 +112,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				if (gwMusicState) {
 					mp.stop();
 				}
+				
+				
 
+				TabMenu.newScore(true);
+				
+				
 				Builder builder = new AlertDialog.Builder(context);
 				builder.setCancelable(false);
 				builder.setTitle(title);

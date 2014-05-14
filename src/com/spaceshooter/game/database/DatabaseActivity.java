@@ -2,6 +2,7 @@ package com.spaceshooter.game.database;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -9,49 +10,40 @@ import android.widget.TextView;
 
 import com.example.se_android.R;
 import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.menu.TabMenu;
 
-public class DatabaseActivity extends Activity {
+public class DatabaseActivity{
 
 	private DBAdapter myDb;
 	private long id;
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.database_main);
-		myDb = new DBAdapter(this);
-		openDB();
-	}
-	
-//	@Override
-//	public void onBackPressed() {
-//		Intent intent = new Intent(this, TabMenu.class);
-//		startActivity(intent);
-//	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();	
-		closeDB();
+	private Context context;
+	public DatabaseActivity(Context context){
+		this.context = context;
+		myDb = new DBAdapter(context);
 	}
 
 	public void openDB() {
 		myDb.open();
 		//myDb.deleteAll();
-		if(GameObjectManager.getPlayer() != null)
-			addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
+		//if(GameObjectManager.getPlayer() != null)
+			//addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
+		//addHighscore("JOSEF", 1);
 	}
 	
 	public void closeDB() {
 		myDb.close();
 	}
 
-	private void displayText(String message) {
-        TextView textView = (TextView) findViewById(R.id.textView3);
+	private void displayName(String message) {
+		TabMenu tm = (TabMenu) context;
+		
+        TextView textView = (TextView) tm.findViewById(R.id.textView3);
         textView.setText(message);
 	}
 	
 	private void displayHighscore(String message) {
-        TextView textView = (TextView) findViewById(R.id.textView4);
+		TabMenu tm = (TabMenu) context;
+        TextView textView = (TextView) tm.findViewById(R.id.textView4);
         textView.setText(message);
 	}
 	
@@ -69,7 +61,7 @@ public class DatabaseActivity extends Activity {
 			c = myDb.getRow(newId);
 		}
 		
-		displayHighscores(c);
+		
 	}
 	
 	public void updateHighscore(String name, int newHighscore){
@@ -80,6 +72,11 @@ public class DatabaseActivity extends Activity {
 			oldHighscore = newHighscore;
 		}
 		myDb.updateRow(id, name, oldHighscore);
+	}
+	
+	public void showHighscore(){
+		Cursor cursor = myDb.getRow(1);
+		displayHighscores(cursor);
 	}
 	
 	// Display an entire recordset to the screen.
@@ -104,7 +101,7 @@ public class DatabaseActivity extends Activity {
 		// Close the cursor to avoid a resource leak.
 		cursor.close();
 		
-		displayText(messageName);
+		displayName(messageName);
 		displayHighscore(messageHighscore);
 	}
 }

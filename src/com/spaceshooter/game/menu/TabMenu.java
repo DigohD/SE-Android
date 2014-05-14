@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.TabHost.TabSpec;
 import android.widget.ToggleButton;
 
@@ -19,28 +20,28 @@ import com.example.se_android.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.spaceshooter.game.GameActivity;
+import com.spaceshooter.game.database.DBAdapter;
+import com.spaceshooter.game.database.DatabaseActivity;
+import com.spaceshooter.game.engine.GameObjectManager;
 
 public class TabMenu extends Activity {
 
+	public static DatabaseActivity db;
 	public boolean musicState = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-//		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
+		
+		
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
 				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
-																	// Nexus 4
-				.addTestDevice("e83ab40d") // Simons Note (var fel värde, leta
-											// upp rätt under körning i LogCat
-				.addTestDevice("0009478f6e129f") // Anders Galaxy S2
+				.addTestDevice("e83ab40d") // Simon
+				.addTestDevice("CC502939B1954AAF341181CF3BDAFAEA") // Anders
 				.build();
 		adView.loadAd(adRequest);
 
@@ -58,8 +59,15 @@ public class TabMenu extends Activity {
 		creditsSpecs.setContent(R.id.tabCredits);
 		creditsSpecs.setIndicator("Credits");
 		th.addTab(creditsSpecs);
+		db = new DatabaseActivity(this);
+		db.openDB();
+		db.showHighscore();
 	}
 
+	public static void newScore(Boolean b){
+		db.addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
+	}
+	
 	private void exitDialog() {
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
@@ -77,29 +85,37 @@ public class TabMenu extends Activity {
 		});
 		builder.create().show();
 	}
-
+	public void onResume()
+	{
+		super.onResume();
+		db.openDB();
+		db.showHighscore();
+		}
 	@Override
 	public void onBackPressed() {
 		exitDialog();
+	}
+	
+	public void onDestroy(){
+		super.onDestroy();
+		db.closeDB();
 	}
 
 	// Menu tab options
 	public void play(View view) {
 		Intent intent = new Intent(this, GameActivity.class);
 		intent.putExtra("EXTRA_musicState", musicState);
+		
 		startActivity(intent);
 	}
 
 	public void onToggleClicked(View view) {
 		musicState = ((ToggleButton) view).isChecked();
 	}
+	
 
 	// Add methods for everything that is handled in the menus, e.g. scores etc.
 
-	// public void highscore(View view) {
-	// Intent intent = new Intent(this, DatabaseActivity.class);
-	// startActivity(intent);
-	// }
 	// Settings tab options
 
 }
