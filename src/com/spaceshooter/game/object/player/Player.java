@@ -175,6 +175,7 @@ public class Player extends DynamicObject implements Collideable {
 				if(ast.getWidth() <= 30){
 					hp = hp - 20;
 					ast.setLive(false);
+					ast.death();
 					if(hp <= 0) {
 						if(live) death();
 						live = false;
