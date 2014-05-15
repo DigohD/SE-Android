@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -19,7 +18,6 @@ import android.view.View;
 import android.view.WindowManager;
 
 import com.spaceshooter.game.GameActivity;
-import com.spaceshooter.game.database.Database;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
@@ -31,9 +29,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public static final int WIDTH = 800, HEIGHT = 480;
 
-	private int timer = 0, timer2 = 0;
+	private int timer = 0;
+	private int musicStartTimer;
 	private int levelTime = 30;
-	private static int levelID = 2;
+	private static int levelID;
 
 	private float scaleX, scaleY;
 	private float knobX;
@@ -41,7 +40,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private boolean drawJoystick = true;
 	private boolean okToRestartMP = true;
-	private boolean newLevel = false, firstLevel = true;
+	private boolean displayLevelID = false;
 	public boolean gwMusicState;
 	
 	private Context context;
@@ -51,24 +50,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private Bitmap joystick, knob;
 	private MusicPlayer mp;
 	private Paint p = new Paint();
-	private int musicStartTimer;
-
+	
 	public GameView(Context context) {
 		super(context);
 		this.context = context;
-		GameActivity ga = (GameActivity) context;
-		gwMusicState = ga.musicState;
-		mp = null;
-		musicStartTimer = 0;
-
-		level = new Level(levelTime);
-		game = new GameThread(getHolder(), this);
-
-		joystick = BitmapHandler.loadBitmap("ui/joystick");
-		knob = BitmapHandler.loadBitmap("ui/joystickKnob");
-
-		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
-		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
+		
+		init();
 
 		WindowManager wm = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
@@ -87,7 +74,100 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		holder.addCallback(this);
 	}
+	
+	private void init(){
+		GameActivity ga = (GameActivity) context;
+		gwMusicState = ga.musicState;
+		mp = null;
+		musicStartTimer = 0;
+		
+		levelID = 1;
+		level = new Level(levelTime);
+		level.startLevel(levelID);
+		
+		game = new GameThread(getHolder(), this);
 
+		joystick = BitmapHandler.loadBitmap("ui/joystick");
+		knob = BitmapHandler.loadBitmap("ui/joystickKnob");
+
+		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
+		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
+	}
+
+	public void tick(float dt) {
+		if (gwMusicState) {
+			if (mp == null) {
+				musicStartTimer++;
+				if (musicStartTimer > 10)
+					mp = new MusicPlayer(context);
+			}
+		}
+		
+		if(!displayLevelID)
+			timer++;
+		
+		if(timer >= 2*60){
+			displayLevelID = true;
+			timer = 0;
+		}
+		
+		level.tick(dt);
+		
+		if(level.isFinished() && GameObjectManager.getPlayer().isLive()){
+			timer++;
+			if(timer >= 2*60){
+				if(levelID >= Level.getNumOfLevels()){
+					okToRestartMP = false;
+					dialogBox("Game completed!", "Highscore: "
+							+ GameObjectManager.getPlayer().getScore(),
+							"Restart", "LeaderBoard", "Main Menu");
+				}else{
+					levelID++;
+					level.startLevel(levelID);
+					level.setFinished(false);
+					displayLevelID = false;
+					timer = 0;
+				}
+			}
+		}
+
+		if (!GameObjectManager.getPlayer().isLive()) {
+			okToRestartMP = false;
+			timer++;
+			if (timer >= 2 * 60) {
+				dialogBox("You died! You made it to level " + (levelID),
+						"Highscore: "
+								+ GameObjectManager.getPlayer().getScore(),
+						"Restart", "LeaderBoard", "Main Menu");
+				timer = 0;
+			}
+		}
+		
+		if (gwMusicState) {
+			if (mp != null && MusicPlayer.isDone() && okToRestartMP)
+				mp = new MusicPlayer(context);
+		}
+		
+	}
+
+	public void draw(Canvas canvas, float interpolation) {
+		// clear the screen with black pixels
+		canvas.drawColor(Color.BLACK);
+		// draw the level
+		level.draw(canvas, interpolation);
+
+		if (drawJoystick) {
+			canvas.drawBitmap(joystick, 40, 320, null);
+			canvas.drawBitmap(knob, knobX, knobY, null);
+		}
+
+		if (!displayLevelID) {
+			p.setColor(Color.GREEN);
+			canvas.drawText("Level " + levelID, WIDTH / 2, HEIGHT / 2, p);
+		}
+	}
+	
+	
 	/**
 	 * Creates a dialogbox on the screen with a title, message and two buttons
 	 * one button for yes and one for no
@@ -132,21 +212,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setPositiveButton(positiveBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
-								GameObjectManager.clear();
-								level = new Level(levelTime);
-								GameObjectManager.getPlayer().init();
-								game.resume();
-								if (gwMusicState) {
-									if (mp == null)
-										mp = new MusicPlayer(context);
-								}
-								okToRestartMP = true;
-								drawJoystick = true;
-								level.setFinished(false);
-								timer = 0;
-								timer2 = 0;
-								firstLevel = true;
-								levelID = 2;
+								resetGameState();
 							}
 						});
 				builder.create().show();
@@ -154,87 +220,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		});
 
 	}
-
-	public void tick(float dt) {
-		if (gwMusicState) {
-			if (mp == null) {
-				musicStartTimer++;
-				if (musicStartTimer > 10)
-					mp = new MusicPlayer(context);
-			}
-		}
-
-		if(firstLevel)
-			timer2++;
-
-		if(timer2 >= 2 * 60)
-			firstLevel = false;
-
-		level.tick(dt);
-
-		if(level.isFinished() && GameObjectManager.getPlayer().isLive()) {
-			timer++;
-			
-			if(levelID >= Level.getNumOfLevels() + 1)
-				newLevel = false;
-			else newLevel = true;
-
-			if(timer >= 3 * 60) {
-				newLevel = false;
-				if(levelID >= Level.getNumOfLevels() + 1) {
-					okToRestartMP = false;
-					dialogBox("Game completed!", "Highscore: "
-							+ GameObjectManager.getPlayer().getScore(),
-							"Restart", "LeaderBoard", "Main Menu");
-				}else{
-					level.selectLevel(levelID);
-					levelID++;
-					level.setFinished(false);
-					timer = 0;
-				}
-			}
-		}
+	
+	private void resetGameState(){
+		GameObjectManager.clear();
+		levelID = 1;
+		level = new Level(levelTime);
+		level.startLevel(levelID);
+		GameObjectManager.getPlayer().init();
 		
+		game.resume();
 		
-
-		if (!GameObjectManager.getPlayer().isLive()) {
-			okToRestartMP = false;
-			timer++;
-			if (timer >= 2 * 60) {
-				dialogBox("You died! You made it to level " + (levelID - 1),
-						"Highscore: "
-								+ GameObjectManager.getPlayer().getScore(),
-						"Restart", "LeaderBoard", "Main Menu");
-				timer = 0;
-			}
-		}
 		if (gwMusicState) {
-			if (mp != null && MusicPlayer.isDone() && okToRestartMP)
+			if (mp == null)
 				mp = new MusicPlayer(context);
 		}
-	}
+		
+		okToRestartMP = true;
+		drawJoystick = true;
+		displayLevelID = false;
+		level.setFinished(false);
 
-	public void draw(Canvas canvas, float interpolation) {
-		// clear the screen with black pixels
-		canvas.drawColor(Color.BLACK);
-		// draw the level
-		level.draw(canvas, interpolation);
-
-		if (drawJoystick) {
-			canvas.drawBitmap(joystick, 40, 320, null);
-			canvas.drawBitmap(knob, knobX, knobY, null);
-		}
-
-		if (newLevel) {
-			p.setColor(Color.GREEN);
-			canvas.drawText("Level " + (levelID), WIDTH / 2, HEIGHT / 2, p);
-		}
-
-		if (firstLevel) {
-			p.setColor(Color.GREEN);
-			canvas.drawText("Level " + 1, WIDTH / 2, HEIGHT / 2, p);
-		}
-
+		timer = 0;
 	}
 
 	public boolean onTouchEvent(MotionEvent event) {
@@ -367,7 +373,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public static int getLevelID() {
-		return levelID - 1;
+		return levelID;
 	}
 
 }
