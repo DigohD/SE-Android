@@ -30,7 +30,7 @@ public abstract class Projectile extends DynamicObject {
 	}
 	
 	public boolean isOutOfBound(){
-		return getX() >= GameView.WIDTH || getX() <= -width || getY() >= GameView.HEIGHT || getY() <= -height;
+		return (getX() >= GameView.WIDTH || getX() <= -width || getY() >= GameView.HEIGHT || getY() <= -height);
 	}
 	
 	public abstract void death();
