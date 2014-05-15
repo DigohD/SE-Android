@@ -41,11 +41,6 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 		CollisionManager.addEnemy(this);
 	}
 
-	@Override
-	public void draw(Canvas canvas, float interpolation) {
-		super.draw(canvas, interpolation);
-	}
-
 	public int calculatePlayerScore(float points, int level, float combo){
 		if(combo == 0)
 			return (int) (points * Math.pow(1.2f, level) * 1.0f);
