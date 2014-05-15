@@ -163,8 +163,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					mp = new MusicPlayer(context);
 			}
 		}
-		
-		
 
 		if(firstLevel)
 			timer2++;
