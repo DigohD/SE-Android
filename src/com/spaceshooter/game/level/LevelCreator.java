@@ -52,7 +52,7 @@ public class LevelCreator {
 		switch(level){
 		case 1:
 			enemyGen.setTime(60);
-			int[] seqTypes = {0};
+			int[] seqTypes = {0,1,2};
 			initLevel(seqTypes);
 			break;
 		case 2:
