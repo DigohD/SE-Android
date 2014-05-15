@@ -47,8 +47,7 @@ public class GameObjectManager {
 		gameObjects.clear();
 		toAdd.clear();
 		ProjectileManager.clear();
-		CollisionManager.enemies.clear();
-		CollisionManager.loots.clear();
+		CollisionManager.clear();
 	}
 
 

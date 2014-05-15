@@ -63,6 +63,7 @@ public class TabMenu extends Activity {
 		db = new Database(this);
 		db.openDB();
 		db.showHighscore();
+		db.closeDB();
 	}
 
 	private void exitDialog() {
@@ -87,13 +88,15 @@ public class TabMenu extends Activity {
 		super.onResume();
 		db.openDB();
 		db.showHighscore();
+		db.closeDB();
 	}
 
 	@Override
 	public void onBackPressed() {
 		exitDialog();
 	}
-
+	
+	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		db.closeDB();
@@ -116,8 +119,10 @@ public class TabMenu extends Activity {
 	}
 
 	public void resetScores(View view) {
-		db.getDBAdapter().deleteAll();
+		db.openDB();
+		db.resetScore();
 		db.showHighscore();
+		db.closeDB();
 	}
 
 	// Add methods for everything that is handled in the menus, e.g. scores etc.

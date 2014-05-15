@@ -163,32 +163,32 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					mp = new MusicPlayer(context);
 			}
 		}
+		
+		
 
-		if (firstLevel)
+		if(firstLevel)
 			timer2++;
 
-		if (timer2 >= 2 * 60)
+		if(timer2 >= 2 * 60)
 			firstLevel = false;
 
 		level.tick(dt);
 
-		if (level.isFinished() && GameObjectManager.getPlayer().isLive()) {
+		if(level.isFinished() && GameObjectManager.getPlayer().isLive()) {
 			timer++;
-
-			if (levelID >= Level.getNumOfLevels() + 1)
+			
+			if(levelID >= Level.getNumOfLevels() + 1)
 				newLevel = false;
-			else
-				newLevel = true;
+			else newLevel = true;
 
-			if (timer >= 3 * 60) {
+			if(timer >= 3 * 60) {
 				newLevel = false;
-
-				if (levelID >= Level.getNumOfLevels() + 1) {
+				if(levelID >= Level.getNumOfLevels() + 1) {
 					okToRestartMP = false;
 					dialogBox("Game completed!", "Highscore: "
 							+ GameObjectManager.getPlayer().getScore(),
 							"Restart", "LeaderBoard", "Main Menu");
-				} else {
+				}else{
 					level.selectLevel(levelID);
 					levelID++;
 					level.setFinished(false);
@@ -196,6 +196,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 			}
 		}
+		
+		
 
 		if (!GameObjectManager.getPlayer().isLive()) {
 			okToRestartMP = false;
@@ -344,7 +346,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void stop() {
 		GameObjectManager.clear();
-		GameObjectManager.getPlayer().setScore(0);
 		if (gwMusicState) {
 			MusicPlayer.stop();
 		}

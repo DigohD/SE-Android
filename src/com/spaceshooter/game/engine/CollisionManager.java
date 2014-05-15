@@ -25,6 +25,11 @@ public class CollisionManager {
 	public static List<Enemy> enemies = new ArrayList<Enemy>();
 	// the list of loot which will be checked for collisions
 	public static List<Loot> loots = new ArrayList<Loot>();
+	
+	public static void clear(){
+		enemies.clear();
+		loots.clear();
+	}
 
 	/**
 	 * Stores an enemy in the enemy collision list. The list will be traversed

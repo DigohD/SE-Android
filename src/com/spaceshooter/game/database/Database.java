@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.widget.TextView;
 
 import com.spaceshooter.game.R;
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.menu.TabMenu;
 
 public class Database{
@@ -41,6 +42,19 @@ public class Database{
         textView.setText(message);
 	}
 	
+	public void resetScore(){
+		cursor  = myDb.getRow(1);
+		if(cursor != null && GameObjectManager.getPlayer() != null){
+			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), GameObjectManager.getPlayer().getName(), 0);
+			cursor = myDb.getRow(1);
+		}	
+		
+		//TEMPORARY FIX IF PLAYER IS NULL
+		if(cursor != null && GameObjectManager.getPlayer() == null){
+			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), "Player1", 0);
+			cursor = myDb.getRow(1);
+		}
+	}
 	
 	public void addHighscore(String name, int highscore) {
 		cursor  = myDb.getRow(1);
