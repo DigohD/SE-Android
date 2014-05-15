@@ -23,7 +23,7 @@ public class Database{
 
 	public void openDB() {
 		myDb.open();
-		cursor  = myDb.getRow(1);
+		cursor = myDb.getRow(1);
 	}
 	
 	public void closeDB() {
@@ -50,7 +50,7 @@ public class Database{
 		}	
 		
 		//TEMPORARY FIX IF PLAYER IS NULL
-		if(cursor != null && GameObjectManager.getPlayer() == null){
+		if(cursor != null && cursor.getCount() > 0 && GameObjectManager.getPlayer() == null){
 			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), "Player1", 0);
 			cursor = myDb.getRow(1);
 		}
