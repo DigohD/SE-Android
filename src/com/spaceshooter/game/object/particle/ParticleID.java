@@ -6,5 +6,6 @@ public enum ParticleID {
 	GreenBall,
 	YellowPlasma,
 	PURPLE_DOT,
+	DUST,
 	ENGINE
 }
