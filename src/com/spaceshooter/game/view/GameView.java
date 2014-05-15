@@ -67,7 +67,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		joystick = BitmapHandler.loadBitmap("ui/joystick");
 		knob = BitmapHandler.loadBitmap("ui/joystickKnob");
 
-		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
+		knobX =  760 - joystick.getWidth() + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
 
 		WindowManager wm = (WindowManager) context
@@ -221,7 +221,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		level.draw(canvas, interpolation);
 
 		if (drawJoystick) {
-			canvas.drawBitmap(joystick, 40, 320, null);
+			canvas.drawBitmap(joystick, 760 - joystick.getWidth(), 320, null);
 			canvas.drawBitmap(knob, knobX, knobY, null);
 		}
 
@@ -249,18 +249,18 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		// System.out.println("Moved!!!! Game!!!");
 
 		// Joystick center point: X = 100, Y = 380
-		if (eventX < 210 && eventX > 0 && eventY < 480 && eventY > 300) {
+		if (eventX > 590 && eventX < 800 && eventY < 480 && eventY > 300) {
 			if (event.getAction() == MotionEvent.ACTION_MOVE) {
 
 				drawJoystick = true;
 
-				if (eventX <= 180 && eventX >= 20 && eventY <= 470
+				if (eventX >= 620 && eventX <= 780 && eventY <= 470
 						&& eventY >= 308) {
 
 					knobX = eventX - knob.getWidth() / 2;
 					knobY = eventY - knob.getHeight() / 2;
 
-					float dX = eventX - 100;
+					float dX = eventX - 700;
 					float dY = eventY - 380;
 
 					dX = dX / 8;
@@ -270,7 +270,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 				} else {
 					GameObjectManager.getPlayer().setUpdate(false);
-					knobX = 40 + (joystick.getWidth() / 2)
+					knobX = 760 - joystick.getWidth() + (joystick.getWidth() / 2)
 							- (knob.getWidth() / 2);
 					knobY = 320 + (joystick.getHeight() / 2)
 							- (knob.getHeight() / 2);
@@ -281,13 +281,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if (event.getAction() == MotionEvent.ACTION_DOWN) {
 				drawJoystick = true;
 
-				if (eventX <= 180 && eventX >= 20 && eventY <= 470
+				if (eventX >= 620 && eventX <= 780 && eventY <= 470
 						&& eventY >= 308) {
 
 					knobX = eventX - knob.getWidth() / 2;
 					knobY = eventY - knob.getHeight() / 2;
 
-					float dX = eventX - 100;
+					float dX = eventX - 700;
 					float dY = eventY - 380;
 
 					dX = dX / 8;
@@ -297,19 +297,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 				} else {
 					GameObjectManager.getPlayer().setUpdate(false);
-					knobX = 40 + (joystick.getWidth() / 2)
+					knobX = 760 - joystick.getWidth() + (joystick.getWidth() / 2)
 							- (knob.getWidth() / 2);
 					knobY = 320 + (joystick.getHeight() / 2)
 							- (knob.getHeight() / 2);
 				}
 
-				if (eventX > 700)
-					game.goInventory();
+//				if (eventX > 700)
+//					game.goInventory();
 			}
 
 			if (event.getAction() == MotionEvent.ACTION_UP) {
-				drawJoystick = false;
-				knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
+//				drawJoystick = false;
+				knobX = 760 - joystick.getWidth() + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 				knobY = 320 + (joystick.getHeight() / 2)
 						- (knob.getHeight() / 2);
 				GameObjectManager.getPlayer().setUpdate(false);
