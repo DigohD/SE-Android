@@ -77,14 +77,14 @@ public class GameActivity extends Activity {
 		gameView.pause();
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
-		builder.setTitle("Quit Game?");
-		builder.setMessage("Return to main menu?");
-		builder.setNegativeButton("Cancel", new OnClickListener() {
+		builder.setTitle("Game Paused");
+		builder.setMessage("What do you want to do?");
+		builder.setNegativeButton("Resume Game", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
 				gameView.resume();
 			}
 		});
-		builder.setPositiveButton("Ok", new OnClickListener() {
+		builder.setPositiveButton("Main Menu", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
 				gameView.stop();
 				GameActivity.super.onBackPressed();

@@ -129,13 +129,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 								ga2.onBackPressed2();
 							}
 						});
-				builder.setNeutralButton(neutralBtn,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface arg0, int arg1) {
-								ga.database();
-
-							}
-						});
 				builder.setPositiveButton(positiveBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
