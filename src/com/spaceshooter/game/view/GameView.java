@@ -24,6 +24,7 @@ import com.spaceshooter.game.level.Level;
 import com.spaceshooter.game.menu.TabMenu;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
+import com.spaceshooter.tcp.TCPClient;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -185,6 +186,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			final String positiveBtn, final String neutralBtn,
 			final String negativeBtn) {
 
+		
+		
 		final GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
 			public void run() {
@@ -193,6 +196,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					MusicPlayer.stop();
 				}
 
+				TCPClient tcp = new TCPClient();
+				String[] querys = {"Simon", "10000"};
+				tcp.execute(querys);
+				
 				TabMenu.db.openDB();
 				TabMenu.db.addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
 				TabMenu.db.closeDB();

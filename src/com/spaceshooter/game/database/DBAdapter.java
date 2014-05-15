@@ -23,7 +23,10 @@ public class DBAdapter {
 	
 	public static final String[] ALL_KEYS = new String[] {KEY_ROWID, KEY_NAME, KEY_HIGHSCORE};
 	
-	public static final String DATABASE_NAME = "Spaceshooter";
+//	public static final String DATABASE_NAME = "Spaceshooter";
+//	public static final String DATABASE_TABLE = "highScores";
+	
+	public static final String DATABASE_NAME = "sql340234";
 	public static final String DATABASE_TABLE = "highScores";
 
 	public static final int DATABASE_VERSION = 2;

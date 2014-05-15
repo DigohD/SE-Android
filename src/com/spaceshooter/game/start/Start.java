@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.spaceshooter.game.menu.TabMenu;
+import com.spaceshooter.tcp.TCPClient;
 
 public class Start extends Activity {
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		getSettings();
 		getScores();
 		openStartMenu();
