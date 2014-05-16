@@ -36,16 +36,21 @@ public class GlobalHighScoreView extends View{
 			e.printStackTrace();
 		}
 		
+		
 		entries = new String[parser.parseQuery(response).length];
+		System.out.println(entries[0]);
+//		System.out.println("RESPONSE: " + response);
 	}
 	
 	@Override
 	public void onDraw(Canvas c){
-		c.drawColor(Color.BLACK);
-		p.setColor(Color.RED);
-		for(int i = 0; i < entries.length; i++){
-			c.drawText(entries[i], 200, i+5, p);
-		}
+//		c.drawColor(Color.BLACK);
+//		p.setColor(Color.RED);
+//		for(int i = 0; i < entries.length; i++){
+//			
+//			c.drawText(entries[i], 200, i+5, p);
+//		}
+		
 	}
 	
 	
