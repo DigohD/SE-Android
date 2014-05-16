@@ -181,6 +181,12 @@ public class Player extends DynamicObject implements Collideable {
 						live = false;
 						engine.setLive(false);
 					}
+				}else{
+					ast.setLive(false);
+					ast.death();
+					if(live) death();
+					live = false;
+					engine.setLive(false);
 				}
 			}else{
 				if(live) death();

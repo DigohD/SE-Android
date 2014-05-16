@@ -18,8 +18,8 @@ public class GlobalHighScoreView extends View{
 	private String response;
 	private HighScoreParser parser;
 	private String[] entries;
-	Paint p = new Paint();
-	int count = 1;
+	private Paint p = new Paint();
+	
 	public GlobalHighScoreView(Context context) {
 		super(context);
 		
@@ -35,12 +35,8 @@ public class GlobalHighScoreView extends View{
 		} catch (ExecutionException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
+
 		entries = parser.parseQuery(response);
-		
 	}
 	
 	@Override
@@ -48,7 +44,6 @@ public class GlobalHighScoreView extends View{
 		c.drawColor(Color.BLACK);
 		p.setColor(Color.RED);
 		
-	
 		for(int i = 0; i < entries.length; i++){
 			c.drawText(entries[i], 300, 50+20*i, p);
 		}
