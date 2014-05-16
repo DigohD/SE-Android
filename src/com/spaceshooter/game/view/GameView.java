@@ -197,7 +197,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				TCPClient tcp = new TCPClient();
-				String[] querys = {"insert", "Simon", "10000"};
+				String[] querys = {"insert", android.os.Build.MODEL, 
+						GameObjectManager.getPlayer().getScore() + ""};
 				tcp.execute(querys);
 				
 				TabMenu.db.openDB();
