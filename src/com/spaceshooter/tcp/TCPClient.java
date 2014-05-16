@@ -42,8 +42,9 @@ public class TCPClient extends AsyncTask<String, Void, String> {
 		
 		out.println("insert:" + params[0] + ":" + params[1]);
 		
+		String response = null;
 		try {
-			System.out.println("echo: " + in.readLine());
+			response = in.readLine();
 		
 			out.close();
 			in.close();
@@ -51,7 +52,7 @@ public class TCPClient extends AsyncTask<String, Void, String> {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		 return "Executed";
+		 return response;
      }
 
      @Override
