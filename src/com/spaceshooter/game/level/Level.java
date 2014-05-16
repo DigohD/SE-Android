@@ -5,6 +5,10 @@ import android.graphics.Canvas;
 import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
+import com.spaceshooter.game.object.enemy.Asteroid;
+import com.spaceshooter.game.util.Randomizer;
+import com.spaceshooter.game.util.Vector2f;
+import com.spaceshooter.game.view.GameView;
 
 public class Level {
 	
@@ -45,6 +49,12 @@ public class Level {
 			if(CollisionManager.enemies.size() == 0){
 				levelDone = true;
 				timer = 0;
+			}
+		}
+		if(enemyGen.isUpdate()){
+			if(timer % 15 == 0){
+				float y = Randomizer.getFloat(2, 720);
+				new Asteroid(new Vector2f(GameView.WIDTH,y)).init();
 			}
 		}
 		enemyGen.tick();

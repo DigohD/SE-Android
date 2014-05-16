@@ -5,6 +5,7 @@ import android.graphics.Rect;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.object.enemy.Asteroid;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.loot.Loot;
@@ -169,10 +170,25 @@ public class Player extends DynamicObject implements Collideable {
 	@Override
 	public void collisionWith(GameObject obj) {
 		if(obj instanceof Enemy){
-			if(live) death();
-			hp = 0;
-			live = false;
-			engine.setLive(false);
+			if(obj instanceof Asteroid){
+				Asteroid ast = (Asteroid) obj;
+				if(ast.getWidth() <= 30){
+					hp = hp - 20;
+					ast.setLive(false);
+					ast.death();
+					if(hp <= 0) {
+						if(live) death();
+						live = false;
+						engine.setLive(false);
+					}
+				}
+			}else{
+				if(live) death();
+				hp = 0;
+				live = false;
+				engine.setLive(false);
+			}
+			
 		}
 
 		if(obj instanceof Projectile) {

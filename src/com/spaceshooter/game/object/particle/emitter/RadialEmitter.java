@@ -1,5 +1,6 @@
 package com.spaceshooter.game.object.particle.emitter;
 
+import com.spaceshooter.game.object.particle.Dust;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.PurpleDot;
 import com.spaceshooter.game.object.particle.RedPlasma;
@@ -12,13 +13,13 @@ public class RadialEmitter extends Emitter{
 	
 	public RadialEmitter(int particleCount, ParticleID pID, Vector2f position, 
 			Vector2f particleVelocity) {
-		super(particleCount, pID, position, 1);
+		super(particleCount, pID, position, 4);
 		this.particleVelocity = particleVelocity;
 	}
 
 	@Override
 	public void emit() {
-		for(int i = 0; i < particleCount; i++){
+		for(int i = 0; i < (particleCount / 4) + 1; i++){
 			Vector2f finalV = particleVelocity.rotate(Randomizer.getFloat(0, 359));
 			switch(pID){
 				case RED_PLASMA:
@@ -26,6 +27,9 @@ public class RadialEmitter extends Emitter{
 					break;
 				case PURPLE_DOT:
 					new PurpleDot(position, finalV);
+					break;
+				case DUST:
+					new Dust(position, finalV.mul(Randomizer.getFloat(1f, 2f)));
 					break;
 			}
 		}

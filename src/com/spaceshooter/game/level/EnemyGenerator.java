@@ -182,4 +182,8 @@ public class EnemyGenerator {
 		return TIME;
 	}
 	
+	public boolean isUpdate(){
+		return this.update;
+	}
+	
 }
