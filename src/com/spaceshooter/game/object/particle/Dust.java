@@ -18,7 +18,7 @@ public class Dust extends Particle{
 		int rnd = Randomizer.getInt2(0, 2);
 		this.bitmap = BitmapHandler.loadBitmap("particles/dust" + rnd);
 		
-		lifetime = 15 + Randomizer.getInt(0, 25);
+		lifetime = 5 + Randomizer.getInt(0, 40);
 		timeLived = 0;
 		
 		GameObjectManager.addGameObject(this);
