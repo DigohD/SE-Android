@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.os.Build;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -197,7 +198,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				TCPClient tcp = new TCPClient();
-				String[] querys = {"insert", android.os.Build.MODEL, 
+				String[] querys = {"insert", 
+						android.os.Build.MANUFACTURER + android.os.Build.PRODUCT, 
 						GameObjectManager.getPlayer().getScore() + ""};
 				tcp.execute(querys);
 				
