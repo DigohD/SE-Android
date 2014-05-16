@@ -42,7 +42,7 @@ public class TCPClient extends AsyncTask<String, Void, String> {
 		
 		if(params[0].equals("insert")){
 			out.println(params[0] + ":" + params[1] + ":" + params[2]);
-		}if(params[0].equals("select")){
+		}else if(params[0].equals("select")){
 			out.println("select:");
 		}
 		
