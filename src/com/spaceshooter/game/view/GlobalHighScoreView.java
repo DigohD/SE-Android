@@ -19,7 +19,7 @@ public class GlobalHighScoreView extends View{
 	private HighScoreParser parser;
 	private String[] entries;
 	Paint p = new Paint();
-	
+	int count = 1;
 	public GlobalHighScoreView(Context context) {
 		super(context);
 		
@@ -37,19 +37,21 @@ public class GlobalHighScoreView extends View{
 		}
 		
 		
-		entries = new String[parser.parseQuery(response).length];
-		System.out.println(entries[0]);
-//		System.out.println("RESPONSE: " + response);
+		
+		
+		entries = parser.parseQuery(response);
+		
 	}
 	
 	@Override
 	public void onDraw(Canvas c){
-//		c.drawColor(Color.BLACK);
-//		p.setColor(Color.RED);
-//		for(int i = 0; i < entries.length; i++){
-//			
-//			c.drawText(entries[i], 200, i+5, p);
-//		}
+		c.drawColor(Color.BLACK);
+		p.setColor(Color.RED);
+		
+	
+		for(int i = 0; i < entries.length; i++){
+			c.drawText(entries[i], 300, 50+20*i, p);
+		}
 		
 	}
 	
