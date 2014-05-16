@@ -6,7 +6,11 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.spaceshooter.tcp.HighScoreParser;
 import com.spaceshooter.tcp.TCPClient;
@@ -14,6 +18,7 @@ import com.spaceshooter.tcp.TCPClient;
 public class GlobalHighScoreView extends View{
 	
 	public static final int WIDTH = 800, HEIGHT = 480;
+	private float scaleX, scaleY;
 	
 	private String response;
 	private HighScoreParser parser;
@@ -37,15 +42,32 @@ public class GlobalHighScoreView extends View{
 		}
 
 		entries = parser.parseQuery(response);
+		
+		WindowManager wm = (WindowManager) context
+				.getSystemService(Context.WINDOW_SERVICE);
+
+		Display display = wm.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+
+		scaleX = ((float) size.x / (float) WIDTH);
+		scaleY = ((float) size.y / (float) HEIGHT);
+
 	}
 	
 	@Override
 	public void onDraw(Canvas c){
-		c.drawColor(Color.BLACK);
-		p.setColor(Color.RED);
 		
+		c.scale(scaleX, scaleY);
+		
+		c.drawColor(Color.BLACK);
+		
+		p.setColor(Color.RED);
+		p.setTextSize(30);
+		c.drawText("Leaderboard", 300, 30, p);
+		p.setTextSize(20);
 		for(int i = 0; i < entries.length; i++){
-			c.drawText(entries[i], 300, 50+20*i, p);
+			c.drawText(i+1 + ".) " + entries[i], 300, 55+20*i, p);
 		}
 		
 	}
