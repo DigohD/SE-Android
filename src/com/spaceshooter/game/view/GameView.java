@@ -197,11 +197,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				TCPClient tcp = new TCPClient();
-				String[] querys = {"Simon", "10000"};
+				Integer i =  GameObjectManager.getPlayer().getScore();
+				String[] querys = {"insert", "Anders", i.toString()};
 				tcp.execute(querys);
 				
 				TabMenu.db.openDB();
-				TabMenu.db.addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
+				TabMenu.db.addHighscore(GameObjectManager.getPlayer().getName(), GameObjectManager.getPlayer().getScore());
 				TabMenu.db.closeDB();
 				
 				Builder builder = new AlertDialog.Builder(context);

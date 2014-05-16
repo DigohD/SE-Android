@@ -67,12 +67,6 @@ public class GameActivity extends Activity {
 		new SoundPlayer(this);
 	}
 
-	public void database() {
-		Intent intent = new Intent(this, Database.class);
-		finish();
-		startActivity(intent);
-	}
-
 	private void exitDialog() {
 		gameView.pause();
 		Builder builder = new AlertDialog.Builder(this);
