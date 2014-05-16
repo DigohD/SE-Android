@@ -51,7 +51,7 @@ public class GlobalHighScoreActivity extends Activity{
 		builder.setCancelable(false);
 		builder.setTitle("Game Paused");
 		builder.setMessage("What do you want to do?");
-		builder.setNegativeButton("Resume Game", new OnClickListener() {
+		builder.setNegativeButton("Resume", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
 				
 			}

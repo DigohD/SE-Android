@@ -57,15 +57,14 @@ public class GlobalHighScoreView extends View{
 	
 	@Override
 	public void onDraw(Canvas c){
-		
 		c.scale(scaleX, scaleY);
-		
 		c.drawColor(Color.BLACK);
 		
 		p.setColor(Color.RED);
 		p.setTextSize(30);
 		c.drawText("Leaderboard", 300, 30, p);
 		p.setTextSize(20);
+		
 		for(int i = 0; i < entries.length; i++){
 			c.drawText(i+1 + ".) " + entries[i], 300, 55+20*i, p);
 		}

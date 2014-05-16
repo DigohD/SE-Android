@@ -10,13 +10,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.os.Build;
+import android.text.InputType;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
 
 import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
@@ -122,7 +123,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					okToRestartMP = false;
 					dialogBox("Game completed!", "Highscore: "
 							+ GameObjectManager.getPlayer().getScore(),
-							"Restart", "LeaderBoard", "Main Menu");
+							"Restart", "Submit score", "Main Menu");
 				}else{
 					levelID++;
 					level.startLevel(levelID);
@@ -140,7 +141,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				dialogBox("You died! You made it to level " + (levelID),
 						"Highscore: "
 								+ GameObjectManager.getPlayer().getScore(),
-						"Restart", "LeaderBoard", "Main Menu");
+						"Restart", "Submit score", "Main Menu");
 				timer = 0;
 			}
 		}
@@ -170,6 +171,60 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	
+	public void textBox(final String title, final String msg,
+			final String positiveBtn, final String negativeBtn){
+		
+		final GameActivity ga = (GameActivity) context;
+		ga.runOnUiThread(new Runnable() {
+			public void run() {
+				Builder builder = new AlertDialog.Builder(context);
+				builder.setCancelable(false);
+				builder.setTitle(title);
+				builder.setMessage(msg);
+
+				// Set up the input
+				final EditText input = new EditText(context);
+				// Specify the type of input expected;
+				input.setInputType(InputType.TYPE_CLASS_TEXT);
+				builder.setView(input);
+
+				// Set up the buttons
+				builder.setPositiveButton(positiveBtn, new DialogInterface.OnClickListener() { 
+				    @Override
+				    public void onClick(DialogInterface dialog, int which) {
+				    	GameObjectManager.getPlayer().setName(input.getText().toString());
+				    	TCPClient tcp = new TCPClient();
+				    	if(GameObjectManager.getPlayer().getName() != null){
+				    		String[] querys = {"insert", 
+									GameObjectManager.getPlayer().getName(), 
+									GameObjectManager.getPlayer().getScore() + ""};
+							tcp.execute(querys);
+				    	}else{
+				    		String[] querys = {"insert", 
+									"Player", 
+									GameObjectManager.getPlayer().getScore() + ""};
+							tcp.execute(querys);
+				    	}
+				    	dialogBox("Score submitted!" ,
+								"What do you want to do?",
+								"Restart", "Main Menu");
+				    }
+				});
+				builder.setNegativeButton(negativeBtn, new DialogInterface.OnClickListener() {
+				    @Override
+				    public void onClick(DialogInterface dialog, int which) {
+				    	GameActivity ga2 = (GameActivity) context;
+						stop();
+						ga2.onBackPressed2();
+				    }
+				});
+
+				builder.show();
+			}
+		});
+		
+	}
+	
 	/**
 	 * Creates a dialogbox on the screen with a title, message and two buttons
 	 * one button for yes and one for no
@@ -197,15 +252,53 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					MusicPlayer.stop();
 				}
 
-				TCPClient tcp = new TCPClient();
-				String[] querys = {"insert", 
-						android.os.Build.MANUFACTURER + android.os.Build.PRODUCT, 
-						GameObjectManager.getPlayer().getScore() + ""};
-				tcp.execute(querys);
-				
 				TabMenu.db.openDB();
 				TabMenu.db.addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
 				TabMenu.db.closeDB();
+				
+				Builder builder = new AlertDialog.Builder(context);
+				builder.setCancelable(false);
+				builder.setTitle(title);
+				builder.setMessage(msg);
+				builder.setNegativeButton(negativeBtn,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
+								GameActivity ga2 = (GameActivity) context;
+								stop();
+								ga2.onBackPressed2();
+							}
+						});
+				builder.setNeutralButton(neutralBtn,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
+								textBox("Submit to Global Leaderboard", "Enter name:", "Submit", "Cancel");
+							}
+						});
+				builder.setPositiveButton(positiveBtn,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface arg0, int arg1) {
+								resetGameState();
+							}
+						});
+				builder.create().show();
+			}
+		});
+
+	}
+	
+	private void dialogBox(final String title, final String msg,
+			final String positiveBtn,
+			final String negativeBtn) {
+
+		
+		
+		final GameActivity ga = (GameActivity) context;
+		ga.runOnUiThread(new Runnable() {
+			public void run() {
+				game.pause();
+				if (gwMusicState) {
+					MusicPlayer.stop();
+				}
 				
 				Builder builder = new AlertDialog.Builder(context);
 				builder.setCancelable(false);

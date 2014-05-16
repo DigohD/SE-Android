@@ -307,4 +307,8 @@ public class Player extends DynamicObject implements Collideable {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
 }
