@@ -40,7 +40,13 @@ public class TCPClient extends AsyncTask<String, Void, String> {
 		BufferedReader stdIn = new BufferedReader(
 		                               new InputStreamReader(System.in));
 		
-		out.println("insert:" + params[0] + ":" + params[1]);
+		if(params[0].equals("insert")){
+			out.println(params[0] + ":" + params[1] + ":" + params[2]);
+		}if(params[0].equals("select")){
+			out.println("select:");
+		}
+		
+		
 		
 		String response = null;
 		try {

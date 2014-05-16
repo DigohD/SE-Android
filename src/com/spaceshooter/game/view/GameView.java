@@ -197,7 +197,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				TCPClient tcp = new TCPClient();
-				String[] querys = {"Simon", "10000"};
+				String[] querys = {"insert", "Simon", "10000"};
 				tcp.execute(querys);
 				
 				TabMenu.db.openDB();
