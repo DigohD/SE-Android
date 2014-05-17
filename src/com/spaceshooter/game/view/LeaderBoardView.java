@@ -61,9 +61,10 @@ public class LeaderBoardView extends View{
 		
 		p.setColor(Color.RED);
 		p.setTextSize(30);
+		p.setColor(Color.GRAY);
 		c.drawText("Leaderboard", 300, 30, p);
 		p.setTextSize(20);
-		p.setColor(Color.WHITE);
+		p.setColor(Color.GRAY);
 		
 		for(int i = 0; i < entries.length; i++){
 			if(55+20*i <= 780)

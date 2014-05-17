@@ -56,11 +56,6 @@ public class GameObjectManager {
 		CollisionManager.clear();
 	}
 
-
-	/**
-	 * Adds a gameobject to the gameobject list
-	 * @param go the gameobject to be added
-	 */
 	public static void addGameObject(GameObject go){
 		if(go instanceof Tickable){
 			Tickable t = (Tickable) go;
@@ -73,17 +68,11 @@ public class GameObjectManager {
 		}
 	}
 
-	
-	/**
-	 * Removes a gameobject from the gameobject list
-	 * @param go the gameobject to be removed
-	 */
 	public static void removeGameObject(GameObject go){
-		//Clear the reference to the pixeldata of the bitmap
-		//Much more efficient then waiting for the garbage collector to do it.
-	
 		if(go instanceof Drawable){
 			Drawable d = (Drawable) go;
+			//Clear the reference to the pixeldata of the bitmap
+			//Much more efficient then waiting for the garbage collector to do it.
 			if(d.getBitmap() != null)
 				d.getBitmap().recycle();
 			drawableObjects.remove(d);
@@ -138,6 +127,7 @@ public class GameObjectManager {
 	 * @param dt time step variable used for physics calculations
 	 */
 	public void tick(float dt){
+		//copy everything from the toaddlists in order to avoid concurrent modification error 
 		for(Tickable t : tToAdd)
 			tickableObjects.add(t);
 		for(Drawable d : dToAdd)
@@ -146,7 +136,9 @@ public class GameObjectManager {
 		tToAdd.clear();
 		dToAdd.clear();
 		
+		//clear all gameobjects that is no longer alive
 		clearDeadGameObjects();
+		//check for any collisions
 		CollisionManager.collisionCheck(player);
 		
 		if(player.isLive()){
@@ -186,6 +178,7 @@ public class GameObjectManager {
 		if(player.getHp() <= 0) player.setHp(0);
 		canvas.drawRect(20, 20, 20 + ((player.getHp()/player.getMaxHP())*150), 20 + 5, paint);
 		
+		paint.setTextSize(15);
 		canvas.drawText("SCORE: " + player.getScore(), 20, 42, paint);
 		
 		
@@ -193,6 +186,7 @@ public class GameObjectManager {
 			paint.setColor(Color.RED);
 		else paint.setColor(Color.GREEN);
 		
+		paint.setTextSize(15);
 		canvas.drawText("COMBO: " + player.getCombo(), 20, 62, paint);
 	}
 

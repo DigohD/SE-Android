@@ -1,10 +1,6 @@
 package com.spaceshooter.game;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
@@ -26,9 +22,6 @@ public class LeaderBoardActivity extends Activity{
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-		getWindow().setFlags(
-				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
@@ -37,33 +30,6 @@ public class LeaderBoardActivity extends Activity{
 		gv = new LeaderBoardView(this);
 		setContentView(gv);
 		
-	}
-	
-
-	@Override
-	public void onBackPressed() {
-		exitDialog();
-	}
-	
-	private void exitDialog() {
-		
-		Builder builder = new AlertDialog.Builder(this);
-		builder.setCancelable(false);
-		builder.setTitle("Game Paused");
-		builder.setMessage("What do you want to do?");
-		builder.setNegativeButton("Resume", new OnClickListener() {
-			public void onClick(DialogInterface arg0, int arg1) {
-				
-			}
-		});
-		builder.setPositiveButton("Main Menu", new OnClickListener() {
-			public void onClick(DialogInterface arg0, int arg1) {
-				
-				LeaderBoardActivity.super.onBackPressed();
-			}
-		});
-
-		builder.create().show();
 	}
 
 }

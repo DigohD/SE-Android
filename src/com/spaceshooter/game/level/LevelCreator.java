@@ -59,8 +59,8 @@ public class LevelCreator {
 			initLevel(seqTypes2);
 			break;
 		case 3:
-			enemyGen.setTime(60);
-			int[] seqTypes3 = {0,1,2};
+			enemyGen.setTime(80);
+			int[] seqTypes3 = {1,2};
 			initLevel(seqTypes3);
 			break;
 		}

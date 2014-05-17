@@ -18,7 +18,6 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 	protected Rect rect;
 	protected float hp, maxHp;
 	protected float enemyPoints, combo = 1.0f;
-	protected int totalScore = 0;
 
 	public Enemy(Vector2f position) {
 		super(position);
