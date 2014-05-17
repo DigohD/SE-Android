@@ -4,7 +4,7 @@ import android.graphics.Rect;
 
 public interface Collideable {
 
-	public void collisionWith(GameObject obj);
+	public void collisionWith(Collideable obj);
 	public Rect getRect();
 
 }

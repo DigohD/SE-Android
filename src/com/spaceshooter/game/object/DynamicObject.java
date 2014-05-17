@@ -7,17 +7,23 @@ import com.spaceshooter.game.util.Vector2f;
 
 public abstract class DynamicObject extends GameObject implements Tickable, Drawable{
 
+	protected float speedX, speedY;
+	
 	protected Bitmap bitmap;
 	
-	protected float speedX, speedY;
-	protected Vector2f distance = new Vector2f(0, 0);
-	protected Vector2f currentPosition = position;
-	protected Vector2f nextPosition = new Vector2f(0, 0);
-	protected Vector2f interpolatedPosition = new Vector2f(0, 0);
 	protected Vector2f velocity;
-
+	protected Vector2f distance;
+	
+	protected Vector2f currentPosition;
+	protected Vector2f nextPosition;
+	protected Vector2f interpolatedPosition;
+	
 	public DynamicObject(Vector2f position) {
 		super(position);
+		distance = new Vector2f(0, 0);
+		currentPosition = position;
+		nextPosition = new Vector2f(0, 0);
+		interpolatedPosition = new Vector2f(0, 0);
 	}
 
 	protected float approach(float target, float current, float dt){

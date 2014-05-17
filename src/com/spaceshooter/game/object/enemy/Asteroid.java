@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.particle.ParticleID;
@@ -65,7 +66,7 @@ public class Asteroid extends Enemy{
 	}
 	
 	@Override
-	public void collisionWith(GameObject obj) {
+	public void collisionWith(Collideable obj) {
 		if(obj instanceof Projectile){
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();

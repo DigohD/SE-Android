@@ -34,7 +34,7 @@ public abstract class Projectile extends DynamicObject implements Collideable{
 	}
 	
 	@Override
-	public void collisionWith(GameObject obj) {
+	public void collisionWith(Collideable obj) {
 		
 	}
 	

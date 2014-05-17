@@ -16,18 +16,17 @@ import com.spaceshooter.game.view.GameView;
 public abstract class Enemy extends DynamicObject implements Collideable {
 	
 	protected Rect rect;
-	protected float hp, maxHp;
-	protected float enemyPoints, combo = 1.0f;
+	protected float hp, maxHp, enemyPoints;
 
 	public Enemy(Vector2f position) {
 		super(position);
-
 	}
+	
+	public abstract void death();
 
 	@Override
 	public void tick(float dt) {
-		if(getX() < -width)
-			live = false;
+		if(getX() < -width) live = false;
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	}
 	
@@ -41,7 +40,7 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 		CollisionManager.addEnemy(this);
 	}
 
-	public int calculatePlayerScore(float points, int level, float combo){
+	protected int calculatePlayerScore(float points, int level, float combo){
 		if(combo == 0)
 			return (int) (points * Math.pow(1.2f, level) * 1.0f);
 		else
@@ -49,7 +48,7 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 	}
 	
 	@Override
-	public void collisionWith(GameObject obj) {
+	public void collisionWith(Collideable obj) {
 		if(obj instanceof Projectile){
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
@@ -68,8 +67,6 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 			p.setLive(false);
 		}
 	}
-
-	public abstract void death();
 	
 	public Rect getRect(){
 		return rect;

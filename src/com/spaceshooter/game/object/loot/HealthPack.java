@@ -4,6 +4,7 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
@@ -31,7 +32,7 @@ public class HealthPack extends Loot{
 	}
 	
 	@Override
-	public void collisionWith(GameObject obj) {
+	public void collisionWith(Collideable obj) {
 		
 		
 	}

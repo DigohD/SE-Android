@@ -170,7 +170,7 @@ public class Player extends DynamicObject implements Collideable {
 	}
 
 	@Override
-	public void collisionWith(GameObject obj) {
+	public void collisionWith(Collideable obj) {
 		if(obj instanceof Enemy){
 			if(obj instanceof Asteroid){
 				Asteroid ast = (Asteroid) obj;
