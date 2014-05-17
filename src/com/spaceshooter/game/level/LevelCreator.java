@@ -51,9 +51,7 @@ public class LevelCreator {
 	public void runLevel(int level){
 		switch(level){
 		case 1:
-			enemyGen.setTime(60);
-			int[] seqTypes = {0,1,2};
-			initLevel(seqTypes);
+			enemyGen.setTime(20);
 			break;
 		case 2:
 			enemyGen.setTime(40);

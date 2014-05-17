@@ -1,19 +1,24 @@
 package com.spaceshooter.game.object.projectile;
 
-import android.graphics.Canvas;
+import android.graphics.Rect;
 
+import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
+import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
-public abstract class Projectile extends DynamicObject {
+public abstract class Projectile extends DynamicObject implements Collideable{
 
 	protected float damage;
+	protected Rect rect;
 	
 	public Projectile(Vector2f position, Vector2f velocity) {
 		super(position);
 		this.velocity = velocity;
 	}
+	
+	public abstract void death();
 	
 	@Override
 	public void tick(float dt){
@@ -24,19 +29,21 @@ public abstract class Projectile extends DynamicObject {
 		move(dt);
 	}
 	
-	@Override
-	public void draw(Canvas canvas,  float interpolation) {
-		super.draw(canvas, interpolation);
-	}
-	
 	public boolean isOutOfBound(){
 		return (getX() >= GameView.WIDTH || getX() <= -width || getY() >= GameView.HEIGHT || getY() <= -height);
 	}
 	
-	public abstract void death();
+	@Override
+	public void collisionWith(GameObject obj) {
+		
+	}
 	
 	public float getDamage() {
 		return damage;
+	}
+	
+	public Rect getRect(){
+		return rect;
 	}
 
 }

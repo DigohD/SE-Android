@@ -1,8 +1,5 @@
 package com.spaceshooter.game.engine;
 
-import static com.spaceshooter.game.engine.ProjectileManager.enemyProjectiles;
-import static com.spaceshooter.game.engine.ProjectileManager.playerProjectiles;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +23,30 @@ public class CollisionManager {
 	// the list of loot which will be checked for collisions
 	public static List<Loot> loots = new ArrayList<Loot>();
 	
+	public static List<Projectile> playerProjectiles = new ArrayList<Projectile>();
+	public static List<Projectile> enemyProjectiles = new ArrayList<Projectile>();
+	
 	public static void clear(){
 		enemies.clear();
 		loots.clear();
+		playerProjectiles.clear();
+		enemyProjectiles.clear();
+	}
+	
+	public static void addEnemyProjectile(Projectile proj){
+		enemyProjectiles.add(proj);
+	}
+	
+	public static void removeEnemyProjectile(Projectile proj){
+		enemyProjectiles.remove(proj);
+	}
+	
+	public static void addPlayerProjectile(Projectile proj){
+		playerProjectiles.add(proj);
+	}
+	
+	public static void removePlayerProjectile(Projectile proj){
+		playerProjectiles.remove(proj);
 	}
 
 	/**
@@ -52,8 +70,6 @@ public class CollisionManager {
 		enemies.remove(e);
 	}
 	
-	
-
 	/**
 	 * Adds the loot to the loots list
 	 * @param loot the loot to be added
@@ -95,15 +111,19 @@ public class CollisionManager {
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
 			if (player != null && e != null)
-				if (collisionBetween(player.getRect(), e.getRect()))
+				if (collisionBetween(player.getRect(), e.getRect())){
 					player.collisionWith(e);
+//					e.collisionWith(player);
+				}
 		}
 		
 		for(int i = 0; i < loots.size(); i++) {
-			Loot e = loots.get(i);
-			if (player != null && e != null)
-				if (collisionBetween(player.getRect(), e.getRect()))
-					player.collisionWith(e);
+			Loot l = loots.get(i);
+			if (player != null && l != null)
+				if (collisionBetween(player.getRect(), l.getRect())){
+					player.collisionWith(l);
+//					l.collisionWith(player);
+				}
 		}
 		
 		for(int i = 0; i < playerProjectiles.size(); i++)
@@ -111,15 +131,19 @@ public class CollisionManager {
 				Projectile p = playerProjectiles.get(i);
 				Enemy e = enemies.get(j);
 				if(p != null && e != null)
-					if(collisionBetween(p.getRect(), e.getRect()))
+					if(collisionBetween(p.getRect(), e.getRect())){
 						e.collisionWith(p);
+//						p.collisionWith(e);
+					}
 			}
 				
 		for(int i = 0; i < enemyProjectiles.size(); i++){
 			Projectile p = enemyProjectiles.get(i);
 			if(p != null && player != null && player.isLive())
-				if(collisionBetween(p.getRect(), player.getRect()))
+				if(collisionBetween(p.getRect(), player.getRect())){
 					player.collisionWith(p);
+//					p.collisionWith(player);
+				}
 		}
 		
 	}

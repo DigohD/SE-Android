@@ -1,4 +1,4 @@
-package com.spaceshooter.tcp;
+package com.spaceshooter.game.net;
 
 import java.io.BufferedReader;
 import java.io.IOException;

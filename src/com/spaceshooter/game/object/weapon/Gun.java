@@ -1,12 +1,10 @@
 package com.spaceshooter.game.object.weapon;
 
-import android.graphics.Canvas;
-
-import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.object.Tickable;
 import com.spaceshooter.game.util.Vector2f;
 
-public abstract class Gun extends GameObject{
+public abstract class Gun extends GameObject implements Tickable{
 
 	protected Vector2f gunPos;
 	protected float spread;
@@ -28,11 +26,6 @@ public abstract class Gun extends GameObject{
 			fire();
 			reloadTimer = 0;
 		}
-	}
-
-	@Override
-	public void draw(Canvas canvas, float interpolation) {
-		
 	}
 	
 	public abstract void fire();

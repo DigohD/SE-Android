@@ -1,14 +1,9 @@
 package com.spaceshooter.game.object.particle;
 
-import android.graphics.Canvas;
-import android.graphics.Rect;
-
 import com.spaceshooter.game.engine.GameObjectManager;
-import com.spaceshooter.game.engine.ProjectileManager;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
 public class RedDot extends Particle{
 

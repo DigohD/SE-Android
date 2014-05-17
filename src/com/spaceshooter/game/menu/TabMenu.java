@@ -16,7 +16,7 @@ import android.widget.ToggleButton;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.spaceshooter.game.GameActivity;
-import com.spaceshooter.game.GlobalHighScoreActivity;
+import com.spaceshooter.game.LeaderBoardActivity;
 import com.spaceshooter.game.R;
 import com.spaceshooter.game.database.Database;
 
@@ -112,7 +112,7 @@ public class TabMenu extends Activity {
 	}
 	
 	public void globalHighscore(View view){
-		Intent intent = new Intent(this, GlobalHighScoreActivity.class);
+		Intent intent = new Intent(this, LeaderBoardActivity.class);
 		startActivity(intent);
 	}
 

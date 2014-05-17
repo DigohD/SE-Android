@@ -7,20 +7,24 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import com.spaceshooter.game.object.Drawable;
 import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.object.Tickable;
 import com.spaceshooter.game.object.background.BackGround;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.loot.Loot;
 import com.spaceshooter.game.object.player.Player;
+import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.object.weapon.Gun;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 public class GameObjectManager {
 
-	public static List<GameObject> gameObjects;
-	public static List<GameObject> toAdd;
-	private ProjectileManager projectileManager;
+	public static List<Tickable> tickableObjects;
+	public static List<Tickable> tToAdd;
+	public static List<Drawable> drawableObjects;
+	public static List<Drawable> dToAdd;
 	
 	private static Player player;
 	private	static Gun topGun;
@@ -30,23 +34,25 @@ public class GameObjectManager {
 	private Paint paint;
 	
 	public GameObjectManager() {
-		gameObjects = new ArrayList<GameObject>();
-		toAdd = new ArrayList<GameObject>();
-		if(player == null){
+		tickableObjects = new ArrayList<Tickable>();
+		tToAdd = new ArrayList<Tickable>();
+		drawableObjects = new ArrayList<Drawable>();
+		dToAdd = new ArrayList<Drawable>();
+		
+		if(player == null)
 			player = new Player(new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2));
-		}
-		player.setScore(0);
+		
 		topGun = player.getTopGun();
 		bottomGun = player.getBottomGun();
 		bg = new BackGround();
-		projectileManager = new ProjectileManager();
 		paint = new Paint();
 	}
 	
 	public static void clear(){
-		gameObjects.clear();
-		toAdd.clear();
-		ProjectileManager.clear();
+		tickableObjects.clear();
+		drawableObjects.clear();
+		tToAdd.clear();
+		dToAdd.clear();
 		CollisionManager.clear();
 	}
 
@@ -56,7 +62,15 @@ public class GameObjectManager {
 	 * @param go the gameobject to be added
 	 */
 	public static void addGameObject(GameObject go){
-		toAdd.add(go);
+		if(go instanceof Tickable){
+			Tickable t = (Tickable) go;
+			tToAdd.add(t);
+		}
+		
+		if(go instanceof Drawable){
+			Drawable d = (Drawable) go;
+			dToAdd.add(d);
+		}
 	}
 
 	
@@ -68,10 +82,17 @@ public class GameObjectManager {
 		//Clear the reference to the pixeldata of the bitmap
 		//Much more efficient then waiting for the garbage collector to do it.
 	
-		if(go.getBitmap() != null)
-			go.getBitmap().recycle();
+		if(go instanceof Drawable){
+			Drawable d = (Drawable) go;
+			if(d.getBitmap() != null)
+				d.getBitmap().recycle();
+			drawableObjects.remove(d);
+		}
 		
-		gameObjects.remove(go);
+		if(go instanceof Tickable){
+			Tickable t = (Tickable) go;
+			tickableObjects.remove(t);
+		}
 	}
 
 	
@@ -79,18 +100,34 @@ public class GameObjectManager {
 	 * Removes all gameobjects that has been marked as dead
 	 */
 	private void clearDeadGameObjects(){
-		for(int i = 0; i < gameObjects.size(); i++){
-			GameObject go = gameObjects.get(i);
+		for(int i = 0; i < tickableObjects.size(); i++){
+			Tickable t = tickableObjects.get(i);
+			GameObject go = null;
+			if(t instanceof GameObject)
+				go = (GameObject) t;
+			
 			if(!go.isLive()){
 				removeGameObject(go);
+				
 				if (go instanceof Enemy) {
 					Enemy e = (Enemy) go;
 					CollisionManager.removeEnemy(e);
 				}
+				
 				if (go instanceof Loot){
 					Loot l = (Loot) go;
 					CollisionManager.removeLoot(l);
 				}
+				
+				if(go instanceof Projectile){
+					Projectile p = (Projectile) go;
+					if(CollisionManager.enemyProjectiles.contains(p)){
+						CollisionManager.removeEnemyProjectile(p);
+					}
+					if(CollisionManager.playerProjectiles.contains(p))
+						CollisionManager.removePlayerProjectile(p);
+				}
+				
 			}
 		}
 	}
@@ -101,10 +138,13 @@ public class GameObjectManager {
 	 * @param dt time step variable used for physics calculations
 	 */
 	public void tick(float dt){
-		for(GameObject x : toAdd)
-			gameObjects.add(x);
+		for(Tickable t : tToAdd)
+			tickableObjects.add(t);
+		for(Drawable d : dToAdd)
+			drawableObjects.add(d);
 		
-		toAdd.clear();
+		tToAdd.clear();
+		dToAdd.clear();
 		
 		clearDeadGameObjects();
 		CollisionManager.collisionCheck(player);
@@ -115,10 +155,8 @@ public class GameObjectManager {
 			bottomGun.tick(dt);
 		}
 		
-		for(GameObject go : gameObjects)
-			go.tick(dt);
-		
-		projectileManager.tick(dt);
+		for(Tickable t : tickableObjects)
+			t.tick(dt);
 	}
 	
 	/**
@@ -128,13 +166,12 @@ public class GameObjectManager {
 	 * the interpolated position of a dynamic object
 	 */
 	public void draw(Canvas canvas, float interpolation){
-		for(GameObject go : gameObjects)
-			go.draw(canvas, interpolation);
+		for(Drawable d : drawableObjects)
+			d.draw(canvas, interpolation);
 		
 		if(player.isLive())
 			player.draw(canvas, interpolation);
 		
-		projectileManager.draw(canvas, interpolation);
 		drawPlayerUI(canvas);
 	}
 	
@@ -157,10 +194,6 @@ public class GameObjectManager {
 		else paint.setColor(Color.GREEN);
 		
 		canvas.drawText("COMBO: " + player.getCombo(), 20, 62, paint);
-	}
-
-	public List<GameObject> getGameObject() {
-		return gameObjects;
 	}
 
 	public static Player getPlayer() {

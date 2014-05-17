@@ -2,14 +2,15 @@ package com.spaceshooter.game.object.projectile.player;
 
 import android.graphics.Rect;
 
-import com.spaceshooter.game.engine.ProjectileManager;
+import com.spaceshooter.game.engine.CollisionManager;
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ImpactEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
-import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.util.SoundPlayer.SoundID;
+import com.spaceshooter.game.util.Vector2f;
 
 public class GreenPlasma extends Projectile{
 
@@ -22,7 +23,8 @@ public class GreenPlasma extends Projectile{
 	
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	
-		ProjectileManager.addPlayerProjectile(this);
+		GameObjectManager.addGameObject(this);
+		CollisionManager.addPlayerProjectile(this);
 	}
 	
 	public GreenPlasma(Vector2f position, Vector2f velocity) {
@@ -34,7 +36,8 @@ public class GreenPlasma extends Projectile{
 	
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	
-		ProjectileManager.addPlayerProjectile(this);
+		GameObjectManager.addGameObject(this);
+		CollisionManager.addPlayerProjectile(this);
 	}
 	
 	//used for unit testing
@@ -47,7 +50,8 @@ public class GreenPlasma extends Projectile{
 			
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 			
-		ProjectileManager.addPlayerProjectile(this);
+		GameObjectManager.addGameObject(this);
+		CollisionManager.addPlayerProjectile(this);
 	}
 
 	@Override

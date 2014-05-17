@@ -11,11 +11,11 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.spaceshooter.game.view.GlobalHighScoreView;
+import com.spaceshooter.game.view.LeaderBoardView;
 
-public class GlobalHighScoreActivity extends Activity{
+public class LeaderBoardActivity extends Activity{
 	
-	private GlobalHighScoreView gv;
+	private LeaderBoardView gv;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class GlobalHighScoreActivity extends Activity{
 
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 		
-		gv = new GlobalHighScoreView(this);
+		gv = new LeaderBoardView(this);
 		setContentView(gv);
 		
 	}
@@ -59,7 +59,7 @@ public class GlobalHighScoreActivity extends Activity{
 		builder.setPositiveButton("Main Menu", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
 				
-				GlobalHighScoreActivity.super.onBackPressed();
+				LeaderBoardActivity.super.onBackPressed();
 			}
 		});
 

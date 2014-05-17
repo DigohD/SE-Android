@@ -6,16 +6,15 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.spaceshooter.tcp.HighScoreParser;
-import com.spaceshooter.tcp.TCPClient;
+import com.spaceshooter.game.net.HighScoreParser;
+import com.spaceshooter.game.net.TCPClient;
 
-public class GlobalHighScoreView extends View{
+public class LeaderBoardView extends View{
 	
 	public static final int WIDTH = 800, HEIGHT = 480;
 	private float scaleX, scaleY;
@@ -25,7 +24,7 @@ public class GlobalHighScoreView extends View{
 	private String[] entries;
 	private Paint p = new Paint();
 	
-	public GlobalHighScoreView(Context context) {
+	public LeaderBoardView(Context context) {
 		super(context);
 		
 		parser = new HighScoreParser();
@@ -64,14 +63,12 @@ public class GlobalHighScoreView extends View{
 		p.setTextSize(30);
 		c.drawText("Leaderboard", 300, 30, p);
 		p.setTextSize(20);
+		p.setColor(Color.WHITE);
 		
 		for(int i = 0; i < entries.length; i++){
-			c.drawText(i+1 + ".) " + entries[i], 300, 55+20*i, p);
+			if(55+20*i <= 780)
+				c.drawText(i+1 + ".) " + entries[i], 300, 55+20*i, p);
 		}
-		
 	}
-	
-	
-	
 
 }

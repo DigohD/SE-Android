@@ -1,14 +1,13 @@
 package com.spaceshooter.game.object.particle.emitter;
 
 
-import android.graphics.Canvas;
-
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.GameObject;
+import com.spaceshooter.game.object.Tickable;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.util.Vector2f;
 
-public abstract class Emitter extends GameObject{
+public abstract class Emitter extends GameObject implements Tickable{
 
 	protected int particleCount, lifetime, timeLived;
 	protected ParticleID pID;
@@ -29,11 +28,6 @@ public abstract class Emitter extends GameObject{
 		if(timeLived > lifetime)
 			this.closeEmitter();
 		emit();
-	}
-	
-	@Override
-	public void draw(Canvas canvas, float interpolation) {
-		return;
 	}
 	
 	public abstract void emit();

@@ -26,10 +26,5 @@ public abstract class Particle extends DynamicObject{
 		
 		move(dt);
 	}
-	
-	@Override
-	public void draw(Canvas canvas,  float interpolation) {
-		super.draw(canvas, interpolation);
-	}
 
 }

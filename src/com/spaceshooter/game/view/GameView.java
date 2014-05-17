@@ -24,9 +24,9 @@ import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
 import com.spaceshooter.game.menu.TabMenu;
+import com.spaceshooter.game.net.TCPClient;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
-import com.spaceshooter.tcp.TCPClient;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 

@@ -29,6 +29,8 @@ public class Player extends DynamicObject implements Collideable {
 	private Vector2f topGunPos;
 	private Vector2f bottomGunPos;
 	
+	protected Rect rect;
+	
 	private ConstantEmitter engine;
 	
 	private Gun topGun;
@@ -200,7 +202,8 @@ public class Player extends DynamicObject implements Collideable {
 		if(obj instanceof Projectile) {
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
-			p.death();
+			if(p.isLive())
+				p.death();
 			p.setLive(false);
 			if(hp <= 0) {
 				if(live) death();
@@ -227,6 +230,10 @@ public class Player extends DynamicObject implements Collideable {
 		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
 		new RadialEmitter(8, ParticleID.RED_PLASMA, center, new Vector2f(20f, 0f));
 		SoundPlayer.playSound(SoundID.exp_1);
+	}
+	
+	public Rect getRect(){
+		return rect;
 	}
 
 	public int getCombo(){

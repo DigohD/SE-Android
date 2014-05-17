@@ -1,11 +1,15 @@
 package com.spaceshooter.game.object.loot;
 
+import android.graphics.Rect;
+
+import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.util.Vector2f;
 
-public abstract class Loot extends DynamicObject{
+public abstract class Loot extends DynamicObject implements Collideable{
 	
 	protected Vector2f targetVelocity;
+	protected Rect rect;
 
 	public Loot(Vector2f position) {
 		super(position);
@@ -23,7 +27,10 @@ public abstract class Loot extends DynamicObject{
 	}
 	
 	public abstract void death();
-		
+	
+	public Rect getRect(){
+		return rect;
+	}	
 	
 
 }

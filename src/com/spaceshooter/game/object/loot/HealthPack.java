@@ -4,6 +4,7 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.util.BitmapHandler;
@@ -29,7 +30,12 @@ public class HealthPack extends Loot{
 		CollisionManager.addLoot(this);
 	}
 	
-
+	@Override
+	public void collisionWith(GameObject obj) {
+		
+		
+	}
+	
 	@Override
 	public void death() {
 		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
@@ -37,7 +43,6 @@ public class HealthPack extends Loot{
 		//SoundPlayer.playSound(SoundID.exp_1);
 	}
 	
-
 	public int getHp() {
 		return hp;
 	}

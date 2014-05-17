@@ -1,6 +1,6 @@
 package com.spaceshooter.game.object.enemy;
 
-import android.graphics.Canvas;
+import android.graphics.Rect;
 
 import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
@@ -15,6 +15,7 @@ import com.spaceshooter.game.view.GameView;
 
 public abstract class Enemy extends DynamicObject implements Collideable {
 	
+	protected Rect rect;
 	protected float hp, maxHp;
 	protected float enemyPoints, combo = 1.0f;
 	protected int totalScore = 0;
@@ -70,5 +71,9 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 	}
 
 	public abstract void death();
+	
+	public Rect getRect(){
+		return rect;
+	}
 
 }

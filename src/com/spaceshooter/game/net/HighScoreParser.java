@@ -1,4 +1,4 @@
-package com.spaceshooter.tcp;
+package com.spaceshooter.game.net;
 
 public class HighScoreParser {
 	
