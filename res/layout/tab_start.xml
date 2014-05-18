@@ -18,7 +18,7 @@
         android:text="@string/play" />
 
     <Button
-        android:id="@+id/Button01"
+        android:id="@+id/buttonStartHighScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -26,6 +26,6 @@
         android:layout_below="@+id/buttonPlay"
         android:minWidth="200dp"
         android:onClick="globalHighscore"
-        android:text="Global HighScore" />
+        android:text="@string/globalHighscore" />
 
 </RelativeLayout>

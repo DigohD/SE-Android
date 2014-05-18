@@ -31,7 +31,7 @@ public class TabMenu extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+		// Ads
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder()
@@ -42,7 +42,7 @@ public class TabMenu extends Activity {
 
 				.build();
 		adView.loadAd(adRequest);
-
+		// Tabs
 		th = (TabHost) findViewById(R.id.tabhost);
 		th.setup();
 		TabSpec menuSpecs = th.newTabSpec("tag1");
@@ -61,13 +61,14 @@ public class TabMenu extends Activity {
 		creditsSpecs.setContent(R.id.tabCredits);
 		creditsSpecs.setIndicator("Credits");
 		th.addTab(creditsSpecs);
-
+		// Database
 		db = new Database(this);
 		db.openDB();
 		db.showHighscore();
 		db.closeDB();
 	}
 
+	// Exit dialog
 	private void exitDialog() {
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
@@ -86,6 +87,19 @@ public class TabMenu extends Activity {
 		builder.create().show();
 	}
 
+	// Back pressed
+	@Override
+	public void onBackPressed() {
+		exitDialog();
+	}
+
+	// Scores
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		db.closeDB();
+	}
+
 	public void onResume() {
 		super.onResume();
 		db.openDB();
@@ -93,18 +107,14 @@ public class TabMenu extends Activity {
 		db.closeDB();
 	}
 
-	@Override
-	public void onBackPressed() {
-		exitDialog();
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
+	public void resetScores(View view) {
+		db.openDB();
+		db.resetScore();
+		db.showHighscore();
 		db.closeDB();
 	}
 
-	// Menu tab options
+	// Start
 	public void play(View view) {
 		db.closeDB();
 		Intent intent = new Intent(this, GameActivity.class);
@@ -117,6 +127,7 @@ public class TabMenu extends Activity {
 		startActivity(intent);
 	}
 
+	// Settings
 	public void onToggleClickedMusic(View view) {
 		musicState = ((ToggleButton) view).isChecked();
 	}
@@ -125,19 +136,8 @@ public class TabMenu extends Activity {
 		sfxState = ((ToggleButton) view).isChecked();
 	}
 
+	// Other
 	public void showScoreTab() {
 		th.setCurrentTab(1);
 	}
-
-	public void resetScores(View view) {
-		db.openDB();
-		db.resetScore();
-		db.showHighscore();
-		db.closeDB();
-	}
-
-	// Add methods for everything that is handled in the menus, e.g. scores etc.
-
-	// Settings tab options
-
 }
