@@ -34,7 +34,7 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 		GameObjectManager.addGameObject(this);
 	}
 
-	protected int calculatePlayerScore(float points, int level, float combo){
+	public int calculatePlayerScore(float points, int level, float combo){
 		if(combo == 0)
 			return (int) (points * Math.pow(1.2f, level) * 1.0f);
 		else

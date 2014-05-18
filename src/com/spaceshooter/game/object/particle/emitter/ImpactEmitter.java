@@ -1,5 +1,6 @@
 package com.spaceshooter.game.object.particle.emitter;
 
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.particle.GreenBall;
 import com.spaceshooter.game.object.particle.LBlueBall;
 import com.spaceshooter.game.object.particle.ParticleID;
@@ -18,6 +19,7 @@ public class ImpactEmitter extends Emitter{
 			Vector2f impactVelocity) {
 		super(particleCount, pID, position, 1);
 		this.impactVelocity = impactVelocity;
+		GameObjectManager.addGameObject(this);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.particle.ParticleID;
+import com.spaceshooter.game.object.particle.emitter.Emitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.object.projectile.Projectile;
@@ -23,6 +24,7 @@ import com.spaceshooter.game.view.GameView;
 public class Asteroid extends Enemy{
 
 	private Vector2f targetVelocity;
+	private Emitter emitter;
 	
 	public Asteroid(){
 		this(new Vector2f(0,0));
@@ -36,6 +38,7 @@ public class Asteroid extends Enemy{
 		this.height = bitmap.getHeight();
 		
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+		emitter = new RadialEmitter((bitmap.getWidth() / 2), ParticleID.DUST,  new Vector2f(0f, 0f), new Vector2f(10f, 0f));
 		
 		if(width >= 30) speedX = Randomizer.getFloat(-15f, -25f);
 		else speedX = Randomizer.getFloat(-35f, -45f);
@@ -94,7 +97,8 @@ public class Asteroid extends Enemy{
 	@Override
 	public void death() {
 		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
-		new RadialEmitter((bitmap.getWidth() / 2), ParticleID.DUST, center, new Vector2f(10f, 0f));
+		emitter.getPosition().set(center.x, center.y);
+		emitter.init();
 		SoundPlayer.playSound(SoundID.exp_1);
 	}
 

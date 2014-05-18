@@ -18,7 +18,9 @@ public abstract class Emitter extends GameObject implements Tickable{
 		this.pID = pID;
 		this.lifetime = lifetime;
 		timeLived = 0;
-		
+	}
+	
+	public void init(){
 		GameObjectManager.addGameObject(this);
 	}
 	

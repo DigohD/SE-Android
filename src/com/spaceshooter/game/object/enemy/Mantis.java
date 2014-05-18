@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.spaceshooter.game.object.particle.ParticleID;
+import com.spaceshooter.game.object.particle.emitter.Emitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.object.projectile.enemy.MantisProj;
 import com.spaceshooter.game.util.BitmapHandler;
@@ -21,6 +22,8 @@ public class Mantis extends Enemy {
 	private boolean fire = false;
 	private boolean top , bottom;
 	
+	private Emitter emitter;
+	
 	public Mantis() {
 		this(new Vector2f(GameView.WIDTH + 40, 0));
 	}
@@ -33,7 +36,7 @@ public class Mantis extends Enemy {
 		this.height = bitmap.getHeight();
 		
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-		
+		emitter = new RadialEmitter(8, ParticleID.GreenBall, new Vector2f(0,0), new Vector2f(20f, 0f));
 		speedX = -25f;
 		speedY = 0;
 		
@@ -95,14 +98,10 @@ public class Mantis extends Enemy {
 	}
 
 	@Override
-	public void draw(Canvas canvas, float interpolation) {
-		super.draw(canvas, interpolation);
-	}
-
-	@Override
 	public void death() {
 		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
-		new RadialEmitter(8, ParticleID.PURPLE_DOT, center, new Vector2f(20f, 0f));
+		emitter.getPosition().set(center.x, center.y);
+		emitter.init();
 		SoundPlayer.playSound(SoundID.exp_2);
 	}
 

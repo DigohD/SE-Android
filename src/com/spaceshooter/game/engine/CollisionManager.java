@@ -88,7 +88,7 @@ public class CollisionManager {
 	public static void collisionCheck(Player player) {
 		for(int i = 0; i < enemies.size(); i++) {
 			Enemy e = enemies.get(i);
-			if (player != null && e != null)
+			if (player != null && e != null && player.isLive())
 				if (collisionBetween(player.getRect(), e.getRect())){
 					e.collisionWith(player);
 					player.collisionWith(e);
@@ -97,7 +97,7 @@ public class CollisionManager {
 		
 		for(int i = 0; i < loots.size(); i++) {
 			Loot l = loots.get(i);
-			if (player != null && l != null)
+			if (player != null && l != null && player.isLive())
 				if (collisionBetween(player.getRect(), l.getRect())){
 					player.collisionWith(l);
 					l.collisionWith(player);

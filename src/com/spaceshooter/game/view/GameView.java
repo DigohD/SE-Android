@@ -161,12 +161,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		if (drawJoystick) {
 			canvas.drawBitmap(joystick, 40, 320, null);
-			canvas.drawBitmap(knob, knobX, knobY, null);
+			//canvas.drawBitmap(knob, knobX, knobY, null);
 		}
 
 		if (!displayLevelID) {
 			p.setColor(Color.GREEN);
-			canvas.drawText("Level " + levelID, WIDTH / 2, HEIGHT / 2, p);
+			p.setTextSize(20);
+			canvas.drawText("LEVEL " + levelID, WIDTH / 2, HEIGHT / 2, p);
 		}
 	}
 	
@@ -417,7 +418,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 
 			if (event.getAction() == MotionEvent.ACTION_UP) {
-				drawJoystick = false;
+				//drawJoystick = false;
 				knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 				knobY = 320 + (joystick.getHeight() / 2)
 						- (knob.getHeight() / 2);

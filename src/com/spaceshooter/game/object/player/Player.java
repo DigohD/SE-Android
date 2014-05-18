@@ -4,13 +4,13 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
-import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.enemy.Asteroid;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.loot.Loot;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
+import com.spaceshooter.game.object.particle.emitter.Emitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.object.weapon.Gun;
@@ -32,6 +32,7 @@ public class Player extends DynamicObject implements Collideable {
 	protected Rect rect;
 	
 	private ConstantEmitter engine;
+	private Emitter emitter;
 	
 	private Gun topGun;
 	private Gun bottomGun;
@@ -88,10 +89,15 @@ public class Player extends DynamicObject implements Collideable {
 		targetPosition.set(position.x, position.y);
 		targetVelocity.x = 0;
 		targetVelocity.y = 0;
+		
+		emitter = new RadialEmitter(8, ParticleID.RED_PLASMA, new Vector2f(0,0), new Vector2f(20f, 0f));
+		
 		engine = new ConstantEmitter(1, ParticleID.ENGINE, new Vector2f(position.y + height/2, position.x - 8),
 				new Vector2f(-7f, 0f));
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		engine.setIsSpread(true);
+		engine.init();
+		
 		live = true;
 		update = false;
 		combo = 0;
@@ -219,7 +225,8 @@ public class Player extends DynamicObject implements Collideable {
 	
 	public void death() {
 		Vector2f center = position.add(new Vector2f(width/2f, height/2f));
-		new RadialEmitter(8, ParticleID.RED_PLASMA, center, new Vector2f(20f, 0f));
+		emitter.getPosition().set(center.x, center.y);
+		emitter.init();
 		SoundPlayer.playSound(SoundID.exp_1);
 	}
 	
