@@ -29,16 +29,16 @@ public class GameActivity extends Activity {
 	private InventoryView invView;
 	public boolean musicState; // is false if music shouldn't be played and true
 								// if it should
+	public boolean sfxState; // is false if sfx shouldn't be played and true if
+								// it should
 	public boolean isInvView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// we'll use this to manipulate the list of high scores
-
-		// used to get if the music toggle is clicked or not
 		Intent intent = getIntent();
 		musicState = intent.getBooleanExtra("EXTRA_musicState", true);
+		sfxState = intent.getBooleanExtra("EXTRA_sfxState", true);
 
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 

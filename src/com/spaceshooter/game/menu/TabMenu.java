@@ -22,15 +22,18 @@ import com.spaceshooter.game.database.Database;
 
 public class TabMenu extends Activity {
 
+	public boolean tmMusicState = true;
+	public boolean tmSfxState = true;
 	public static Database db;
-	public boolean musicState = true;
-	public boolean sfxState = true;
 	public TabHost th;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		Intent intent = getIntent();
+		tmMusicState = intent.getBooleanExtra("EXTRA_musicState", true);
+		tmSfxState = intent.getBooleanExtra("EXTRA_sfxState", true);
 		// Ads
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
@@ -118,7 +121,8 @@ public class TabMenu extends Activity {
 	public void play(View view) {
 		db.closeDB();
 		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra("EXTRA_musicState", musicState);
+		intent.putExtra("EXTRA_musicState", tmMusicState);
+		intent.putExtra("EXTRA_sfxState", tmSfxState);
 		startActivity(intent);
 	}
 
@@ -129,11 +133,11 @@ public class TabMenu extends Activity {
 
 	// Settings
 	public void onToggleClickedMusic(View view) {
-		musicState = ((ToggleButton) view).isChecked();
+		tmMusicState = ((ToggleButton) view).isChecked();
 	}
 
 	public void onToggleClickedSFX(View view) {
-		sfxState = ((ToggleButton) view).isChecked();
+		tmSfxState = ((ToggleButton) view).isChecked();
 	}
 
 	// Other
