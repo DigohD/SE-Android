@@ -1,6 +1,5 @@
 package com.spaceshooter.game.database;
 
-
 import android.content.Context;
 import android.database.Cursor;
 import android.widget.TextView;
@@ -9,14 +8,14 @@ import com.spaceshooter.game.R;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.menu.TabMenu;
 
-public class Database{
+public class Database {
 
 	private DBAdapter myDb;
 	private Context context;
 	private Cursor cursor;
 	private long id;
-	
-	public Database(Context context){
+
+	public Database(Context context) {
 		this.context = context;
 		myDb = new DBAdapter(context);
 	}
@@ -25,65 +24,67 @@ public class Database{
 		myDb.open();
 		cursor = myDb.getRow(1);
 	}
-	
+
 	public void closeDB() {
 		myDb.close();
 	}
 
 	private void displayName(String message) {
 		TabMenu tm = (TabMenu) context;
-        TextView textView = (TextView) tm.findViewById(R.id.textName);
-        textView.setText(message);
+		TextView textView = (TextView) tm.findViewById(R.id.textName);
+		textView.setText(message);
 	}
-	
+
 	private void displayHighscore(String message) {
 		TabMenu tm = (TabMenu) context;
-        TextView textView = (TextView) tm.findViewById(R.id.textScore);
-        textView.setText(message);
+		TextView textView = (TextView) tm.findViewById(R.id.textScore);
+		textView.setText(message);
 	}
-	
-	public void resetScore(){
-		cursor  = myDb.getRow(1);
-		if(cursor != null && GameObjectManager.getPlayer() != null){
-			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), GameObjectManager.getPlayer().getName(), 0);
+
+	public void resetScore() {
+		cursor = myDb.getRow(1);
+		if (cursor != null && GameObjectManager.getPlayer() != null) {
+			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID),
+					GameObjectManager.getPlayer().getName(), 0);
 			cursor = myDb.getRow(1);
-		}	
-		
-		//TEMPORARY FIX IF PLAYER IS NULL
-		if(cursor != null && cursor.getCount() > 0 && GameObjectManager.getPlayer() == null){
+		}
+
+		// TEMPORARY FIX IF PLAYER IS NULL
+		if (cursor != null && cursor.getCount() > 0
+				&& GameObjectManager.getPlayer() == null) {
 			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), "Player1", 0);
 			cursor = myDb.getRow(1);
 		}
 	}
-	
+
 	public void addHighscore(String name, int highscore) {
-		cursor  = myDb.getRow(1);
+		cursor = myDb.getRow(1);
 		long newId;
-		if(cursor != null && cursor.getCount() > 0){
+		if (cursor != null && cursor.getCount() > 0) {
 			updateHighscore(name, highscore);
 			newId = id;
 			cursor = myDb.getRow(newId);
-		}else{
+		} else {
 			newId = myDb.insertRow(name, highscore);
 			cursor = myDb.getRow(newId);
 		}
 	}
-	
-	public void updateHighscore(String name, int newHighscore){
-		cursor  = myDb.getRow(1);
+
+	public void updateHighscore(String name, int newHighscore) {
+		cursor = myDb.getRow(1);
 		int oldHighscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
 		id = cursor.getLong(DBAdapter.COL_ROWID);
-		if(oldHighscore < newHighscore){
+		if (oldHighscore < newHighscore) {
 			oldHighscore = newHighscore;
 		}
 		myDb.updateRow(id, name, oldHighscore);
 	}
-	
-	public void showHighscore(){
-		if(cursor != null)
+
+	public void showHighscore() {
+		if (cursor != null)
 			displayHighscores(cursor);
 	}
-	
+
 	// Display an entire recordset to the screen.
 	private void displayHighscores(Cursor cursor) {
 		String messageName = "", messageHighscore = "";
@@ -95,22 +96,21 @@ public class Database{
 				// Process the data:
 				String name = cursor.getString(DBAdapter.COL_NAME);
 				int highscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
-			
+
 				// Append data to the message:
-				messageName += name
-						   +"\n";
-				messageHighscore += highscore + "\n"; 
-			} while(cursor.moveToNext());
+				messageName += name + "\n";
+				messageHighscore += highscore + "\n";
+			} while (cursor.moveToNext());
 		}
-		
+
 		// Close the cursor to avoid a resource leak.
 		cursor.close();
-		
+
 		displayName(messageName);
 		displayHighscore(messageHighscore);
 	}
-	
-	public DBAdapter getDBAdapter(){
+
+	public DBAdapter getDBAdapter() {
 		return myDb;
 	}
 }
