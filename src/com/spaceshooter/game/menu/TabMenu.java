@@ -22,15 +22,19 @@ import com.spaceshooter.game.database.Database;
 
 public class TabMenu extends Activity {
 
+	public boolean tmMusicState = true;
+	public boolean tmSfxState = true;
 	public static Database db;
-	public boolean musicState = true;
 	public TabHost th;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+		Intent intent = getIntent();
+		tmMusicState = intent.getBooleanExtra("EXTRA_musicState", true);
+		tmSfxState = intent.getBooleanExtra("EXTRA_sfxState", true);
+		// Ads
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder()
@@ -41,7 +45,7 @@ public class TabMenu extends Activity {
 
 				.build();
 		adView.loadAd(adRequest);
-
+		// Tabs
 		th = (TabHost) findViewById(R.id.tabhost);
 		th.setup();
 		TabSpec menuSpecs = th.newTabSpec("tag1");
@@ -60,13 +64,14 @@ public class TabMenu extends Activity {
 		creditsSpecs.setContent(R.id.tabCredits);
 		creditsSpecs.setIndicator("Credits");
 		th.addTab(creditsSpecs);
-
+		// Database
 		db = new Database(this);
 		db.openDB();
 		db.showHighscore();
 		db.closeDB();
 	}
 
+	// Exit dialog
 	private void exitDialog() {
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
@@ -85,43 +90,24 @@ public class TabMenu extends Activity {
 		builder.create().show();
 	}
 
-	public void onResume() {
-		super.onResume();
-		db.openDB();
-		db.showHighscore();
-		db.closeDB();
-	}
-
+	// Back pressed
 	@Override
 	public void onBackPressed() {
 		exitDialog();
 	}
-	
+
+	// Scores
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		db.closeDB();
 	}
 
-	// Menu tab options
-	public void play(View view) {
+	public void onResume() {
+		super.onResume();
+		db.openDB();
+		db.showHighscore();
 		db.closeDB();
-		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra("EXTRA_musicState", musicState);
-		startActivity(intent);
-	}
-	
-	public void globalHighscore(View view){
-		Intent intent = new Intent(this, LeaderBoardActivity.class);
-		startActivity(intent);
-	}
-
-	public void onToggleClicked(View view) {
-		musicState = ((ToggleButton) view).isChecked();
-	}
-
-	public void showScoreTab() {
-		th.setCurrentTab(1);
 	}
 
 	public void resetScores(View view) {
@@ -131,8 +117,31 @@ public class TabMenu extends Activity {
 		db.closeDB();
 	}
 
-	// Add methods for everything that is handled in the menus, e.g. scores etc.
+	// Start
+	public void play(View view) {
+		db.closeDB();
+		Intent intent = new Intent(this, GameActivity.class);
+		intent.putExtra("EXTRA_musicState", tmMusicState);
+		intent.putExtra("EXTRA_sfxState", tmSfxState);
+		startActivity(intent);
+	}
 
-	// Settings tab options
+	public void globalHighscore(View view) {
+		Intent intent = new Intent(this, LeaderBoardActivity.class);
+		startActivity(intent);
+	}
 
+	// Settings
+	public void onToggleClickedMusic(View view) {
+		tmMusicState = ((ToggleButton) view).isChecked();
+	}
+
+	public void onToggleClickedSFX(View view) {
+		tmSfxState = ((ToggleButton) view).isChecked();
+	}
+
+	// Other
+	public void showScoreTab() {
+		th.setCurrentTab(1);
+	}
 }

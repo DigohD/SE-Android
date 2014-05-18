@@ -223,45 +223,40 @@ containing a value of this type.
         public static final int tab_bg_image=0x7f02001d;
     }
     public static final class id {
-        public static final int Button01=0x7f060016;
-        public static final int action_settings=0x7f06001d;
-        public static final int adView=0x7f060010;
-        public static final int btnAdd=0x7f060008;
-        public static final int btnClear=0x7f060009;
-        public static final int btnDisplay=0x7f06000a;
-        public static final int buttonBar=0x7f060007;
-        public static final int buttonDonate=0x7f060011;
-        public static final int buttonPlay=0x7f060015;
-        public static final int clearHighScore=0x7f060014;
-        public static final int container=0x7f06000f;
+        public static final int Button01=0x7f060010;
+        public static final int action_settings=0x7f060018;
+        public static final int adView=0x7f060011;
+        public static final int buttonDonate=0x7f060006;
+        public static final int buttonPlay=0x7f06000f;
+        public static final int clearHighScore=0x7f06000e;
+        public static final int container=0x7f060005;
         public static final int hybrid=0x7f060004;
-        public static final int menu_delete=0x7f06001e;
+        public static final int menu_delete=0x7f060019;
         public static final int none=0x7f060000;
         public static final int normal=0x7f060001;
         public static final int satellite=0x7f060002;
-        public static final int tabCredits=0x7f06001b;
-        public static final int tabMenu=0x7f060018;
-        public static final int tabScores=0x7f060019;
-        public static final int tabSettings=0x7f06001a;
-        public static final int tab_bg=0x7f06001c;
-        public static final int tabhost=0x7f060017;
+        public static final int tabCredits=0x7f060016;
+        public static final int tabMenu=0x7f060013;
+        public static final int tabScores=0x7f060014;
+        public static final int tabSettings=0x7f060015;
+        public static final int tab_bg=0x7f060017;
+        public static final int tabhost=0x7f060012;
         public static final int terrain=0x7f060003;
-        public static final int textView1=0x7f060006;
-        public static final int textView2=0x7f060005;
-        public static final int textView3=0x7f06000d;
-        public static final int textView4=0x7f06000e;
-        public static final int textViewMenu=0x7f060012;
-        public static final int toggleMusic=0x7f060013;
-        public static final int view1=0x7f06000c;
-        public static final int view2=0x7f06000b;
+        public static final int textName=0x7f06000a;
+        public static final int textNameTitle=0x7f060009;
+        public static final int textScore=0x7f06000b;
+        public static final int textScoreTitle=0x7f060008;
+        public static final int textViewMenu=0x7f060007;
+        public static final int toggleMusic=0x7f06000c;
+        public static final int toggleSFX=0x7f06000d;
     }
     public static final class integer {
         public static final int google_play_services_version=0x7f080000;
     }
     public static final class layout {
-        public static final int database_main=0x7f030000;
-        public static final int game_activity=0x7f030001;
-        public static final int tab_credits=0x7f030002;
+        public static final int game_activity=0x7f030000;
+        public static final int tab_credits=0x7f030001;
+        public static final int tab_scores=0x7f030002;
         public static final int tab_settings=0x7f030003;
         public static final int tab_start=0x7f030004;
         public static final int tabs=0x7f030005;
