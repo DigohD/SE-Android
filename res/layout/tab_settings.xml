@@ -14,9 +14,21 @@
         android:layout_alignParentTop="true"
         android:checked="true"
         android:minWidth="128dp"
-        android:onClick="onToggleClicked"
+        android:onClick="onToggleClickedMusic"
         android:textOff="Music off"
         android:textOn="Music on" />
+
+    <ToggleButton
+        android:id="@+id/toggleSFX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/toggleMusic"
+        android:layout_below="@+id/toggleMusic"
+        android:checked="true"
+        android:minWidth="128dp"
+        android:onClick="onToggleClickedSFX"
+        android:textOff="SFX off"
+        android:textOn="SFX on" />
 
     <Button
         android:id="@+id/clearHighScore"
@@ -24,8 +36,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/toggleMusic"
-        android:layout_below="@+id/toggleMusic"
+        android:layout_alignRight="@+id/toggleSFX"
+        android:layout_below="@+id/toggleSFX"
         android:onClick="resetScores"
         android:text="Reset Highscores" />
 

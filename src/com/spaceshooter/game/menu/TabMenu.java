@@ -24,6 +24,7 @@ public class TabMenu extends Activity {
 
 	public static Database db;
 	public boolean musicState = true;
+	public boolean sfxState = true;
 	public TabHost th;
 
 	@Override
@@ -96,7 +97,7 @@ public class TabMenu extends Activity {
 	public void onBackPressed() {
 		exitDialog();
 	}
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
@@ -110,14 +111,18 @@ public class TabMenu extends Activity {
 		intent.putExtra("EXTRA_musicState", musicState);
 		startActivity(intent);
 	}
-	
-	public void globalHighscore(View view){
+
+	public void globalHighscore(View view) {
 		Intent intent = new Intent(this, LeaderBoardActivity.class);
 		startActivity(intent);
 	}
 
-	public void onToggleClicked(View view) {
+	public void onToggleClickedMusic(View view) {
 		musicState = ((ToggleButton) view).isChecked();
+	}
+
+	public void onToggleClickedSFX(View view) {
+		sfxState = ((ToggleButton) view).isChecked();
 	}
 
 	public void showScoreTab() {

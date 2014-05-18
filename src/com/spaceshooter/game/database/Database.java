@@ -32,13 +32,13 @@ public class Database{
 
 	private void displayName(String message) {
 		TabMenu tm = (TabMenu) context;
-        TextView textView = (TextView) tm.findViewById(R.id.textView3);
+        TextView textView = (TextView) tm.findViewById(R.id.textName);
         textView.setText(message);
 	}
 	
 	private void displayHighscore(String message) {
 		TabMenu tm = (TabMenu) context;
-        TextView textView = (TextView) tm.findViewById(R.id.textView4);
+        TextView textView = (TextView) tm.findViewById(R.id.textScore);
         textView.setText(message);
 	}
 	
