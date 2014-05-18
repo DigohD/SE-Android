@@ -1,20 +1,11 @@
 package com.spaceshooter.game.level;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import android.graphics.Bitmap;
 
 import com.spaceshooter.game.level.sequence.MantisSequence;
 import com.spaceshooter.game.level.sequence.MixedSequence;
 import com.spaceshooter.game.level.sequence.PredatorSequence;
 import com.spaceshooter.game.level.sequence.Sequence;
-import com.spaceshooter.game.object.enemy.Asteroid;
-import com.spaceshooter.game.util.BitmapHandler;
-import com.spaceshooter.game.util.Randomizer;
-import com.spaceshooter.game.util.Vector2f;
-import com.spaceshooter.game.view.GameView;
 
 public class LevelCreator {
 	

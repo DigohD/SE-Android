@@ -46,7 +46,7 @@ public class Level {
 		timer++;
 		if(timer >= LEVEL_TIME){
 			enemyGen.setUpdate(false);
-			if(CollisionManager.enemies.size() == 0){
+			if(CollisionManager.getEnemies().size() == 0){
 				levelDone = true;
 				timer = 0;
 			}

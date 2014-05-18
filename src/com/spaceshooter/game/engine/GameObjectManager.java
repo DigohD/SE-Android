@@ -105,10 +105,10 @@ public class GameObjectManager {
 		
 		if(go instanceof Projectile){
 			Projectile p = (Projectile) go;
-			if(CollisionManager.enemyProjectiles.contains(p)){
+			if(CollisionManager.getEnemyProjectiles().contains(p)){
 				CollisionManager.removeEnemyProjectile(p);
 			}
-			if(CollisionManager.playerProjectiles.contains(p))
+			if(CollisionManager.getPlayerProjectiles().contains(p))
 				CollisionManager.removePlayerProjectile(p);
 		}
 	}
@@ -137,8 +137,6 @@ public class GameObjectManager {
 		}
 	}
 	
-	
-
 	
 	/**
 	 * Updates the state of all gameobjects

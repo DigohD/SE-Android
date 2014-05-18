@@ -60,7 +60,7 @@ public class Mantis extends Enemy {
 			bottom = true;
 		}
 		
-		if(position.x <= GameView.WIDTH/2 + 120 && !fire){
+		if(position.x <= GameView.WIDTH/2 + 130 && !fire){
 			targetVelocity.y = 0;
 			targetVelocity.x = -15f;
 			fire = true;

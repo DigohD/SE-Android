@@ -176,16 +176,12 @@ public class Player extends DynamicObject implements Collideable {
 				Asteroid ast = (Asteroid) obj;
 				if(ast.getWidth() <= 30){
 					hp = hp - 20;
-					ast.setLive(false);
-					ast.death();
 					if(hp <= 0) {
 						if(live) death();
 						live = false;
 						engine.setLive(false);
 					}
 				}else{
-					ast.setLive(false);
-					ast.death();
 					if(live) death();
 					live = false;
 					engine.setLive(false);
@@ -202,9 +198,6 @@ public class Player extends DynamicObject implements Collideable {
 		if(obj instanceof Projectile) {
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
-			if(p.isLive())
-				p.death();
-			p.setLive(false);
 			if(hp <= 0) {
 				if(live) death();
 				live = false;
@@ -220,8 +213,6 @@ public class Player extends DynamicObject implements Collideable {
 					hp = hp + hpack.getHp();
 					if(hp > maxHP) hp = maxHP;
 				}
-				hpack.death();
-				hpack.setLive(false);
 			}
 		}
 	}

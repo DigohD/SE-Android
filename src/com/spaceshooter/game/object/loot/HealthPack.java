@@ -2,12 +2,11 @@ package com.spaceshooter.game.object.loot;
 
 import android.graphics.Rect;
 
-import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
-import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
+import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
 
@@ -24,15 +23,19 @@ public class HealthPack extends Loot{
 		this.height = bitmap.getHeight();
 		
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-		this.velocity = new Vector2f(0, 0);
-		targetVelocity = velocity;
+		this.velocity = velocity;
 		
 		GameObjectManager.addGameObject(this);
 	}
 	
 	@Override
 	public void collisionWith(Collideable obj) {
-		
+		if(obj instanceof Player){
+			if(live){
+				death();
+				live = false;
+			}
+		}
 		
 	}
 	

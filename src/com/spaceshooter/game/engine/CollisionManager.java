@@ -17,74 +17,52 @@ import com.spaceshooter.game.object.projectile.Projectile;
  * 
  */
 public class CollisionManager {
-
 	// the list of enemies which will be checked for collisions
-	public static List<Enemy> enemies = new ArrayList<Enemy>();
+	private static List<Enemy> enemies = new ArrayList<Enemy>();
 	// the list of loot which will be checked for collisions
-	public static List<Loot> loots = new ArrayList<Loot>();
+	private static List<Loot> loots = new ArrayList<Loot>();
+	// the list of player projectiles which will be checked for collisions
+	private static List<Projectile> playerProjectiles = new ArrayList<Projectile>();
+	// the list of enemy projectiles which will be checked for collisions
+	private static List<Projectile> enemyProjectiles = new ArrayList<Projectile>();
 	
-	public static List<Projectile> playerProjectiles = new ArrayList<Projectile>();
-	public static List<Projectile> enemyProjectiles = new ArrayList<Projectile>();
-	
-	public static void clear(){
-		enemies.clear();
-		loots.clear();
-		playerProjectiles.clear();
-		enemyProjectiles.clear();
+	public static void addEnemy(Enemy e){
+		enemies.add(e);
 	}
 	
-	public static void addEnemyProjectile(Projectile proj){
-		enemyProjectiles.add(proj);
-	}
-	
-	public static void removeEnemyProjectile(Projectile proj){
-		enemyProjectiles.remove(proj);
+	public static void addLoot(Loot loot){
+		loots.add(loot);
 	}
 	
 	public static void addPlayerProjectile(Projectile proj){
 		playerProjectiles.add(proj);
 	}
 	
+	public static void addEnemyProjectile(Projectile proj){
+		enemyProjectiles.add(proj);
+	}
+	
+	public static void removeEnemy(Enemy e){
+		enemies.remove(e);
+	}
+
+	public static void removeLoot(Loot loot){
+		loots.remove(loot);
+	}
+	
+	public static void removeEnemyProjectile(Projectile proj){
+		enemyProjectiles.remove(proj);
+	}
+
 	public static void removePlayerProjectile(Projectile proj){
 		playerProjectiles.remove(proj);
 	}
 
-	/**
-	 * Stores an enemy in the enemy collision list. The list will be traversed
-	 * in order to check for collisions
-	 * 
-	 * @param e the enemy to be stored
-	 */
-
-	public static void addEnemy(Enemy e){
-		enemies.add(e);
-	}
-
-	/**
-	 * Removes an enemy from the enemy collision list
-	 * 
-	 * @param e the enemy to be removed
-	 */
-
-	public static void removeEnemy(Enemy e){
-		enemies.remove(e);
-	}
-	
-	/**
-	 * Adds the loot to the loots list
-	 * @param loot the loot to be added
-	 */
-	public static void addLoot(Loot loot){
-		loots.add(loot);
-	}
-
-
-	/**
-	 * Removes the loot from the loots list
-	 * @param loot the loot to be removed
-	 */
-	public static void removeLoot(Loot loot){
-		loots.remove(loot);
+	public static void clear(){
+		enemies.clear();
+		loots.clear();
+		playerProjectiles.clear();
+		enemyProjectiles.clear();
 	}
 
 	/**
@@ -112,8 +90,8 @@ public class CollisionManager {
 			Enemy e = enemies.get(i);
 			if (player != null && e != null)
 				if (collisionBetween(player.getRect(), e.getRect())){
+					e.collisionWith(player);
 					player.collisionWith(e);
-//					e.collisionWith(player);
 				}
 		}
 		
@@ -122,7 +100,7 @@ public class CollisionManager {
 			if (player != null && l != null)
 				if (collisionBetween(player.getRect(), l.getRect())){
 					player.collisionWith(l);
-//					l.collisionWith(player);
+					l.collisionWith(player);
 				}
 		}
 		
@@ -133,7 +111,7 @@ public class CollisionManager {
 				if(p != null && e != null)
 					if(collisionBetween(p.getRect(), e.getRect())){
 						e.collisionWith(p);
-//						p.collisionWith(e);
+						p.collisionWith(e);
 					}
 			}
 				
@@ -142,10 +120,26 @@ public class CollisionManager {
 			if(p != null && player != null && player.isLive())
 				if(collisionBetween(p.getRect(), player.getRect())){
 					player.collisionWith(p);
-//					p.collisionWith(player);
+					p.collisionWith(player);
 				}
 		}
 		
+	}
+
+	public static List<Enemy> getEnemies() {
+		return enemies;
+	}
+
+	public static List<Loot> getLoots() {
+		return loots;
+	}
+
+	public static List<Projectile> getPlayerProjectiles() {
+		return playerProjectiles;
+	}
+
+	public static List<Projectile> getEnemyProjectiles() {
+		return enemyProjectiles;
 	}
 
 }

@@ -8,10 +8,10 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
-import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
+import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Randomizer;
@@ -67,6 +67,13 @@ public class Asteroid extends Enemy{
 	
 	@Override
 	public void collisionWith(Collideable obj) {
+		if(obj instanceof Player){
+			if(live){
+				death();
+				live = false;
+			}
+		}
+		
 		if(obj instanceof Projectile){
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
@@ -76,13 +83,11 @@ public class Asteroid extends Enemy{
 				GameObjectManager.getPlayer().incScore(score);
 				death();
 				live = false;
-				int rn = Randomizer.getInt(0, 8);
+				int rn = Randomizer.getInt(0, 10);
 				if(rn == 2){
-					new HealthPack(position, velocity, 10);
+					new HealthPack(position, new Vector2f(-15f, 0), 10);
 				}
 			}
-			p.death();
-			p.setLive(false);
 		}
 	}
 

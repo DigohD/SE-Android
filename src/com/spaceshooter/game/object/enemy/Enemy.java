@@ -52,13 +52,11 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 				GameObjectManager.getPlayer().incScore(score);
 				death();
 				live = false;
-				int rn = Randomizer.getInt(0, 8);
+				int rn = Randomizer.getInt(0, 10);
 				if(rn == 2){
-					new HealthPack(position, velocity, 10);
+					new HealthPack(position, new Vector2f(-15f, 0), 10);
 				}
 			}
-			p.death();
-			p.setLive(false);
 		}
 	}
 	

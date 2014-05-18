@@ -13,7 +13,7 @@ public class MantisProj extends Projectile{
 
 	public MantisProj(Vector2f position) {
 		super(position, new Vector2f(-60f, 0f));
-		damage = 0.7f;
+		damage = 5f;
 		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaGreen2");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();

@@ -4,6 +4,8 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
+import com.spaceshooter.game.object.enemy.Enemy;
+import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
@@ -40,7 +42,19 @@ public abstract class Projectile extends DynamicObject implements Collideable{
 	
 	@Override
 	public void collisionWith(Collideable obj) {
+		if(obj instanceof Player){
+			if(live){
+				death();
+				live = false;
+			}
+		}
 		
+		if(obj instanceof Enemy){
+			if(live){
+				death();
+				live = false;
+			}
+		}
 	}
 	
 	public float getDamage() {
