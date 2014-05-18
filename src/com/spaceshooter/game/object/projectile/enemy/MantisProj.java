@@ -2,7 +2,6 @@ package com.spaceshooter.game.object.projectile.enemy;
 
 import android.graphics.Rect;
 
-import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ImpactEmitter;
@@ -21,8 +20,9 @@ public class MantisProj extends Projectile{
 	
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	
+		type = Type.ENEMY;
+		
 		GameObjectManager.addGameObject(this);
-		CollisionManager.addEnemyProjectile(this);
 	}
 	
 	//used for unit testing
@@ -34,9 +34,7 @@ public class MantisProj extends Projectile{
 		this.height = height;
 			
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-			
-		GameObjectManager.addGameObject(this);
-		CollisionManager.addEnemyProjectile(this);
+		
 	}	
 
 	@Override

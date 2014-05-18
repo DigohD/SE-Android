@@ -4,7 +4,6 @@ import android.graphics.Rect;
 
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
-import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
@@ -12,6 +11,12 @@ public abstract class Projectile extends DynamicObject implements Collideable{
 
 	protected float damage;
 	protected Rect rect;
+	
+	public enum Type{
+		PLAYER, ENEMY;
+	}
+	
+	protected Type type;
 	
 	public Projectile(Vector2f position, Vector2f velocity) {
 		super(position);
@@ -44,6 +49,10 @@ public abstract class Projectile extends DynamicObject implements Collideable{
 	
 	public Rect getRect(){
 		return rect;
+	}
+	
+	public Type getType(){
+		return type;
 	}
 
 }

@@ -28,7 +28,6 @@ public class HealthPack extends Loot{
 		targetVelocity = velocity;
 		
 		GameObjectManager.addGameObject(this);
-		CollisionManager.addLoot(this);
 	}
 	
 	@Override

@@ -30,14 +30,8 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 		rect.set((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	}
 	
-	/**
-	 * Adds the enemy to the gameobject list so that it will be updated and drawn.
-	 * The enemy also gets added to the list of enemies in CollisionManager so that it
-	 * can be checked for collisions
-	 */
 	public void init(){
 		GameObjectManager.addGameObject(this);
-		CollisionManager.addEnemy(this);
 	}
 
 	protected int calculatePlayerScore(float points, int level, float combo){

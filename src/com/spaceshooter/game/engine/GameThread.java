@@ -5,8 +5,6 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
@@ -28,6 +26,8 @@ public class GameThread implements Runnable {
 	public static final double TARGET_TPS = 60.0;
 	
 	private volatile boolean running = false;
+	private boolean paused = false;
+	private boolean inventory;
 
 	private Thread thread;
 	private GameView gameView;
@@ -36,13 +36,8 @@ public class GameThread implements Runnable {
 	
 	private Lock lock = new ReentrantLock();
 	private Condition okToRun = lock.newCondition();
-	private boolean paused = false;
 	
-	private Bitmap bufferedBmp = Bitmap.createBitmap(800, 480, Config.ARGB_8888);
-	private Canvas bufferedCanvas = new Canvas(bufferedBmp);
 	private Canvas canvas;
-	
-	private boolean inventory;
 
 	/**
 	 * The constructor for the game thread
@@ -254,7 +249,7 @@ public class GameThread implements Runnable {
 	
 
 	
-	
+	//Alternative game loop , does not appear to increase performance
 	
 //	double startTime = 0, endTime = 0;
 //	double frameTime = 0;

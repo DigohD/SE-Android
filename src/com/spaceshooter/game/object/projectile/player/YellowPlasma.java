@@ -2,7 +2,6 @@ package com.spaceshooter.game.object.projectile.player;
 
 import android.graphics.Rect;
 
-import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ImpactEmitter;
@@ -20,14 +19,12 @@ public class YellowPlasma extends Projectile{
 		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaYellow");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
-		
-//		this.width = 20;
-//		this.height = 5;
 	
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+		
+		type = Type.PLAYER;
 	
 		GameObjectManager.addGameObject(this);
-		CollisionManager.addPlayerProjectile(this);
 	}
 	
 	public YellowPlasma(Vector2f position, Vector2f velocity) {
@@ -38,9 +35,10 @@ public class YellowPlasma extends Projectile{
 		this.height = bitmap.getHeight();
 	
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-	
+		
+		type = Type.PLAYER;
+		
 		GameObjectManager.addGameObject(this);
-		CollisionManager.addPlayerProjectile(this);
 	}
 	
 	//used for unit testing
@@ -52,9 +50,6 @@ public class YellowPlasma extends Projectile{
 		this.height = height;
 		
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-		
-		GameObjectManager.addGameObject(this);
-		CollisionManager.addPlayerProjectile(this);
 	}
 	
 	@Override

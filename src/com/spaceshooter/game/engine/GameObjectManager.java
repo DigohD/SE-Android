@@ -15,22 +15,22 @@ import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.loot.Loot;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.object.projectile.Projectile;
+import com.spaceshooter.game.object.projectile.Projectile.Type;
 import com.spaceshooter.game.object.weapon.Gun;
 import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 public class GameObjectManager {
 
-	public static List<Tickable> tickableObjects;
-	public static List<Tickable> tToAdd;
-	public static List<Drawable> drawableObjects;
-	public static List<Drawable> dToAdd;
+	private static List<Tickable> tickableObjects;
+	private static List<Tickable> tToAdd;
+	private static List<Drawable> drawableObjects;
+	private static List<Drawable> dToAdd;
 	
 	private static Player player;
 	private	static Gun topGun;
 	private static Gun bottomGun;
 	
-	private BackGround bg;
 	private Paint paint;
 	
 	public GameObjectManager() {
@@ -44,16 +44,8 @@ public class GameObjectManager {
 		
 		topGun = player.getTopGun();
 		bottomGun = player.getBottomGun();
-		bg = new BackGround();
+		new BackGround();
 		paint = new Paint();
-	}
-	
-	public static void clear(){
-		tickableObjects.clear();
-		drawableObjects.clear();
-		tToAdd.clear();
-		dToAdd.clear();
-		CollisionManager.clear();
 	}
 
 	public static void addGameObject(GameObject go){
@@ -65,6 +57,24 @@ public class GameObjectManager {
 		if(go instanceof Drawable){
 			Drawable d = (Drawable) go;
 			dToAdd.add(d);
+		}
+		
+		if (go instanceof Enemy) {
+			Enemy e = (Enemy) go;
+			CollisionManager.addEnemy(e);
+		}
+		
+		if (go instanceof Loot){
+			Loot l = (Loot) go;
+			CollisionManager.addLoot(l);
+		}
+		
+		if(go instanceof Projectile){
+			Projectile p = (Projectile) go;
+			if(p.getType() == Type.ENEMY)
+				CollisionManager.addEnemyProjectile(p);
+			if(p.getType() == Type.PLAYER)
+				CollisionManager.addPlayerProjectile(p);
 		}
 	}
 
@@ -82,44 +92,52 @@ public class GameObjectManager {
 			Tickable t = (Tickable) go;
 			tickableObjects.remove(t);
 		}
+		
+		if (go instanceof Enemy) {
+			Enemy e = (Enemy) go;
+			CollisionManager.removeEnemy(e);
+		}
+		
+		if (go instanceof Loot){
+			Loot l = (Loot) go;
+			CollisionManager.removeLoot(l);
+		}
+		
+		if(go instanceof Projectile){
+			Projectile p = (Projectile) go;
+			if(CollisionManager.enemyProjectiles.contains(p)){
+				CollisionManager.removeEnemyProjectile(p);
+			}
+			if(CollisionManager.playerProjectiles.contains(p))
+				CollisionManager.removePlayerProjectile(p);
+		}
 	}
 
+	public static void clear(){
+		tickableObjects.clear();
+		drawableObjects.clear();
+		tToAdd.clear();
+		dToAdd.clear();
+		CollisionManager.clear();
+	}
 	
 	/**
 	 * Removes all gameobjects that has been marked as dead
 	 */
-	private void clearDeadGameObjects(){
+	private void removeDeadGameObjects(){
 		for(int i = 0; i < tickableObjects.size(); i++){
 			Tickable t = tickableObjects.get(i);
 			GameObject go = null;
+			
 			if(t instanceof GameObject)
 				go = (GameObject) t;
 			
-			if(!go.isLive()){
+			if(!go.isLive())
 				removeGameObject(go);
-				
-				if (go instanceof Enemy) {
-					Enemy e = (Enemy) go;
-					CollisionManager.removeEnemy(e);
-				}
-				
-				if (go instanceof Loot){
-					Loot l = (Loot) go;
-					CollisionManager.removeLoot(l);
-				}
-				
-				if(go instanceof Projectile){
-					Projectile p = (Projectile) go;
-					if(CollisionManager.enemyProjectiles.contains(p)){
-						CollisionManager.removeEnemyProjectile(p);
-					}
-					if(CollisionManager.playerProjectiles.contains(p))
-						CollisionManager.removePlayerProjectile(p);
-				}
-				
-			}
 		}
 	}
+	
+	
 
 	
 	/**
@@ -136,9 +154,7 @@ public class GameObjectManager {
 		tToAdd.clear();
 		dToAdd.clear();
 		
-		//clear all gameobjects that is no longer alive
-		clearDeadGameObjects();
-		//check for any collisions
+		removeDeadGameObjects();
 		CollisionManager.collisionCheck(player);
 		
 		if(player.isLive()){

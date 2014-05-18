@@ -2,7 +2,6 @@ package com.spaceshooter.game.object.projectile.player;
 
 import android.graphics.Rect;
 
-import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ImpactEmitter;
@@ -23,8 +22,9 @@ public class BluePlasma extends Projectile{
 	
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
 	
+		type = Type.PLAYER;
+		
 		GameObjectManager.addGameObject(this);
-		CollisionManager.addPlayerProjectile(this);
 	}
 	
 	public BluePlasma(Vector2f position, Vector2f velocity) {
@@ -35,9 +35,10 @@ public class BluePlasma extends Projectile{
 		this.height = bitmap.getHeight();
 	
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+		
+		type = Type.PLAYER;
 	
 		GameObjectManager.addGameObject(this);
-		CollisionManager.addPlayerProjectile(this);
 	}
 	
 	//used for unit testing
@@ -49,9 +50,6 @@ public class BluePlasma extends Projectile{
 		this.height = height;
 			
 		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
-			
-		GameObjectManager.addGameObject(this);
-		CollisionManager.addPlayerProjectile(this);
 	}	
 
 	@Override
