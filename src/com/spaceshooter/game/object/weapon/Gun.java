@@ -16,7 +16,6 @@ public abstract class Gun extends GameObject implements Tickable{
 		this.gunPos = gunPos;
 		reloadTimer = 0;
 		init();
-//		GameObjectManager.addGameObject(this);
 	}
 
 	@Override
