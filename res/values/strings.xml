@@ -18,5 +18,8 @@
     <string name="quit">Quit</string>
     <string name="donate">Donate</string>
     <string name="globalHighscore">Global Highscore</string>
+    <string name="name">Name</string>
+    <string name="highScore">High score</string>
+    <string name="resetHighScore">Reset Highscores</string>
 
 </resources>

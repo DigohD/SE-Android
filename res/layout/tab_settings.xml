@@ -39,6 +39,6 @@
         android:layout_alignRight="@+id/toggleSFX"
         android:layout_below="@+id/toggleSFX"
         android:onClick="resetScores"
-        android:text="Reset Highscores" />
+        android:text="@string/resetHighScore" />
 
 </RelativeLayout>
