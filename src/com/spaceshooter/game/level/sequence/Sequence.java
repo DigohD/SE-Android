@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.graphics.Bitmap;
 
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Color;
@@ -55,6 +56,7 @@ public class Sequence {
 						e = enemies.get(i).getClass().newInstance();
 						e.init();
 						e.setPosition(v);
+						e.getPosition().y += GameObjectManager.bg.getPosition().y;
 					} catch (InstantiationException e1) {
 						e1.printStackTrace();
 					} catch (IllegalAccessException e1) {

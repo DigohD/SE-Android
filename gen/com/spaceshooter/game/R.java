@@ -223,11 +223,11 @@ containing a value of this type.
         public static final int tab_bg_image=0x7f02001d;
     }
     public static final class id {
-        public static final int Button01=0x7f060010;
         public static final int action_settings=0x7f060018;
         public static final int adView=0x7f060011;
         public static final int buttonDonate=0x7f060006;
         public static final int buttonPlay=0x7f06000f;
+        public static final int buttonStartHighScore=0x7f060010;
         public static final int clearHighScore=0x7f06000e;
         public static final int container=0x7f060005;
         public static final int hybrid=0x7f060004;
@@ -390,6 +390,7 @@ containing a value of this type.
         public static final int delete=0x7f070029;
         public static final int donate=0x7f070033;
         public static final int gameId=0x7f07001f;
+        public static final int globalHighscore=0x7f070038;
         public static final int hello_world=0x7f07001c;
         public static final int high_score_list_no_items=0x7f070028;
         /**  Location client code resources (prefix with location_client) 

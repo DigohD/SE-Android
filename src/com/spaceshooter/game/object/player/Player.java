@@ -25,7 +25,8 @@ public class Player extends DynamicObject implements Collideable {
 	private String name = "Player1";
 	
 	private Vector2f targetPosition = new Vector2f(0,0);
-	private Vector2f targetVelocity;
+	public Vector2f targetVelocity;
+	public Vector2f diff;
 	private Vector2f topGunPos;
 	private Vector2f bottomGunPos;
 	
@@ -46,8 +47,7 @@ public class Player extends DynamicObject implements Collideable {
 	private int score = 0;
 	
 	private float steps = 15;
-	//lower values result in more inertia, eg the ship feels heavier and takes more time to stop
-	private float dtSteps = 9.82f;
+	private float dtSteps = 5f;
 	private float hp = 100f, maxHP = 100f;
 	
 	public Player(Vector2f position) {
@@ -105,12 +105,13 @@ public class Player extends DynamicObject implements Collideable {
 		enemyKillCount = 0;
 	}
 	
-	public void incTargetPos(float dX, float dY) {
+	public void setTargetVelocity(float dX, float dY) {
 		targetVelocity.x = dX;
 		targetVelocity.y = dY;
 		update = true;
 	}
 
+	public boolean targetOK = true;
 	@Override
 	public void move(float dt){
 		if(!update){
@@ -121,12 +122,24 @@ public class Player extends DynamicObject implements Collideable {
 		velocity.x = approach(targetVelocity.x, velocity.x , dt*dtSteps);
 		velocity.y = approach(targetVelocity.y, velocity.y , dt*dtSteps);
 
-		targetPosition.x = targetPosition.x + velocity.x;
-		targetPosition.y = targetPosition.y + velocity.y;
+		if(!targetOK){
+			targetPosition.x = targetPosition.x + velocity.x;
 		
-		Vector2f diff = targetPosition.sub(position).div(steps);
-		distance = diff;
-		position = position.add(diff);
+			diff = targetPosition.sub(position).div(steps);
+			distance = diff;
+			position = position.add(diff);
+		}else{
+			targetPosition.x = targetPosition.x + velocity.x;
+			targetPosition.y = targetPosition.y + velocity.y;
+			
+			diff = targetPosition.sub(position).div(steps);
+			distance = diff;
+			position = position.add(diff);
+		}
+		
+		
+		
+		
 	
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		topGunPos.set(position.x, position.y + 4);
@@ -140,8 +153,8 @@ public class Player extends DynamicObject implements Collideable {
 			position.x = (GameView.WIDTH - width) - 2;
 		if(position.y < 0) 
 			position.y = 0;
-		if(position.y + height >= GameView.HEIGHT)
-			position.y = (GameView.HEIGHT - height) - 2;
+		if(position.y + height >= GameView.HEIGHT - 160)
+			position.y = (GameView.HEIGHT - height) - 160;
 			
 		if(targetPosition.x < 0) 
 			targetPosition.x = 2;
@@ -149,8 +162,8 @@ public class Player extends DynamicObject implements Collideable {
 			targetPosition.x = (GameView.WIDTH - width) - 2;
 		if(targetPosition.y < 0) 
 			targetPosition.y = 0;
-		if(targetPosition.y + height >= GameView.HEIGHT)
-			targetPosition.y = (GameView.HEIGHT - height) - 2;
+		if(targetPosition.y + height >= GameView.HEIGHT - 160)
+			targetPosition.y = (GameView.HEIGHT - height) - 160;
 	}
 	
 	@Override
@@ -184,21 +197,13 @@ public class Player extends DynamicObject implements Collideable {
 					hp = hp - 20;
 					if(hp <= 0) {
 						if(live) death();
-						live = false;
-						engine.setLive(false);
 					}
 				}else{
 					if(live) death();
-					live = false;
-					engine.setLive(false);
 				}
 			}else{
 				if(live) death();
-				hp = 0;
-				live = false;
-				engine.setLive(false);
 			}
-			
 		}
 
 		if(obj instanceof Projectile) {
@@ -206,8 +211,6 @@ public class Player extends DynamicObject implements Collideable {
 			hp = hp - p.getDamage();
 			if(hp <= 0) {
 				if(live) death();
-				live = false;
-				engine.setLive(false);
 			}
 		}
 		
@@ -228,6 +231,9 @@ public class Player extends DynamicObject implements Collideable {
 		emitter.getPosition().set(center.x, center.y);
 		emitter.init();
 		SoundPlayer.playSound(SoundID.exp_1);
+		hp = 0;
+		live = false;
+		engine.setLive(false);
 	}
 	
 	public Rect getRect(){

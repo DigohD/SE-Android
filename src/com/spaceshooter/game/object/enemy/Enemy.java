@@ -31,6 +31,7 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 	}
 	
 	public void init(){
+		position.y += GameObjectManager.bg.getPosition().y;
 		GameObjectManager.addGameObject(this);
 	}
 

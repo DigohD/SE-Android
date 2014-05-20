@@ -13,6 +13,7 @@ import com.spaceshooter.game.object.Tickable;
 import com.spaceshooter.game.object.background.BackGround;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.loot.Loot;
+import com.spaceshooter.game.object.particle.Particle;
 import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.object.projectile.Projectile.Type;
@@ -31,6 +32,8 @@ public class GameObjectManager {
 	private	static Gun topGun;
 	private static Gun bottomGun;
 	
+	public static BackGround bg;
+	
 	private Paint paint;
 	
 	public GameObjectManager() {
@@ -44,7 +47,7 @@ public class GameObjectManager {
 		
 		topGun = player.getTopGun();
 		bottomGun = player.getBottomGun();
-		new BackGround();
+		bg = new BackGround();
 		paint = new Paint();
 	}
 
@@ -139,7 +142,7 @@ public class GameObjectManager {
 	
 	
 	/**
-	 * Updates the state of all gameobjects
+	 * Updates the state of all tickable gameobjects
 	 * @param dt time step variable used for physics calculations
 	 */
 	public void tick(float dt){
@@ -161,12 +164,16 @@ public class GameObjectManager {
 			bottomGun.tick(dt);
 		}
 		
-		for(Tickable t : tickableObjects)
+		backgroundScrolling(dt);
+		
+		for(Tickable t : tickableObjects){
 			t.tick(dt);
+			offset(t);
+		}
 	}
 	
 	/**
-	 * Draws all gameobjects
+	 * Draws all drawable gameobjects
 	 * @param canvas the canvas used for drawing
 	 * @param interpolation the interpolation factor used for calculating 
 	 * the interpolated position of a dynamic object
@@ -202,6 +209,84 @@ public class GameObjectManager {
 		
 		paint.setTextSize(15);
 		canvas.drawText("COMBO: " + player.getCombo(), 20, 62, paint);
+	}
+	
+	private void backgroundScrolling(float dt){
+		if(player.getPosition().y + player.getHeight() >= 300)
+			bg.yScroll = true;
+		
+		if(player.getPosition().y + player.getHeight() < 300){
+			bg.yScroll = false;
+			if(bg.getPosition().y <= 0){
+				bg.getPosition().y = 0;
+				bg.targetPosition.y = 0;
+			}
+		}
+		
+		if(bg.getPosition().y <= -160){
+			bg.getPosition().y = -160;
+			bg.targetPosition.y = -160;
+			bg.yScroll = false;
+		}
+		
+		if(bg.getPosition().y < 0 && bg.getPosition().y > -160) {
+			bg.yScroll = true;
+			player.targetOK = false;
+		}
+		
+		if(bg.getPosition().y <= -160 && Math.signum(player.targetVelocity.y) == -1){
+			bg.yScroll = true;
+		}
+		
+		bg.scrollY(dt, player.targetVelocity);
+		
+		if(bg.getPosition().y >= 0) {
+			bg.getPosition().y = 0;
+			bg.targetPosition.y = 0;
+			bg.yScroll = false;
+			player.targetOK = true;
+		}
+	}
+	
+	private void offset(Tickable t){
+		if(t instanceof Enemy && t != null){
+			Enemy e = (Enemy) t;
+			if(bg.yScroll){
+				e.getPosition().y += bg.diff.y;
+			}
+			if(e.getPosition().y < 0 && bg.getPosition().y > -5){
+				e.getPosition().y = 2;
+			}
+		}
+		if(t instanceof Projectile && t != null){
+			Projectile e = (Projectile) t;
+			if(bg.yScroll){
+				e.getPosition().y += bg.diff.y;
+			}
+			if(e.getPosition().y < 0 && bg.getPosition().y > -5){
+				e.getPosition().y = 2;
+			}
+		}
+		
+		if(t instanceof Loot && t != null){
+			Loot e = (Loot) t;
+			if(bg.yScroll){
+				e.getPosition().y += bg.diff.y;
+			}
+			if(e.getPosition().y < 0 && bg.getPosition().y > -5){
+				e.getPosition().y = 2;
+			}
+		}
+		
+		if(t instanceof Particle && t != null){
+			Particle e = (Particle) t;
+			if(bg.yScroll){
+				e.getPosition().y += bg.diff.y;
+			}
+			if(e.getPosition().y < 0 && bg.getPosition().y > -5){
+				e.getPosition().y = 2;
+			}
+		}
 	}
 
 	public static Player getPlayer() {

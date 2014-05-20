@@ -1,6 +1,5 @@
 package com.spaceshooter.game.object.enemy;
 
-import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.spaceshooter.game.util.BitmapHandler;
@@ -39,11 +38,6 @@ public class Locust extends Enemy{
 		timer++;
 		super.tick(dt);
 		move(dt);
-	}
-	
-	@Override
-	public void draw(Canvas canvas,  float interpolation) {
-		super.draw(canvas, interpolation);
 	}
 
 	@Override

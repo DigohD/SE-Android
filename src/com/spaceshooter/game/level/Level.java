@@ -52,8 +52,8 @@ public class Level {
 			}
 		}
 		if(enemyGen.isUpdate()){
-			if(timer % 15 == 0){
-				float y = Randomizer.getFloat(2, 720);
+			if(timer % 20 == 0){
+				float y = Randomizer.getFloat(2, 440);
 				new Asteroid(new Vector2f(GameView.WIDTH,y)).init();
 			}
 		}
