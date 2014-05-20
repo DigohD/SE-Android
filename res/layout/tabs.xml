@@ -66,8 +66,7 @@
                     android:id="@+id/tabCredits"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
-
-                    <include layout="@layout/tab_credits" />
+                    <include layout="@layout/tab_credits" />
                 </RelativeLayout>
             </FrameLayout>
 

@@ -17,7 +17,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:paddingRight="128dp"
-        android:text="High score"
+        android:text="@string/highScore"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:paddingLeft="128dp"
-        android:text="Name"
+        android:text="@string/name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView

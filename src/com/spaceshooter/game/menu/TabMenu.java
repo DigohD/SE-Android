@@ -50,7 +50,7 @@ public class TabMenu extends Activity {
 		th.setup();
 		TabSpec menuSpecs = th.newTabSpec("tag1");
 		menuSpecs.setContent(R.id.tabMenu);
-		menuSpecs.setIndicator("Menu");
+		menuSpecs.setIndicator("Start Menu");
 		th.addTab(menuSpecs);
 		TabSpec ScoresSpecs = th.newTabSpec("tag2");
 		ScoresSpecs.setContent(R.id.tabScores);
