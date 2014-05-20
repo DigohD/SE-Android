@@ -3,7 +3,7 @@
     <string name="app_name">Spaceshooter Zero</string>
     <string name="submit">Win!</string>
     <string name="gameId">Game ID</string>
-    <string name="playerName">Player Name</string>
+    <string name="changePlayerName">Change player name</string>
     <string name="player">Player</string>
     <string name="date">Date</string>
     <string name="showScores">Show Scores</string>

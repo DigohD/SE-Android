@@ -55,17 +55,6 @@
         android:text="@string/restartApp" />
 
     <Button
-        android:id="@+id/buttonPlayer"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/toggleSFX"
-        android:minWidth="160dp"
-        android:onClick="selectPlayer"
-        android:text="@string/playerName" />
-
-    <Button
         android:id="@+id/buttonClearHighScore"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"

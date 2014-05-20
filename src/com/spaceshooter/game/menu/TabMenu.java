@@ -203,7 +203,7 @@ public class TabMenu extends Activity {
 		dialogOpen = true;
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Change player");
-		alert.setMessage("Enter player name (cannot be empty)");
+		alert.setMessage("Enter player name (only a-z, A-Z and numbers)");
 		final EditText input = new EditText(this);
 		input.setText(tmPlayerName);
 		alert.setView(input);
