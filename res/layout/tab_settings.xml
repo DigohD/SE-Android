@@ -1,44 +1,68 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/buttonResetAll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.spaceshooter.game.menu.MenuActivity"
     tools:ignore="MergeRootFrame" >
 
     <ToggleButton
-        android:id="@+id/toggleMusic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:checked="true"
-        android:minWidth="128dp"
-        android:onClick="onToggleClickedMusic"
-        android:textOff="Music off"
-        android:textOn="Music on" />
-
-    <ToggleButton
         android:id="@+id/toggleSFX"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignRight="@+id/toggleMusic"
         android:layout_below="@+id/toggleMusic"
         android:checked="true"
-        android:minWidth="128dp"
+        android:minWidth="160dp"
         android:onClick="onToggleClickedSFX"
         android:textOff="SFX off"
         android:textOn="SFX on" />
 
     <Button
-        android:id="@+id/clearHighScore"
+        android:id="@+id/buttonPlayer"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/toggleSFX"
-        android:layout_below="@+id/toggleSFX"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:minWidth="160dp"
+        android:onClick="selectPlayer"
+        android:text="@string/playerName" />
+
+    <Button
+        android:id="@+id/buttonClearHighScore"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonPlayer"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonPlayer"
+        android:minWidth="160dp"
         android:onClick="resetScores"
         android:text="@string/resetHighScore" />
+
+    <Button
+        android:id="@+id/buttonResetSettings"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonClearHighScore"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/buttonClearHighScore"
+        android:minWidth="160dp"
+        android:onClick="resetSettings"
+        android:text="@string/resetSettings" />
+
+    <ToggleButton
+        android:id="@+id/toggleMusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:checked="true"
+        android:minWidth="160dp"
+        android:onClick="onToggleClickedMusic"
+        android:textOff="Music off"
+        android:textOn="Music on" />
 
 </RelativeLayout>

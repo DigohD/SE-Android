@@ -1,16 +1,19 @@
 package com.spaceshooter.game.start;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings.Secure;
+import android.util.Log;
 
+import com.spaceshooter.game.R;
 import com.spaceshooter.game.menu.TabMenu;
 
 public class Start extends Activity {
-
-	public boolean musicState;
-	public boolean sfxState;
 
 	private static final String BASE64_PUBLIC_KEY = "ADD_THE_REAL_KEY_HERE";
 	private static final byte[] SALT = new byte[] { -118, -13, 32, 100, -74,
@@ -18,44 +21,49 @@ public class Start extends Activity {
 	private Handler mHandler;
 	// private LicenseChecker mChecker;
 	// private LicenseCheckerCallback mLicenseCheckerCallback;
-	boolean licensed;
+	
+	boolean sLicensed;
 	boolean checkingLicense;
 	boolean didCheck;
+	
+	SharedPreferences sp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getSettings();
-		// String deviceId = Secure.getString(getContentResolver(),
-		// Secure.ANDROID_ID);
-		// Log.i("Device Id", deviceId); // AN EXAMPLE OF LOGGING THAT YOU
-		// SHOULD
-		// // BE DOING :)
-		// mHandler = new Handler();
+		String deviceId = Secure.getString(getContentResolver(),
+				Secure.ANDROID_ID);
+		Log.i("Device Id", deviceId);
+		mHandler = new Handler();
 		// mLicenseCheckerCallback = new MyLicenseCheckerCallback();
 		// mChecker = new LicenseChecker(this, new ServerManagedPolicy(this,
 		// new AESObfuscator(SALT, getPackageName(), deviceId)),
 		// BASE64_PUBLIC_KEY);
-		// doCheck();
-		licensed = true;
-		if (licensed) {
-			openStartMenu();
+
+		sp = getSharedPreferences(getString(R.string.preference_file_key),
+				Context.MODE_PRIVATE);
+		sLicensed = sp.getBoolean("spLicenced", false);
+		if (!sLicensed) {
+			doCheck();
+		}
+		if (sLicensed) {
+			Intent intent = new Intent(this, TabMenu.class);
+			startActivity(intent);
+			finish();
 		}
 	}
 
-	public void getSettings() {
-		// TODO: add SharedPreference functions
-		musicState = true;
-		sfxState = true;
+	private void doCheck() {
+		didCheck = false;
+		checkingLicense = true;
+		// setProgressBarIndeterminateVisibility(true);
+		// mChecker.checkAccess(mLicenseCheckerCallback);
+		Editor editor = sp.edit();
+		editor.putBoolean("spLicenced", true);
+		editor.commit();
+		sLicensed = true;
 	}
 
-	// private void doCheck() {
-	// didCheck = false;
-	// checkingLicense = true;
-	// setProgressBarIndeterminateVisibility(true);
-	// mChecker.checkAccess(mLicenseCheckerCallback);
-	// }
-	//
 	// private class MyLicenseCheckerCallback implements LicenseCheckerCallback
 	// {
 	//
@@ -158,11 +166,4 @@ public class Start extends Activity {
 	// }).create();
 	// }
 
-	public void openStartMenu() {
-		Intent intent = new Intent(this, TabMenu.class);
-		intent.putExtra("EXTRA_musicState", musicState);
-		intent.putExtra("EXTRA_sfxState", sfxState);
-		startActivity(intent);
-		finish();
-	}
 }

@@ -3,12 +3,16 @@ package com.spaceshooter.game.menu;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.ToggleButton;
@@ -21,19 +25,33 @@ import com.spaceshooter.game.R;
 import com.spaceshooter.game.database.Database;
 
 public class TabMenu extends Activity {
-
-	public boolean tmMusicState = true;
-	public boolean tmSfxState = true;
+	SharedPreferences sp;
+	public boolean tmMusicState;
+	public boolean tmSfxState;
+	public int tmStarts;
 	public static Database db;
 	public TabHost th;
+	public String tmPlayerName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		Intent intent = getIntent();
-		tmMusicState = intent.getBooleanExtra("EXTRA_musicState", true);
-		tmSfxState = intent.getBooleanExtra("EXTRA_sfxState", true);
+		sp = getSharedPreferences(getString(R.string.preference_file_key),
+				Context.MODE_PRIVATE);
+		if (!sp.contains("spStarts")) {
+			Editor editor = sp.edit();
+			editor.putInt("spStarts", 0);
+			editor.putString("spPlayerName", "Player 1");
+			editor.putBoolean("spMusicState", true);
+			editor.putBoolean("spSfxState", true);
+			editor.commit();
+		}
+		tmMusicState = sp.getBoolean("spMusicState", true);
+		tmSfxState = sp.getBoolean("spSfxState", true);
+		tmStarts = sp.getInt("spStarts", 0);
+		tmPlayerName = sp.getString("spPlayerName", "Player 1");
+
 		// Ads
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
@@ -69,6 +87,18 @@ public class TabMenu extends Activity {
 		db.openDB();
 		db.showHighscore();
 		db.closeDB();
+		if (tmStarts == 0) {
+			th.setCurrentTab(3);
+			welcomeDialog();
+		}
+		tmStarts = tmStarts + 1;
+		Editor editor = sp.edit();
+		editor.putInt("spStarts", tmStarts);
+		editor.commit();
+		View musicToggle = findViewById(R.id.toggleMusic);
+		((ToggleButton) musicToggle).setChecked(tmMusicState);
+		View sfxToggle = findViewById(R.id.toggleSFX);
+		((ToggleButton) sfxToggle).setChecked(tmSfxState);
 	}
 
 	// Exit dialog
@@ -85,6 +115,19 @@ public class TabMenu extends Activity {
 		});
 		builder.setNegativeButton("No, not really", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
+			}
+		});
+		builder.create().show();
+	}
+
+	private void welcomeDialog() {
+		Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(false);
+		builder.setTitle("Welcome to Spaceshooter Zero!");
+		builder.setMessage(R.string.welcomeMessage);
+		builder.setNegativeButton("Thank you!", new OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				playerDialog();
 			}
 		});
 		builder.create().show();
@@ -121,8 +164,6 @@ public class TabMenu extends Activity {
 	public void play(View view) {
 		db.closeDB();
 		Intent intent = new Intent(this, GameActivity.class);
-		intent.putExtra("EXTRA_musicState", tmMusicState);
-		intent.putExtra("EXTRA_sfxState", tmSfxState);
 		startActivity(intent);
 	}
 
@@ -134,10 +175,50 @@ public class TabMenu extends Activity {
 	// Settings
 	public void onToggleClickedMusic(View view) {
 		tmMusicState = ((ToggleButton) view).isChecked();
+		Editor editor = sp.edit();
+		editor.putBoolean("spMusicState", tmMusicState);
+		editor.commit();
 	}
 
 	public void onToggleClickedSFX(View view) {
 		tmSfxState = ((ToggleButton) view).isChecked();
+		Editor editor = sp.edit();
+		editor.putBoolean("spSfxState", tmSfxState);
+		editor.commit();
+	}
+
+	public void selectPlayer(View view) {
+		playerDialog();
+		Editor editor = sp.edit();
+		editor.putString("spPlayerName", tmPlayerName);
+		editor.commit();
+	}
+
+	public void playerDialog() {
+		// Need to define what happens when EditText is empty
+		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		alert.setTitle("Change player");
+		alert.setMessage("Enter player name");
+		final EditText input = new EditText(this);
+		alert.setView(input);
+		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				tmPlayerName = input.getText().toString();
+			}
+		});
+		alert.setNegativeButton("Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int whichButton) {
+					}
+				});
+
+		alert.show();
+	}
+
+	public void resetSettings(View view) {
+		Editor editor = sp.edit();
+		editor.clear();
+		editor.commit();
 	}
 
 	// Other

@@ -3,43 +3,37 @@ package com.spaceshooter.game;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.spaceshooter.game.database.Database;
 import com.spaceshooter.game.engine.GameObjectManager;
-import com.spaceshooter.game.object.enemy.Enemy;
-import com.spaceshooter.game.object.enemy.Predator;
 import com.spaceshooter.game.util.BitmapHandler;
-import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.SoundPlayer;
-import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 import com.spaceshooter.game.view.InventoryView;
 
 public class GameActivity extends Activity {
-
+	SharedPreferences sp;
 	private GameView gameView;
 	private InventoryView invView;
-	public boolean musicState; // is false if music shouldn't be played and true
-								// if it should
-	public boolean sfxState; // is false if sfx shouldn't be played and true if
+	public boolean gaMusicState; // is false if music shouldn't be played and
+									// true
+									// if it should
+	public boolean gaSfxState; // is false if sfx shouldn't be played and true
+								// if
 								// it should
 	public boolean isInvView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Intent intent = getIntent();
-		musicState = intent.getBooleanExtra("EXTRA_musicState", true);
-		sfxState = intent.getBooleanExtra("EXTRA_sfxState", true);
-
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -54,7 +48,10 @@ public class GameActivity extends Activity {
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 
 		new BitmapHandler(this);
-
+		sp = getSharedPreferences(getString(R.string.preference_file_key),
+				Context.MODE_PRIVATE);
+		gaMusicState = sp.getBoolean("spMusicState", true);
+		gaSfxState = sp.getBoolean("spSfxState", true);
 		// gameView = new GameView(this);
 		// setContentView(gameView);
 

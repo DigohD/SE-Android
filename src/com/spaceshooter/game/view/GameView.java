@@ -80,7 +80,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void init(){
 		GameActivity ga = (GameActivity) context;
-		gwMusicState = ga.musicState;
+		gwMusicState = ga.gaMusicState;
 		mp = null;
 		musicStartTimer = 0;
 		
