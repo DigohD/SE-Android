@@ -3,6 +3,7 @@ package com.spaceshooter.game.object.enemy;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.Emitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
@@ -67,12 +68,20 @@ public class Predator extends Enemy {
 	public void tick(float dt) {
 		super.tick(dt);
 		reload++;
-		if(reload > 65){
-			reload = 0;
-			Vector2f v = new Vector2f(position.x, position.y + width/2);
-			new PredatorProj(v);
-			//SoundPlayer.playSound(1);
+		if(GameObjectManager.isSlowTime()){
+			if(reload > 65*(1 + GameObjectManager.slowtime)){
+				reload = 0;
+				Vector2f v = new Vector2f(position.x, position.y + width/2);
+				new PredatorProj(v);
+			}
+		}else{
+			if(reload > 65){
+				reload = 0;
+				Vector2f v = new Vector2f(position.x, position.y + width/2);
+				new PredatorProj(v);
+			}
 		}
+		
 
 		velocity.x = approach(targetVelocity.x, velocity.x, dt);
 		velocity.y = approach(targetVelocity.y, velocity.y, dt);

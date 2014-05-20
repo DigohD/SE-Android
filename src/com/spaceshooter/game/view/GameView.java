@@ -59,6 +59,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private MusicPlayer mp;
 	private Paint p = new Paint();
 	
+	private Semaphore mutex = new Semaphore(1);
+	
 	public GameView(Context context) {
 		super(context);
 		this.context = context;
@@ -245,7 +247,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		return true;
 	}
 	
-	Semaphore mutex = new Semaphore(1);
+
 	
 	private void processLoot(float x, float y){
 		if(x >= 350 && x <= 400 && y >= 380 && y <= 430){

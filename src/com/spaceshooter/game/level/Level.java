@@ -54,9 +54,16 @@ public class Level {
 			}
 		}
 		if(enemyGen.isUpdate() && lc.asteroids){
-			if(timer % 20 == 0){
-				float y = Randomizer.getFloat(2, 440);
-				new Asteroid(new Vector2f(GameView.WIDTH,y)).init();
+			if(GameObjectManager.isSlowTime()){
+				if(timer % 20*(1+GameObjectManager.slowtime) == 0){
+					float y = Randomizer.getFloat(2, 440);
+					new Asteroid(new Vector2f(GameView.WIDTH,y)).init();
+				}
+			}else{
+				if(timer % 20 == 0){
+					float y = Randomizer.getFloat(2, 440);
+					new Asteroid(new Vector2f(GameView.WIDTH,y)).init();
+				}
 			}
 		}
 		enemyGen.tick();

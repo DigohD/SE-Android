@@ -265,6 +265,7 @@ public class Player extends DynamicObject implements Collideable {
 					if(hp > maxHP) hp = maxHP;
 				}
 			}
+			
 			if(loot instanceof SlowTimePack){
 				SlowTimePack stp = (SlowTimePack) obj;
 				if(lootCounter < 3  && GameObjectManager.isSlowTime()){

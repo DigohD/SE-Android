@@ -3,6 +3,7 @@ package com.spaceshooter.game.object.enemy;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.Emitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
@@ -83,12 +84,21 @@ public class Mantis extends Enemy {
 		
 		if(fire){
 			reload++;
-			if(reload > 20){
-				reload = 0;
-				Vector2f v = new Vector2f(position.x, position.y + 2);
-				new MantisProj(v);
-				//SoundPlayer.playSound(1);
+			if(GameObjectManager.isSlowTime()){
+				if(reload > 20*(1+GameObjectManager.slowtime)){
+					reload = 0;
+					Vector2f v = new Vector2f(position.x, position.y + 2);
+					new MantisProj(v);
+				}
+			}else{
+				if(reload > 20){
+					reload = 0;
+					Vector2f v = new Vector2f(position.x, position.y + 2);
+					new MantisProj(v);
+				}
 			}
+			
+			
 		}
 		
 		velocity.x = approach(targetVelocity.x, velocity.x, dt);

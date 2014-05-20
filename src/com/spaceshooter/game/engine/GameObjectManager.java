@@ -22,7 +22,7 @@ import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 public class GameObjectManager {
-
+	
 	private static List<Tickable> tickableObjects;
 	private static List<Tickable> tToAdd;
 	private static List<Drawable> drawableObjects;
@@ -37,6 +37,8 @@ public class GameObjectManager {
 	private Paint paint;
 	
 	private static boolean slowTime = false;
+	private int timer = 0;
+	public static float slowtime = 0.35f;
 	
 	public static void setSlowTime(boolean sTime){
 		slowTime = sTime;
@@ -160,7 +162,7 @@ public class GameObjectManager {
 		}
 	}
 	
-	int timer = 0;
+	
 	/**
 	 * Updates the state of all tickable gameobjects
 	 * @param dt time step variable used for physics calculations
@@ -189,15 +191,15 @@ public class GameObjectManager {
 		for(Tickable t : tickableObjects){
 			if(t instanceof Loot && slowTime){
 				Loot l = (Loot)t;
-				l.tick(dt*0.35f);
+				l.tick(dt*slowtime);
 			}else if(t instanceof Projectile && slowTime){
 				Projectile p = (Projectile) t;
 				if(p.getType() == Type.ENEMY)
-					p.tick(dt*0.35f);
+					p.tick(dt*slowtime);
 				else p.tick(dt);
 			}else if(t instanceof Enemy && slowTime){
 				Enemy e = (Enemy) t;
-				e.tick(dt*0.35f);
+				e.tick(dt*slowtime);
 			}else
 				t.tick(dt);
 			offset(t);
