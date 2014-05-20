@@ -87,8 +87,8 @@ public class Asteroid extends Enemy{
 				GameObjectManager.getPlayer().incScore(score);
 				death();
 				live = false;
-				int rn = Randomizer.getInt(0, 5);
-				int rn2 = Randomizer.getInt(0, 5);
+				int rn = Randomizer.getInt(0, 10);
+				int rn2 = Randomizer.getInt(0, 14);
 				boolean lootDropped = false;
 				if(rn == 2){
 					new HealthPack(position, 10);

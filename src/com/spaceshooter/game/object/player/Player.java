@@ -57,7 +57,7 @@ public class Player extends DynamicObject implements Collideable {
 	
 	private HashMap<Integer, Loot> loots;
 	
-	private int lootCounter = 0;
+	public int lootCounter = 0;
 	
 	public HashMap<Integer, Loot> getLoots(){
 		return loots;
@@ -108,6 +108,18 @@ public class Player extends DynamicObject implements Collideable {
 		
 		lootCounter = 0;
 		loots = new HashMap<Integer, Loot>();
+		
+		HealthPack startPack = new HealthPack(new Vector2f(0,0), 10);
+		HealthPack startPack2 = new HealthPack(new Vector2f(0,0), 10);
+		SlowTimePack startPack3 = new SlowTimePack(new Vector2f(0,0));
+		
+		startPack.setSaved(true);
+		startPack2.setSaved(true);
+		startPack3.setSaved(true);
+		
+		loots.put(0, startPack);
+		loots.put(1, startPack2);
+		loots.put(2, startPack3);
 		
 		emitter = new RadialEmitter(8, ParticleID.RED_PLASMA, new Vector2f(0,0), new Vector2f(20f, 0f));
 		
@@ -238,9 +250,15 @@ public class Player extends DynamicObject implements Collideable {
 			if(loot instanceof HealthPack){
 				HealthPack hpack = (HealthPack) obj;
 				if(lootCounter < 3 && hp >= maxHP){
-					loots.put(lootCounter, hpack);
-					lootCounter++;
-					hpack.setSaved(true);
+					lootCounter = 0;
+					while(loots.containsKey(lootCounter) && lootCounter < 3){
+						lootCounter++;
+					}
+					if(lootCounter < 3){
+						loots.put(lootCounter, hpack);
+						lootCounter++;
+						hpack.setSaved(true);
+					}
 				}
 				if(hp < maxHP){
 					hp = hp + hpack.getHp();
@@ -250,9 +268,16 @@ public class Player extends DynamicObject implements Collideable {
 			if(loot instanceof SlowTimePack){
 				SlowTimePack stp = (SlowTimePack) obj;
 				if(lootCounter < 3  && GameObjectManager.isSlowTime()){
-					loots.put(lootCounter, stp);
-					lootCounter++;
-					stp.setSaved(true);
+					lootCounter = 0;
+					while(loots.containsKey(lootCounter) && lootCounter < 3){
+						lootCounter++;
+					}
+					if(lootCounter < 3){
+						loots.put(lootCounter, stp);
+						lootCounter++;
+						stp.setSaved(true);
+					}
+					
 				}
 				
 				if(!GameObjectManager.isSlowTime())
@@ -311,6 +336,11 @@ public class Player extends DynamicObject implements Collideable {
 
 	public void setHp(float hp) {
 		this.hp = hp;
+	}
+	
+	public void incHp(float amount) {
+		this.hp += amount;
+		if(this.hp > maxHP) hp = maxHP;
 	}
 
 	public void setMaxHP(float maxHP) {
