@@ -2,12 +2,14 @@ package com.spaceshooter.game.object.player;
 
 import android.graphics.Rect;
 
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.enemy.Asteroid;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.loot.Loot;
+import com.spaceshooter.game.object.loot.RandomLoot;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
 import com.spaceshooter.game.object.particle.emitter.Emitter;
@@ -222,6 +224,10 @@ public class Player extends DynamicObject implements Collideable {
 					hp = hp + hpack.getHp();
 					if(hp > maxHP) hp = maxHP;
 				}
+			}
+			if(loot instanceof RandomLoot){
+				RandomLoot rl = (RandomLoot) obj;
+				GameObjectManager.setSlowTime(true);
 			}
 		}
 	}

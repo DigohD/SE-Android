@@ -36,6 +36,12 @@ public class GameObjectManager {
 	
 	private Paint paint;
 	
+	private static boolean slowTime = false;
+	
+	public static void setSlowTime(boolean sTime){
+		slowTime = sTime;
+	}
+	
 	public GameObjectManager() {
 		tickableObjects = new ArrayList<Tickable>();
 		tToAdd = new ArrayList<Tickable>();
@@ -140,7 +146,7 @@ public class GameObjectManager {
 		}
 	}
 	
-	
+	int timer = 0;
 	/**
 	 * Updates the state of all tickable gameobjects
 	 * @param dt time step variable used for physics calculations
@@ -167,9 +173,26 @@ public class GameObjectManager {
 		backgroundScrolling(dt);
 		
 		for(Tickable t : tickableObjects){
-			t.tick(dt);
+			if(t instanceof Projectile && slowTime){
+				Projectile p = (Projectile) t;
+				if(p.getType() == Type.ENEMY)
+					p.tick(dt*0.35f);
+				else p.tick(dt);
+			}else if(t instanceof Enemy && slowTime){
+				Enemy e = (Enemy) t;
+				e.tick(dt*0.35f);
+			}else
+				t.tick(dt);
 			offset(t);
 		}
+		if(slowTime){
+			timer++;
+			if(timer >= 5*60) {
+				slowTime = false;
+				timer = 0;
+			}
+		}
+		
 	}
 	
 	/**

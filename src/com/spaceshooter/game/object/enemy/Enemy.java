@@ -2,12 +2,11 @@ package com.spaceshooter.game.object.enemy;
 
 import android.graphics.Rect;
 
-import com.spaceshooter.game.engine.CollisionManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
-import com.spaceshooter.game.object.GameObject;
 import com.spaceshooter.game.object.loot.HealthPack;
+import com.spaceshooter.game.object.loot.RandomLoot;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.util.Randomizer;
 import com.spaceshooter.game.util.Vector2f;
@@ -55,7 +54,10 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 				live = false;
 				int rn = Randomizer.getInt(0, 10);
 				if(rn == 2){
-					new HealthPack(position, new Vector2f(-15f, 0), 10);
+					new HealthPack(position, 10);
+				}
+				if(rn == 5){
+					new RandomLoot(position);
 				}
 			}
 		}

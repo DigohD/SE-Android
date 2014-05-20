@@ -327,6 +327,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void resetGameState(){
 		GameObjectManager.clear();
+		GameObjectManager.setSlowTime(false);
 		levelID = 1;
 		level = new Level(levelTime);
 		level.startLevel(levelID);
