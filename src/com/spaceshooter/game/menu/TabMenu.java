@@ -26,6 +26,7 @@ import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.LeaderBoardActivity;
 import com.spaceshooter.game.R;
 import com.spaceshooter.game.database.Database;
+import com.spaceshooter.game.start.Start;
 
 public class TabMenu extends Activity {
 	SharedPreferences sp;
@@ -238,6 +239,11 @@ public class TabMenu extends Activity {
 		Editor editor = sp.edit();
 		editor.clear();
 		editor.commit();
+	}
+	public void restartApp(View view) {
+		Intent intent = new Intent(this, Start.class);
+		startActivity(intent);
+		finish();
 	}
 
 	// Other
