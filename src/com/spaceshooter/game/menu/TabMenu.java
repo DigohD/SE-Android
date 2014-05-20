@@ -10,11 +10,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.ads.AdRequest;
@@ -26,6 +29,7 @@ import com.spaceshooter.game.database.Database;
 
 public class TabMenu extends Activity {
 	SharedPreferences sp;
+	boolean dialogOpen = false;
 	public boolean tmMusicState;
 	public boolean tmSfxState;
 	public int tmStarts;
@@ -99,6 +103,8 @@ public class TabMenu extends Activity {
 		((ToggleButton) musicToggle).setChecked(tmMusicState);
 		View sfxToggle = findViewById(R.id.toggleSFX);
 		((ToggleButton) sfxToggle).setChecked(tmSfxState);
+		final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
+		playingAsText.setText("Playing as " + tmPlayerName);
 	}
 
 	// Exit dialog
@@ -189,21 +195,34 @@ public class TabMenu extends Activity {
 
 	public void selectPlayer(View view) {
 		playerDialog();
-		Editor editor = sp.edit();
-		editor.putString("spPlayerName", tmPlayerName);
-		editor.commit();
 	}
 
 	public void playerDialog() {
-		// Need to define what happens when EditText is empty
-		AlertDialog.Builder alert = new AlertDialog.Builder(this);
+		// String reg = "^[a-zA-Z0-9]*$";
+		dialogOpen = true;
+		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Change player");
-		alert.setMessage("Enter player name");
+		alert.setMessage("Enter player name (cannot be empty)");
 		final EditText input = new EditText(this);
+		input.setText(tmPlayerName);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				tmPlayerName = input.getText().toString();
+				String enteredPlayer = input.getText().toString();
+				if (enteredPlayer.matches("^[a-zA-Z0-9]*$")
+						&& !enteredPlayer.isEmpty()) {
+					Log.i("ALERT", "Store username -" + enteredPlayer);
+					tmPlayerName = enteredPlayer;
+					final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
+					playingAsText.setText("Playing as " + tmPlayerName);
+					Editor editor = sp.edit();
+					editor.putString("spPlayerName", tmPlayerName);
+					editor.commit();
+				} else {
+					Toast.makeText(TabMenu.this, "Please put valid username",
+							Toast.LENGTH_LONG).show();
+				}
+
 			}
 		});
 		alert.setNegativeButton("Cancel",
