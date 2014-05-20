@@ -1,5 +1,7 @@
 package com.spaceshooter.game.view;
 
+import java.util.concurrent.Semaphore;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -194,6 +196,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			int pointerIndex = MotionEventCompat.getActionIndex(event); 
 		    float x = MotionEventCompat.getX(event, pointerIndex); 
 		    float y = MotionEventCompat.getY(event, pointerIndex); 
+		    float nY = scaleY * 1.0f;
+			x = x / scaleX;
+			y = y / nY;
+
 		    processLoot(x, y);
 		}
 
@@ -202,12 +208,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			float x = MotionEventCompat.getX(event, pointerIndex);
 			float y = MotionEventCompat.getY(event, pointerIndex);
 			
-			processLoot(x, y);
-			
 			float nY = scaleY * 1.0f;
 
 			x = x / scaleX;
 			y = y / nY;
+			
+			processLoot(x, y);
 
 			if(x <= 180 && x >= 20 && y <= 470 && y >= 308) {
 				knobX = x - knob.getWidth() / 2;
@@ -239,19 +245,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		return true;
 	}
 	
+	Semaphore mutex = new Semaphore(1);
+	
 	private void processLoot(float x, float y){
 		if(x >= 350 && x <= 400 && y >= 380 && y <= 430){
 			Loot loot = GameObjectManager.getPlayer().getLoots().get(0);
 			if(loot instanceof HealthPack){
 				HealthPack hp = (HealthPack) loot;
 				GameObjectManager.getPlayer().incHp(hp.getHp());
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				GameObjectManager.getPlayer().getLoots().remove(0);
+				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 0;
 			}
 			if(loot instanceof SlowTimePack){
 				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				GameObjectManager.getPlayer().getLoots().remove(0);
+				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 0;
 			}
 		
@@ -261,13 +281,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if(loot instanceof HealthPack){
 				HealthPack hp = (HealthPack) loot;
 				GameObjectManager.getPlayer().incHp(hp.getHp());
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				GameObjectManager.getPlayer().getLoots().remove(1);
+				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 1;
 			}
 			if(loot instanceof SlowTimePack){
 				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				GameObjectManager.getPlayer().getLoots().remove(1);
+				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 1;
 			}
 		}
@@ -276,13 +308,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if(loot instanceof HealthPack){
 				HealthPack hp = (HealthPack) loot;
 				GameObjectManager.getPlayer().incHp(hp.getHp());
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				GameObjectManager.getPlayer().getLoots().remove(2);
+				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 2;
 			}
 			if(loot instanceof SlowTimePack){
 				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 				GameObjectManager.getPlayer().getLoots().remove(2);
+				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 2;
 			}
 		}
