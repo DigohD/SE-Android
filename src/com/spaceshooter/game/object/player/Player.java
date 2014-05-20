@@ -9,7 +9,7 @@ import com.spaceshooter.game.object.enemy.Asteroid;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.loot.Loot;
-import com.spaceshooter.game.object.loot.RandomLoot;
+import com.spaceshooter.game.object.loot.SlowTimePack;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
 import com.spaceshooter.game.object.particle.emitter.Emitter;
@@ -225,8 +225,8 @@ public class Player extends DynamicObject implements Collideable {
 					if(hp > maxHP) hp = maxHP;
 				}
 			}
-			if(loot instanceof RandomLoot){
-				RandomLoot rl = (RandomLoot) obj;
+			if(loot instanceof SlowTimePack){
+				SlowTimePack stp= (SlowTimePack) obj;
 				GameObjectManager.setSlowTime(true);
 			}
 		}

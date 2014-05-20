@@ -11,13 +11,13 @@ import com.spaceshooter.game.object.player.Player;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.Vector2f;
 
-public class RandomLoot extends Loot{
+public class SlowTimePack extends Loot{
 	
 	private Emitter emitter;
 
-	public RandomLoot(Vector2f position) {
+	public SlowTimePack(Vector2f position) {
 		super(position);
-		this.bitmap = BitmapHandler.loadBitmap("loot/randomLoot");
+		this.bitmap = BitmapHandler.loadBitmap("loot/slowTime");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 		
@@ -26,7 +26,6 @@ public class RandomLoot extends Loot{
 		velocity =  new Vector2f(-15f, 0);
 		
 		GameObjectManager.addGameObject(this);
-		
 	}
 
 	@Override

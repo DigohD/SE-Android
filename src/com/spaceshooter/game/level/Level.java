@@ -20,6 +20,7 @@ public class Level {
 	
 	private GameObjectManager gameObjectManager;
 	private EnemyGenerator enemyGen;
+	private LevelCreator lc;
 	
 
 	/**
@@ -39,7 +40,8 @@ public class Level {
 		int time = LEVEL_TIME / (int) GameThread.TARGET_TPS;
 		enemyGen = new EnemyGenerator(time);
 		enemyGen.setUpdate(true);
-		new LevelCreator(enemyGen).runLevel(level);	
+		lc = new LevelCreator(enemyGen);
+		lc.runLevel(level);	
 	}
 	
 	public void tick(float dt){
@@ -51,7 +53,7 @@ public class Level {
 				timer = 0;
 			}
 		}
-		if(enemyGen.isUpdate()){
+		if(enemyGen.isUpdate() && lc.asteroids){
 			if(timer % 20 == 0){
 				float y = Randomizer.getFloat(2, 440);
 				new Asteroid(new Vector2f(GameView.WIDTH,y)).init();

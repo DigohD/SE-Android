@@ -9,7 +9,7 @@ import android.graphics.Rect;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.loot.HealthPack;
-import com.spaceshooter.game.object.loot.RandomLoot;
+import com.spaceshooter.game.object.loot.SlowTimePack;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.Emitter;
 import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
@@ -88,11 +88,12 @@ public class Asteroid extends Enemy{
 				death();
 				live = false;
 				int rn = Randomizer.getInt(0, 10);
+				int rn2 = Randomizer.getInt(0, 14);
 				if(rn == 2){
 					new HealthPack(position, 10);
 				}
-				if(rn == 5){
-					new RandomLoot(position);
+				if(rn2 == 2){
+					new SlowTimePack(position);
 				}
 			}
 		}
