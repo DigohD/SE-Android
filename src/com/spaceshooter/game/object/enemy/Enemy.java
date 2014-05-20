@@ -16,6 +16,7 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 	
 	protected Rect rect;
 	protected float hp, maxHp, enemyPoints;
+	
 
 	public Enemy(Vector2f position) {
 		super(position);
@@ -52,12 +53,14 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 				GameObjectManager.getPlayer().incScore(score);
 				death();
 				live = false;
-				int rn = Randomizer.getInt(0, 10);
-				int rn2 = Randomizer.getInt(0, 14);
+				int rn = Randomizer.getInt(0, 5);
+				int rn2 = Randomizer.getInt(0, 5);
+				boolean lootDropped = false;
 				if(rn == 2){
 					new HealthPack(position, 10);
+					lootDropped = true;
 				}
-				if(rn2 == 2){
+				if(rn2 == 2 && !lootDropped){
 					new SlowTimePack(position);
 				}
 			}

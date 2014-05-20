@@ -42,6 +42,10 @@ public class GameObjectManager {
 		slowTime = sTime;
 	}
 	
+	public static boolean isSlowTime(){
+		return slowTime;
+	}
+	
 	public GameObjectManager() {
 		tickableObjects = new ArrayList<Tickable>();
 		tToAdd = new ArrayList<Tickable>();
@@ -55,6 +59,7 @@ public class GameObjectManager {
 		bottomGun = player.getBottomGun();
 		bg = new BackGround();
 		paint = new Paint();
+		slowTime = false;
 	}
 
 	public static void addGameObject(GameObject go){
@@ -92,8 +97,17 @@ public class GameObjectManager {
 			Drawable d = (Drawable) go;
 			//Clear the reference to the pixeldata of the bitmap
 			//Much more efficient then waiting for the garbage collector to do it.
-			if(d.getBitmap() != null)
-				d.getBitmap().recycle();
+			if(d instanceof Loot){
+				Loot l = (Loot) d;
+				if(!l.isSaved()){
+					if(d.getBitmap() != null)
+						d.getBitmap().recycle();
+				}
+			}else{
+				if(d.getBitmap() != null)
+					d.getBitmap().recycle();
+			}
+			
 			drawableObjects.remove(d);
 		}
 		
@@ -173,7 +187,10 @@ public class GameObjectManager {
 		backgroundScrolling(dt);
 		
 		for(Tickable t : tickableObjects){
-			if(t instanceof Projectile && slowTime){
+			if(t instanceof Loot && slowTime){
+				Loot l = (Loot)t;
+				l.tick(dt*0.35f);
+			}else if(t instanceof Projectile && slowTime){
 				Projectile p = (Projectile) t;
 				if(p.getType() == Type.ENEMY)
 					p.tick(dt*0.35f);

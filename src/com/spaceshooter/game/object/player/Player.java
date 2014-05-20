@@ -1,5 +1,7 @@
 package com.spaceshooter.game.object.player;
 
+import java.util.HashMap;
+
 import android.graphics.Rect;
 
 import com.spaceshooter.game.engine.GameObjectManager;
@@ -52,6 +54,15 @@ public class Player extends DynamicObject implements Collideable {
 	private float dtSteps = 5f;
 	private float hp = 100f, maxHP = 100f;
 	
+	
+	private HashMap<Integer, Loot> loots;
+	
+	private int lootCounter = 0;
+	
+	public HashMap<Integer, Loot> getLoots(){
+		return loots;
+	}
+	
 	public Player(Vector2f position) {
 		super(position);
 		
@@ -61,6 +72,8 @@ public class Player extends DynamicObject implements Collideable {
 
 		rect = new Rect((int) position.x, (int) position.y, (int) position.x
 				+ width, (int) position.y + height);
+		
+		loots = new HashMap<Integer, Loot>();
 
 		targetVelocity = new Vector2f(0, 0);
 		velocity = new Vector2f(0, 0);
@@ -82,6 +95,7 @@ public class Player extends DynamicObject implements Collideable {
 		targetVelocity = new Vector2f(0, 0);
 		velocity = new Vector2f(0, 0);
 		
+		
 		topGunPos = new Vector2f(position.x, position.y + 4);
 		bottomGunPos = new Vector2f(position.x, position.y + width-6);
 	}
@@ -91,6 +105,9 @@ public class Player extends DynamicObject implements Collideable {
 		targetPosition.set(position.x, position.y);
 		targetVelocity.x = 0;
 		targetVelocity.y = 0;
+		
+		lootCounter = 0;
+		loots = new HashMap<Integer, Loot>();
 		
 		emitter = new RadialEmitter(8, ParticleID.RED_PLASMA, new Vector2f(0,0), new Vector2f(20f, 0f));
 		
@@ -220,14 +237,26 @@ public class Player extends DynamicObject implements Collideable {
 			Loot loot = (Loot) obj;
 			if(loot instanceof HealthPack){
 				HealthPack hpack = (HealthPack) obj;
+				if(lootCounter < 3 && hp >= maxHP){
+					loots.put(lootCounter, hpack);
+					lootCounter++;
+					hpack.setSaved(true);
+				}
 				if(hp < maxHP){
 					hp = hp + hpack.getHp();
 					if(hp > maxHP) hp = maxHP;
 				}
 			}
 			if(loot instanceof SlowTimePack){
-				SlowTimePack stp= (SlowTimePack) obj;
-				GameObjectManager.setSlowTime(true);
+				SlowTimePack stp = (SlowTimePack) obj;
+				if(lootCounter < 3  && GameObjectManager.isSlowTime()){
+					loots.put(lootCounter, stp);
+					lootCounter++;
+					stp.setSaved(true);
+				}
+				
+				if(!GameObjectManager.isSlowTime())
+					GameObjectManager.setSlowTime(true);
 			}
 		}
 	}

@@ -77,14 +77,15 @@ public class TabMenu extends Activity {
 		builder.setCancelable(false);
 		builder.setTitle("Already done?");
 		builder.setMessage("Really quit?");
-		builder.setPositiveButton("Yes, really", new OnClickListener() {
+		builder.setPositiveButton("No, not really", new OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				
+			}
+		});
+		builder.setNegativeButton("Yes, really", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
 				TabMenu.super.onBackPressed();
 				System.exit(0);
-			}
-		});
-		builder.setNegativeButton("No, not really", new OnClickListener() {
-			public void onClick(DialogInterface arg0, int arg1) {
 			}
 		});
 		builder.create().show();

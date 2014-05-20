@@ -27,6 +27,7 @@ import com.spaceshooter.game.menu.TabMenu;
 import com.spaceshooter.game.net.TCPClient;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
+import com.spaceshooter.game.util.Vector2f;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -50,7 +51,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private SurfaceHolder holder;
 	private GameThread game;
 	private Level level;
-	private Bitmap joystick, knob;
+	private Bitmap joystick, knob, lootSlot, emptySlot;
 	private MusicPlayer mp;
 	private Paint p = new Paint();
 	
@@ -92,6 +93,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		joystick = BitmapHandler.loadBitmap("ui/joystick");
 		knob = BitmapHandler.loadBitmap("ui/joystickKnob");
+		lootSlot = BitmapHandler.loadBitmap("ui/lootSlot");
+		emptySlot =  BitmapHandler.loadBitmap("ui/emptySlot");
 
 		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
@@ -163,11 +166,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawBitmap(joystick, 40, 320, null);
 			canvas.drawBitmap(knob, knobX, knobY, null);
 		}
+		
+		for(int i = 0; i < 3; i++)
+			canvas.drawBitmap(emptySlot, 350+70*i, 380, null);
+		
+	
+		if(GameObjectManager.getPlayer().getLoots().size() != 0){
+			for(Integer i : GameObjectManager.getPlayer().getLoots().keySet()){
+				canvas.drawBitmap(lootSlot, 350+70*i, 380, null);
+				Bitmap bmp = GameObjectManager.getPlayer().getLoots().get(i).getBitmap();
+				int x = lootSlot.getWidth()/2 - bmp.getWidth()/2;
+				int y = lootSlot.getHeight()/2 - bmp.getHeight()/2;
+				canvas.drawBitmap(bmp, 350+x+70*i, 380+y, null);
+			}
+		}
+		
 
 		if (!displayLevelID) {
 			p.setColor(Color.GREEN);
 			p.setTextSize(20);
-			canvas.drawText("LEVEL " + levelID, WIDTH / 2, HEIGHT / 2, p);
+			canvas.drawText("LEVEL " + levelID, WIDTH / 2 - 20, HEIGHT / 2, p);
 		}
 	}
 	
@@ -361,7 +379,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		// Joystick center point: X = 100, Y = 380
 		if (eventX < 210 && eventX > 0 && eventY < 480 && eventY > 300) {
-			if (event.getAction() == MotionEvent.ACTION_MOVE) {
+			if (event.getAction() == MotionEvent.ACTION_MOVE || event.getAction() == MotionEvent.ACTION_DOWN) {
 
 				drawJoystick = true;
 
@@ -387,35 +405,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 							- (knob.getHeight() / 2);
 				}
 
-			}
-
-			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				drawJoystick = true;
-
-				if (eventX <= 180 && eventX >= 20 && eventY <= 470
-						&& eventY >= 308) {
-
-					knobX = eventX - knob.getWidth() / 2;
-					knobY = eventY - knob.getHeight() / 2;
-
-					float dX = eventX - 100;
-					float dY = eventY - 380;
-
-					dX = dX / 8;
-					dY = dY / 8;
-
-					GameObjectManager.getPlayer().setTargetVelocity(dX, dY);
-
-				} else {
-					GameObjectManager.getPlayer().setUpdate(false);
-					knobX = 40 + (joystick.getWidth() / 2)
-							- (knob.getWidth() / 2);
-					knobY = 320 + (joystick.getHeight() / 2)
-							- (knob.getHeight() / 2);
-				}
-
-				if (eventX > 700)
-					game.goInventory();
 			}
 
 			if (event.getAction() == MotionEvent.ACTION_UP) {
