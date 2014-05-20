@@ -133,20 +133,24 @@ public class GameThread implements Runnable {
 	 *        for all dynamic objects
 	 */
 	private void draw(Canvas canvas, float interpolation) {
-		try {
-			canvas = surfaceHolder.lockCanvas();
-			if (canvas != null) {
-				synchronized (surfaceHolder) {
-					if(inventory)
-						invView.draw(canvas, interpolation);
-					else
-						gameView.draw(canvas, interpolation);
+		synchronized (surfaceHolder) {
+			try {
+				canvas = surfaceHolder.lockCanvas();
+				if (canvas != null) {
+					
+						if(inventory)
+							invView.draw(canvas, interpolation);
+						else
+							gameView.draw(canvas, interpolation);
+					
 				}
+			} finally {
+				if (canvas != null)
+					surfaceHolder.unlockCanvasAndPost(canvas);
 			}
-		} finally {
-			if (canvas != null)
-				surfaceHolder.unlockCanvasAndPost(canvas);
 		}
+		
+		
 	}
 
 	/**

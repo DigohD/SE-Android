@@ -1,5 +1,7 @@
 package com.spaceshooter.game.view;
 
+import java.util.concurrent.Semaphore;
+
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -10,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.support.v4.view.MotionEventCompat;
 import android.text.InputType;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -25,6 +28,9 @@ import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
 import com.spaceshooter.game.menu.TabMenu;
 import com.spaceshooter.game.net.TCPClient;
+import com.spaceshooter.game.object.loot.HealthPack;
+import com.spaceshooter.game.object.loot.Loot;
+import com.spaceshooter.game.object.loot.SlowTimePack;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
 
@@ -41,7 +47,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private float knobX;
 	private float knobY;
 
-	private boolean drawJoystick = true;
 	private boolean okToRestartMP = true;
 	private boolean displayLevelID = false;
 	public boolean gwMusicState;
@@ -50,9 +55,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private SurfaceHolder holder;
 	private GameThread game;
 	private Level level;
-	private Bitmap joystick, knob;
+	private Bitmap joystick, knob, lootSlot, emptySlot;
 	private MusicPlayer mp;
 	private Paint p = new Paint();
+	
+	private Semaphore mutex = new Semaphore(1);
 	
 	public GameView(Context context) {
 		super(context);
@@ -92,6 +99,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		joystick = BitmapHandler.loadBitmap("ui/joystick");
 		knob = BitmapHandler.loadBitmap("ui/joystickKnob");
+		lootSlot = BitmapHandler.loadBitmap("ui/lootSlot");
+		emptySlot =  BitmapHandler.loadBitmap("ui/emptySlot");
 
 		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
@@ -154,21 +163,242 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void draw(Canvas canvas, float interpolation) {
-		// clear the screen with black pixels
 		canvas.drawColor(Color.BLACK);
-		// draw the level
 		level.draw(canvas, interpolation);
-
-		if (drawJoystick) {
-			canvas.drawBitmap(joystick, 40, 320, null);
-			canvas.drawBitmap(knob, knobX, knobY, null);
+		canvas.drawBitmap(joystick, 40, 320, null);
+		canvas.drawBitmap(knob, knobX, knobY, null);
+		
+		for(int i = 0; i < 3; i++)
+			canvas.drawBitmap(emptySlot, 350+70*i, 380, null);
+		
+		if(GameObjectManager.getPlayer().getLoots().size() != 0){
+			for(Integer i : GameObjectManager.getPlayer().getLoots().keySet()){
+				canvas.drawBitmap(lootSlot, 350+70*i, 380, null);
+				Bitmap bmp = GameObjectManager.getPlayer().getLoots().get(i).getBitmap();
+				int x = lootSlot.getWidth()/2 - bmp.getWidth()/2;
+				int y = lootSlot.getHeight()/2 - bmp.getHeight()/2;
+				canvas.drawBitmap(bmp, 350+x+70*i, 380+y, null);
+			}
 		}
+		
 
 		if (!displayLevelID) {
 			p.setColor(Color.GREEN);
 			p.setTextSize(20);
-			canvas.drawText("LEVEL " + levelID, WIDTH / 2, HEIGHT / 2, p);
+			canvas.drawText("LEVEL " + levelID, WIDTH / 2 - 20, HEIGHT / 2, p);
 		}
+	}
+
+	
+	public boolean onTouchEvent(MotionEvent event) {
+		
+	    final int maskedAction = MotionEventCompat.getActionMasked(event); 
+
+		if(maskedAction == MotionEvent.ACTION_POINTER_DOWN ){
+			int pointerIndex = MotionEventCompat.getActionIndex(event); 
+		    float x = MotionEventCompat.getX(event, pointerIndex); 
+		    float y = MotionEventCompat.getY(event, pointerIndex); 
+		    float nY = scaleY * 1.0f;
+			x = x / scaleX;
+			y = y / nY;
+
+		    processLoot(x, y);
+		}
+
+		if(maskedAction == MotionEvent.ACTION_MOVE || maskedAction == MotionEvent.ACTION_DOWN){
+			int pointerIndex = MotionEventCompat.getActionIndex(event); 
+			float x = MotionEventCompat.getX(event, pointerIndex);
+			float y = MotionEventCompat.getY(event, pointerIndex);
+			
+			float nY = scaleY * 1.0f;
+
+			x = x / scaleX;
+			y = y / nY;
+			
+			processLoot(x, y);
+
+			if(x <= 180 && x >= 20 && y <= 470 && y >= 308) {
+				knobX = x - knob.getWidth() / 2;
+				knobY = y - knob.getHeight() / 2;
+
+				float dX = x - 100;
+				float dY = y - 380;
+
+				dX = dX / 8;
+				dY = dY / 8;
+
+				GameObjectManager.getPlayer().setTargetVelocity(dX, dY);
+			}else{
+				GameObjectManager.getPlayer().setUpdate(false);
+				knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
+				knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
+			}
+
+		}
+
+		if(event.getAction() == MotionEvent.ACTION_UP) {
+			knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
+			knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
+			GameObjectManager.getPlayer().setUpdate(false);
+		}
+
+		// Schedules a repaint.
+		invalidate();
+		return true;
+	}
+	
+
+	
+	private void processLoot(float x, float y){
+		if(x >= 350 && x <= 400 && y >= 380 && y <= 430){
+			Loot loot = GameObjectManager.getPlayer().getLoots().get(0);
+			if(loot instanceof HealthPack){
+				HealthPack hp = (HealthPack) loot;
+				GameObjectManager.getPlayer().incHp(hp.getHp());
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				GameObjectManager.getPlayer().getLoots().remove(0);
+				mutex.release();
+				GameObjectManager.getPlayer().lootCounter = 0;
+			}
+			if(loot instanceof SlowTimePack){
+				SlowTimePack st = (SlowTimePack) loot;
+				GameObjectManager.setSlowTime(true);
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				GameObjectManager.getPlayer().getLoots().remove(0);
+				mutex.release();
+				GameObjectManager.getPlayer().lootCounter = 0;
+			}
+		
+		}
+		if(x >= 420 && x <= 470 && y >= 380 && y <= 430){
+			Loot loot = GameObjectManager.getPlayer().getLoots().get(1);
+			if(loot instanceof HealthPack){
+				HealthPack hp = (HealthPack) loot;
+				GameObjectManager.getPlayer().incHp(hp.getHp());
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				GameObjectManager.getPlayer().getLoots().remove(1);
+				mutex.release();
+				GameObjectManager.getPlayer().lootCounter = 1;
+			}
+			if(loot instanceof SlowTimePack){
+				SlowTimePack st = (SlowTimePack) loot;
+				GameObjectManager.setSlowTime(true);
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				GameObjectManager.getPlayer().getLoots().remove(1);
+				mutex.release();
+				GameObjectManager.getPlayer().lootCounter = 1;
+			}
+		}
+		if(x >= 490 && x <= 540 && y >= 380 && y <= 430){
+			Loot loot = GameObjectManager.getPlayer().getLoots().get(2);
+			if(loot instanceof HealthPack){
+				HealthPack hp = (HealthPack) loot;
+				GameObjectManager.getPlayer().incHp(hp.getHp());
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				GameObjectManager.getPlayer().getLoots().remove(2);
+				mutex.release();
+				GameObjectManager.getPlayer().lootCounter = 2;
+			}
+			if(loot instanceof SlowTimePack){
+				SlowTimePack st = (SlowTimePack) loot;
+				GameObjectManager.setSlowTime(true);
+				try {
+					mutex.acquire();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				GameObjectManager.getPlayer().getLoots().remove(2);
+				mutex.release();
+				GameObjectManager.getPlayer().lootCounter = 2;
+			}
+		}
+	}
+	
+	private void resetGameState(){
+		GameObjectManager.clear();
+		GameObjectManager.setSlowTime(false);
+		levelID = 1;
+		level = new Level(levelTime);
+		level.startLevel(levelID);
+		GameObjectManager.getPlayer().init();
+		
+		game.resume();
+		
+		if (gwMusicState) {
+			if (mp == null)
+				mp = new MusicPlayer(context);
+		}
+		
+		okToRestartMP = true;
+		displayLevelID = false;
+		level.setFinished(false);
+
+		timer = 0;
+	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		start();
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		stop();
+	}
+
+	public void start() {
+		game.start();
+		GameObjectManager.getPlayer().init();
+	}
+
+	public void stop() {
+		GameObjectManager.clear();
+		if (gwMusicState) {
+			MusicPlayer.stop();
+		}
+		game.stop();
+	}
+
+	public void pause() {
+		okToRestartMP = false;
+		if (gwMusicState) {
+			MusicPlayer.pause();
+		}
+		game.pause();
+	}
+
+	public void resume() {
+		okToRestartMP = true;
+		if (gwMusicState) {
+			MusicPlayer.resume();
+		}
+		game.resume();
 	}
 	
 	
@@ -323,157 +553,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		});
 
-	}
-	
-	private void resetGameState(){
-		GameObjectManager.clear();
-		levelID = 1;
-		level = new Level(levelTime);
-		level.startLevel(levelID);
-		GameObjectManager.getPlayer().init();
-		
-		game.resume();
-		
-		if (gwMusicState) {
-			if (mp == null)
-				mp = new MusicPlayer(context);
-		}
-		
-		okToRestartMP = true;
-		drawJoystick = true;
-		displayLevelID = false;
-		level.setFinished(false);
-
-		timer = 0;
-	}
-
-	public boolean onTouchEvent(MotionEvent event) {
-		float eventX = event.getX();
-		float eventY = event.getY();
-
-		float nY = scaleY * 1.0f;
-
-		eventX = eventX / scaleX;
-		eventY = eventY / nY;
-
-		// System.out.println("Moved!!!! Game!!!");
-
-		// Joystick center point: X = 100, Y = 380
-		if (eventX < 210 && eventX > 0 && eventY < 480 && eventY > 300) {
-			if (event.getAction() == MotionEvent.ACTION_MOVE) {
-
-				drawJoystick = true;
-
-				if (eventX <= 180 && eventX >= 20 && eventY <= 470
-						&& eventY >= 308) {
-
-					knobX = eventX - knob.getWidth() / 2;
-					knobY = eventY - knob.getHeight() / 2;
-
-					float dX = eventX - 100;
-					float dY = eventY - 380;
-
-					dX = dX / 8;
-					dY = dY / 8;
-
-					GameObjectManager.getPlayer().setTargetVelocity(dX, dY);
-
-				} else {
-					GameObjectManager.getPlayer().setUpdate(false);
-					knobX = 40 + (joystick.getWidth() / 2)
-							- (knob.getWidth() / 2);
-					knobY = 320 + (joystick.getHeight() / 2)
-							- (knob.getHeight() / 2);
-				}
-
-			}
-
-			if (event.getAction() == MotionEvent.ACTION_DOWN) {
-				drawJoystick = true;
-
-				if (eventX <= 180 && eventX >= 20 && eventY <= 470
-						&& eventY >= 308) {
-
-					knobX = eventX - knob.getWidth() / 2;
-					knobY = eventY - knob.getHeight() / 2;
-
-					float dX = eventX - 100;
-					float dY = eventY - 380;
-
-					dX = dX / 8;
-					dY = dY / 8;
-
-					GameObjectManager.getPlayer().setTargetVelocity(dX, dY);
-
-				} else {
-					GameObjectManager.getPlayer().setUpdate(false);
-					knobX = 40 + (joystick.getWidth() / 2)
-							- (knob.getWidth() / 2);
-					knobY = 320 + (joystick.getHeight() / 2)
-							- (knob.getHeight() / 2);
-				}
-
-				if (eventX > 700)
-					game.goInventory();
-			}
-
-			if (event.getAction() == MotionEvent.ACTION_UP) {
-				//drawJoystick = false;
-				knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
-				knobY = 320 + (joystick.getHeight() / 2)
-						- (knob.getHeight() / 2);
-				GameObjectManager.getPlayer().setUpdate(false);
-			}
-		}
-
-		// Schedules a repaint.
-		invalidate();
-		return true;
-	}
-
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		start();
-	}
-
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-
-	}
-
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		stop();
-	}
-
-	public void start() {
-		game.start();
-		GameObjectManager.getPlayer().init();
-	}
-
-	public void stop() {
-		GameObjectManager.clear();
-		if (gwMusicState) {
-			MusicPlayer.stop();
-		}
-		game.stop();
-	}
-
-	public void pause() {
-		okToRestartMP = false;
-		if (gwMusicState) {
-			MusicPlayer.pause();
-		}
-		game.pause();
-	}
-
-	public void resume() {
-		okToRestartMP = true;
-		if (gwMusicState) {
-			MusicPlayer.resume();
-		}
-		game.resume();
 	}
 
 	public static int getLevelID() {

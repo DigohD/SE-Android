@@ -1,13 +1,17 @@
 package com.spaceshooter.game.object.player;
 
+import java.util.HashMap;
+
 import android.graphics.Rect;
 
+import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
 import com.spaceshooter.game.object.enemy.Asteroid;
 import com.spaceshooter.game.object.enemy.Enemy;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.loot.Loot;
+import com.spaceshooter.game.object.loot.SlowTimePack;
 import com.spaceshooter.game.object.particle.ParticleID;
 import com.spaceshooter.game.object.particle.emitter.ConstantEmitter;
 import com.spaceshooter.game.object.particle.emitter.Emitter;
@@ -50,6 +54,15 @@ public class Player extends DynamicObject implements Collideable {
 	private float dtSteps = 5f;
 	private float hp = 100f, maxHP = 100f;
 	
+	
+	private HashMap<Integer, Loot> loots;
+	
+	public int lootCounter = 0;
+	
+	public HashMap<Integer, Loot> getLoots(){
+		return loots;
+	}
+	
 	public Player(Vector2f position) {
 		super(position);
 		
@@ -59,6 +72,8 @@ public class Player extends DynamicObject implements Collideable {
 
 		rect = new Rect((int) position.x, (int) position.y, (int) position.x
 				+ width, (int) position.y + height);
+		
+		loots = new HashMap<Integer, Loot>();
 
 		targetVelocity = new Vector2f(0, 0);
 		velocity = new Vector2f(0, 0);
@@ -80,6 +95,7 @@ public class Player extends DynamicObject implements Collideable {
 		targetVelocity = new Vector2f(0, 0);
 		velocity = new Vector2f(0, 0);
 		
+		
 		topGunPos = new Vector2f(position.x, position.y + 4);
 		bottomGunPos = new Vector2f(position.x, position.y + width-6);
 	}
@@ -89,6 +105,21 @@ public class Player extends DynamicObject implements Collideable {
 		targetPosition.set(position.x, position.y);
 		targetVelocity.x = 0;
 		targetVelocity.y = 0;
+		
+		lootCounter = 0;
+		loots = new HashMap<Integer, Loot>();
+		
+		HealthPack startPack = new HealthPack(new Vector2f(0,0), 10);
+		HealthPack startPack2 = new HealthPack(new Vector2f(0,0), 10);
+		SlowTimePack startPack3 = new SlowTimePack(new Vector2f(0,0));
+		
+		startPack.setSaved(true);
+		startPack2.setSaved(true);
+		startPack3.setSaved(true);
+		
+		loots.put(0, startPack);
+		loots.put(1, startPack2);
+		loots.put(2, startPack3);
 		
 		emitter = new RadialEmitter(8, ParticleID.RED_PLASMA, new Vector2f(0,0), new Vector2f(20f, 0f));
 		
@@ -218,10 +249,40 @@ public class Player extends DynamicObject implements Collideable {
 			Loot loot = (Loot) obj;
 			if(loot instanceof HealthPack){
 				HealthPack hpack = (HealthPack) obj;
+				if(lootCounter < 3 && hp >= maxHP){
+					lootCounter = 0;
+					while(loots.containsKey(lootCounter) && lootCounter < 3){
+						lootCounter++;
+					}
+					if(lootCounter < 3){
+						loots.put(lootCounter, hpack);
+						lootCounter++;
+						hpack.setSaved(true);
+					}
+				}
 				if(hp < maxHP){
 					hp = hp + hpack.getHp();
 					if(hp > maxHP) hp = maxHP;
 				}
+			}
+			
+			if(loot instanceof SlowTimePack){
+				SlowTimePack stp = (SlowTimePack) obj;
+				if(lootCounter < 3  && GameObjectManager.isSlowTime()){
+					lootCounter = 0;
+					while(loots.containsKey(lootCounter) && lootCounter < 3){
+						lootCounter++;
+					}
+					if(lootCounter < 3){
+						loots.put(lootCounter, stp);
+						lootCounter++;
+						stp.setSaved(true);
+					}
+					
+				}
+				
+				if(!GameObjectManager.isSlowTime())
+					GameObjectManager.setSlowTime(true);
 			}
 		}
 	}
@@ -276,6 +337,11 @@ public class Player extends DynamicObject implements Collideable {
 
 	public void setHp(float hp) {
 		this.hp = hp;
+	}
+	
+	public void incHp(float amount) {
+		this.hp += amount;
+		if(this.hp > maxHP) hp = maxHP;
 	}
 
 	public void setMaxHP(float maxHP) {

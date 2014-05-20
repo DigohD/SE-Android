@@ -12,6 +12,8 @@ public class LevelCreator {
 	private EnemyGenerator enemyGen;
 	private HashMap<Integer, Sequence> seqMap;
 	
+	public boolean asteroids = true;
+	
 	public LevelCreator(EnemyGenerator enemyGen){
 		this.enemyGen = enemyGen;
 		seqMap = new HashMap<Integer, Sequence>();
@@ -43,15 +45,17 @@ public class LevelCreator {
 		switch(level){
 		case 1:
 			enemyGen.setTime(20);
-//			int[] seqTypes = {1};
+//			int[] seqTypes = {0,1};
 //			initLevel(seqTypes);
 			break;
 		case 2:
+			asteroids = false;
 			enemyGen.setTime(40);
 			int[] seqTypes2 = {0,1};
 			initLevel(seqTypes2);
 			break;
 		case 3:
+			asteroids = true;
 			enemyGen.setTime(80);
 			int[] seqTypes3 = {1,2};
 			initLevel(seqTypes3);

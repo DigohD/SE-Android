@@ -22,7 +22,7 @@ import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 
 public class GameObjectManager {
-
+	
 	private static List<Tickable> tickableObjects;
 	private static List<Tickable> tToAdd;
 	private static List<Drawable> drawableObjects;
@@ -35,6 +35,18 @@ public class GameObjectManager {
 	public static BackGround bg;
 	
 	private Paint paint;
+	
+	private static boolean slowTime = false;
+	private int timer = 0;
+	public static float slowtime = 0.35f;
+	
+	public static void setSlowTime(boolean sTime){
+		slowTime = sTime;
+	}
+	
+	public static boolean isSlowTime(){
+		return slowTime;
+	}
 	
 	public GameObjectManager() {
 		tickableObjects = new ArrayList<Tickable>();
@@ -49,6 +61,7 @@ public class GameObjectManager {
 		bottomGun = player.getBottomGun();
 		bg = new BackGround();
 		paint = new Paint();
+		slowTime = false;
 	}
 
 	public static void addGameObject(GameObject go){
@@ -86,8 +99,17 @@ public class GameObjectManager {
 			Drawable d = (Drawable) go;
 			//Clear the reference to the pixeldata of the bitmap
 			//Much more efficient then waiting for the garbage collector to do it.
-			if(d.getBitmap() != null)
-				d.getBitmap().recycle();
+			if(d instanceof Loot){
+				Loot l = (Loot) d;
+				if(!l.isSaved()){
+					if(d.getBitmap() != null)
+						d.getBitmap().recycle();
+				}
+			}else{
+				if(d.getBitmap() != null)
+					d.getBitmap().recycle();
+			}
+			
 			drawableObjects.remove(d);
 		}
 		
@@ -167,9 +189,29 @@ public class GameObjectManager {
 		backgroundScrolling(dt);
 		
 		for(Tickable t : tickableObjects){
-			t.tick(dt);
+			if(t instanceof Loot && slowTime){
+				Loot l = (Loot)t;
+				l.tick(dt*slowtime);
+			}else if(t instanceof Projectile && slowTime){
+				Projectile p = (Projectile) t;
+				if(p.getType() == Type.ENEMY)
+					p.tick(dt*slowtime);
+				else p.tick(dt);
+			}else if(t instanceof Enemy && slowTime){
+				Enemy e = (Enemy) t;
+				e.tick(dt*slowtime);
+			}else
+				t.tick(dt);
 			offset(t);
 		}
+		if(slowTime){
+			timer++;
+			if(timer >= 5*60) {
+				slowTime = false;
+				timer = 0;
+			}
+		}
+		
 	}
 	
 	/**

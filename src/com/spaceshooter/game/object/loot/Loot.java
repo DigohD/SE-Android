@@ -9,6 +9,7 @@ import com.spaceshooter.game.util.Vector2f;
 public abstract class Loot extends DynamicObject implements Collideable{
 	
 	protected Rect rect;
+	protected boolean saved = false;
 
 	public Loot(Vector2f position) {
 		super(position);
@@ -27,6 +28,14 @@ public abstract class Loot extends DynamicObject implements Collideable{
 	
 	public Rect getRect(){
 		return rect;
+	}
+
+	public boolean isSaved() {
+		return saved;
+	}
+
+	public void setSaved(boolean saved) {
+		this.saved = saved;
 	}	
 	
 
