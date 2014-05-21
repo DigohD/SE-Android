@@ -23,7 +23,7 @@ public class Start extends Activity {
 	// private LicenseCheckerCallback mLicenseCheckerCallback;
 	
 	boolean sLicensed;
-	boolean checkingLicense;
+	boolean checkingLicence;
 	boolean didCheck;
 	
 	SharedPreferences sp;
@@ -55,7 +55,7 @@ public class Start extends Activity {
 
 	private void doCheck() {
 		didCheck = false;
-		checkingLicense = true;
+		checkingLicence = true;
 		// setProgressBarIndeterminateVisibility(true);
 		// mChecker.checkAccess(mLicenseCheckerCallback);
 		Editor editor = sp.edit();
