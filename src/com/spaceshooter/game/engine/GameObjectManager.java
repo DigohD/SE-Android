@@ -174,9 +174,9 @@ public class GameObjectManager {
 		
 		if(timer2 % 3 == 0){
 			removeDeadGameObjects();
-			CollisionManager.collisionCheck(player);
 		}
 		
+		CollisionManager.collisionCheck(player);
 		
 		if(player.isLive()){
 			player.tick(dt);
