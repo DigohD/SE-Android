@@ -59,6 +59,7 @@ public class GameActivity extends Activity {
 		// setContentView(gameView);
 
 		GameObjectManager go = new GameObjectManager();
+		
 
 		isInvView = true;
 		invView = new InventoryView(this);
@@ -68,19 +69,23 @@ public class GameActivity extends Activity {
 	}
 
 	private void exitDialog() {
-		if(gameView != null)
+		if(gameView != null){
+			gameView.dialogBoxShowing = true;
 			gameView.pause();
+		}
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
 		builder.setTitle("Game Paused");
 		builder.setMessage("What do you want to do?");
 		builder.setNegativeButton("Resume Game", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
+				gameView.dialogBoxShowing = false;
 				gameView.resume();
 			}
 		});
 		builder.setPositiveButton("Main Menu", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
+				gameView.dialogBoxShowing = false;
 				gameView.stop();
 				GameActivity.super.onBackPressed();
 			}
@@ -122,7 +127,6 @@ public class GameActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-
 		if (isInvView)
 			exitDialogInv();
 		else
@@ -132,16 +136,7 @@ public class GameActivity extends Activity {
 	public void onStop(){
 		 super.onStop();
 		 System.out.println("STOP");
-		 if(!GameView.dialogBoxShowing){
-			 exitDialog();
-			 try {
-				Thread.sleep(20);
-			 } catch (InterruptedException e) {
-				e.printStackTrace();
-			 }
-			 GameObjectManager.removeGameObject(GameObjectManager.getPlayer().getEngine());
-			 savedPos = GameObjectManager.getPlayer().getPosition();
-		 }
+		
 		
 	 }
 	
@@ -149,7 +144,16 @@ public class GameActivity extends Activity {
 	 public void onPause(){
 		super.onPause();
 		System.out.println("PAUSE");
-		
+		 if(!GameView.dialogBoxShowing){
+			 exitDialog();
+			 try {
+				Thread.sleep(20);
+			 } catch (InterruptedException e) {
+				e.printStackTrace();
+			 }
+		 }
+		 GameObjectManager.removeGameObject(GameObjectManager.getPlayer().getEngine());
+		 savedPos = GameObjectManager.getPlayer().getPosition();
 		
 	 }
 	 

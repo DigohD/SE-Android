@@ -173,11 +173,7 @@ public class Player extends DynamicObject implements Collideable {
 			distance = diff;
 			position = position.add(diff);
 		}
-		
-		
-		
-		
-	
+
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
 		topGunPos.set(position.x, position.y + 4);
 		bottomGunPos.set(position.x, position.y + width - 6);
@@ -211,16 +207,30 @@ public class Player extends DynamicObject implements Collideable {
 		
 		if(startComboCount){
 			timer++;
-			if(timer > 60*1){
-				startComboCount = false;
-				enemyKillCount = 0;
-				combo = 0;
-				timer = 0;
+			if(GameObjectManager.isSlowTime()){
+				if(timer > 60*1*(1+GameObjectManager.slowtime)){
+					startComboCount = false;
+					enemyKillCount = 0;
+					combo = 0;
+					timer = 0;
+				}
+				if(timer <= 60*1*(1+GameObjectManager.slowtime) && combo != enemyKillCount){
+					combo = enemyKillCount;
+					timer = 0;
+				}
+			}else{
+				if(timer > 60*1){
+					startComboCount = false;
+					enemyKillCount = 0;
+					combo = 0;
+					timer = 0;
+				}
+				if(timer <= 60*1 && combo != enemyKillCount){
+					combo = enemyKillCount;
+					timer = 0;
+				}
 			}
-			if(timer <= 60*1 && combo != enemyKillCount){
-				combo = enemyKillCount;
-				timer = 0;
-			}
+			
 		}
 
 	}

@@ -33,6 +33,7 @@ import com.spaceshooter.game.object.loot.Loot;
 import com.spaceshooter.game.object.loot.SlowTimePack;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
+import com.spaceshooter.game.util.Vector2f;
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -105,6 +106,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
+		
+		
 	}
 
 	public void tick(float dt) {
@@ -172,16 +175,24 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		for(int i = 0; i < 3; i++)
 			canvas.drawBitmap(emptySlot, 350+70*i, 380, null);
 		
+		try {
+			mutex.acquire();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(GameObjectManager.getPlayer().getLoots().size() != 0){
 			for(Integer i : GameObjectManager.getPlayer().getLoots().keySet()){
 				canvas.drawBitmap(lootSlot, 350+70*i, 380, null);
-				Bitmap bmp = GameObjectManager.getPlayer().getLoots().get(i).getBitmap();
-				int x = lootSlot.getWidth()/2 - bmp.getWidth()/2;
-				int y = lootSlot.getHeight()/2 - bmp.getHeight()/2;
-				canvas.drawBitmap(bmp, 350+x+70*i, 380+y, null);
+				if(GameObjectManager.getPlayer().getLoots().get(i) != null){
+					Bitmap bmp = GameObjectManager.getPlayer().getLoots().get(i).getBitmap();
+					int x = lootSlot.getWidth()/2 - bmp.getWidth()/2;
+					int y = lootSlot.getHeight()/2 - bmp.getHeight()/2;
+					canvas.drawBitmap(bmp, 350+x+70*i, 380+y, null);
+				}
 			}
 		}
-		
+		mutex.release();
 
 		if (!displayLevelID) {
 			p.setColor(Color.GREEN);
@@ -349,6 +360,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		level.setFinished(false);
 		level.startLevel(levelID);
 		GameObjectManager.getPlayer().init();
+		GameObjectManager.getPlayer().setPosition(new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2));
+		GameObjectManager.getPlayer().getTargetPosition().set(GameObjectManager.getPlayer().getPosition().x, 
+				GameObjectManager.getPlayer().getPosition().y);
 		
 		okToRestartMP = true;
 		displayLevelID = false;
