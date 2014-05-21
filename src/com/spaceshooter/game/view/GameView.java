@@ -87,7 +87,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void init(){
 		GameActivity ga = (GameActivity) context;
-		gwMusicState = ga.musicState;
+		gwMusicState = ga.gaMusicState;
 		mp = null;
 		musicStartTimer = 0;
 		
@@ -429,10 +429,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setPositiveButton(positiveBtn, new DialogInterface.OnClickListener() { 
 				    @Override
 				    public void onClick(DialogInterface dialog, int which) {
+				    	GameObjectManager.getPlayer().setName(input.getText().toString());
 				    	TCPClient tcp = new TCPClient();
-				    	if(ga.playerName != null){
+				    	if(GameObjectManager.getPlayer().getName() != null){
 				    		String[] querys = {"insert", 
-				    				ga.playerName, 
+									GameObjectManager.getPlayer().getName(), 
 									GameObjectManager.getPlayer().getScore() + ""};
 							tcp.execute(querys);
 				    	}else{
@@ -489,7 +490,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				TabMenu.db.openDB();
-				TabMenu.db.addHighscore(ga.playerName,GameObjectManager.getPlayer().getScore());
+				TabMenu.db.addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
 				TabMenu.db.closeDB();
 				
 				Builder builder = new AlertDialog.Builder(context);

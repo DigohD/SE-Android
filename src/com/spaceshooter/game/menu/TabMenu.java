@@ -31,34 +31,31 @@ import com.spaceshooter.game.start.Start;
 public class TabMenu extends Activity {
 	SharedPreferences sp;
 	boolean dialogOpen = false;
-	public boolean musicState;
-	public boolean sfxState;
-	public int starts;
+	public boolean tmMusicState;
+	public boolean tmSfxState;
+	public int tmStarts;
 	public static Database db;
 	public TabHost th;
-	public String playerName;
+	public String tmPlayerName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		System.out.println("a Started " + starts);
-		sp = getSharedPreferences(
-				getString(R.string.sharedpreference_file_key),
+		sp = getSharedPreferences(getString(R.string.preference_file_key),
 				Context.MODE_PRIVATE);
-		musicState = sp.getBoolean("musicState", true);
-		sfxState = sp.getBoolean("sfxState", true);
-		starts = sp.getInt("starts", 0);
-		System.out.println("b Started " + starts);
-		playerName = sp.getString("playerName",
-				getString(R.string.sharedpreferences_default_player_name));
-
-		SharedPreferences.Editor editor = sp.edit();
-		editor.putInt("starts", starts);
-		editor.putString("playerName", playerName);
-		editor.putBoolean("musicState", musicState);
-		editor.putBoolean("sfxState", sfxState);
-		editor.commit();
+		if (!sp.contains("spStarts")) {
+			Editor editor = sp.edit();
+			editor.putInt("spStarts", 0);
+			editor.putString("spPlayerName", "Player 1");
+			editor.putBoolean("spMusicState", true);
+			editor.putBoolean("spSfxState", true);
+			editor.commit();
+		}
+		tmMusicState = sp.getBoolean("spMusicState", true);
+		tmSfxState = sp.getBoolean("spSfxState", true);
+		tmStarts = sp.getInt("spStarts", 0);
+		tmPlayerName = sp.getString("spPlayerName", "Player 1");
 
 		// Ads
 		setContentView(R.layout.tabs);
@@ -95,23 +92,20 @@ public class TabMenu extends Activity {
 		db.openDB();
 		db.showHighscore();
 		db.closeDB();
-		System.out.println("c Started " + starts);
-		if (starts == 0) {
+		if (tmStarts == 0) {
 			th.setCurrentTab(3);
 			welcomeDialog();
 		}
-		starts = starts + 1;
-		System.out.println("d Started " + starts);
-		editor = sp.edit();
-		editor.putInt("spStarts", starts);
+		tmStarts = tmStarts + 1;
+		Editor editor = sp.edit();
+		editor.putInt("spStarts", tmStarts);
 		editor.commit();
-		System.out.println("e Started " + sp.getInt("starts", 0));
 		View musicToggle = findViewById(R.id.toggleMusic);
-		((ToggleButton) musicToggle).setChecked(musicState);
+		((ToggleButton) musicToggle).setChecked(tmMusicState);
 		View sfxToggle = findViewById(R.id.toggleSFX);
-		((ToggleButton) sfxToggle).setChecked(sfxState);
+		((ToggleButton) sfxToggle).setChecked(tmSfxState);
 		final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
-		playingAsText.setText("Playing as " + playerName);
+		playingAsText.setText("Playing as " + tmPlayerName);
 	}
 
 	// Exit dialog
@@ -122,7 +116,7 @@ public class TabMenu extends Activity {
 		builder.setMessage("Really quit?");
 		builder.setPositiveButton("No, not really", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
-
+				
 			}
 		});
 		builder.setNegativeButton("Yes, really", new OnClickListener() {
@@ -169,7 +163,7 @@ public class TabMenu extends Activity {
 
 	public void resetScores(View view) {
 		db.openDB();
-		db.resetScore(playerName);
+		db.resetScore();
 		db.showHighscore();
 		db.closeDB();
 	}
@@ -188,16 +182,16 @@ public class TabMenu extends Activity {
 
 	// Settings
 	public void onToggleClickedMusic(View view) {
-		musicState = ((ToggleButton) view).isChecked();
+		tmMusicState = ((ToggleButton) view).isChecked();
 		Editor editor = sp.edit();
-		editor.putBoolean("spMusicState", musicState);
+		editor.putBoolean("spMusicState", tmMusicState);
 		editor.commit();
 	}
 
 	public void onToggleClickedSFX(View view) {
-		sfxState = ((ToggleButton) view).isChecked();
+		tmSfxState = ((ToggleButton) view).isChecked();
 		Editor editor = sp.edit();
-		editor.putBoolean("spSfxState", sfxState);
+		editor.putBoolean("spSfxState", tmSfxState);
 		editor.commit();
 	}
 
@@ -210,22 +204,21 @@ public class TabMenu extends Activity {
 		dialogOpen = true;
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Change player");
-		alert.setMessage("Enter player name (only a-z, A-Z and numbers, and maximum 12 characters)");
+		alert.setMessage("Enter player name (only a-z, A-Z and numbers)");
 		final EditText input = new EditText(this);
-		input.setText(playerName);
+		input.setText(tmPlayerName);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String enteredPlayer = input.getText().toString();
 				if (enteredPlayer.matches("^[a-zA-Z0-9]*$")
-						&& !enteredPlayer.isEmpty()
-						&& enteredPlayer.length() <= 12) {
+						&& !enteredPlayer.isEmpty()) {
 					Log.i("ALERT", "Store username -" + enteredPlayer);
-					playerName = enteredPlayer;
+					tmPlayerName = enteredPlayer;
 					final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
-					playingAsText.setText("Playing as " + playerName);
+					playingAsText.setText("Playing as " + tmPlayerName);
 					Editor editor = sp.edit();
-					editor.putString("spPlayerName", playerName);
+					editor.putString("spPlayerName", tmPlayerName);
 					editor.commit();
 				} else {
 					Toast.makeText(TabMenu.this, "Please put valid username",
@@ -248,7 +241,6 @@ public class TabMenu extends Activity {
 		editor.clear();
 		editor.commit();
 	}
-
 	public void restartApp(View view) {
 		Intent intent = new Intent(this, Start.class);
 		startActivity(intent);

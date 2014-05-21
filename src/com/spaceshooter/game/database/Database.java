@@ -41,11 +41,11 @@ public class Database {
 		textView.setText(message);
 	}
 
-	public void resetScore(String playerName) {
+	public void resetScore() {
 		cursor = myDb.getRow(1);
 		if (cursor != null && GameObjectManager.getPlayer() != null) {
 			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID),
-					playerName, 0);
+					GameObjectManager.getPlayer().getName(), 0);
 			cursor = myDb.getRow(1);
 		}
 
@@ -57,27 +57,27 @@ public class Database {
 		}
 	}
 
-	public void addHighscore(String playerName, int highscore) {
+	public void addHighscore(String name, int highscore) {
 		cursor = myDb.getRow(1);
 		long newId;
 		if (cursor != null && cursor.getCount() > 0) {
-			updateHighscore(playerName, highscore);
+			updateHighscore(name, highscore);
 			newId = id;
 			cursor = myDb.getRow(newId);
 		} else {
-			newId = myDb.insertRow(playerName, highscore);
+			newId = myDb.insertRow(name, highscore);
 			cursor = myDb.getRow(newId);
 		}
 	}
 
-	public void updateHighscore(String playerName, int newHighscore) {
+	public void updateHighscore(String name, int newHighscore) {
 		cursor = myDb.getRow(1);
 		int oldHighscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
 		id = cursor.getLong(DBAdapter.COL_ROWID);
 		if (oldHighscore < newHighscore) {
 			oldHighscore = newHighscore;
 		}
-		myDb.updateRow(id, playerName, oldHighscore);
+		myDb.updateRow(id, name, oldHighscore);
 	}
 
 	public void showHighscore() {
