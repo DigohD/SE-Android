@@ -40,14 +40,6 @@ public class GameObjectManager {
 	private int timer = 0;
 	public static float slowtime = 0.35f;
 	
-	public static void setSlowTime(boolean sTime){
-		slowTime = sTime;
-	}
-	
-	public static boolean isSlowTime(){
-		return slowTime;
-	}
-	
 	public GameObjectManager() {
 		tickableObjects = new ArrayList<Tickable>();
 		tToAdd = new ArrayList<Tickable>();
@@ -329,6 +321,14 @@ public class GameObjectManager {
 				e.getPosition().y = 2;
 			}
 		}
+	}
+	
+	public static void setSlowTime(boolean sTime){
+		slowTime = sTime;
+	}
+	
+	public static boolean isSlowTime(){
+		return slowTime;
 	}
 
 	public static Player getPlayer() {

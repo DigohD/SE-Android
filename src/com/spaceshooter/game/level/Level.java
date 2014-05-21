@@ -66,7 +66,14 @@ public class Level {
 				}
 			}
 		}
-		enemyGen.tick();
+		if(GameObjectManager.isSlowTime()){
+			if(timer % 20*(1+GameObjectManager.slowtime) == 0){
+				enemyGen.tick();
+			}
+		}else{
+			enemyGen.tick();
+		}
+		
 		gameObjectManager.tick(dt);
 	}
 	

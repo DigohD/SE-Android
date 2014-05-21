@@ -50,7 +50,7 @@ public class LevelCreator {
 			break;
 		case 2:
 			asteroids = false;
-			enemyGen.setTime(40);
+			enemyGen.setTime(60);
 			int[] seqTypes2 = {0,1};
 			initLevel(seqTypes2);
 			break;

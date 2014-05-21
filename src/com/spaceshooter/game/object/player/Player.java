@@ -109,9 +109,9 @@ public class Player extends DynamicObject implements Collideable {
 		lootCounter = 0;
 		loots = new HashMap<Integer, Loot>();
 		
-		HealthPack startPack = new HealthPack(new Vector2f(0,0), 10);
-		HealthPack startPack2 = new HealthPack(new Vector2f(0,0), 10);
-		SlowTimePack startPack3 = new SlowTimePack(new Vector2f(0,0));
+		HealthPack startPack = new HealthPack(new Vector2f(-100,0), 10);
+		HealthPack startPack2 = new HealthPack(new Vector2f(-100,0), 10);
+		SlowTimePack startPack3 = new SlowTimePack(new Vector2f(-100,0));
 		
 		startPack.setSaved(true);
 		startPack2.setSaved(true);

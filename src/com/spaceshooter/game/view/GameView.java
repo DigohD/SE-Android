@@ -202,7 +202,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			x = x / scaleX;
 			y = y / nY;
 
-		    processLoot(x, y);
+		    manageLootSlots(x, y);
 		}
 
 		if(maskedAction == MotionEvent.ACTION_MOVE || maskedAction == MotionEvent.ACTION_DOWN){
@@ -215,7 +215,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			x = x / scaleX;
 			y = y / nY;
 			
-			processLoot(x, y);
+			manageLootSlots(x, y);
 
 			if(x <= 180 && x >= 20 && y <= 470 && y >= 308) {
 				knobX = x - knob.getWidth() / 2;
@@ -249,7 +249,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 
 	
-	private void processLoot(float x, float y){
+	private void manageLootSlots(float x, float y){
 		if(x >= 350 && x <= 400 && y >= 380 && y <= 430){
 			Loot loot = GameObjectManager.getPlayer().getLoots().get(0);
 			if(loot instanceof HealthPack){
@@ -260,6 +260,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				hp.getBitmap().recycle();
 				GameObjectManager.getPlayer().getLoots().remove(0);
 				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 0;
@@ -272,6 +273,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				st.getBitmap().recycle();
 				GameObjectManager.getPlayer().getLoots().remove(0);
 				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 0;
@@ -288,6 +290,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				hp.getBitmap().recycle();
 				GameObjectManager.getPlayer().getLoots().remove(1);
 				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 1;
@@ -300,6 +303,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				st.getBitmap().recycle();
 				GameObjectManager.getPlayer().getLoots().remove(1);
 				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 1;
@@ -315,6 +319,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				hp.getBitmap().recycle();
 				GameObjectManager.getPlayer().getLoots().remove(2);
 				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 2;
@@ -327,6 +332,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
+				st.getBitmap().recycle();
 				GameObjectManager.getPlayer().getLoots().remove(2);
 				mutex.release();
 				GameObjectManager.getPlayer().lootCounter = 2;
@@ -339,8 +345,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		GameObjectManager.setSlowTime(false);
 		levelID = 1;
 		level = new Level(levelTime);
+		level.setFinished(false);
 		level.startLevel(levelID);
 		GameObjectManager.getPlayer().init();
+		
+		okToRestartMP = true;
+		displayLevelID = false;
+		timer = 0;
 		
 		game.resume();
 		
@@ -348,12 +359,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			if (mp == null)
 				mp = new MusicPlayer(context);
 		}
-		
-		okToRestartMP = true;
-		displayLevelID = false;
-		level.setFinished(false);
-
-		timer = 0;
+	
 	}
 
 	@Override
