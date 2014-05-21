@@ -1,4 +1,4 @@
-package com.spaceshooter.game.start;
+package com.spaceshooter.game.startmenu;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.provider.Settings.Secure;
 import android.util.Log;
 
 import com.spaceshooter.game.R;
-import com.spaceshooter.game.menu.TabMenu;
 
 public class Start extends Activity {
 

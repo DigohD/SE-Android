@@ -1,4 +1,4 @@
-package com.spaceshooter.game.menu;
+package com.spaceshooter.game.startmenu;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,7 +26,6 @@ import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.LeaderBoardActivity;
 import com.spaceshooter.game.R;
 import com.spaceshooter.game.database.Database;
-import com.spaceshooter.game.start.Start;
 
 public class TabMenu extends Activity {
 	SharedPreferences sp;

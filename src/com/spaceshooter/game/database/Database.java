@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.spaceshooter.game.R;
 import com.spaceshooter.game.engine.GameObjectManager;
-import com.spaceshooter.game.menu.TabMenu;
+import com.spaceshooter.game.startmenu.TabMenu;
 
 public class Database {
 

@@ -26,11 +26,11 @@ import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
-import com.spaceshooter.game.menu.TabMenu;
 import com.spaceshooter.game.net.TCPClient;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.loot.Loot;
 import com.spaceshooter.game.object.loot.SlowTimePack;
+import com.spaceshooter.game.startmenu.TabMenu;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
 
