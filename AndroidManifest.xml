@@ -22,7 +22,7 @@
         android:icon="@drawable/ship"
         android:label="@string/app_name" >
         <activity
-            android:name="com.spaceshooter.game.start.Start"
+            android:name="com.spaceshooter.game.startmenu.Start"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
             <intent-filter>
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.spaceshooter.game.menu.TabMenu"
+            android:name="com.spaceshooter.game.startmenu.TabMenu"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
             <intent-filter>

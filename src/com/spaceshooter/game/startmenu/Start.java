@@ -1,4 +1,4 @@
-package com.spaceshooter.game.start;
+package com.spaceshooter.game.startmenu;
 
 import android.app.Activity;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.provider.Settings.Secure;
 import android.util.Log;
 
 import com.spaceshooter.game.R;
-import com.spaceshooter.game.menu.TabMenu;
 
 public class Start extends Activity {
 
@@ -40,9 +39,9 @@ public class Start extends Activity {
 		// new AESObfuscator(SALT, getPackageName(), deviceId)),
 		// BASE64_PUBLIC_KEY);
 
-		sp = getSharedPreferences(getString(R.string.preference_file_key),
+		sp = getSharedPreferences(getString(R.string.sharedpreference_file_key),
 				Context.MODE_PRIVATE);
-		sLicensed = sp.getBoolean("spLicenced", false);
+		sLicensed = sp.getBoolean("licenced", false);
 		if (!sLicensed) {
 			doCheck();
 		}
@@ -77,7 +76,7 @@ public class Start extends Activity {
 		// setProgressBarIndeterminateVisibility(true);
 		// mChecker.checkAccess(mLicenseCheckerCallback);
 		Editor editor = sp.edit();
-		editor.putBoolean("spLicenced", true);
+		editor.putBoolean("licenced", true);
 		editor.commit();
 		sLicensed = true;
 	}

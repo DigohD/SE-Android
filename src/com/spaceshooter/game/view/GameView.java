@@ -26,11 +26,11 @@ import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.engine.GameThread;
 import com.spaceshooter.game.level.Level;
-import com.spaceshooter.game.menu.TabMenu;
 import com.spaceshooter.game.net.TCPClient;
 import com.spaceshooter.game.object.loot.HealthPack;
 import com.spaceshooter.game.object.loot.Loot;
 import com.spaceshooter.game.object.loot.SlowTimePack;
+import com.spaceshooter.game.startmenu.TabMenu;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.MusicPlayer;
 import com.spaceshooter.game.util.Vector2f;
@@ -89,7 +89,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void init(){
 		GameActivity ga = (GameActivity) context;
-		gwMusicState = ga.gaMusicState;
+		gwMusicState = ga.musicState;
 		mp = null;
 		musicStartTimer = 0;
 		
@@ -447,11 +447,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setPositiveButton(positiveBtn, new DialogInterface.OnClickListener() { 
 				    @Override
 				    public void onClick(DialogInterface dialog, int which) {
-				    	GameObjectManager.getPlayer().setName(input.getText().toString());
 				    	TCPClient tcp = new TCPClient();
-				    	if(GameObjectManager.getPlayer().getName() != null){
+				    	if(ga.playerName != null){
 				    		String[] querys = {"insert", 
-									GameObjectManager.getPlayer().getName(), 
+				    				ga.playerName, 
 									GameObjectManager.getPlayer().getScore() + ""};
 							tcp.execute(querys);
 				    	}else{
@@ -508,7 +507,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				TabMenu.db.openDB();
-				TabMenu.db.addHighscore(GameObjectManager.getPlayer().getName(),GameObjectManager.getPlayer().getScore());
+				TabMenu.db.addHighscore(ga.playerName,GameObjectManager.getPlayer().getScore());
 				TabMenu.db.closeDB();
 				
 				Builder builder = new AlertDialog.Builder(context);

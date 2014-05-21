@@ -1,4 +1,4 @@
-package com.spaceshooter.game.menu;
+package com.spaceshooter.game.startmenu;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,36 +26,28 @@ import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.LeaderBoardActivity;
 import com.spaceshooter.game.R;
 import com.spaceshooter.game.database.Database;
-import com.spaceshooter.game.start.Start;
 
 public class TabMenu extends Activity {
 	SharedPreferences sp;
 	boolean dialogOpen = false;
-	public boolean tmMusicState;
-	public boolean tmSfxState;
-	public int tmStarts;
+	public boolean musicState;
+	public boolean sfxState;
+	public int starts;
 	public static Database db;
 	public TabHost th;
-	public String tmPlayerName;
+	public String playerName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		sp = getSharedPreferences(getString(R.string.preference_file_key),
-				Context.MODE_PRIVATE);
-		if (!sp.contains("spStarts")) {
-			Editor editor = sp.edit();
-			editor.putInt("spStarts", 0);
-			editor.putString("spPlayerName", "Player 1");
-			editor.putBoolean("spMusicState", true);
-			editor.putBoolean("spSfxState", true);
-			editor.commit();
-		}
-		tmMusicState = sp.getBoolean("spMusicState", true);
-		tmSfxState = sp.getBoolean("spSfxState", true);
-		tmStarts = sp.getInt("spStarts", 0);
-		tmPlayerName = sp.getString("spPlayerName", "Player 1");
+		getSettings();
+		Editor editor = sp.edit();
+		editor.putInt("starts", starts);
+		editor.putString("playerName", playerName);
+		editor.putBoolean("musicState", musicState);
+		editor.putBoolean("sfxState", sfxState);
+		editor.commit();
 
 		// Ads
 		setContentView(R.layout.tabs);
@@ -92,20 +84,24 @@ public class TabMenu extends Activity {
 		db.openDB();
 		db.showHighscore();
 		db.closeDB();
-		if (tmStarts == 0) {
-			th.setCurrentTab(3);
+		if (starts == 0) {
 			welcomeDialog();
 		}
-		tmStarts = tmStarts + 1;
-		Editor editor = sp.edit();
-		editor.putInt("spStarts", tmStarts);
+		starts++;
+		editor = sp.edit();
+		editor.putInt("starts", starts);
 		editor.commit();
+		updateView();
+
+	}
+
+	public void updateView() {
 		View musicToggle = findViewById(R.id.toggleMusic);
-		((ToggleButton) musicToggle).setChecked(tmMusicState);
+		((ToggleButton) musicToggle).setChecked(musicState);
 		View sfxToggle = findViewById(R.id.toggleSFX);
-		((ToggleButton) sfxToggle).setChecked(tmSfxState);
+		((ToggleButton) sfxToggle).setChecked(sfxState);
 		final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
-		playingAsText.setText("Playing as " + tmPlayerName);
+		playingAsText.setText("Playing as " + playerName);
 	}
 
 	// Exit dialog
@@ -116,7 +112,7 @@ public class TabMenu extends Activity {
 		builder.setMessage("Really quit?");
 		builder.setPositiveButton("No, not really", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
-				
+
 			}
 		});
 		builder.setNegativeButton("Yes, really", new OnClickListener() {
@@ -163,7 +159,7 @@ public class TabMenu extends Activity {
 
 	public void resetScores(View view) {
 		db.openDB();
-		db.resetScore();
+		db.resetScore(playerName);
 		db.showHighscore();
 		db.closeDB();
 	}
@@ -182,16 +178,16 @@ public class TabMenu extends Activity {
 
 	// Settings
 	public void onToggleClickedMusic(View view) {
-		tmMusicState = ((ToggleButton) view).isChecked();
+		musicState = ((ToggleButton) view).isChecked();
 		Editor editor = sp.edit();
-		editor.putBoolean("spMusicState", tmMusicState);
+		editor.putBoolean("musicState", musicState);
 		editor.commit();
 	}
 
 	public void onToggleClickedSFX(View view) {
-		tmSfxState = ((ToggleButton) view).isChecked();
+		sfxState = ((ToggleButton) view).isChecked();
 		Editor editor = sp.edit();
-		editor.putBoolean("spSfxState", tmSfxState);
+		editor.putBoolean("sfxState", sfxState);
 		editor.commit();
 	}
 
@@ -204,24 +200,25 @@ public class TabMenu extends Activity {
 		dialogOpen = true;
 		final AlertDialog.Builder alert = new AlertDialog.Builder(this);
 		alert.setTitle("Change player");
-		alert.setMessage("Enter player name (only a-z, A-Z and numbers)");
+		alert.setMessage("Enter player name (only a-z, A-Z and numbers, and maximum 12 characters)");
 		final EditText input = new EditText(this);
-		input.setText(tmPlayerName);
+		input.setText(playerName);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String enteredPlayer = input.getText().toString();
 				if (enteredPlayer.matches("^[a-zA-Z0-9]*$")
-						&& !enteredPlayer.isEmpty()) {
+						&& !enteredPlayer.isEmpty()
+						&& enteredPlayer.length() <= 12) {
 					Log.i("ALERT", "Store username -" + enteredPlayer);
-					tmPlayerName = enteredPlayer;
+					playerName = enteredPlayer;
 					final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
-					playingAsText.setText("Playing as " + tmPlayerName);
+					playingAsText.setText("Playing as " + playerName);
 					Editor editor = sp.edit();
-					editor.putString("spPlayerName", tmPlayerName);
+					editor.putString("playerName", playerName);
 					editor.commit();
 				} else {
-					Toast.makeText(TabMenu.this, "Please put valid username",
+					Toast.makeText(TabMenu.this, "The name was not valid and was not changed",
 							Toast.LENGTH_LONG).show();
 				}
 
@@ -240,7 +237,21 @@ public class TabMenu extends Activity {
 		Editor editor = sp.edit();
 		editor.clear();
 		editor.commit();
+		getSettings();
+		updateView();
 	}
+
+	public void getSettings() {
+		sp = getSharedPreferences(
+				getString(R.string.sharedpreference_file_key),
+				Context.MODE_PRIVATE);
+		musicState = sp.getBoolean("musicState", true);
+		sfxState = sp.getBoolean("sfxState", true);
+		starts = sp.getInt("starts", 0);
+		playerName = sp.getString("playerName",
+				getString(R.string.sharedpreferences_default_player_name));
+	}
+
 	public void restartApp(View view) {
 		Intent intent = new Intent(this, Start.class);
 		startActivity(intent);
