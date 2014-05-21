@@ -52,6 +52,24 @@ public class Start extends Activity {
 			finish();
 		}
 	}
+	
+	public void onStop(){
+		 super.onStop();
+		 System.out.println("q12STOP");
+		
+	 }
+	
+	 public void onPause(){
+		super.onPause();
+		 System.out.println("q12PAUSE");
+		
+	 }
+	
+	 public void onResume(){
+		 super.onResume();
+		 System.out.println("q12RESUME");
+		
+	 }
 
 	private void doCheck() {
 		didCheck = false;

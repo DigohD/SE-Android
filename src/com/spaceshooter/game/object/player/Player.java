@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import android.graphics.Rect;
 
+import com.spaceshooter.game.GameActivity;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.object.Collideable;
 import com.spaceshooter.game.object.DynamicObject;
@@ -36,7 +37,12 @@ public class Player extends DynamicObject implements Collideable {
 	
 	protected Rect rect;
 	
-	private ConstantEmitter engine;
+	private static ConstantEmitter engine;
+	
+	public static ConstantEmitter getEngine(){
+		return engine;
+	}
+	
 	private Emitter emitter;
 	
 	private Gun topGun;
@@ -101,7 +107,7 @@ public class Player extends DynamicObject implements Collideable {
 	}
 
 	public void init(){
-		position = new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2);
+		position = GameActivity.savedPos;
 		targetPosition.set(position.x, position.y);
 		targetVelocity.x = 0;
 		targetVelocity.y = 0;

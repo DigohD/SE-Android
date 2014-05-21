@@ -50,6 +50,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean okToRestartMP = true;
 	private boolean displayLevelID = false;
 	public boolean gwMusicState;
+	public static boolean dialogBoxShowing = false;
 	
 	private Context context;
 	private SurfaceHolder holder;
@@ -375,12 +376,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		stop();
+		//stop();
 	}
 
 	public void start() {
 		game.start();
 		GameObjectManager.getPlayer().init();
+		
+		//GameObjectManager.getPlayer().setPosition(GameActivity.savedPos);
 	}
 
 	public void stop() {
@@ -392,6 +395,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void pause() {
+		
 		okToRestartMP = false;
 		if (gwMusicState) {
 			MusicPlayer.pause();
@@ -475,11 +479,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 * @param negativeBtn
 	 *            the text in the negative button
 	 */
-	private void dialogBox(final String title, final String msg,
+	public void dialogBox(final String title, final String msg,
 			final String positiveBtn, final String neutralBtn,
 			final String negativeBtn) {
 
-		
+		dialogBoxShowing = true;
 		
 		final GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
@@ -500,6 +504,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setNegativeButton(negativeBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
+								dialogBoxShowing = false;
 								GameActivity ga2 = (GameActivity) context;
 								stop();
 								ga2.onBackPressed2();
@@ -508,12 +513,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setNeutralButton(neutralBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
+								dialogBoxShowing = false;
 								textBox("Submit to Global Leaderboard", "Enter name:", "Submit", "Cancel");
 							}
 						});
 				builder.setPositiveButton(positiveBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
+								dialogBoxShowing = false;
 								resetGameState();
 							}
 						});
@@ -523,11 +530,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	}
 	
-	private void dialogBox(final String title, final String msg,
+	public void dialogBox(final String title, final String msg,
 			final String positiveBtn,
 			final String negativeBtn) {
 
-		
+		dialogBoxShowing = true;
 		
 		final GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
@@ -544,6 +551,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setNegativeButton(negativeBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
+								dialogBoxShowing = false;
 								GameActivity ga2 = (GameActivity) context;
 								stop();
 								ga2.onBackPressed2();
@@ -552,6 +560,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setPositiveButton(positiveBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
+								dialogBoxShowing = false;
 								resetGameState();
 							}
 						});

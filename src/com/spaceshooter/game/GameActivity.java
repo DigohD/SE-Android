@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import com.spaceshooter.game.engine.GameObjectManager;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
+import com.spaceshooter.game.util.Vector2f;
 import com.spaceshooter.game.view.GameView;
 import com.spaceshooter.game.view.InventoryView;
 
@@ -65,7 +66,8 @@ public class GameActivity extends Activity {
 	}
 
 	private void exitDialog() {
-		gameView.pause();
+		if(gameView != null)
+			gameView.pause();
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
 		builder.setTitle("Game Paused");
@@ -125,21 +127,49 @@ public class GameActivity extends Activity {
 			exitDialog();
 	}
 
-	// public void onStop(){
-	// super.onStop();
-	// gameView.pause();
-	// }
-	//
-	// public void onPause(){
-	// super.onPause();
-	// gameView.pause();
-	// }
-	//
-	// public void onResume(){
-	// super.onResume();
-	// gameView.resume();
-	// }
-
+	public void onStop(){
+		 super.onStop();
+		 System.out.println("STOP");
+		 if(!GameView.dialogBoxShowing){
+			 exitDialog();
+			 try {
+				Thread.sleep(20);
+			 } catch (InterruptedException e) {
+				e.printStackTrace();
+			 }
+			 GameObjectManager.removeGameObject(GameObjectManager.getPlayer().getEngine());
+			 savedPos = GameObjectManager.getPlayer().getPosition();
+		 }
+		
+	 }
+	
+	 public static Vector2f savedPos = new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2);
+	 public void onPause(){
+		super.onPause();
+		System.out.println("PAUSE");
+		
+		
+	 }
+	
+	 public void onWindowFocusChanged(boolean hasFocus) {
+		    super.onWindowFocusChanged(hasFocus);
+		    System.out.println("FOCUS");
+		    if(!hasFocus) {
+//		    	GameObjectManager.removeGameObject(GameObjectManager.getPlayer().getEngine());
+//				savedPos = GameObjectManager.getPlayer().getPosition();
+//		    	exitDialog();
+		    }else{
+		    	
+		    }
+		       
+		}
+	 
+	 public void onResume(){
+		 super.onResume();
+		 System.out.println("q12RESUME");
+		// gameView.resume();
+	 }
+	
 	// UNIT TESTS
 
 	// public void testCalculatePlayerScore(){

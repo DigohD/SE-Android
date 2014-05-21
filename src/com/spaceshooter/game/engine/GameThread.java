@@ -69,6 +69,7 @@ public class GameThread implements Runnable {
 	public synchronized void start() {
 		running = true;
 		if (thread == null) {
+			System.out.println("NEW THREAD");
 			thread = new Thread(this, "Game-Thread");
 			thread.start();
 		}
