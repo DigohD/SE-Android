@@ -40,9 +40,9 @@ public class Start extends Activity {
 		// new AESObfuscator(SALT, getPackageName(), deviceId)),
 		// BASE64_PUBLIC_KEY);
 
-		sp = getSharedPreferences(getString(R.string.preference_file_key),
+		sp = getSharedPreferences(getString(R.string.sharedpreference_file_key),
 				Context.MODE_PRIVATE);
-		sLicensed = sp.getBoolean("spLicenced", false);
+		sLicensed = sp.getBoolean("licenced", false);
 		if (!sLicensed) {
 			doCheck();
 		}
@@ -59,7 +59,7 @@ public class Start extends Activity {
 		// setProgressBarIndeterminateVisibility(true);
 		// mChecker.checkAccess(mLicenseCheckerCallback);
 		Editor editor = sp.edit();
-		editor.putBoolean("spLicenced", true);
+		editor.putBoolean("licenced", true);
 		editor.commit();
 		sLicensed = true;
 	}
