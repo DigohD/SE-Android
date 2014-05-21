@@ -85,7 +85,6 @@ public class TabMenu extends Activity {
 		db.showHighscore();
 		db.closeDB();
 		if (starts == 0) {
-			th.setCurrentTab(3);
 			welcomeDialog();
 		}
 		starts++;
