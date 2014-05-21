@@ -24,12 +24,9 @@ public class GameActivity extends Activity {
 	SharedPreferences sp;
 	private GameView gameView;
 	private InventoryView invView;
-	public boolean gaMusicState; // is false if music shouldn't be played and
-									// true
+	public boolean musicState; // false if music shouldn't be played and true
 									// if it should
-	public boolean gaSfxState; // is false if sfx shouldn't be played and true
-								// if
-								// it should
+	public String playerName;
 	public boolean isInvView;
 	
 	public static Vector2f savedPos = new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2);
@@ -51,10 +48,10 @@ public class GameActivity extends Activity {
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 
 		new BitmapHandler(this);
-		sp = getSharedPreferences(getString(R.string.preference_file_key),
+		sp = getSharedPreferences(getString(R.string.sharedpreference_file_key),
 				Context.MODE_PRIVATE);
-		gaMusicState = sp.getBoolean("spMusicState", true);
-		gaSfxState = sp.getBoolean("spSfxState", true);
+		musicState = sp.getBoolean("spMusicState", true);
+		playerName=sp.getString("playerName", getString(R.string.sharedpreferences_default_player_name));
 		// gameView = new GameView(this);
 		// setContentView(gameView);
 

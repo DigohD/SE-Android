@@ -549,13 +549,14 @@ containing a value of this type.
         public static final int newHighScore=0x7f070023;
         public static final int play=0x7f070027;
         public static final int player=0x7f07001f;
-        public static final int preference_file_key=0x7f070032;
         public static final int quit=0x7f070029;
         public static final int resetHighScore=0x7f07002e;
         public static final int resetSettings=0x7f070030;
         public static final int restartApp=0x7f070033;
         public static final int saving=0x7f070022;
         public static final int selectPlayer=0x7f07002f;
+        public static final int sharedpreference_file_key=0x7f070032;
+        public static final int sharedpreferences_default_player_name=0x7f070034;
         public static final int showScores=0x7f070021;
         public static final int submit=0x7f07001c;
         public static final int welcomeMessage=0x7f070031;
