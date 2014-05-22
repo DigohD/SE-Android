@@ -75,7 +75,7 @@ public class GameActivity extends Activity {
 		});
 		builder.setPositiveButton("Main Menu", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
-				gameView.dialogBoxShowing = false;
+				
 				gameView.stop();
 				GameActivity.super.onBackPressed();
 			}
