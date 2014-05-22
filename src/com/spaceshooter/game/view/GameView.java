@@ -39,6 +39,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public static final int WIDTH = 800, HEIGHT = 480;
 
+	public boolean sdestroyed = false;
 	private int timer = 0;
 	private int musicStartTimer;
 	private int levelTime = 30;
@@ -52,7 +53,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private boolean displayLevelID = false;
 	public boolean gwMusicState;
 	public static boolean dialogBoxShowing = false;
-	
+
 	private Context context;
 	private SurfaceHolder holder;
 	private GameThread game;
@@ -60,11 +61,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private Bitmap joystick, knob, lootSlot, emptySlot;
 	private MusicPlayer mp;
 	private Paint p = new Paint();
-	
+
 	public GameView(Context context) {
 		super(context);
 		this.context = context;
-		
+
 		init();
 
 		WindowManager wm = (WindowManager) context
@@ -84,23 +85,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		holder.addCallback(this);
 	}
-	
-	private void init(){
+
+	private void init() {
 		GameActivity ga = (GameActivity) context;
 		gwMusicState = TabMenu.musicState;
 		mp = null;
 		musicStartTimer = 0;
-		
+
 		levelID = 1;
 		level = new Level(levelTime);
 		level.startLevel(levelID);
-		
+
 		game = new GameThread(getHolder(), this);
 
 		joystick = BitmapHandler.loadBitmap("ui/joystick");
 		knob = BitmapHandler.loadBitmap("ui/joystickKnob");
 		lootSlot = BitmapHandler.loadBitmap("ui/lootSlot");
-		emptySlot =  BitmapHandler.loadBitmap("ui/emptySlot");
+		emptySlot = BitmapHandler.loadBitmap("ui/emptySlot");
 
 		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
@@ -115,26 +116,26 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					mp = new MusicPlayer(context);
 			}
 		}
-		
-		if(!displayLevelID)
+
+		if (!displayLevelID)
 			timer++;
-		
-		if(timer >= 2*60){
+
+		if (timer >= 2 * 60) {
 			displayLevelID = true;
 			timer = 0;
 		}
-		
+
 		level.tick(dt);
-		
-		if(level.isFinished() && GameObjectManager.getPlayer().isLive()){
+
+		if (level.isFinished() && GameObjectManager.getPlayer().isLive()) {
 			timer++;
-			if(timer >= 2*60){
-				if(levelID >= Level.getNumOfLevels()){
+			if (timer >= 2 * 60) {
+				if (levelID >= Level.getNumOfLevels()) {
 					okToRestartMP = false;
 					dialogBox("Game completed!", "Highscore: "
 							+ GameObjectManager.getPlayer().getScore(),
 							"Restart", "Submit score", "Main Menu");
-				}else{
+				} else {
 					levelID++;
 					level.startLevel(levelID);
 					level.setFinished(false);
@@ -155,12 +156,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				timer = 0;
 			}
 		}
-		
+
 		if (gwMusicState) {
 			if (mp != null && MusicPlayer.isDone() && okToRestartMP)
 				mp = new MusicPlayer(context);
 		}
-		
+
 	}
 
 	public void draw(Canvas canvas, float interpolation) {
@@ -168,19 +169,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		level.draw(canvas, interpolation);
 		canvas.drawBitmap(joystick, 40, 320, null);
 		canvas.drawBitmap(knob, knobX, knobY, null);
-		
-		for(int i = 0; i < GameObjectManager.getPlayer().lootArray.length; i++){
-			if(GameObjectManager.getPlayer().lootArray[i] == null)
-				canvas.drawBitmap(emptySlot, 350+70*i,380, null);
-			else canvas.drawBitmap(lootSlot, 350+70*i,380, null);
-			if(GameObjectManager.getPlayer().lootArray[i] != null){
-				Bitmap bmp = GameObjectManager.getPlayer().lootArray[i].getBitmap();
-				int x = lootSlot.getWidth()/2 - bmp.getWidth()/2;
-				int y = lootSlot.getHeight()/2 - bmp.getHeight()/2;
-				canvas.drawBitmap(bmp, 350+x+70*i, 380+y, null);
+
+		for (int i = 0; i < GameObjectManager.getPlayer().lootArray.length; i++) {
+			if (GameObjectManager.getPlayer().lootArray[i] == null)
+				canvas.drawBitmap(emptySlot, 350 + 70 * i, 380, null);
+			else
+				canvas.drawBitmap(lootSlot, 350 + 70 * i, 380, null);
+			if (GameObjectManager.getPlayer().lootArray[i] != null) {
+				Bitmap bmp = GameObjectManager.getPlayer().lootArray[i]
+						.getBitmap();
+				int x = lootSlot.getWidth() / 2 - bmp.getWidth() / 2;
+				int y = lootSlot.getHeight() / 2 - bmp.getHeight() / 2;
+				canvas.drawBitmap(bmp, 350 + x + 70 * i, 380 + y, null);
 			}
 		}
-
 
 		if (!displayLevelID) {
 			p.setColor(Color.GREEN);
@@ -189,35 +191,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
-	
 	public boolean onTouchEvent(MotionEvent event) {
-		
-	    final int maskedAction = MotionEventCompat.getActionMasked(event); 
 
-		if(maskedAction == MotionEvent.ACTION_POINTER_DOWN ){
-			int pointerIndex = MotionEventCompat.getActionIndex(event); 
-		    float x = MotionEventCompat.getX(event, pointerIndex); 
-		    float y = MotionEventCompat.getY(event, pointerIndex); 
-		    float nY = scaleY * 1.0f;
+		final int maskedAction = MotionEventCompat.getActionMasked(event);
+
+		if (maskedAction == MotionEvent.ACTION_POINTER_DOWN) {
+			int pointerIndex = MotionEventCompat.getActionIndex(event);
+			float x = MotionEventCompat.getX(event, pointerIndex);
+			float y = MotionEventCompat.getY(event, pointerIndex);
+			float nY = scaleY * 1.0f;
 			x = x / scaleX;
 			y = y / nY;
 
-		    manageLootSlots(x, y);
+			manageLootSlots(x, y);
 		}
 
-		if(maskedAction == MotionEvent.ACTION_MOVE || maskedAction == MotionEvent.ACTION_DOWN){
-			int pointerIndex = MotionEventCompat.getActionIndex(event); 
+		if (maskedAction == MotionEvent.ACTION_MOVE
+				|| maskedAction == MotionEvent.ACTION_DOWN) {
+			int pointerIndex = MotionEventCompat.getActionIndex(event);
 			float x = MotionEventCompat.getX(event, pointerIndex);
 			float y = MotionEventCompat.getY(event, pointerIndex);
-			
+
 			float nY = scaleY * 1.0f;
 
 			x = x / scaleX;
 			y = y / nY;
-			
+
 			manageLootSlots(x, y);
 
-			if(x <= 180 && x >= 20 && y <= 470 && y >= 308) {
+			if (x <= 180 && x >= 20 && y <= 470 && y >= 308) {
 				knobX = x - knob.getWidth() / 2;
 				knobY = y - knob.getHeight() / 2;
 
@@ -228,15 +230,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				dY = dY / 8;
 
 				GameObjectManager.getPlayer().setTargetVelocity(dX, dY);
-			}else{
+			} else {
 				GameObjectManager.getPlayer().setUpdate(false);
 				knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
-				knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
+				knobY = 320 + (joystick.getHeight() / 2)
+						- (knob.getHeight() / 2);
 			}
 
 		}
 
-		if(event.getAction() == MotionEvent.ACTION_UP) {
+		if (event.getAction() == MotionEvent.ACTION_UP) {
 			knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 			knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
 			GameObjectManager.getPlayer().setUpdate(false);
@@ -246,53 +249,51 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		invalidate();
 		return true;
 	}
-	
 
-	
-	private void manageLootSlots(float x, float y){
-		if(x >= 350 && x <= 400 && y >= 380 && y <= 430){
+	private void manageLootSlots(float x, float y) {
+		if (x >= 350 && x <= 400 && y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[0];
-			if(loot instanceof HealthPack){
+			if (loot instanceof HealthPack) {
 				HealthPack hp = (HealthPack) loot;
 				GameObjectManager.getPlayer().incHp(hp.getHp());
 				GameObjectManager.getPlayer().lootArray[0] = null;
 			}
-			if(loot instanceof SlowTimePack){
+			if (loot instanceof SlowTimePack) {
 				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
 				GameObjectManager.getPlayer().lootArray[0] = null;
 			}
-		
+
 		}
-		if(x >= 420 && x <= 470 && y >= 380 && y <= 430){
+		if (x >= 420 && x <= 470 && y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[1];
-			if(loot instanceof HealthPack){
+			if (loot instanceof HealthPack) {
 				HealthPack hp = (HealthPack) loot;
 				GameObjectManager.getPlayer().incHp(hp.getHp());
 				GameObjectManager.getPlayer().lootArray[1] = null;
 			}
-			if(loot instanceof SlowTimePack){
+			if (loot instanceof SlowTimePack) {
 				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
 				GameObjectManager.getPlayer().lootArray[1] = null;
 			}
 		}
-		if(x >= 490 && x <= 540 && y >= 380 && y <= 430){
+		if (x >= 490 && x <= 540 && y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[2];
-			if(loot instanceof HealthPack){
+			if (loot instanceof HealthPack) {
 				HealthPack hp = (HealthPack) loot;
 				GameObjectManager.getPlayer().incHp(hp.getHp());
 				GameObjectManager.getPlayer().lootArray[2] = null;
 			}
-			if(loot instanceof SlowTimePack){
+			if (loot instanceof SlowTimePack) {
 				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
 				GameObjectManager.getPlayer().lootArray[2] = null;
 			}
 		}
 	}
-	
-	private void resetGameState(){
+
+	private void resetGameState() {
 		GameObjectManager.clear();
 		GameObjectManager.setSlowTime(false);
 		levelID = 1;
@@ -300,48 +301,58 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		level.setFinished(false);
 		level.startLevel(levelID);
 		GameObjectManager.getPlayer().init();
-		GameObjectManager.getPlayer().setPosition(new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2));
-		GameObjectManager.getPlayer().getTargetPosition().set(GameObjectManager.getPlayer().getPosition().x, 
-				GameObjectManager.getPlayer().getPosition().y);
-		
+		GameObjectManager.getPlayer().setPosition(
+				new Vector2f(GameView.WIDTH / 2, GameView.HEIGHT / 2));
+		GameObjectManager
+				.getPlayer()
+				.getTargetPosition()
+				.set(GameObjectManager.getPlayer().getPosition().x,
+						GameObjectManager.getPlayer().getPosition().y);
+
 		okToRestartMP = true;
 		displayLevelID = false;
 		timer = 0;
-		
+
 		game.resume();
-		
+
 		if (gwMusicState) {
 			if (mp == null)
 				mp = new MusicPlayer(context);
 		}
-	
+
 	}
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		start();
+		System.out.println("q12surfacecreated");
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
+		System.out.println("q12surfacechanged");
 
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		//stop();
+		System.out.println("q12surfacedestroyed");
+		sdestroyed = true;
+		// stop();
 	}
 
 	public void start() {
 		game.start();
 		GameObjectManager.getPlayer().init();
-		
-		//GameObjectManager.getPlayer().setPosition(GameActivity.savedPos);
+		System.out.println("q12GWstart");
+
+		// GameObjectManager.getPlayer().setPosition(GameActivity.savedPos);
 	}
 
 	public void stop() {
 		GameObjectManager.clear();
+		System.out.println("q12GWstop");
 		if (gwMusicState) {
 			MusicPlayer.stop();
 		}
@@ -349,7 +360,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void pause() {
-		
+		System.out.println("q12GWpause");
+
 		okToRestartMP = false;
 		if (gwMusicState) {
 			MusicPlayer.pause();
@@ -358,17 +370,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void resume() {
+		System.out.println("q12GWresume");
 		okToRestartMP = true;
 		if (gwMusicState) {
 			MusicPlayer.resume();
 		}
 		game.resume();
 	}
-	
-	
+
 	public void textBox(final String title, final String msg,
-			final String positiveBtn, final String negativeBtn){
-		
+			final String positiveBtn, final String negativeBtn) {
+
 		final GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
 			public void run() {
@@ -384,41 +396,49 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setView(input);
 
 				// Set up the buttons
-				builder.setPositiveButton(positiveBtn, new DialogInterface.OnClickListener() { 
-				    @Override
-				    public void onClick(DialogInterface dialog, int which) {
-				    	TCPClient tcp = new TCPClient();
-				    	if(TabMenu.playerName != null){
-				    		String[] querys = {"insert", 
-				    				TabMenu.playerName, 
-									GameObjectManager.getPlayer().getScore() + ""};
-							tcp.execute(querys);
-				    	}else{
-				    		String[] querys = {"insert", 
-									"Player", 
-									GameObjectManager.getPlayer().getScore() + ""};
-							tcp.execute(querys);
-				    	}
-				    	dialogBox("Score submitted!" ,
-								"What do you want to do?",
-								"Restart", "Main Menu");
-				    }
-				});
-				builder.setNegativeButton(negativeBtn, new DialogInterface.OnClickListener() {
-				    @Override
-				    public void onClick(DialogInterface dialog, int which) {
-				    	GameActivity ga2 = (GameActivity) context;
-						stop();
-						ga2.onBackPressed2();
-				    }
-				});
+				builder.setPositiveButton(positiveBtn,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								TCPClient tcp = new TCPClient();
+								if (TabMenu.playerName != null) {
+									String[] querys = {
+											"insert",
+											TabMenu.playerName,
+											GameObjectManager.getPlayer()
+													.getScore() + "" };
+									tcp.execute(querys);
+								} else {
+									String[] querys = {
+											"insert",
+											"Player",
+											GameObjectManager.getPlayer()
+													.getScore() + "" };
+									tcp.execute(querys);
+								}
+								dialogBox("Score submitted!",
+										"What do you want to do?", "Restart",
+										"Main Menu");
+							}
+						});
+				builder.setNegativeButton(negativeBtn,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								GameActivity ga2 = (GameActivity) context;
+								stop();
+								ga2.onBackPressed2();
+							}
+						});
 
 				builder.show();
 			}
 		});
-		
+
 	}
-	
+
 	/**
 	 * Creates a dialogbox on the screen with a title, message and two buttons
 	 * one button for yes and one for no
@@ -437,7 +457,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			final String negativeBtn) {
 
 		dialogBoxShowing = true;
-		
+
 		final GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
 			public void run() {
@@ -447,9 +467,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				TabMenu.db.openDB();
-				TabMenu.db.addHighscore(TabMenu.playerName,GameObjectManager.getPlayer().getScore());
+				TabMenu.db.addHighscore(TabMenu.playerName, GameObjectManager
+						.getPlayer().getScore());
 				TabMenu.db.closeDB();
-				
+
 				Builder builder = new AlertDialog.Builder(context);
 				builder.setCancelable(false);
 				builder.setTitle(title);
@@ -467,7 +488,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
 								dialogBoxShowing = false;
-								textBox("Submit to Global Leaderboard", "Enter name:", "Submit", "Cancel");
+								textBox("Submit to Global Leaderboard",
+										"Enter name:", "Submit", "Cancel");
 							}
 						});
 				builder.setPositiveButton(positiveBtn,
@@ -482,13 +504,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		});
 
 	}
-	
+
 	public void dialogBox(final String title, final String msg,
-			final String positiveBtn,
-			final String negativeBtn) {
+			final String positiveBtn, final String negativeBtn) {
 
 		dialogBoxShowing = true;
-		
+
 		final GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
 			public void run() {
@@ -496,7 +517,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				if (gwMusicState) {
 					MusicPlayer.stop();
 				}
-				
+
 				Builder builder = new AlertDialog.Builder(context);
 				builder.setCancelable(false);
 				builder.setTitle(title);
