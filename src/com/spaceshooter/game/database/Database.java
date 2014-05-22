@@ -49,12 +49,7 @@ public class Database {
 			cursor = myDb.getRow(1);
 		}
 
-		// TEMPORARY FIX IF PLAYER IS NULL
-		if (cursor != null && cursor.getCount() > 0
-				&& GameObjectManager.getPlayer() == null) {
-			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), "Player1", 0);
-			cursor = myDb.getRow(1);
-		}
+		
 	}
 
 	public void addHighscore(String playerName, int highscore) {

@@ -61,8 +61,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private MusicPlayer mp;
 	private Paint p = new Paint();
 	
-	private Semaphore mutex = new Semaphore(1);
-	
 	public GameView(Context context) {
 		super(context);
 		this.context = context;
@@ -89,7 +87,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void init(){
 		GameActivity ga = (GameActivity) context;
-		gwMusicState = ga.musicState;
+		gwMusicState = TabMenu.musicState;
 		mp = null;
 		musicStartTimer = 0;
 		
@@ -106,8 +104,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
-		
-		
+
 	}
 
 	public void tick(float dt) {
@@ -176,21 +173,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			canvas.drawBitmap(emptySlot, 350+70*i, 380, null);
 		
 
-		if(GameObjectManager.getPlayer().getLoots().size() != 0){
-			for(Integer i : GameObjectManager.getPlayer().getLoots().keySet()){
-				canvas.drawBitmap(lootSlot, 350+70*i, 380, null);
-				if(GameObjectManager.getPlayer().getLoots().get(i) != null){
-					Bitmap bmp = GameObjectManager.getPlayer().getLoots().get(i).getBitmap();
-					int x = lootSlot.getWidth()/2 - bmp.getWidth()/2;
-					int y = lootSlot.getHeight()/2 - bmp.getHeight()/2;
-					canvas.drawBitmap(bmp, 350+x+70*i, 380+y, null);
-				}
+		for(int i = 0; i < GameObjectManager.getPlayer().lootArray.length; i++){
+			canvas.drawBitmap(lootSlot, 350+70*i,380, null);
+			if(GameObjectManager.getPlayer().lootArray[i] != null){
+				Bitmap bmp = GameObjectManager.getPlayer().lootArray[i].getBitmap();
+				int x = lootSlot.getWidth()/2 - bmp.getWidth()/2;
+				int y = lootSlot.getHeight()/2 - bmp.getHeight()/2;
+				canvas.drawBitmap(bmp, 350+x+70*i, 380+y, null);
 			}
 		}
-		
-		
-		
-		
+
 
 		if (!displayLevelID) {
 			p.setColor(Color.GREEN);
@@ -261,91 +253,43 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	private void manageLootSlots(float x, float y){
 		if(x >= 350 && x <= 400 && y >= 380 && y <= 430){
-			Loot loot = GameObjectManager.getPlayer().getLoots().get(0);
+			Loot loot = GameObjectManager.getPlayer().lootArray[0];
 			if(loot instanceof HealthPack){
 				HealthPack hp = (HealthPack) loot;
 				GameObjectManager.getPlayer().incHp(hp.getHp());
-				try {
-					mutex.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				hp.getBitmap().recycle();
-				GameObjectManager.getPlayer().getLoots().remove(0);
-				mutex.release();
-				GameObjectManager.getPlayer().lootCounter = 0;
+				GameObjectManager.getPlayer().lootArray[0] = null;
 			}
 			if(loot instanceof SlowTimePack){
 				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
-				try {
-					mutex.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				st.getBitmap().recycle();
-				GameObjectManager.getPlayer().getLoots().remove(0);
-				mutex.release();
-				GameObjectManager.getPlayer().lootCounter = 0;
+				GameObjectManager.getPlayer().lootArray[0] = null;
 			}
 		
 		}
 		if(x >= 420 && x <= 470 && y >= 380 && y <= 430){
-			Loot loot = GameObjectManager.getPlayer().getLoots().get(1);
+			Loot loot = GameObjectManager.getPlayer().lootArray[1];
 			if(loot instanceof HealthPack){
 				HealthPack hp = (HealthPack) loot;
 				GameObjectManager.getPlayer().incHp(hp.getHp());
-				try {
-					mutex.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				hp.getBitmap().recycle();
-				GameObjectManager.getPlayer().getLoots().remove(1);
-				mutex.release();
-				GameObjectManager.getPlayer().lootCounter = 1;
+				GameObjectManager.getPlayer().lootArray[1] = null;
 			}
 			if(loot instanceof SlowTimePack){
 				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
-				try {
-					mutex.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				st.getBitmap().recycle();
-				GameObjectManager.getPlayer().getLoots().remove(1);
-				mutex.release();
-				GameObjectManager.getPlayer().lootCounter = 1;
+				GameObjectManager.getPlayer().lootArray[1] = null;
 			}
 		}
 		if(x >= 490 && x <= 540 && y >= 380 && y <= 430){
-			Loot loot = GameObjectManager.getPlayer().getLoots().get(2);
+			Loot loot = GameObjectManager.getPlayer().lootArray[2];
 			if(loot instanceof HealthPack){
 				HealthPack hp = (HealthPack) loot;
 				GameObjectManager.getPlayer().incHp(hp.getHp());
-				try {
-					mutex.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				hp.getBitmap().recycle();
-				GameObjectManager.getPlayer().getLoots().remove(2);
-				mutex.release();
-				GameObjectManager.getPlayer().lootCounter = 2;
+				GameObjectManager.getPlayer().lootArray[2] = null;
 			}
 			if(loot instanceof SlowTimePack){
 				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
-				try {
-					mutex.acquire();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				st.getBitmap().recycle();
-				GameObjectManager.getPlayer().getLoots().remove(2);
-				mutex.release();
-				GameObjectManager.getPlayer().lootCounter = 2;
+				GameObjectManager.getPlayer().lootArray[2] = null;
 			}
 		}
 	}
@@ -446,9 +390,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				    @Override
 				    public void onClick(DialogInterface dialog, int which) {
 				    	TCPClient tcp = new TCPClient();
-				    	if(ga.playerName != null){
+				    	if(TabMenu.playerName != null){
 				    		String[] querys = {"insert", 
-				    				ga.playerName, 
+				    				TabMenu.playerName, 
 									GameObjectManager.getPlayer().getScore() + ""};
 							tcp.execute(querys);
 				    	}else{
@@ -505,7 +449,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 
 				TabMenu.db.openDB();
-				TabMenu.db.addHighscore(ga.playerName,GameObjectManager.getPlayer().getScore());
+				TabMenu.db.addHighscore(TabMenu.playerName,GameObjectManager.getPlayer().getScore());
 				TabMenu.db.closeDB();
 				
 				Builder builder = new AlertDialog.Builder(context);
