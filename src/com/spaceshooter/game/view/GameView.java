@@ -169,12 +169,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawBitmap(joystick, 40, 320, null);
 		canvas.drawBitmap(knob, knobX, knobY, null);
 		
-		for(int i = 0; i < 3; i++)
-			canvas.drawBitmap(emptySlot, 350+70*i, 380, null);
-		
-
 		for(int i = 0; i < GameObjectManager.getPlayer().lootArray.length; i++){
-			canvas.drawBitmap(lootSlot, 350+70*i,380, null);
+			if(GameObjectManager.getPlayer().lootArray[i] == null)
+				canvas.drawBitmap(emptySlot, 350+70*i,380, null);
+			else canvas.drawBitmap(lootSlot, 350+70*i,380, null);
 			if(GameObjectManager.getPlayer().lootArray[i] != null){
 				Bitmap bmp = GameObjectManager.getPlayer().lootArray[i].getBitmap();
 				int x = lootSlot.getWidth()/2 - bmp.getWidth()/2;
