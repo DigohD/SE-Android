@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.startmenu.TabMenu;
 import com.spaceshooter.game.util.BitmapHandler;
 import com.spaceshooter.game.util.SoundPlayer;
 import com.spaceshooter.game.util.Vector2f;
@@ -56,6 +57,9 @@ public class GameActivity extends Activity {
 		setContentView(invView);
 
 		new SoundPlayer(this);
+		if (TabMenu.helpShown == 0) {
+			TabMenu.helpDialog(this);
+		}
 	}
 
 	private void exitDialog() {
@@ -136,8 +140,8 @@ public class GameActivity extends Activity {
 		saveState();
 
 	}
-	
-	private void saveState(){
+
+	private void saveState() {
 		if (!GameView.dialogBoxShowing) {
 			exitDialog();
 			try {

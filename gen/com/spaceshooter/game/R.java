@@ -568,8 +568,8 @@ containing a value of this type.
         public static final int buttonClearHighScore=0x7f07001e;
         public static final int buttonDonate=0x7f070015;
         public static final int buttonHelp=0x7f070024;
-        public static final int buttonPlay=0x7f070023;
-        public static final int buttonPlayer=0x7f070022;
+        public static final int buttonPlay=0x7f070022;
+        public static final int buttonPlayer=0x7f070023;
         public static final int buttonResetAll=0x7f070014;
         public static final int buttonResetSettings=0x7f07001d;
         public static final int buttonRestart=0x7f07001f;
@@ -741,7 +741,8 @@ containing a value of this type.
         public static final int donate=0x7f05002f;
         public static final int gameId=0x7f050022;
         public static final int globalHighscore=0x7f050030;
-        public static final int help=0x7f05003a;
+        public static final int help=0x7f05003b;
+        public static final int help_message=0x7f050037;
         public static final int highScore=0x7f050032;
         public static final int high_score_list_no_items=0x7f05002a;
         public static final int menuText=0x7f05002d;
@@ -752,18 +753,18 @@ containing a value of this type.
         public static final int quit=0x7f05002e;
         public static final int resetHighScore=0x7f050033;
         public static final int resetSettings=0x7f050035;
-        public static final int restartApp=0x7f050038;
+        public static final int restartApp=0x7f050039;
         public static final int saving=0x7f050027;
         public static final int selectPlayer=0x7f050034;
-        public static final int sharedpreference_file_key=0x7f050037;
-        public static final int sharedpreferences_default_player_name=0x7f050039;
+        public static final int sharedpreference_file_key=0x7f050038;
+        public static final int sharedpreferences_default_player_name=0x7f05003a;
         public static final int showScores=0x7f050026;
         public static final int submit=0x7f050021;
         /**  Text on a placeholder buy button when Google Play services is not
          available or up-to-date 
          */
         public static final int wallet_buy_button_place_holder=0x7f05001f;
-        public static final int welcomeMessage=0x7f050036;
+        public static final int welcome_message=0x7f050036;
     }
     public static final class style {
         /** 

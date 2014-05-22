@@ -22,7 +22,8 @@
     <string name="resetHighScore">Reset Highscores</string>
     <string name="selectPlayer">Select player</string>
     <string name="resetSettings">Reset settings</string>
-    <string name="welcomeMessage">Welcome to an adventure like nothing else. Fly through the depths of space in the hunt for the answer to life, the universe and everything. We are sure that your findings will make you speachless.</string>
+    <string name="welcome_message">Welcome to an adventure like nothing else. Fly through the depths of space in the hunt for the answer to life, the universe and everything. We are sure that your findings will make you speachless.</string>
+     <string name="help_message">Learning by doing (for now)</string>
     <string name="sharedpreference_file_key">com.spaceshooter.game.preferences.private</string>
     <string name="restartApp">Restart app</string>
     <string name="sharedpreferences_default_player_name">NeumanNobody</string>

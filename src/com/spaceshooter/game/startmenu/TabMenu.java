@@ -28,15 +28,16 @@ import com.spaceshooter.game.R;
 import com.spaceshooter.game.database.Database;
 
 public class TabMenu extends Activity {
-	SharedPreferences sp;
+	public static SharedPreferences sp;
 	boolean dialogOpen = false;
-	public int starts;
+
 	public static Database db;
 	public TabHost th;
 
-	
-	public static boolean musicState, sfxState; // false if music shouldn't be played and true
-	// if it should
+	public int starts;
+	public static int helpShown;
+	public static boolean musicState;
+	public static boolean sfxState;
 	public static String playerName;
 
 	@Override
@@ -46,6 +47,7 @@ public class TabMenu extends Activity {
 		getSettings();
 		Editor editor = sp.edit();
 		editor.putInt("starts", starts);
+		editor.putInt("helpShown", helpShown);
 		editor.putString("playerName", playerName);
 		editor.putBoolean("musicState", musicState);
 		editor.putBoolean("sfxState", sfxState);
@@ -106,6 +108,20 @@ public class TabMenu extends Activity {
 		db.closeDB();
 	}
 
+	public static void helpDialog(Context context) {
+		Builder builder = new AlertDialog.Builder(context);
+		builder.setCancelable(false);
+		builder.setTitle("Help");
+		builder.setMessage(R.string.help_message);
+		builder.setNegativeButton("Thank you!", new OnClickListener() {
+			public void onClick(DialogInterface arg0, int arg1) {
+				TabMenu.helpShown++;
+				TabMenu.writeSettings("helpShown", TabMenu.helpShown);
+			}
+		});
+		builder.create().show();
+	}
+
 	// Exit dialog
 	private void exitDialog() {
 		Builder builder = new AlertDialog.Builder(this);
@@ -130,7 +146,7 @@ public class TabMenu extends Activity {
 		Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false);
 		builder.setTitle("Welcome to Spaceshooter Zero!");
-		builder.setMessage(R.string.welcomeMessage);
+		builder.setMessage(R.string.welcome_message);
 		builder.setNegativeButton("Thank you!", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
 				playerDialog();
@@ -172,8 +188,9 @@ public class TabMenu extends Activity {
 		Intent intent = new Intent(this, GameActivity.class);
 		startActivity(intent);
 	}
-	public void help(View view){
-		
+
+	public void help(View view) {
+		helpDialog(this);
 	}
 
 	public void globalHighscore(View view) {
@@ -223,7 +240,8 @@ public class TabMenu extends Activity {
 					editor.putString("playerName", playerName);
 					editor.commit();
 				} else {
-					Toast.makeText(TabMenu.this, "The name was not valid and was not changed",
+					Toast.makeText(TabMenu.this,
+							"The name was not valid and was not changed",
 							Toast.LENGTH_LONG).show();
 				}
 
@@ -246,6 +264,18 @@ public class TabMenu extends Activity {
 		updateView();
 	}
 
+	public static void writeSettings(String key, int value) {
+		Editor editor = TabMenu.sp.edit();
+		editor.putInt(key, value);
+		editor.commit();
+	}
+
+	public static void writeSettings(String key, boolean value) {
+		Editor editor = TabMenu.sp.edit();
+		editor.putBoolean(key, value);
+		editor.commit();
+	}
+
 	public void getSettings() {
 		sp = getSharedPreferences(
 				getString(R.string.sharedpreference_file_key),
@@ -253,6 +283,7 @@ public class TabMenu extends Activity {
 		musicState = sp.getBoolean("musicState", true);
 		sfxState = sp.getBoolean("sfxState", true);
 		starts = sp.getInt("starts", 0);
+		helpShown = sp.getInt("helpShown", 0);
 		playerName = sp.getString("playerName",
 				getString(R.string.sharedpreferences_default_player_name));
 	}
