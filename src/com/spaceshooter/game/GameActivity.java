@@ -27,12 +27,12 @@ public class GameActivity extends Activity {
 
 	public boolean isInvView;
 
-	public static Vector2f savedPos = new Vector2f(GameView.WIDTH / 2,
-			GameView.HEIGHT / 2);
+	public static Vector2f savedPos;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		savedPos = new Vector2f(GameView.WIDTH / 2, GameView.HEIGHT / 2);
 		GameView.dialogBoxShowing = false;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -75,9 +75,9 @@ public class GameActivity extends Activity {
 		});
 		builder.setPositiveButton("Main Menu", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
-				
 				gameView.stop();
 				GameActivity.super.onBackPressed();
+
 			}
 		});
 
