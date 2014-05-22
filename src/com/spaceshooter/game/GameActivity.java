@@ -24,14 +24,16 @@ public class GameActivity extends Activity {
 	SharedPreferences sp;
 	private GameView gameView;
 	private InventoryView invView;
-	
+
 	public boolean isInvView;
-	
-	public static Vector2f savedPos = new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2);
+
+	public static Vector2f savedPos = new Vector2f(GameView.WIDTH / 2,
+			GameView.HEIGHT / 2);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		GameView.dialogBoxShowing = false;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -48,7 +50,7 @@ public class GameActivity extends Activity {
 		new BitmapHandler(this);
 
 		GameObjectManager go = new GameObjectManager();
-		
+
 		isInvView = true;
 		invView = new InventoryView(this);
 		setContentView(invView);
@@ -57,7 +59,7 @@ public class GameActivity extends Activity {
 	}
 
 	private void exitDialog() {
-		if(gameView != null){
+		if (gameView != null) {
 			gameView.dialogBoxShowing = true;
 			gameView.pause();
 		}
@@ -121,44 +123,44 @@ public class GameActivity extends Activity {
 			exitDialog();
 	}
 
-	public void onStop(){
-		 super.onStop();
-		 System.out.println("q12STOP");
-		 if(!GameView.dialogBoxShowing){
-			 exitDialog();
-			 try {
+	public void onStop() {
+		super.onStop();
+		System.out.println("q12STOP");
+		if (!GameView.dialogBoxShowing) {
+			exitDialog();
+			try {
 				Thread.sleep(20);
-			 } catch (InterruptedException e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
-			 }
-		 }
-		 GameObjectManager.removeGameObject(GameObjectManager.getPlayer().getEngine());
-		 savedPos = GameObjectManager.getPlayer().getPosition();
-		
-		
-	 }
-	
-	
-	 public void onPause(){
+			}
+		}
+		GameObjectManager.removeGameObject(GameObjectManager.getPlayer()
+				.getEngine());
+		savedPos = GameObjectManager.getPlayer().getPosition();
+
+	}
+
+	public void onPause() {
 		super.onPause();
 		System.out.println("q12PAUSE");
-		 if(!GameView.dialogBoxShowing){
-			 exitDialog();
-			 try {
+		if (!GameView.dialogBoxShowing) {
+			exitDialog();
+			try {
 				Thread.sleep(20);
-			 } catch (InterruptedException e) {
+			} catch (InterruptedException e) {
 				e.printStackTrace();
-			 }
-		 }
-		 GameObjectManager.removeGameObject(GameObjectManager.getPlayer().getEngine());
-		 savedPos = GameObjectManager.getPlayer().getPosition();
-		
-	 }
-	 
-	 public void onResume(){
-		 super.onResume();
-		 System.out.println("q12RESUME");
+			}
+		}
+		GameObjectManager.removeGameObject(GameObjectManager.getPlayer()
+				.getEngine());
+		savedPos = GameObjectManager.getPlayer().getPosition();
+
+	}
+
+	public void onResume() {
+		super.onResume();
+		System.out.println("q12RESUME");
 		// gameView.resume();
-	 }
+	}
 
 }
