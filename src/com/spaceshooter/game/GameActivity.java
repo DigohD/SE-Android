@@ -75,7 +75,7 @@ public class GameActivity extends Activity {
 		});
 		builder.setPositiveButton("Main Menu", new OnClickListener() {
 			public void onClick(DialogInterface arg0, int arg1) {
-				
+				gameView.dialogBoxShowing = false;
 				gameView.stop();
 				GameActivity.super.onBackPressed();
 			}
@@ -126,23 +126,18 @@ public class GameActivity extends Activity {
 	public void onStop() {
 		super.onStop();
 		System.out.println("q12STOP");
-		// if (!GameView.dialogBoxShowing) {
-		// exitDialog();
-		// try {
-		// Thread.sleep(20);
-		// } catch (InterruptedException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// GameObjectManager.removeGameObject(GameObjectManager.getPlayer()
-		// .getEngine());
-		// savedPos = GameObjectManager.getPlayer().getPosition();
+		saveState();
 
 	}
 
 	public void onPause() {
 		super.onPause();
 		System.out.println("q12PAUSE");
+		saveState();
+
+	}
+	
+	private void saveState(){
 		if (!GameView.dialogBoxShowing) {
 			exitDialog();
 			try {
@@ -156,7 +151,6 @@ public class GameActivity extends Activity {
 					.getEngine());
 		}
 		savedPos = GameObjectManager.getPlayer().getPosition();
-
 	}
 
 	public void onResume() {

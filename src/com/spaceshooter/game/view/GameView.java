@@ -478,7 +478,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setNegativeButton(negativeBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
-//								dialogBoxShowing = false;
+								dialogBoxShowing = false;
 								GameActivity ga2 = (GameActivity) context;
 								stop();
 								ga2.onBackPressed2();
