@@ -123,7 +123,17 @@ public class GameActivity extends Activity {
 
 	public void onStop(){
 		 super.onStop();
-		 System.out.println("STOP");
+		 System.out.println("q12STOP");
+		 if(!GameView.dialogBoxShowing){
+			 exitDialog();
+			 try {
+				Thread.sleep(20);
+			 } catch (InterruptedException e) {
+				e.printStackTrace();
+			 }
+		 }
+		 GameObjectManager.removeGameObject(GameObjectManager.getPlayer().getEngine());
+		 savedPos = GameObjectManager.getPlayer().getPosition();
 		
 		
 	 }
@@ -131,7 +141,7 @@ public class GameActivity extends Activity {
 	
 	 public void onPause(){
 		super.onPause();
-		System.out.println("PAUSE");
+		System.out.println("q12PAUSE");
 		 if(!GameView.dialogBoxShowing){
 			 exitDialog();
 			 try {
