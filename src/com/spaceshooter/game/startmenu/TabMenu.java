@@ -172,6 +172,9 @@ public class TabMenu extends Activity {
 		Intent intent = new Intent(this, GameActivity.class);
 		startActivity(intent);
 	}
+	public void help(View view){
+		
+	}
 
 	public void globalHighscore(View view) {
 		Intent intent = new Intent(this, LeaderBoardActivity.class);

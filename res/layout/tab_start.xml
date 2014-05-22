@@ -21,11 +21,11 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonPlay"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textPlayingAs"
         android:drawableTop="@drawable/ic_action_web_site"
         android:maxWidth="128dp"
-        android:minHeight="150dp"
         android:minWidth="128dp"
         android:onClick="globalHighscore"
         android:text="@string/globalHighscore" />
@@ -35,11 +35,11 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/buttonPlay"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/textPlayingAs"
         android:drawableTop="@drawable/ic_action_user"
         android:maxWidth="128dp"
-        android:minHeight="150dp"
         android:minWidth="128dp"
         android:onClick="selectPlayer"
         android:text="@string/changePlayerName" />
@@ -52,9 +52,21 @@
         android:layout_toLeftOf="@+id/buttonPlayer"
         android:layout_toRightOf="@+id/buttonStartHighScore"
         android:drawableTop="@drawable/ic_action_play"
-        android:minHeight="150dp"
+        android:minHeight="128dp"
         android:minWidth="150dp"
         android:onClick="play"
         android:text="@string/play" />
+
+    <Button
+        android:id="@+id/buttonHelp"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonPlay"
+        android:layout_toLeftOf="@+id/buttonPlayer"
+        android:layout_toRightOf="@+id/buttonStartHighScore"
+        android:drawableTop="@drawable/ic_action_view_as_list"
+        android:onClick="help"
+        android:text="@string/help" />
 
 </RelativeLayout>

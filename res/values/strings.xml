@@ -26,5 +26,6 @@
     <string name="sharedpreference_file_key">com.spaceshooter.game.preferences.private</string>
     <string name="restartApp">Restart app</string>
     <string name="sharedpreferences_default_player_name">NeumanNobody</string>
+    <string name="help">Help</string>
 
 </resources>
