@@ -126,17 +126,17 @@ public class GameActivity extends Activity {
 	public void onStop() {
 		super.onStop();
 		System.out.println("q12STOP");
-		if (!GameView.dialogBoxShowing) {
-			exitDialog();
-			try {
-				Thread.sleep(20);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-		GameObjectManager.removeGameObject(GameObjectManager.getPlayer()
-				.getEngine());
-		savedPos = GameObjectManager.getPlayer().getPosition();
+		// if (!GameView.dialogBoxShowing) {
+		// exitDialog();
+		// try {
+		// Thread.sleep(20);
+		// } catch (InterruptedException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// GameObjectManager.removeGameObject(GameObjectManager.getPlayer()
+		// .getEngine());
+		// savedPos = GameObjectManager.getPlayer().getPosition();
 
 	}
 
@@ -151,8 +151,10 @@ public class GameActivity extends Activity {
 				e.printStackTrace();
 			}
 		}
-		GameObjectManager.removeGameObject(GameObjectManager.getPlayer()
-				.getEngine());
+		if (gameView.sdestroyed) {
+			GameObjectManager.removeGameObject(GameObjectManager.getPlayer()
+					.getEngine());
+		}
 		savedPos = GameObjectManager.getPlayer().getPosition();
 
 	}
