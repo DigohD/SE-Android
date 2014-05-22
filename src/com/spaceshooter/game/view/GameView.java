@@ -175,12 +175,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		for(int i = 0; i < 3; i++)
 			canvas.drawBitmap(emptySlot, 350+70*i, 380, null);
 		
-		try {
-			mutex.acquire();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		if(GameObjectManager.getPlayer().getLoots().size() != 0){
 			for(Integer i : GameObjectManager.getPlayer().getLoots().keySet()){
 				canvas.drawBitmap(lootSlot, 350+70*i, 380, null);
@@ -192,7 +187,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				}
 			}
 		}
-		mutex.release();
+		
+		
+		
+		
 
 		if (!displayLevelID) {
 			p.setColor(Color.GREEN);
