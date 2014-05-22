@@ -43,6 +43,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	private int timer = 0;
 	private int musicStartTimer;
 	private int levelTime = 30;
+	private int slotOffset = 600;
 	private static int levelID;
 
 	private float scaleX, scaleY;
@@ -172,15 +173,15 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		for (int i = 0; i < GameObjectManager.getPlayer().lootArray.length; i++) {
 			if (GameObjectManager.getPlayer().lootArray[i] == null)
-				canvas.drawBitmap(emptySlot, 350 + 70 * i, 380, null);
+				canvas.drawBitmap(emptySlot, slotOffset + 70 * i, 380, null);
 			else
-				canvas.drawBitmap(lootSlot, 350 + 70 * i, 380, null);
+				canvas.drawBitmap(lootSlot, slotOffset + 70 * i, 380, null);
 			if (GameObjectManager.getPlayer().lootArray[i] != null) {
 				Bitmap bmp = GameObjectManager.getPlayer().lootArray[i]
 						.getBitmap();
 				int x = lootSlot.getWidth() / 2 - bmp.getWidth() / 2;
 				int y = lootSlot.getHeight() / 2 - bmp.getHeight() / 2;
-				canvas.drawBitmap(bmp, 350 + x + 70 * i, 380 + y, null);
+				canvas.drawBitmap(bmp, slotOffset + x + 70 * i, 380 + y, null);
 			}
 		}
 
@@ -251,7 +252,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	private void manageLootSlots(float x, float y) {
-		if (x >= 350 && x <= 400 && y >= 380 && y <= 430) {
+		if (x >= slotOffset && x <= slotOffset+50 && y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[0];
 			if (loot instanceof HealthPack) {
 				HealthPack hp = (HealthPack) loot;
@@ -265,7 +266,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 
 		}
-		if (x >= 420 && x <= 470 && y >= 380 && y <= 430) {
+		if (x >= slotOffset+70 && x <= slotOffset+70+50 && y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[1];
 			if (loot instanceof HealthPack) {
 				HealthPack hp = (HealthPack) loot;
@@ -278,7 +279,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				GameObjectManager.getPlayer().lootArray[1] = null;
 			}
 		}
-		if (x >= 490 && x <= 540 && y >= 380 && y <= 430) {
+		if (x >= slotOffset+70*2 && x <= slotOffset+(70*2)+50 && y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[2];
 			if (loot instanceof HealthPack) {
 				HealthPack hp = (HealthPack) loot;
@@ -324,6 +325,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
+		sdestroyed = false;
 		start();
 		System.out.println("q12surfacecreated");
 	}
