@@ -154,7 +154,7 @@ public class GameObjectManager {
 		}
 	}
 	
-	int timer2 = 0;
+
 	/**
 	 * Updates the state of all tickable gameobjects
 	 * @param dt time step variable used for physics calculations
@@ -168,14 +168,8 @@ public class GameObjectManager {
 		
 		tToAdd.clear();
 		dToAdd.clear();
-		
-		if(timer2 <= 7500) timer2++;
-		else timer2 = 0;
-		
-		if(timer2 % 3 == 0){
-			removeDeadGameObjects();
-		}
-		
+	
+		removeDeadGameObjects();
 		CollisionManager.collisionCheck(player);
 		
 		if(player.isLive()){

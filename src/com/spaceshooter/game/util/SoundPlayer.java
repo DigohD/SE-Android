@@ -7,6 +7,8 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
 
+import com.spaceshooter.game.startmenu.TabMenu;
+
 public class SoundPlayer {
 
 	private static SoundPool soundPool;
@@ -62,7 +64,7 @@ public class SoundPlayer {
 	}
 
 	public static void playSound(SoundID ID) {
-		if (loaded) {
+		if (loaded && TabMenu.sfxState) {
 			soundPool.play(sounds.get(ID), 1.0f, 1.0f, 1, 0, 1f);
 		}
 	}

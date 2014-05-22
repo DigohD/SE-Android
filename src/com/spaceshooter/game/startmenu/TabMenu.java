@@ -30,12 +30,14 @@ import com.spaceshooter.game.database.Database;
 public class TabMenu extends Activity {
 	SharedPreferences sp;
 	boolean dialogOpen = false;
-	public boolean musicState;
-	public boolean sfxState;
 	public int starts;
 	public static Database db;
 	public TabHost th;
-	public String playerName;
+
+	
+	public static boolean musicState, sfxState; // false if music shouldn't be played and true
+	// if it should
+	public static String playerName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +83,6 @@ public class TabMenu extends Activity {
 		th.addTab(creditsSpecs);
 		// Database
 		db = new Database(this);
-		db.openDB();
-		db.showHighscore();
-		db.closeDB();
 		if (starts == 0) {
 			welcomeDialog();
 		}
@@ -102,6 +101,9 @@ public class TabMenu extends Activity {
 		((ToggleButton) sfxToggle).setChecked(sfxState);
 		final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
 		playingAsText.setText("Playing as " + playerName);
+		db.openDB();
+		db.showHighscore();
+		db.closeDB();
 	}
 
 	// Exit dialog
