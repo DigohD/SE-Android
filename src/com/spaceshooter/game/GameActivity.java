@@ -88,27 +88,6 @@ public class GameActivity extends Activity {
 		builder.create().show();
 	}
 
-	private void exitDialogInv() {
-		invView.pause();
-		Builder builder = new AlertDialog.Builder(this);
-		builder.setCancelable(false);
-		builder.setTitle("Game Paused");
-		builder.setMessage("What do you want to do?");
-		builder.setNegativeButton("Resume Game", new OnClickListener() {
-			public void onClick(DialogInterface arg0, int arg1) {
-				invView.resume();
-			}
-		});
-		builder.setPositiveButton("Main Menu", new OnClickListener() {
-			public void onClick(DialogInterface arg0, int arg1) {
-				invView.stop();
-				GameActivity.super.onBackPressed();
-			}
-		});
-
-		builder.create().show();
-	}
-
 	public void goToGame() {
 		isInvView = false;
 		gameView = new GameView(this);
@@ -122,7 +101,7 @@ public class GameActivity extends Activity {
 	@Override
 	public void onBackPressed() {
 		if (isInvView)
-			exitDialogInv();
+			super.onBackPressed();
 		else
 			exitDialog();
 	}
@@ -130,14 +109,16 @@ public class GameActivity extends Activity {
 	public void onStop() {
 		super.onStop();
 		System.out.println("q12STOP");
-		saveState();
+		if(!isInvView)
+			saveState();
 
 	}
 
 	public void onPause() {
 		super.onPause();
 		System.out.println("q12PAUSE");
-		saveState();
+		if(!isInvView)
+			saveState();
 
 	}
 
