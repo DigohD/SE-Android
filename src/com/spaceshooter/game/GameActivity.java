@@ -119,7 +119,6 @@ public class GameActivity extends Activity {
 		System.out.println("q12PAUSE");
 		if(!isInvView)
 			saveState();
-
 	}
 
 	private void saveState() {

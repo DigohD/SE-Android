@@ -380,67 +380,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		game.resume();
 	}
 
-	public void textBox(final String title, final String msg,
-			final String positiveBtn, final String negativeBtn) {
-
-		final GameActivity ga = (GameActivity) context;
-		ga.runOnUiThread(new Runnable() {
-			public void run() {
-				Builder builder = new AlertDialog.Builder(context);
-				builder.setCancelable(false);
-				builder.setTitle(title);
-				builder.setMessage(msg);
-
-				// Set up the input
-				final EditText input = new EditText(context);
-				// Specify the type of input expected;
-				input.setInputType(InputType.TYPE_CLASS_TEXT);
-				builder.setView(input);
-
-				// Set up the buttons
-				builder.setPositiveButton(positiveBtn,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								TCPClient tcp = new TCPClient();
-								if (TabMenu.playerName != null) {
-									String[] querys = {
-											"insert",
-											TabMenu.playerName,
-											GameObjectManager.getPlayer()
-													.getScore() + "" };
-									tcp.execute(querys);
-								} else {
-									String[] querys = {
-											"insert",
-											"Player",
-											GameObjectManager.getPlayer()
-													.getScore() + "" };
-									tcp.execute(querys);
-								}
-								dialogBox("Score submitted!",
-										"What do you want to do?", "Restart",
-										"Main Menu");
-							}
-						});
-				builder.setNegativeButton(negativeBtn,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
-								GameActivity ga2 = (GameActivity) context;
-								stop();
-								ga2.onBackPressed2();
-							}
-						});
-
-				builder.show();
-			}
-		});
-
-	}
-
 	/**
 	 * Creates a dialogbox on the screen with a title, message and two buttons
 	 * one button for yes and one for no
@@ -490,8 +429,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
 								dialogBoxShowing = false;
-								textBox("Submit to Global Leaderboard",
-										"Enter name:", "Submit", "Cancel");
+								TCPClient tcp = new TCPClient();
+								if (TabMenu.playerName != null) {
+									String[] querys = {
+											"insert",
+											TabMenu.playerName,
+											GameObjectManager.getPlayer()
+													.getScore() + "" };
+									tcp.execute(querys);
+								} else {
+									String[] querys = {
+											"insert",
+											"Player",
+											GameObjectManager.getPlayer()
+													.getScore() + "" };
+									tcp.execute(querys);
+								}
+								dialogBox("Score submitted!",
+										"What do you want to do?", "Restart",
+										"Main Menu");
 							}
 						});
 				builder.setPositiveButton(positiveBtn,
