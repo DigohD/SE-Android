@@ -47,6 +47,26 @@ public class Mantis extends Enemy {
 		maxHp = 20f;
 		enemyPoints = 10;
 	}
+	
+
+	//for unit testing
+	public Mantis(Vector2f position, int width, int height) {
+		super(position);
+		
+		this.width = width;
+		this.height = height;
+		
+		rect = new Rect((int)position.x, (int)position.y, (int)position.x + width, (int)position.y + height);
+		emitter = new RadialEmitter(8, ParticleID.GreenBall, new Vector2f(0,0), new Vector2f(20f, 0f));
+		speedX = -25f;
+		speedY = 0;
+		
+		velocity = new Vector2f(speedX, speedY);
+		targetVelocity = new Vector2f(speedX,speedY);
+		hp = 20f;
+		maxHp = 20f;
+		enemyPoints = 10;
+	}
 
 	@Override
 	public void tick(float dt) {

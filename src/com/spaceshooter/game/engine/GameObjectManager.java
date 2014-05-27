@@ -41,10 +41,7 @@ public class GameObjectManager {
 	public static float slowtime = 0.35f;
 	
 	public GameObjectManager() {
-		tickableObjects = new ArrayList<Tickable>();
-		tToAdd = new ArrayList<Tickable>();
-		drawableObjects = new ArrayList<Drawable>();
-		dToAdd = new ArrayList<Drawable>();
+		initLists();
 		
 		if(player == null)
 			player = new Player(new Vector2f(GameView.WIDTH/2, GameView.HEIGHT/2));
@@ -54,6 +51,13 @@ public class GameObjectManager {
 		bg = new BackGround();
 		paint = new Paint();
 		slowTime = false;
+	}
+	
+	public static void initLists(){
+		tickableObjects = new ArrayList<Tickable>();
+		tToAdd = new ArrayList<Tickable>();
+		drawableObjects = new ArrayList<Drawable>();
+		dToAdd = new ArrayList<Drawable>();
 	}
 
 	public static void addGameObject(GameObject go){
@@ -103,11 +107,13 @@ public class GameObjectManager {
 			}
 			
 			drawableObjects.remove(d);
+			dToAdd.remove(d);
 		}
 		
 		if(go instanceof Tickable){
 			Tickable t = (Tickable) go;
 			tickableObjects.remove(t);
+			tToAdd.remove(t);
 		}
 		
 		if (go instanceof Enemy) {
@@ -141,7 +147,7 @@ public class GameObjectManager {
 	/**
 	 * Removes all gameobjects that has been marked as dead
 	 */
-	private void removeDeadGameObjects(){
+	public static void removeDeadGameObjects(){
 		for(int i = 0; i < tickableObjects.size(); i++){
 			Tickable t = tickableObjects.get(i);
 			GameObject go = null;
@@ -333,6 +339,22 @@ public class GameObjectManager {
 
 	public static Player getPlayer() {
 		return player;
+	}
+
+	public static List<Tickable> gettToAdd() {
+		return tToAdd;
+	}
+
+	public static List<Drawable> getdToAdd() {
+		return dToAdd;
+	}
+
+	public static List<Tickable> getTickableObjects() {
+		return tickableObjects;
+	}
+
+	public static List<Drawable> getDrawableObjects() {
+		return drawableObjects;
 	}
 
 }

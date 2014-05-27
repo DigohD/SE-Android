@@ -4,8 +4,17 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import com.spaceshooter.game.engine.CollisionManager;
+import com.spaceshooter.game.engine.GameObjectManager;
+import com.spaceshooter.game.object.Collideable;
+import com.spaceshooter.game.object.Drawable;
+import com.spaceshooter.game.object.Tickable;
 import com.spaceshooter.game.object.enemy.Enemy;
+import com.spaceshooter.game.object.enemy.Mantis;
 import com.spaceshooter.game.object.enemy.Predator;
+import com.spaceshooter.game.object.particle.ParticleID;
+import com.spaceshooter.game.object.particle.emitter.Emitter;
+import com.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import com.spaceshooter.game.object.projectile.Projectile;
 import com.spaceshooter.game.object.projectile.enemy.MantisProj;
 import com.spaceshooter.game.object.projectile.enemy.PredatorProj;
@@ -22,6 +31,49 @@ public class TestOperations extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
+	
+	public void testGameObjectManager(){
+		GameObjectManager.initLists();
+		
+		Enemy e = new Predator(new Vector2f(0,0), 40, 40);
+		Enemy e2 = new Mantis(new Vector2f(0,0), 40, 40);
+		
+		GameObjectManager.addGameObject(e);
+		GameObjectManager.addGameObject(e2);
+		
+		Tickable t = GameObjectManager.gettToAdd().get(0);
+		Drawable d = GameObjectManager.getdToAdd().get(0);
+		Collideable c = CollisionManager.getEnemies().get(0);
+		
+		Tickable t2 = GameObjectManager.gettToAdd().get(1);
+		Drawable d2 = GameObjectManager.getdToAdd().get(1);
+		Collideable c2 = CollisionManager.getEnemies().get(1);
+
+		assertEquals(t, e);
+		assertEquals(t2, e2);
+		assertEquals(d, e);
+		assertEquals(d2, e2);
+		assertEquals(c, e);
+		assertEquals(c2, e2);
+		
+		GameObjectManager.removeGameObject(e);
+		assertEquals(1, GameObjectManager.gettToAdd().size());
+		assertEquals(1, GameObjectManager.getdToAdd().size());
+		assertEquals(1, CollisionManager.getEnemies().size());
+		
+		GameObjectManager.removeGameObject(e2);
+		assertEquals(0, GameObjectManager.gettToAdd().size());
+		assertEquals(0, GameObjectManager.getdToAdd().size());
+		assertEquals(0, CollisionManager.getEnemies().size());
+		
+		Emitter em = new RadialEmitter(20, ParticleID.DUST,  new Vector2f(0f, 0f), new Vector2f(10f, 0f));
+		
+		GameObjectManager.addGameObject(em);
+		assertEquals(GameObjectManager.gettToAdd().get(0), em);
+		GameObjectManager.removeGameObject(em);
+		assertEquals(0, GameObjectManager.gettToAdd().size());
+	}
+	
 	
 	public void testCalculatePlayerScore(){
 		Enemy e = new Predator(new Vector2f(0,0), 40, 40);
