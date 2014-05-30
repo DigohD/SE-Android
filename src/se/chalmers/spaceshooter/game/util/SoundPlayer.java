@@ -2,7 +2,7 @@ package se.chalmers.spaceshooter.game.util;
 
 import java.util.HashMap;
 
-import se.chalmers.spaceshooter.startmenu.TabMenu;
+import se.chalmers.spaceshooter.menu.TabMenu;
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.SoundPool;

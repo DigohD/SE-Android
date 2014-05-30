@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.startmenu;
+package se.chalmers.spaceshooter.menu;
 
 import se.chalmers.spaceshooter.R;
 import se.chalmers.spaceshooter.game.GameActivity;
@@ -293,12 +293,6 @@ public class TabMenu extends Activity {
 		helpShown = sp.getInt("helpShown", 0);
 		playerName = sp.getString("playerName",
 				getString(R.string.sharedpreferences_default_player_name));
-	}
-
-	public void restartApp(View view) {
-		Intent intent = new Intent(this, Start.class);
-		startActivity(intent);
-		finish();
 	}
 
 	// Other

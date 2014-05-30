@@ -10,20 +10,15 @@
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="com.android.vending.CHECK_LICENSE" />
-    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
-     	
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ship"
         android:label="@string/app_name" >
         <activity
-            android:name="se.chalmers.spaceshooter.startmenu.Start"
+            android:name="se.chalmers.spaceshooter.menu.TabMenu"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name"
             android:screenOrientation="landscape" >
             <intent-filter>
@@ -33,20 +28,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="se.chalmers.spaceshooter.startmenu.TabMenu"
-            android:label="@string/app_name"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="landscape" >
-            <intent-filter>
-                <action android:name="android.intent.action.TABMENU" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name="se.chalmers.spaceshooter.leaderboard.LeaderBoardActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name"
-             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.GLOBALHIGHSCORE" />
@@ -56,8 +40,8 @@
         </activity>
         <activity
             android:name="se.chalmers.spaceshooter.game.GameActivity"
-            android:label="@string/app_name"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/app_name"
             android:theme="@style/Theme.NoBackground" >
             <intent-filter>
                 <action android:name="android.intent.action.GAME" />

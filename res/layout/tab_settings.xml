@@ -43,18 +43,6 @@
         android:textOn="Music on" />
 
     <Button
-        android:id="@+id/buttonRestart"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/buttonResetSettings"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/buttonResetSettings"
-        android:minWidth="160dp"
-        android:onClick="restartApp"
-        android:text="@string/restartApp" />
-
-    <Button
         android:id="@+id/buttonClearHighScore"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"

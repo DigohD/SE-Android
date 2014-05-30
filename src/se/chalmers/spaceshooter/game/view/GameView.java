@@ -11,7 +11,7 @@ import se.chalmers.spaceshooter.game.util.BitmapHandler;
 import se.chalmers.spaceshooter.game.util.MusicPlayer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import se.chalmers.spaceshooter.leaderboard.TCPClient;
-import se.chalmers.spaceshooter.startmenu.TabMenu;
+import se.chalmers.spaceshooter.menu.TabMenu;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;

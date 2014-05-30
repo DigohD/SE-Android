@@ -2,7 +2,7 @@ package se.chalmers.spaceshooter.leaderboard.database;
 
 import se.chalmers.spaceshooter.R;
 import se.chalmers.spaceshooter.game.GameObjectManager;
-import se.chalmers.spaceshooter.startmenu.TabMenu;
+import se.chalmers.spaceshooter.menu.TabMenu;
 import android.content.Context;
 import android.database.Cursor;
 import android.widget.TextView;

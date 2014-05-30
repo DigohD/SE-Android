@@ -6,7 +6,7 @@ import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import se.chalmers.spaceshooter.game.view.GameView;
 import se.chalmers.spaceshooter.game.view.InventoryView;
-import se.chalmers.spaceshooter.startmenu.TabMenu;
+import se.chalmers.spaceshooter.menu.TabMenu;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
