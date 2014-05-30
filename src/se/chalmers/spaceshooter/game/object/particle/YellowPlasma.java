@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.particle;
+package se.chalmers.spaceshooter.game.object.particle;
 
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.util.BitmapHandler;

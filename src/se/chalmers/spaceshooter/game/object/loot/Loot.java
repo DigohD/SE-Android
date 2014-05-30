@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.loot;
+package se.chalmers.spaceshooter.game.object.loot;
 
 import se.chalmers.spaceshooter.game.object.Collideable;
 import se.chalmers.spaceshooter.game.object.DynamicObject;

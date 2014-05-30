@@ -1,5 +1,6 @@
-package se.chalmers.spaceshooter.object.particle.emitter;
+package se.chalmers.spaceshooter.game.object.particle.emitter;
 
+import se.chalmers.spaceshooter.game.object.particle.Engine;
 import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.util.Randomizer;
 import se.chalmers.spaceshooter.game.util.Vector2f;

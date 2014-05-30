@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.spaceshooter.game;
+package se.chalmers.spaceshooter;
 
 public final class R {
     public static final class attr {
@@ -816,11 +816,11 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #AdsAttrs_adSize com.spaceshooter.game:adSize}</code></td><td>
+           <tr><td><code>{@link #AdsAttrs_adSize se.chalmers.spaceshooter:adSize}</code></td><td>
     The size of the ad.</td></tr>
-           <tr><td><code>{@link #AdsAttrs_adSizes com.spaceshooter.game:adSizes}</code></td><td>
+           <tr><td><code>{@link #AdsAttrs_adSizes se.chalmers.spaceshooter:adSizes}</code></td><td>
     A comma-separated list of the supported ad sizes.</td></tr>
-           <tr><td><code>{@link #AdsAttrs_adUnitId com.spaceshooter.game:adUnitId}</code></td><td> The ad unit ID.</td></tr>
+           <tr><td><code>{@link #AdsAttrs_adUnitId se.chalmers.spaceshooter:adUnitId}</code></td><td> The ad unit ID.</td></tr>
            </table>
            @see #AdsAttrs_adSize
            @see #AdsAttrs_adSizes
@@ -846,7 +846,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:adSize
+          @attr name se.chalmers.spaceshooter:adSize
         */
         public static final int AdsAttrs_adSize = 0;
         /**
@@ -866,7 +866,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:adSizes
+          @attr name se.chalmers.spaceshooter:adSizes
         */
         public static final int AdsAttrs_adSizes = 1;
         /**
@@ -882,7 +882,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:adUnitId
+          @attr name se.chalmers.spaceshooter:adUnitId
         */
         public static final int AdsAttrs_adUnitId = 2;
         /** Attributes that can be used with a MapAttrs.
@@ -891,20 +891,20 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #MapAttrs_cameraBearing com.spaceshooter.game:cameraBearing}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_cameraTargetLat com.spaceshooter.game:cameraTargetLat}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_cameraTargetLng com.spaceshooter.game:cameraTargetLng}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_cameraTilt com.spaceshooter.game:cameraTilt}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_cameraZoom com.spaceshooter.game:cameraZoom}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_mapType com.spaceshooter.game:mapType}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiCompass com.spaceshooter.game:uiCompass}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiRotateGestures com.spaceshooter.game:uiRotateGestures}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiScrollGestures com.spaceshooter.game:uiScrollGestures}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiTiltGestures com.spaceshooter.game:uiTiltGestures}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiZoomControls com.spaceshooter.game:uiZoomControls}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_uiZoomGestures com.spaceshooter.game:uiZoomGestures}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_useViewLifecycle com.spaceshooter.game:useViewLifecycle}</code></td><td></td></tr>
-           <tr><td><code>{@link #MapAttrs_zOrderOnTop com.spaceshooter.game:zOrderOnTop}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraBearing se.chalmers.spaceshooter:cameraBearing}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraTargetLat se.chalmers.spaceshooter:cameraTargetLat}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraTargetLng se.chalmers.spaceshooter:cameraTargetLng}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraTilt se.chalmers.spaceshooter:cameraTilt}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_cameraZoom se.chalmers.spaceshooter:cameraZoom}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_mapType se.chalmers.spaceshooter:mapType}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiCompass se.chalmers.spaceshooter:uiCompass}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiRotateGestures se.chalmers.spaceshooter:uiRotateGestures}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiScrollGestures se.chalmers.spaceshooter:uiScrollGestures}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiTiltGestures se.chalmers.spaceshooter:uiTiltGestures}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiZoomControls se.chalmers.spaceshooter:uiZoomControls}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_uiZoomGestures se.chalmers.spaceshooter:uiZoomGestures}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_useViewLifecycle se.chalmers.spaceshooter:useViewLifecycle}</code></td><td></td></tr>
+           <tr><td><code>{@link #MapAttrs_zOrderOnTop se.chalmers.spaceshooter:zOrderOnTop}</code></td><td></td></tr>
            </table>
            @see #MapAttrs_cameraBearing
            @see #MapAttrs_cameraTargetLat
@@ -928,7 +928,7 @@ containing a value of this type.
             0x7f01000f, 0x7f010010
         };
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#cameraBearing}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#cameraBearing}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -938,11 +938,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:cameraBearing
+          @attr name se.chalmers.spaceshooter:cameraBearing
         */
         public static final int MapAttrs_cameraBearing = 1;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#cameraTargetLat}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#cameraTargetLat}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -952,11 +952,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:cameraTargetLat
+          @attr name se.chalmers.spaceshooter:cameraTargetLat
         */
         public static final int MapAttrs_cameraTargetLat = 2;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#cameraTargetLng}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#cameraTargetLng}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -966,11 +966,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:cameraTargetLng
+          @attr name se.chalmers.spaceshooter:cameraTargetLng
         */
         public static final int MapAttrs_cameraTargetLng = 3;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#cameraTilt}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#cameraTilt}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -980,11 +980,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:cameraTilt
+          @attr name se.chalmers.spaceshooter:cameraTilt
         */
         public static final int MapAttrs_cameraTilt = 4;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#cameraZoom}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#cameraZoom}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -994,11 +994,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:cameraZoom
+          @attr name se.chalmers.spaceshooter:cameraZoom
         */
         public static final int MapAttrs_cameraZoom = 5;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#mapType}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#mapType}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -1014,11 +1014,11 @@ containing a value of this type.
 <tr><td><code>terrain</code></td><td>3</td><td></td></tr>
 <tr><td><code>hybrid</code></td><td>4</td><td></td></tr>
 </table>
-          @attr name com.spaceshooter.game:mapType
+          @attr name se.chalmers.spaceshooter:mapType
         */
         public static final int MapAttrs_mapType = 0;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#uiCompass}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#uiCompass}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -1028,11 +1028,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:uiCompass
+          @attr name se.chalmers.spaceshooter:uiCompass
         */
         public static final int MapAttrs_uiCompass = 6;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#uiRotateGestures}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#uiRotateGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -1042,11 +1042,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:uiRotateGestures
+          @attr name se.chalmers.spaceshooter:uiRotateGestures
         */
         public static final int MapAttrs_uiRotateGestures = 7;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#uiScrollGestures}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#uiScrollGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -1056,11 +1056,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:uiScrollGestures
+          @attr name se.chalmers.spaceshooter:uiScrollGestures
         */
         public static final int MapAttrs_uiScrollGestures = 8;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#uiTiltGestures}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#uiTiltGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -1070,11 +1070,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:uiTiltGestures
+          @attr name se.chalmers.spaceshooter:uiTiltGestures
         */
         public static final int MapAttrs_uiTiltGestures = 9;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#uiZoomControls}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#uiZoomControls}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -1084,11 +1084,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:uiZoomControls
+          @attr name se.chalmers.spaceshooter:uiZoomControls
         */
         public static final int MapAttrs_uiZoomControls = 10;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#uiZoomGestures}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#uiZoomGestures}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -1098,11 +1098,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:uiZoomGestures
+          @attr name se.chalmers.spaceshooter:uiZoomGestures
         */
         public static final int MapAttrs_uiZoomGestures = 11;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#useViewLifecycle}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#useViewLifecycle}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -1112,11 +1112,11 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:useViewLifecycle
+          @attr name se.chalmers.spaceshooter:useViewLifecycle
         */
         public static final int MapAttrs_useViewLifecycle = 12;
         /**
-          <p>This symbol is the offset where the {@link com.spaceshooter.game.R.attr#zOrderOnTop}
+          <p>This symbol is the offset where the {@link se.chalmers.spaceshooter.R.attr#zOrderOnTop}
           attribute's value can be found in the {@link #MapAttrs} array.
 
 
@@ -1126,7 +1126,7 @@ containing a value of this type.
 theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
-          @attr name com.spaceshooter.game:zOrderOnTop
+          @attr name se.chalmers.spaceshooter:zOrderOnTop
         */
         public static final int MapAttrs_zOrderOnTop = 13;
         /**  Attributes for the WalletFragment &lt;fragment&gt; tag 
@@ -1135,10 +1135,10 @@ containing a value of this type.
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #WalletFragmentOptions_environment com.spaceshooter.game:environment}</code></td><td> Google Wallet environment to use </td></tr>
-           <tr><td><code>{@link #WalletFragmentOptions_fragmentMode com.spaceshooter.game:fragmentMode}</code></td><td> Fragment mode </td></tr>
-           <tr><td><code>{@link #WalletFragmentOptions_fragmentStyle com.spaceshooter.game:fragmentStyle}</code></td><td> A style resource specifing attributes to customize the look and feel of WalletFragment </td></tr>
-           <tr><td><code>{@link #WalletFragmentOptions_theme com.spaceshooter.game:theme}</code></td><td> Theme to be used for the Wallet selector </td></tr>
+           <tr><td><code>{@link #WalletFragmentOptions_environment se.chalmers.spaceshooter:environment}</code></td><td> Google Wallet environment to use </td></tr>
+           <tr><td><code>{@link #WalletFragmentOptions_fragmentMode se.chalmers.spaceshooter:fragmentMode}</code></td><td> Fragment mode </td></tr>
+           <tr><td><code>{@link #WalletFragmentOptions_fragmentStyle se.chalmers.spaceshooter:fragmentStyle}</code></td><td> A style resource specifing attributes to customize the look and feel of WalletFragment </td></tr>
+           <tr><td><code>{@link #WalletFragmentOptions_theme se.chalmers.spaceshooter:theme}</code></td><td> Theme to be used for the Wallet selector </td></tr>
            </table>
            @see #WalletFragmentOptions_environment
            @see #WalletFragmentOptions_fragmentMode
@@ -1165,7 +1165,7 @@ containing a value of this type.
 <tr><td><code>strict_sandbox</code></td><td>2</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:environment
+          @attr name se.chalmers.spaceshooter:environment
         */
         public static final int WalletFragmentOptions_environment = 1;
         /**
@@ -1184,7 +1184,7 @@ containing a value of this type.
 <tr><td><code>selectionDetails</code></td><td>2</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:fragmentMode
+          @attr name se.chalmers.spaceshooter:fragmentMode
         */
         public static final int WalletFragmentOptions_fragmentMode = 3;
         /**
@@ -1196,7 +1196,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:fragmentStyle
+          @attr name se.chalmers.spaceshooter:fragmentStyle
         */
         public static final int WalletFragmentOptions_fragmentStyle = 2;
         /**
@@ -1215,7 +1215,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>holo_light</code></td><td>1</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:theme
+          @attr name se.chalmers.spaceshooter:theme
         */
         public static final int WalletFragmentOptions_theme = 0;
         /**  Attributes that may be specified in a style resource to customize the look and feel of
@@ -1225,17 +1225,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_buyButtonAppearance com.spaceshooter.game:buyButtonAppearance}</code></td><td> Appearance of the buy button.</td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_buyButtonHeight com.spaceshooter.game:buyButtonHeight}</code></td><td> Height of the buy button.</td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_buyButtonText com.spaceshooter.game:buyButtonText}</code></td><td> Text on the buy button.</td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_buyButtonWidth com.spaceshooter.game:buyButtonWidth}</code></td><td> Width of the buy button.</td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsBackground com.spaceshooter.game:maskedWalletDetailsBackground}</code></td><td> Masked wallet details background </td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsButtonBackground com.spaceshooter.game:maskedWalletDetailsButtonBackground}</code></td><td> "Change" button background in masked wallet details view </td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsButtonTextAppearance com.spaceshooter.game:maskedWalletDetailsButtonTextAppearance}</code></td><td> TextAppearance for the "Change" button in masked wallet details view </td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsHeaderTextAppearance com.spaceshooter.game:maskedWalletDetailsHeaderTextAppearance}</code></td><td> TextAppearance for headers describing masked wallet details </td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsLogoImageType com.spaceshooter.game:maskedWalletDetailsLogoImageType}</code></td><td> Type of the wallet logo image in masked wallet details view </td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsLogoTextColor com.spaceshooter.game:maskedWalletDetailsLogoTextColor}</code></td><td> Color of the Google Wallet logo text in masked wallet details view </td></tr>
-           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsTextAppearance com.spaceshooter.game:maskedWalletDetailsTextAppearance}</code></td><td> TextAppearance for masked wallet details </td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_buyButtonAppearance se.chalmers.spaceshooter:buyButtonAppearance}</code></td><td> Appearance of the buy button.</td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_buyButtonHeight se.chalmers.spaceshooter:buyButtonHeight}</code></td><td> Height of the buy button.</td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_buyButtonText se.chalmers.spaceshooter:buyButtonText}</code></td><td> Text on the buy button.</td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_buyButtonWidth se.chalmers.spaceshooter:buyButtonWidth}</code></td><td> Width of the buy button.</td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsBackground se.chalmers.spaceshooter:maskedWalletDetailsBackground}</code></td><td> Masked wallet details background </td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsButtonBackground se.chalmers.spaceshooter:maskedWalletDetailsButtonBackground}</code></td><td> "Change" button background in masked wallet details view </td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsButtonTextAppearance se.chalmers.spaceshooter:maskedWalletDetailsButtonTextAppearance}</code></td><td> TextAppearance for the "Change" button in masked wallet details view </td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsHeaderTextAppearance se.chalmers.spaceshooter:maskedWalletDetailsHeaderTextAppearance}</code></td><td> TextAppearance for headers describing masked wallet details </td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsLogoImageType se.chalmers.spaceshooter:maskedWalletDetailsLogoImageType}</code></td><td> Type of the wallet logo image in masked wallet details view </td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsLogoTextColor se.chalmers.spaceshooter:maskedWalletDetailsLogoTextColor}</code></td><td> Color of the Google Wallet logo text in masked wallet details view </td></tr>
+           <tr><td><code>{@link #WalletFragmentStyle_maskedWalletDetailsTextAppearance se.chalmers.spaceshooter:maskedWalletDetailsTextAppearance}</code></td><td> TextAppearance for masked wallet details </td></tr>
            </table>
            @see #WalletFragmentStyle_buyButtonAppearance
            @see #WalletFragmentStyle_buyButtonHeight
@@ -1271,7 +1271,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>monochrome</code></td><td>3</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:buyButtonAppearance
+          @attr name se.chalmers.spaceshooter:buyButtonAppearance
         */
         public static final int WalletFragmentStyle_buyButtonAppearance = 3;
         /**
@@ -1300,7 +1300,7 @@ containing a value of this type.
 <tr><td><code>wrap_content</code></td><td>-2</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:buyButtonHeight
+          @attr name se.chalmers.spaceshooter:buyButtonHeight
         */
         public static final int WalletFragmentStyle_buyButtonHeight = 0;
         /**
@@ -1320,7 +1320,7 @@ containing a value of this type.
 <tr><td><code>book_now</code></td><td>3</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:buyButtonText
+          @attr name se.chalmers.spaceshooter:buyButtonText
         */
         public static final int WalletFragmentStyle_buyButtonText = 2;
         /**
@@ -1349,7 +1349,7 @@ containing a value of this type.
 <tr><td><code>wrap_content</code></td><td>-2</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:buyButtonWidth
+          @attr name se.chalmers.spaceshooter:buyButtonWidth
         */
         public static final int WalletFragmentStyle_buyButtonWidth = 1;
         /**
@@ -1363,7 +1363,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:maskedWalletDetailsBackground
+          @attr name se.chalmers.spaceshooter:maskedWalletDetailsBackground
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsBackground = 6;
         /**
@@ -1377,7 +1377,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:maskedWalletDetailsButtonBackground
+          @attr name se.chalmers.spaceshooter:maskedWalletDetailsButtonBackground
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsButtonBackground = 8;
         /**
@@ -1389,7 +1389,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:maskedWalletDetailsButtonTextAppearance
+          @attr name se.chalmers.spaceshooter:maskedWalletDetailsButtonTextAppearance
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsButtonTextAppearance = 7;
         /**
@@ -1401,7 +1401,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:maskedWalletDetailsHeaderTextAppearance
+          @attr name se.chalmers.spaceshooter:maskedWalletDetailsHeaderTextAppearance
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsHeaderTextAppearance = 5;
         /**
@@ -1420,7 +1420,7 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
 <tr><td><code>monochrome</code></td><td>2</td><td></td></tr>
 </table>
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:maskedWalletDetailsLogoImageType
+          @attr name se.chalmers.spaceshooter:maskedWalletDetailsLogoImageType
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsLogoImageType = 10;
         /**
@@ -1437,7 +1437,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:maskedWalletDetailsLogoTextColor
+          @attr name se.chalmers.spaceshooter:maskedWalletDetailsLogoTextColor
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsLogoTextColor = 9;
         /**
@@ -1449,7 +1449,7 @@ containing a value of this type.
           <p>Must be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
           <p>This is a private symbol.
-          @attr name com.spaceshooter.game:maskedWalletDetailsTextAppearance
+          @attr name se.chalmers.spaceshooter:maskedWalletDetailsTextAppearance
         */
         public static final int WalletFragmentStyle_maskedWalletDetailsTextAppearance = 4;
     };

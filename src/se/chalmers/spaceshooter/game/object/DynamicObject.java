@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object;
+package se.chalmers.spaceshooter.game.object;
 
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import android.graphics.Bitmap;

@@ -1,10 +1,11 @@
-package se.chalmers.spaceshooter.object.loot;
+package se.chalmers.spaceshooter.game.object.loot;
 
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.Collideable;
 import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.object.particle.emitter.Emitter;
 import se.chalmers.spaceshooter.game.object.particle.emitter.RadialEmitter;
+import se.chalmers.spaceshooter.game.object.player.Player;
 import se.chalmers.spaceshooter.game.util.BitmapHandler;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import android.graphics.Rect;

@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.weapon;
+package se.chalmers.spaceshooter.game.object.weapon;
 
 import se.chalmers.spaceshooter.game.object.GameObject;
 import se.chalmers.spaceshooter.game.object.Tickable;

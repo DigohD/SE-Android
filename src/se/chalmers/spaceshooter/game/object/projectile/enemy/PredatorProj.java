@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.projectile.enemy;
+package se.chalmers.spaceshooter.game.object.projectile.enemy;
 
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.particle.ParticleID;

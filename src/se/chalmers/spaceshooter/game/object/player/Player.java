@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.player;
+package se.chalmers.spaceshooter.game.object.player;
 
 import se.chalmers.spaceshooter.game.CollisionManager;
 import se.chalmers.spaceshooter.game.GameActivity;

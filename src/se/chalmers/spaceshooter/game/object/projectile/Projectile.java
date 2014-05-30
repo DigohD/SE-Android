@@ -1,8 +1,9 @@
-package se.chalmers.spaceshooter.object.projectile;
+package se.chalmers.spaceshooter.game.object.projectile;
 
 import se.chalmers.spaceshooter.game.object.Collideable;
 import se.chalmers.spaceshooter.game.object.DynamicObject;
 import se.chalmers.spaceshooter.game.object.enemy.Enemy;
+import se.chalmers.spaceshooter.game.object.player.Player;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import se.chalmers.spaceshooter.game.view.GameView;
 import android.graphics.Rect;

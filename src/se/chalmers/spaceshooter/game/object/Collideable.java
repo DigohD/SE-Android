@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object;
+package se.chalmers.spaceshooter.game.object;
 
 import android.graphics.Rect;
 

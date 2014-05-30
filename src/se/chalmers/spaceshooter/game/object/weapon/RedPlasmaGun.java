@@ -1,5 +1,6 @@
-package se.chalmers.spaceshooter.object.weapon;
+package se.chalmers.spaceshooter.game.object.weapon;
 
+import se.chalmers.spaceshooter.game.object.projectile.player.RedPlasma;
 import se.chalmers.spaceshooter.game.util.Randomizer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer.SoundID;

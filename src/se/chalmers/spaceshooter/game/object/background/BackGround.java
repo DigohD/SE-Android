@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.background;
+package se.chalmers.spaceshooter.game.object.background;
 
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.DynamicObject;

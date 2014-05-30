@@ -1,10 +1,11 @@
-package se.chalmers.spaceshooter.engine;
+package se.chalmers.spaceshooter.game;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import se.chalmers.spaceshooter.game.object.enemy.Enemy;
 import se.chalmers.spaceshooter.game.object.loot.Loot;
+import se.chalmers.spaceshooter.game.object.player.Player;
 import se.chalmers.spaceshooter.game.object.projectile.Projectile;
 import android.graphics.Rect;
 

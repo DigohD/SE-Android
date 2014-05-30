@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.particle;
+package se.chalmers.spaceshooter.game.object.particle;
 
 import se.chalmers.spaceshooter.game.object.DynamicObject;
 import se.chalmers.spaceshooter.game.util.Vector2f;

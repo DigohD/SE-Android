@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.enemy;
+package se.chalmers.spaceshooter.game.object.enemy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import se.chalmers.spaceshooter.game.object.loot.SlowTimePack;
 import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.object.particle.emitter.Emitter;
 import se.chalmers.spaceshooter.game.object.particle.emitter.RadialEmitter;
+import se.chalmers.spaceshooter.game.object.player.Player;
 import se.chalmers.spaceshooter.game.object.projectile.Projectile;
 import se.chalmers.spaceshooter.game.util.BitmapHandler;
 import se.chalmers.spaceshooter.game.util.Randomizer;

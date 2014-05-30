@@ -1,6 +1,7 @@
 package se.chalmers.spaceshooter.game.level.sequence;
 
 import se.chalmers.spaceshooter.game.object.enemy.Mantis;
+import se.chalmers.spaceshooter.game.util.Color;
 
 public class MantisSequence extends Sequence {
 

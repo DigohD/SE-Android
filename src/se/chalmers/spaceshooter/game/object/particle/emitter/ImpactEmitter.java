@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.particle.emitter;
+package se.chalmers.spaceshooter.game.object.particle.emitter;
 
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.particle.GreenBall;
@@ -6,6 +6,8 @@ import se.chalmers.spaceshooter.game.object.particle.LBlueBall;
 import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.object.particle.PurpleDot;
 import se.chalmers.spaceshooter.game.object.particle.RedDot;
+import se.chalmers.spaceshooter.game.object.particle.RedPlasma;
+import se.chalmers.spaceshooter.game.object.particle.YellowPlasma;
 import se.chalmers.spaceshooter.game.util.Randomizer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 

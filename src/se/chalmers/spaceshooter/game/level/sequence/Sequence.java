@@ -6,6 +6,7 @@ import java.util.HashMap;
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.enemy.Enemy;
 import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.Color;
 import se.chalmers.spaceshooter.game.util.Randomizer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import se.chalmers.spaceshooter.game.view.GameView;

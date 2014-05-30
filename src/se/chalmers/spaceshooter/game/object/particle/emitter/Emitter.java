@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.particle.emitter;
+package se.chalmers.spaceshooter.game.object.particle.emitter;
 
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.GameObject;

@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.weapon;
+package se.chalmers.spaceshooter.game.object.weapon;
 
 import se.chalmers.spaceshooter.game.object.projectile.player.GreenPlasma;
 import se.chalmers.spaceshooter.game.util.Randomizer;

@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.object.enemy;
+package se.chalmers.spaceshooter.game.object.enemy;
 
 import se.chalmers.spaceshooter.game.util.BitmapHandler;
 import se.chalmers.spaceshooter.game.util.Vector2f;

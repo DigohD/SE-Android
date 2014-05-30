@@ -1,15 +1,18 @@
-package se.chalmers.spaceshooter.engine;
+package se.chalmers.spaceshooter.game;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import se.chalmers.spaceshooter.game.object.Drawable;
 import se.chalmers.spaceshooter.game.object.GameObject;
 import se.chalmers.spaceshooter.game.object.Tickable;
 import se.chalmers.spaceshooter.game.object.background.BackGround;
 import se.chalmers.spaceshooter.game.object.enemy.Enemy;
 import se.chalmers.spaceshooter.game.object.loot.Loot;
 import se.chalmers.spaceshooter.game.object.particle.Particle;
+import se.chalmers.spaceshooter.game.object.player.Player;
 import se.chalmers.spaceshooter.game.object.projectile.Projectile;
+import se.chalmers.spaceshooter.game.object.projectile.Projectile.Type;
 import se.chalmers.spaceshooter.game.object.weapon.Gun;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import se.chalmers.spaceshooter.game.view.GameView;
