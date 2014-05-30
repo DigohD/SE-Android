@@ -4,7 +4,7 @@ The client-server protocol that Space Shooter use for it's TCP communication wit
 
 
 ##Insert Highscore Query
-This query starts with the word ***insert*** and is followed by two additional parameters, ***name*** and ***score***. All parts of the query are separated by *:*. The query looks like follows when sent to the server:
+This query starts with the word ***insert*** and is followed by two additional parameters, ***name*** and ***score***. All parts of the query are separated by ***:***. The query looks like follows when sent to the server:
 
 ***insert:[name]:[score]***
 
