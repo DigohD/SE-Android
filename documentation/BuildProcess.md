@@ -1,25 +1,34 @@
 #Build Process
+##Walktrhough
+1. Make sure you have Android 4.0 or over installed
+2. Clone the git repo at:  https://github.com/DigohD/SE-Android.git
+3. Import the project to the IDE of your choice.
+  1. If asked, import as Android Project
+4. Download googleplay services and import it to your IDE
+5. Run the application as android project
 
-#Title
-##H2
-###H3
-####H4
+##Major Components
 
-1. numbered list
-  1. sub 1
-2. numbered list
-  * sub dot
+###The game loop
+At the heart of our game is the game loop which is responsible for updating the game logic and drawing it to the screen. We chose to implement a fixed timestep game loop which means that the game will be updated at constant intervals. In our case we wanted the game to run at 60 frames per second which means that 60 times every second the game logic will be updated and then drawn to the screen. (A frame is simply the combination of updating game logic and drawing it to the screen).
+The reason for implementing a fixed timestep game loop was that we didn’t want our game to be updated faster on faster machines and slower on slower machines, in other words the speed of the game should not depend on the machine you play it on.
+The way to achieve this is by letting a accumulator variable store the time it takes to complete one loop cycle every time until it reaches the desired interval time. In our case we want 60 frames every second so the time between every frame should therefore be 1/60 seconds which is about 16.6 ms. So when our accumulator reaches 16.6 ms we know it is time to update and draw.
 
-- list
-  * sub dot
-- list
- 
-[link with optional text](github.com)
+We also use linear interpolation to gain more smooth movements. The idea of interpolation is to predict a state to draw which is between the current and the next update. To achieve this we take the remainder of the accumulator which simply is a measure of how much more time is required before the next update and then pass it into a prediction method which will calculate the interpolated state that will be drawn. 
 
-else use only the link, it will auto format
-
-*italic*
-
-**bold**
-
-***italic and bold***
+###The system architecture
+We thought a lot about using a pre-existing game engine like Libgdx or Andengine but we came to the conclusion that we would have more freedom and a deeper understanding of the code if made the engine ourselves. It also felt like we would have gotten a lot handed to us by using a game engine which, if you are a hardcore game developer, isn’t ideal.
+Since we chose to develop our own game engine we needed a system for creating, removing and handling gameobjects. Our goal was to make a system that made this possible in a fast and easy way. 
+####GameObjects
+The first step was to define what a gameobject is and what types of gameobjects we will have in the game. So in our game a gameobject is defined as something that has a position, a boolean for checking if it is dead or alive, a width and a height. We then categorize the gameobjects as tickables, drawables, collideables or any combination of the three. If a gameobject is tickable its state should be updated every frame , if it is drawable it should be drawn to the screen every frame and if it is collideable it should be checked for collisions every frame. 
+We also noted that most of our gameobjects should be both updated and drawn so we simply made an abstract class called DynamicObject which inherits the gameobject class and implements the tickable and drawable interfaces. This way you can just inherit from DynamicObject if you want a gameobject to be updated and drawn.
+So a gameobject can handle a lot internally like updating, drawing and what happens when it collides with another collideable. This results in a lot of code in the gameobject classes but we think that it still is very maintainable and very fast and easy to add new gameobjects/content. We did think about using the model view controller design pattern in order to achieve more separation between the logic and view which might have made unit testing easier and the code more clean. However we did not want to spend too much time focusing on building an engine/system that suits many different types of games, we wanted an engine/system that was more suitable for the type of game we are actually making. The mistake you often make as a game developer is that you forget that you are developing a game and not a system, so mvc might be a good design decision in enterprise applications but when it comes to game development it is very easy that you end up with a large complex system that in theory might be able to handle every type of game but in practice you are just stuck with a djungle of code and progress on the actual game gets stalled.   
+####GameObjectManager
+In order to manage all gameobjects we made a class called GameObjectManager. This class is responsible for adding and removing gameobjects to the correct lists and also updating the tickable gameobjects and drawing the drawables. 
+In the GameObjectManager we store all tickable and drawable gameobjects in lists and when a new gameobject is created that is tickable and drawable it has to register itself to the gameobjectmanager via a call to the method addgameobject which can be accesed statically in the Gameobjectmanager. The method addgameobject will then add the gameobject to both the list of tickables and the list of drawables. If you call addgameobject after creating a collideable gameobject it will get added to one of the lists in the CollisionManager which will be described below.
+####CollisionManager
+In order to handle and detecting collisions we made a class called CollisionManager. The CollisionManager is responsible for checking for collisions between the collideable gameobjects. It has 4 lists : one for the enemies, one for loot, one for playerprojectiles and one for enemyprojectiles and also methods for adding and removing which can be accessed statically. So when a collideable gameobject register itself to the gameobjectamanager it will get added to one of the 4 lists depending on what type of gameobject it is. 
+####The level creating system
+At the heart of our level creation system is what we called sequences and sequence generations. A sequence is a png image with a black background and different pixels with colors that represent different types of enemies in different formations. We then have implemented an algorithm that searches through the pixels in the sequence image and maps the different colors to different types of enemies and also to the pixels positions. 
+We have a EnemyGenerator which will generate sequences of enemies, but also enemies that are not part of any sequence, at controlled random times. With controlled random times we mean that certain sequences need a larger time interval in which they can be generated in order to avoid that they spawn on top of each other.
+The asteroids in the game are completely random and does not for the moment get generated in the enemygenerator. 
