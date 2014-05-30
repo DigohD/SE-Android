@@ -3,12 +3,10 @@ package se.chalmers.spaceshooter.util;
 import java.util.HashMap;
 
 import se.chalmers.spaceshooter.startmenu.TabMenu;
-
 import android.app.Activity;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.media.SoundPool.OnLoadCompleteListener;
-
 
 public class SoundPlayer {
 

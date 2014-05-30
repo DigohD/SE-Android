@@ -1,8 +1,9 @@
 package se.chalmers.spaceshooter.startmenu;
 
-import se.chalmers.spaceshooter.GameActivity;
-import se.chalmers.spaceshooter.LeaderBoardActivity;
-import se.chalmers.spaceshooter.database.Database;
+import se.chalmers.spaceshooter.R;
+import se.chalmers.spaceshooter.game.GameActivity;
+import se.chalmers.spaceshooter.leaderboard.LeaderBoardActivity;
+import se.chalmers.spaceshooter.leaderboard.database.Database;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -25,7 +26,6 @@ import android.widget.ToggleButton;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.spaceshooter.game.R;
 
 public class TabMenu extends Activity {
 	public static SharedPreferences sp;

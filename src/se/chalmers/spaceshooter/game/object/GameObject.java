@@ -1,6 +1,6 @@
 package se.chalmers.spaceshooter.object;
 
-import se.chalmers.spaceshooter.util.Vector2f;
+import se.chalmers.spaceshooter.game.util.Vector2f;
 
 public abstract class GameObject {
 

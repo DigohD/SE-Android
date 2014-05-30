@@ -4,28 +4,25 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import se.chalmers.spaceshooter.GameActivity;
-import se.chalmers.spaceshooter.view.GameView;
-import se.chalmers.spaceshooter.view.InventoryView;
-
+import se.chalmers.spaceshooter.game.view.GameView;
+import se.chalmers.spaceshooter.game.view.InventoryView;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-
 /**
  * The game thread which runs the main loop. The main loop is responsible for
- * updating the game logic and calling the draw method in game view which will draw
- * the new updated state of the game
+ * updating the game logic and calling the draw method in game view which will
+ * draw the new updated state of the game
  * 
  * @author Anders
  * 
  */
 public class GameThread implements Runnable {
 
-	//the desired amount of update calls we want every second
+	// the desired amount of update calls we want every second
 	public static final double TARGET_TPS = 60.0;
-	
+
 	private volatile boolean running = false;
 	private boolean paused = false;
 	private boolean inventory;
@@ -34,29 +31,33 @@ public class GameThread implements Runnable {
 	private GameView gameView;
 	private InventoryView invView;
 	private SurfaceHolder surfaceHolder;
-	
+
 	private Lock lock = new ReentrantLock();
 	private Condition okToRun = lock.newCondition();
-	
+
 	private Canvas canvas;
 
 	/**
 	 * The constructor for the game thread
 	 * 
-	 * @param holder the surfaceholder which provides the canvas on which to drawon
-	 * @param gameView the main view for the game
+	 * @param holder
+	 *            the surfaceholder which provides the canvas on which to drawon
+	 * @param gameView
+	 *            the main view for the game
 	 */
 	public GameThread(SurfaceHolder holder, GameView gameView) {
 		this.gameView = gameView;
 		this.surfaceHolder = holder;
 		inventory = false;
 	}
-	
+
 	/**
 	 * The constructor for the game thread
 	 * 
-	 * @param holder the surfaceholder which provides the canvas on which to drawon
-	 * @param gameView the main view for the game
+	 * @param holder
+	 *            the surfaceholder which provides the canvas on which to drawon
+	 * @param gameView
+	 *            the main view for the game
 	 */
 	public GameThread(SurfaceHolder holder, InventoryView invView) {
 		this.invView = invView;
@@ -95,7 +96,6 @@ public class GameThread implements Runnable {
 		}
 	}
 
-
 	/**
 	 * Pauses the game thread
 	 */
@@ -116,10 +116,11 @@ public class GameThread implements Runnable {
 	/**
 	 * Calls the tick method in gameview which will update all game logic
 	 * 
-	 * @param dt the delta time variable which is used for physics calculations
+	 * @param dt
+	 *            the delta time variable which is used for physics calculations
 	 */
 	private void tick(float dt) {
-		if(inventory)
+		if (inventory)
 			invView.tick(dt);
 		else
 			gameView.tick(dt);
@@ -129,30 +130,31 @@ public class GameThread implements Runnable {
 	 * Gets hold of a canvas via the surfaceholder and then draws to it by
 	 * calling the draw method in gameview.
 	 * 
-	 * @param canvas the canvas which everything will get drawn on
-	 * @param interpolation a factor based on how much time has gone since the last tick,
-	 * 		  which will be used in a prediction function which is defined
-	 *        for all dynamic objects
+	 * @param canvas
+	 *            the canvas which everything will get drawn on
+	 * @param interpolation
+	 *            a factor based on how much time has gone since the last tick,
+	 *            which will be used in a prediction function which is defined
+	 *            for all dynamic objects
 	 */
 	private void draw(Canvas canvas, float interpolation) {
 		synchronized (surfaceHolder) {
 			try {
 				canvas = surfaceHolder.lockCanvas();
 				if (canvas != null) {
-					
-						if(inventory)
-							invView.draw(canvas, interpolation);
-						else
-							gameView.draw(canvas, interpolation);
-					
+
+					if (inventory)
+						invView.draw(canvas, interpolation);
+					else
+						gameView.draw(canvas, interpolation);
+
 				}
 			} finally {
 				if (canvas != null)
 					surfaceHolder.unlockCanvasAndPost(canvas);
 			}
 		}
-		
-		
+
 	}
 
 	/**
@@ -160,7 +162,7 @@ public class GameThread implements Runnable {
 	 * loop which means that the game logic gets updated at regular intervals,
 	 * in our case 60 times every second. The reason for this is that we dont
 	 * want our game logic updated faster on faster machines and slower on
-	 * slower machines, the speed of the game should not depend on the machine 
+	 * slower machines, the speed of the game should not depend on the machine
 	 * you play it on.
 	 * 
 	 * The way to achieve this is by letting the accumulator variable store the
@@ -195,11 +197,11 @@ public class GameThread implements Runnable {
 		int tps = 0;
 
 		boolean shouldDraw;
-		
+
 		while (running) {
-	
+
 			lock.lock();
-			while(paused){
+			while (paused) {
 				try {
 					okToRun.await();
 				} catch (InterruptedException e) {
@@ -207,49 +209,49 @@ public class GameThread implements Runnable {
 				}
 			}
 			lock.unlock();
-			
+
 			canvas = null;
 			shouldDraw = false;
-			
+
 			currentTime = System.nanoTime();
 			passedTime = (currentTime - previousTime) / 1000000000.0;
-			//set a max limit for passedtime to avoid spiral of death
+			// set a max limit for passedtime to avoid spiral of death
 			if (passedTime > 0.25)
 				passedTime = 0.25;
 			accumulator += passedTime;
 			frameCounter += passedTime;
 			previousTime = currentTime;
 
-			while(accumulator >= OPTIMAL_UPDATETIME) {
+			while (accumulator >= OPTIMAL_UPDATETIME) {
 				shouldDraw = true;
 				tick(dt);
 				tps++;
 				accumulator -= OPTIMAL_UPDATETIME;
 			}
-			
-			if(shouldDraw){
+
+			if (shouldDraw) {
 				interpolation = (float) (accumulator / OPTIMAL_UPDATETIME);
-				draw(canvas, interpolation);	
+				draw(canvas, interpolation);
 				fps++;
 			}
 
-			if(frameCounter >= 1) {
-				//System.out.println(tps + " tps, " + fps + " fps" );
+			if (frameCounter >= 1) {
+				// System.out.println(tps + " tps, " + fps + " fps" );
 				tps = 0;
 				fps = 0;
 				frameCounter = 0;
 			}
 		}
 	}
-	
-	public void goInventory(){
+
+	public void goInventory() {
 		Context c = gameView.getContext();
 		GameActivity gA = (GameActivity) c;
-		
+
 		invView = new InventoryView(gameView.getContext());
-		
+
 		inventory = true;
-		
+
 		gA.setContentView(invView);
 	}
 

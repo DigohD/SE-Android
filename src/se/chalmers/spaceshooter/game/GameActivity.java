@@ -1,16 +1,14 @@
 package se.chalmers.spaceshooter.game;
 
-import se.chalmers.spaceshooter.engine.GameObjectManager;
+import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.SoundPlayer;
+import se.chalmers.spaceshooter.game.util.Vector2f;
+import se.chalmers.spaceshooter.game.view.GameView;
+import se.chalmers.spaceshooter.game.view.InventoryView;
 import se.chalmers.spaceshooter.startmenu.TabMenu;
-import se.chalmers.spaceshooter.util.BitmapHandler;
-import se.chalmers.spaceshooter.util.SoundPlayer;
-import se.chalmers.spaceshooter.util.Vector2f;
-import se.chalmers.spaceshooter.view.GameView;
-import se.chalmers.spaceshooter.view.InventoryView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.SharedPreferences;
@@ -19,7 +17,6 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-
 
 public class GameActivity extends Activity {
 	SharedPreferences sp;
@@ -109,7 +106,7 @@ public class GameActivity extends Activity {
 	public void onStop() {
 		super.onStop();
 		System.out.println("q12STOP");
-		if(!isInvView)
+		if (!isInvView)
 			saveState();
 
 	}
@@ -117,7 +114,7 @@ public class GameActivity extends Activity {
 	public void onPause() {
 		super.onPause();
 		System.out.println("q12PAUSE");
-		if(!isInvView)
+		if (!isInvView)
 			saveState();
 	}
 

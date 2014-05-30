@@ -1,5 +1,6 @@
 package se.chalmers.spaceshooter.startmenu;
 
+import se.chalmers.spaceshooter.R;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -10,8 +11,6 @@ import android.os.Handler;
 import android.provider.Settings.Secure;
 import android.util.Log;
 
-import com.spaceshooter.game.R;
-
 public class Start extends Activity {
 
 	private static final String BASE64_PUBLIC_KEY = "ADD_THE_REAL_KEY_HERE";
@@ -20,11 +19,11 @@ public class Start extends Activity {
 	private Handler mHandler;
 	// private LicenseChecker mChecker;
 	// private LicenseCheckerCallback mLicenseCheckerCallback;
-	
+
 	boolean sLicensed;
 	boolean checkingLicence;
 	boolean didCheck;
-	
+
 	SharedPreferences sp;
 
 	@Override
@@ -39,7 +38,8 @@ public class Start extends Activity {
 		// new AESObfuscator(SALT, getPackageName(), deviceId)),
 		// BASE64_PUBLIC_KEY);
 
-		sp = getSharedPreferences(getString(R.string.sharedpreference_file_key),
+		sp = getSharedPreferences(
+				getString(R.string.sharedpreference_file_key),
 				Context.MODE_PRIVATE);
 		sLicensed = sp.getBoolean("licenced", false);
 		if (!sLicensed) {
@@ -51,24 +51,24 @@ public class Start extends Activity {
 			finish();
 		}
 	}
-	
-	public void onStop(){
-		 super.onStop();
-		 System.out.println("q12STOP");
-		
-	 }
-	
-	 public void onPause(){
+
+	public void onStop() {
+		super.onStop();
+		System.out.println("q12STOP");
+
+	}
+
+	public void onPause() {
 		super.onPause();
-		 System.out.println("q12PAUSE");
-		
-	 }
-	
-	 public void onResume(){
-		 super.onResume();
-		 System.out.println("q12RESUME");
-		
-	 }
+		System.out.println("q12PAUSE");
+
+	}
+
+	public void onResume() {
+		super.onResume();
+		System.out.println("q12RESUME");
+
+	}
 
 	private void doCheck() {
 		didCheck = false;

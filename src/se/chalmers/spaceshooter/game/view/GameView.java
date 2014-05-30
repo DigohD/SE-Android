@@ -1,20 +1,16 @@
 package se.chalmers.spaceshooter.view;
 
-import java.util.concurrent.Semaphore;
-
-import se.chalmers.spaceshooter.GameActivity;
-import se.chalmers.spaceshooter.engine.GameObjectManager;
-import se.chalmers.spaceshooter.engine.GameThread;
-import se.chalmers.spaceshooter.level.Level;
-import se.chalmers.spaceshooter.net.TCPClient;
-import se.chalmers.spaceshooter.object.loot.HealthPack;
-import se.chalmers.spaceshooter.object.loot.Loot;
-import se.chalmers.spaceshooter.object.loot.SlowTimePack;
+import se.chalmers.spaceshooter.game.GameActivity;
+import se.chalmers.spaceshooter.game.GameObjectManager;
+import se.chalmers.spaceshooter.game.GameThread;
+import se.chalmers.spaceshooter.game.object.loot.HealthPack;
+import se.chalmers.spaceshooter.game.object.loot.Loot;
+import se.chalmers.spaceshooter.game.object.loot.SlowTimePack;
+import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.MusicPlayer;
+import se.chalmers.spaceshooter.game.util.Vector2f;
+import se.chalmers.spaceshooter.leaderboard.TCPClient;
 import se.chalmers.spaceshooter.startmenu.TabMenu;
-import se.chalmers.spaceshooter.util.BitmapHandler;
-import se.chalmers.spaceshooter.util.MusicPlayer;
-import se.chalmers.spaceshooter.util.Vector2f;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -26,15 +22,12 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.support.v4.view.MotionEventCompat;
-import android.text.InputType;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
-
 
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -253,7 +246,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	private void manageLootSlots(float x, float y) {
-		if (x >= slotOffset && x <= slotOffset+50 && y >= 380 && y <= 430) {
+		if (x >= slotOffset && x <= slotOffset + 50 && y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[0];
 			if (loot instanceof HealthPack) {
 				HealthPack hp = (HealthPack) loot;
@@ -267,7 +260,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 
 		}
-		if (x >= slotOffset+70 && x <= slotOffset+70+50 && y >= 380 && y <= 430) {
+		if (x >= slotOffset + 70 && x <= slotOffset + 70 + 50 && y >= 380
+				&& y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[1];
 			if (loot instanceof HealthPack) {
 				HealthPack hp = (HealthPack) loot;
@@ -280,7 +274,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				GameObjectManager.getPlayer().lootArray[1] = null;
 			}
 		}
-		if (x >= slotOffset+70*2 && x <= slotOffset+(70*2)+50 && y >= 380 && y <= 430) {
+		if (x >= slotOffset + 70 * 2 && x <= slotOffset + (70 * 2) + 50
+				&& y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[2];
 			if (loot instanceof HealthPack) {
 				HealthPack hp = (HealthPack) loot;
@@ -420,7 +415,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setNegativeButton(negativeBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
-								
+
 								GameActivity ga2 = (GameActivity) context;
 								stop();
 								ga2.onBackPressed2();
@@ -484,7 +479,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setNegativeButton(negativeBtn,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface arg0, int arg1) {
-								
+
 								GameActivity ga2 = (GameActivity) context;
 								stop();
 								ga2.onBackPressed2();

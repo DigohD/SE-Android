@@ -1,18 +1,17 @@
-package se.chalmers.spaceshooter.level.sequence;
+package se.chalmers.spaceshooter.game.level.sequence;
 
-import se.chalmers.spaceshooter.object.enemy.Predator;
-import se.chalmers.spaceshooter.util.Color;
+import se.chalmers.spaceshooter.game.object.enemy.Predator;
 
 public class PredatorSequence extends Sequence {
-	
-	public PredatorSequence(String path){
+
+	public PredatorSequence(String path) {
 		super();
 		timeLimit = true;
 		loadSequence(path);
 		enemies.put(Color.RED, new Predator());
 		scanSequence();
 	}
-	
+
 	public PredatorSequence() {
 		super();
 		timeLimit = true;
@@ -20,5 +19,5 @@ public class PredatorSequence extends Sequence {
 		enemies.put(Color.RED, new Predator());
 		scanSequence();
 	}
-	
+
 }

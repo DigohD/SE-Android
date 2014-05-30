@@ -1,12 +1,11 @@
-package se.chalmers.spaceshooter.database;
+package se.chalmers.spaceshooter.leaderboard.database;
 
-import se.chalmers.spaceshooter.engine.GameObjectManager;
+import se.chalmers.spaceshooter.R;
+import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.startmenu.TabMenu;
 import android.content.Context;
 import android.database.Cursor;
 import android.widget.TextView;
-
-import com.spaceshooter.game.R;
 
 public class Database {
 
@@ -44,12 +43,10 @@ public class Database {
 	public void resetScore(String playerName) {
 		cursor = myDb.getRow(1);
 		if (cursor != null && GameObjectManager.getPlayer() != null) {
-			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID),
-					playerName, 0);
+			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), playerName, 0);
 			cursor = myDb.getRow(1);
 		}
 
-		
 	}
 
 	public void addHighscore(String playerName, int highscore) {

@@ -1,31 +1,27 @@
 package se.chalmers.spaceshooter.object.player;
 
-import java.util.HashMap;
-
-import se.chalmers.spaceshooter.GameActivity;
-import se.chalmers.spaceshooter.engine.CollisionManager;
-import se.chalmers.spaceshooter.engine.GameObjectManager;
-import se.chalmers.spaceshooter.object.Collideable;
-import se.chalmers.spaceshooter.object.DynamicObject;
-import se.chalmers.spaceshooter.object.enemy.Asteroid;
-import se.chalmers.spaceshooter.object.enemy.Enemy;
-import se.chalmers.spaceshooter.object.loot.HealthPack;
-import se.chalmers.spaceshooter.object.loot.Loot;
-import se.chalmers.spaceshooter.object.loot.SlowTimePack;
-import se.chalmers.spaceshooter.object.particle.ParticleID;
-import se.chalmers.spaceshooter.object.particle.emitter.ConstantEmitter;
-import se.chalmers.spaceshooter.object.particle.emitter.Emitter;
-import se.chalmers.spaceshooter.object.particle.emitter.RadialEmitter;
-import se.chalmers.spaceshooter.object.projectile.Projectile;
-import se.chalmers.spaceshooter.object.weapon.Gun;
-import se.chalmers.spaceshooter.util.BitmapHandler;
-import se.chalmers.spaceshooter.util.SoundPlayer;
-import se.chalmers.spaceshooter.util.Vector2f;
-import se.chalmers.spaceshooter.util.SoundPlayer.SoundID;
-import se.chalmers.spaceshooter.view.GameView;
-
+import se.chalmers.spaceshooter.game.CollisionManager;
+import se.chalmers.spaceshooter.game.GameActivity;
+import se.chalmers.spaceshooter.game.GameObjectManager;
+import se.chalmers.spaceshooter.game.object.Collideable;
+import se.chalmers.spaceshooter.game.object.DynamicObject;
+import se.chalmers.spaceshooter.game.object.enemy.Asteroid;
+import se.chalmers.spaceshooter.game.object.enemy.Enemy;
+import se.chalmers.spaceshooter.game.object.loot.HealthPack;
+import se.chalmers.spaceshooter.game.object.loot.Loot;
+import se.chalmers.spaceshooter.game.object.loot.SlowTimePack;
+import se.chalmers.spaceshooter.game.object.particle.ParticleID;
+import se.chalmers.spaceshooter.game.object.particle.emitter.ConstantEmitter;
+import se.chalmers.spaceshooter.game.object.particle.emitter.Emitter;
+import se.chalmers.spaceshooter.game.object.particle.emitter.RadialEmitter;
+import se.chalmers.spaceshooter.game.object.projectile.Projectile;
+import se.chalmers.spaceshooter.game.object.weapon.Gun;
+import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.SoundPlayer;
+import se.chalmers.spaceshooter.game.util.SoundPlayer.SoundID;
+import se.chalmers.spaceshooter.game.util.Vector2f;
+import se.chalmers.spaceshooter.game.view.GameView;
 import android.graphics.Rect;
-
 
 public class Player extends DynamicObject implements Collideable {
 
@@ -61,7 +57,6 @@ public class Player extends DynamicObject implements Collideable {
 	private float hp = 100f, maxHP = 100f;
 
 	public Loot[] lootArray = new Loot[3];
-
 
 	public Player(Vector2f position) {
 		super(position);
@@ -111,7 +106,7 @@ public class Player extends DynamicObject implements Collideable {
 		startPack.setSaved(true);
 		startPack2.setSaved(true);
 		startPack3.setSaved(true);
-		
+
 		lootArray[0] = startPack;
 		lootArray[1] = startPack2;
 		lootArray[2] = startPack3;
@@ -166,7 +161,8 @@ public class Player extends DynamicObject implements Collideable {
 			position = position.add(diff);
 		}
 
-		engine.setPosition(new Vector2f(position.x - 8, position.y + height/2 - 7));
+		engine.setPosition(new Vector2f(position.x - 8, position.y + height / 2
+				- 7));
 
 		topGunPos.set(position.x, position.y + 4);
 		bottomGunPos.set(position.x, position.y + width - 6);
@@ -201,30 +197,31 @@ public class Player extends DynamicObject implements Collideable {
 
 		if (startComboCount) {
 			timer++;
-			if(GameObjectManager.isSlowTime()){
-				if(timer > 60*1*(1+GameObjectManager.slowtime)){
+			if (GameObjectManager.isSlowTime()) {
+				if (timer > 60 * 1 * (1 + GameObjectManager.slowtime)) {
 					startComboCount = false;
 					enemyKillCount = 0;
 					combo = 0;
 					timer = 0;
 				}
-				if(timer <= 60*1*(1+GameObjectManager.slowtime) && combo != enemyKillCount){
+				if (timer <= 60 * 1 * (1 + GameObjectManager.slowtime)
+						&& combo != enemyKillCount) {
 					combo = enemyKillCount;
 					timer = 0;
 				}
-			}else{
-				if(timer > 60*1){
+			} else {
+				if (timer > 60 * 1) {
 					startComboCount = false;
 					enemyKillCount = 0;
 					combo = 0;
 					timer = 0;
 				}
-				if(timer <= 60*1 && combo != enemyKillCount){
+				if (timer <= 60 * 1 && combo != enemyKillCount) {
 					combo = enemyKillCount;
 					timer = 0;
 				}
 			}
-			
+
 		}
 
 	}
@@ -264,8 +261,8 @@ public class Player extends DynamicObject implements Collideable {
 			if (loot instanceof HealthPack) {
 				HealthPack hpack = (HealthPack) obj;
 				if (hp >= maxHP) {
-					for(int i = 0; i < lootArray.length; i++){
-						if(lootArray[i] == null){
+					for (int i = 0; i < lootArray.length; i++) {
+						if (lootArray[i] == null) {
 							lootArray[i] = hpack;
 							break;
 						}
@@ -281,9 +278,10 @@ public class Player extends DynamicObject implements Collideable {
 
 			if (loot instanceof SlowTimePack) {
 				SlowTimePack stp = (SlowTimePack) obj;
-				if (GameObjectManager.isSlowTime() || CollisionManager.getEnemies().size() == 0) {
-					for(int i = 0; i < lootArray.length; i++){
-						if(lootArray[i] == null){
+				if (GameObjectManager.isSlowTime()
+						|| CollisionManager.getEnemies().size() == 0) {
+					for (int i = 0; i < lootArray.length; i++) {
+						if (lootArray[i] == null) {
 							lootArray[i] = stp;
 							break;
 						}
