@@ -3,10 +3,10 @@
 *Software Engineering Project*
 
 **By:**
-Simon Eliasson
-Jonas Enlund
-Anders Eriksson
-Josef Haddad
+- Simon Eliasson
+- Jonas Enlund
+- Anders Eriksson
+- Josef Haddad
 
 ##1. Summary
 This report will describe the working process during the development of the Android application Space Shooter. Space shooter is a side-scrolling arcade game in a futuristic setting where the player’s goal is to score as high as possible by defeating enemies and other dangers. The different working methods that was used to develop the product will be processed, evaluated and discussed. There will also be a section with reflections and a discussion about the project as a whole.
