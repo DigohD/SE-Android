@@ -7,7 +7,7 @@ We want to develop a piece of entertainment that will be able to compete with th
 
 ##Budget
 - **Costs**
-  *600h
+  *600 h
 - **Income**
   *37,5 hp
   *Maybe some money
