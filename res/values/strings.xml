@@ -1,26 +1,14 @@
 <resources>
 
     <string name="app_name">Spaceshooter Zero</string>
-    <string name="submit">Win!</string>
-    <string name="gameId">Game ID</string>
     <string name="changePlayerName">Change player name</string>
-    <string name="player">Player</string>
-    <string name="date">Date</string>
-    <string name="showScores">Show Scores</string>
-    <string name="saving">Saving Score</string>
-    <string name="newHighScore">Congratulations!  New High Score!</string>
-    <string name="badInput">Unable to process that input</string>
-    <string name="high_score_list_no_items">No high score entries to display</string>
-    <string name="delete">Delete</string>
     <string name="play">Play</string>
     <string name="menuText">A game created by Anders, Isabel, Jonas, Josef and Simon at Chalmers Uni.</string>
-    <string name="quit">Quit</string>
     <string name="donate">Donate</string>
     <string name="globalHighscore">Global Highscore</string>
     <string name="name">Name</string>
     <string name="highScore">High score</string>
     <string name="resetHighScore">Reset Highscores</string>
-    <string name="selectPlayer">Select player</string>
     <string name="resetSettings">Reset settings</string>
     <string name="welcome_message">Welcome to an adventure like nothing else. Fly through the depths of space in the hunt for the answer to life, the universe and everything. We are sure that your findings will make you speachless.</string>
      <string name="help_message">Learning by doing (for now)</string>
