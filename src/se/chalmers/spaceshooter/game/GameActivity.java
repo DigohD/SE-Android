@@ -1,7 +1,7 @@
 package se.chalmers.spaceshooter.game;
 
 import se.chalmers.spaceshooter.game.object.player.Player;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import se.chalmers.spaceshooter.game.view.GameView;
@@ -45,7 +45,7 @@ public class GameActivity extends Activity {
 
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 
-		new BitmapHandler(this);
+		new BitmapLoader(this);
 		new GameObjectManager();
 
 		isInvView = true;

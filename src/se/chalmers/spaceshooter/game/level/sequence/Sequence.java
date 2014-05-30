@@ -5,8 +5,8 @@ import java.util.HashMap;
 
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.enemy.Enemy;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
-import se.chalmers.spaceshooter.game.util.Color;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
+import se.chalmers.spaceshooter.game.util.ColorRGBA;
 import se.chalmers.spaceshooter.game.util.Randomizer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import se.chalmers.spaceshooter.game.view.GameView;
@@ -80,7 +80,7 @@ public class Sequence {
 			for (int x = 0; x < width; x++) {
 				// x = the pixels x position , y * width = the pixels y position
 				int pixValue = pixels[x + (y * width)];
-				if (pixValue != Color.BLACK)
+				if (pixValue != ColorRGBA.BLACK)
 					// if the color already exists as a key in the map, simply
 					// add that pixels position in the arraylist
 					// which holds all positions
@@ -108,7 +108,7 @@ public class Sequence {
 	 *            the name of the sequence image
 	 */
 	protected void loadSequence(String path) {
-		Bitmap bmp = BitmapHandler.loadBitmap("sequences/" + path);
+		Bitmap bmp = BitmapLoader.loadBitmap("sequences/" + path);
 		width = bmp.getWidth();
 		height = bmp.getHeight();
 		widthRatio = ((float) GameView.WIDTH / (float) 64);

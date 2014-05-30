@@ -6,7 +6,7 @@ import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.object.particle.emitter.Emitter;
 import se.chalmers.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import se.chalmers.spaceshooter.game.object.player.Player;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import android.graphics.Rect;
 
@@ -16,7 +16,7 @@ public class SlowTimePack extends Loot {
 
 	public SlowTimePack(Vector2f position) {
 		super(position);
-		this.bitmap = BitmapHandler.loadBitmap("loot/slowTime");
+		this.bitmap = BitmapLoader.loadBitmap("loot/slowTime");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 

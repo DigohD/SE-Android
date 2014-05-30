@@ -5,7 +5,7 @@ import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.object.particle.emitter.Emitter;
 import se.chalmers.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import se.chalmers.spaceshooter.game.object.projectile.enemy.MantisProj;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer.SoundID;
 import se.chalmers.spaceshooter.game.util.Vector2f;
@@ -29,7 +29,7 @@ public class Mantis extends Enemy {
 
 	public Mantis(Vector2f position) {
 		super(position);
-		this.bitmap = BitmapHandler.loadBitmap("enemies/mantis");
+		this.bitmap = BitmapLoader.loadBitmap("enemies/mantis");
 
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();

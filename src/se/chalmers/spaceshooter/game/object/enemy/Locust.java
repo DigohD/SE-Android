@@ -1,6 +1,6 @@
 package se.chalmers.spaceshooter.game.object.enemy;
 
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import se.chalmers.spaceshooter.game.view.GameView;
 import android.graphics.Rect;
@@ -17,7 +17,7 @@ public class Locust extends Enemy {
 
 	public Locust(Vector2f position) {
 		super(position);
-		this.bitmap = BitmapHandler.loadBitmap("enemies/locust");
+		this.bitmap = BitmapLoader.loadBitmap("enemies/locust");
 
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();

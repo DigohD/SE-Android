@@ -12,7 +12,7 @@ import se.chalmers.spaceshooter.game.object.particle.emitter.Emitter;
 import se.chalmers.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import se.chalmers.spaceshooter.game.object.player.Player;
 import se.chalmers.spaceshooter.game.object.projectile.Projectile;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.Randomizer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer.SoundID;
@@ -61,7 +61,7 @@ public class Asteroid extends Enemy {
 		for (int i = 0; i < numOfAsteroids; i++)
 			asteroidNames.add(name + i);
 		int i = Randomizer.getInt(0, asteroidNames.size());
-		return BitmapHandler.loadBitmap(asteroidNames.get(i));
+		return BitmapLoader.loadBitmap(asteroidNames.get(i));
 	}
 
 	@Override

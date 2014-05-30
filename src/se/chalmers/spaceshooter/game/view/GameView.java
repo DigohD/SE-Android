@@ -7,7 +7,7 @@ import se.chalmers.spaceshooter.game.level.Level;
 import se.chalmers.spaceshooter.game.object.loot.HealthPack;
 import se.chalmers.spaceshooter.game.object.loot.Loot;
 import se.chalmers.spaceshooter.game.object.loot.SlowTimePack;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.MusicPlayer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import se.chalmers.spaceshooter.leaderboard.TCPClient;
@@ -94,10 +94,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		game = new GameThread(getHolder(), this);
 
-		joystick = BitmapHandler.loadBitmap("ui/joystick");
-		knob = BitmapHandler.loadBitmap("ui/joystickKnob");
-		lootSlot = BitmapHandler.loadBitmap("ui/lootSlot");
-		emptySlot = BitmapHandler.loadBitmap("ui/emptySlot");
+		joystick = BitmapLoader.loadBitmap("ui/joystick");
+		knob = BitmapLoader.loadBitmap("ui/joystickKnob");
+		lootSlot = BitmapLoader.loadBitmap("ui/lootSlot");
+		emptySlot = BitmapLoader.loadBitmap("ui/emptySlot");
 
 		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
 		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);

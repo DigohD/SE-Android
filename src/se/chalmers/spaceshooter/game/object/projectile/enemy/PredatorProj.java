@@ -4,7 +4,7 @@ import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.object.particle.emitter.ImpactEmitter;
 import se.chalmers.spaceshooter.game.object.projectile.Projectile;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import android.graphics.Rect;
 
@@ -13,7 +13,7 @@ public class PredatorProj extends Projectile {
 	public PredatorProj(Vector2f position) {
 		super(position, new Vector2f(-40f, 0f));
 		damage = 2f;
-		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaPurple");
+		this.bitmap = BitmapLoader.loadBitmap("projectiles/PlasmaPurple");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 

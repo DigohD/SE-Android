@@ -1,6 +1,6 @@
 package se.chalmers.spaceshooter.game.util;
 
-public class Color {
+public class ColorRGBA {
 
 	public static final int BLACK = 0xff;
 	public static final int WHITE = 0xffffffff;

@@ -1,7 +1,7 @@
 package se.chalmers.spaceshooter.game.level.sequence;
 
 import se.chalmers.spaceshooter.game.object.enemy.Mantis;
-import se.chalmers.spaceshooter.game.util.Color;
+import se.chalmers.spaceshooter.game.util.ColorRGBA;
 
 public class MantisSequence extends Sequence {
 
@@ -9,7 +9,7 @@ public class MantisSequence extends Sequence {
 		super();
 		timeLimit = false;
 		loadSequence(path);
-		enemies.put(Color.RED, new Mantis());
+		enemies.put(ColorRGBA.RED, new Mantis());
 		scanSequence();
 	}
 
@@ -17,7 +17,7 @@ public class MantisSequence extends Sequence {
 		super();
 		timeLimit = false;
 		loadRandomSequence("mantis/MantisSequence", 2);
-		enemies.put(Color.RED, new Mantis());
+		enemies.put(ColorRGBA.RED, new Mantis());
 		scanSequence();
 	}
 

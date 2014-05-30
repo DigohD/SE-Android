@@ -4,7 +4,7 @@ import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.object.particle.emitter.ImpactEmitter;
 import se.chalmers.spaceshooter.game.object.projectile.Projectile;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer.SoundID;
 import se.chalmers.spaceshooter.game.util.Vector2f;
@@ -15,7 +15,7 @@ public class YellowPlasma extends Projectile {
 	public YellowPlasma(Vector2f position) {
 		super(position, new Vector2f(80f, 0f));
 		damage = 5f;
-		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaYellow");
+		this.bitmap = BitmapLoader.loadBitmap("projectiles/PlasmaYellow");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 
@@ -30,7 +30,7 @@ public class YellowPlasma extends Projectile {
 	public YellowPlasma(Vector2f position, Vector2f velocity) {
 		super(position, velocity);
 		damage = 5f;
-		this.bitmap = BitmapHandler.loadBitmap("projectiles/PlasmaYellow");
+		this.bitmap = BitmapLoader.loadBitmap("projectiles/PlasmaYellow");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 

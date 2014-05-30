@@ -6,7 +6,7 @@ import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.object.particle.emitter.Emitter;
 import se.chalmers.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import se.chalmers.spaceshooter.game.object.player.Player;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import android.graphics.Rect;
 
@@ -19,7 +19,7 @@ public class HealthPack extends Loot {
 		super(position);
 
 		this.hp = hp;
-		this.bitmap = BitmapHandler.loadBitmap("loot/healthpack");
+		this.bitmap = BitmapLoader.loadBitmap("loot/healthpack");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 

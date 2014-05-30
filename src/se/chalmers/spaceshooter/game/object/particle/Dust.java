@@ -1,7 +1,7 @@
 package se.chalmers.spaceshooter.game.object.particle;
 
 import se.chalmers.spaceshooter.game.GameObjectManager;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.Randomizer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 
@@ -11,7 +11,7 @@ public class Dust extends Particle {
 		super(position, velocity, ParticleID.DUST);
 
 		int rnd = Randomizer.getInt2(0, 2);
-		this.bitmap = BitmapHandler.loadBitmap("particles/dust" + rnd);
+		this.bitmap = BitmapLoader.loadBitmap("particles/dust" + rnd);
 
 		lifetime = 5 + Randomizer.getInt(0, 40);
 		timeLived = 0;
@@ -23,7 +23,7 @@ public class Dust extends Particle {
 		super(position, new Vector2f(75f, 0f), ParticleID.DUST);
 
 		int rnd = Randomizer.getInt2(0, 2);
-		this.bitmap = BitmapHandler.loadBitmap("particles/dust" + rnd);
+		this.bitmap = BitmapLoader.loadBitmap("particles/dust" + rnd);
 
 		this.lifetime = lifetime;
 		timeLived = 0;

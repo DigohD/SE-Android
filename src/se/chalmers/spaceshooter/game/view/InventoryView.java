@@ -8,7 +8,7 @@ import se.chalmers.spaceshooter.game.object.weapon.BluePlasmaGun;
 import se.chalmers.spaceshooter.game.object.weapon.GreenPlasmaGun;
 import se.chalmers.spaceshooter.game.object.weapon.RedPlasmaGun;
 import se.chalmers.spaceshooter.game.object.weapon.YellowPlasmaGun;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.MusicPlayer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer.SoundID;
@@ -77,13 +77,13 @@ public class InventoryView extends SurfaceView implements
 
 		holder.addCallback(this);
 
-		banner = BitmapHandler.loadBitmap("ui/weaponOne");
-		banner2 = BitmapHandler.loadBitmap("ui/weaponTwo");
+		banner = BitmapLoader.loadBitmap("ui/weaponOne");
+		banner2 = BitmapLoader.loadBitmap("ui/weaponTwo");
 
-		this.vapen[0] = BitmapHandler.loadBitmap("ui/RedPlasma");
-		this.vapen[1] = BitmapHandler.loadBitmap("ui/BluePlasma");
-		this.vapen[2] = BitmapHandler.loadBitmap("ui/GreenPlasma");
-		this.vapen[3] = BitmapHandler.loadBitmap("ui/YellowPlasma");
+		this.vapen[0] = BitmapLoader.loadBitmap("ui/RedPlasma");
+		this.vapen[1] = BitmapLoader.loadBitmap("ui/BluePlasma");
+		this.vapen[2] = BitmapLoader.loadBitmap("ui/GreenPlasma");
+		this.vapen[3] = BitmapLoader.loadBitmap("ui/YellowPlasma");
 
 	}
 

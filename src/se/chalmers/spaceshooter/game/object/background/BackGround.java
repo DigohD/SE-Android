@@ -2,7 +2,7 @@ package se.chalmers.spaceshooter.game.object.background;
 
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.object.DynamicObject;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 import android.graphics.Canvas;
 
@@ -21,7 +21,7 @@ public class BackGround extends DynamicObject {
 	public BackGround() {
 		super(new Vector2f(0, 0));
 
-		this.bitmap = BitmapHandler.loadBitmap("bg/bg");
+		this.bitmap = BitmapLoader.loadBitmap("bg/bg");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 

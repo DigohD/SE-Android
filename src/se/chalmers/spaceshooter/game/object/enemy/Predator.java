@@ -5,7 +5,7 @@ import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.object.particle.emitter.Emitter;
 import se.chalmers.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import se.chalmers.spaceshooter.game.object.projectile.enemy.PredatorProj;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer.SoundID;
 import se.chalmers.spaceshooter.game.util.Vector2f;
@@ -24,7 +24,7 @@ public class Predator extends Enemy {
 
 	public Predator(Vector2f position) {
 		super(position);
-		this.bitmap = BitmapHandler.loadBitmap("enemies/predator");
+		this.bitmap = BitmapLoader.loadBitmap("enemies/predator");
 
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();

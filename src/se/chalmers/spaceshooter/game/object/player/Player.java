@@ -16,7 +16,7 @@ import se.chalmers.spaceshooter.game.object.particle.emitter.Emitter;
 import se.chalmers.spaceshooter.game.object.particle.emitter.RadialEmitter;
 import se.chalmers.spaceshooter.game.object.projectile.Projectile;
 import se.chalmers.spaceshooter.game.object.weapon.Gun;
-import se.chalmers.spaceshooter.game.util.BitmapHandler;
+import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.SoundPlayer.SoundID;
 import se.chalmers.spaceshooter.game.util.Vector2f;
@@ -61,7 +61,7 @@ public class Player extends DynamicObject implements Collideable {
 	public Player(Vector2f position) {
 		super(position);
 
-		this.bitmap = BitmapHandler.loadBitmap("player/ship");
+		this.bitmap = BitmapLoader.loadBitmap("player/ship");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
 

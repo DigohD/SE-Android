@@ -14,12 +14,12 @@ import android.graphics.BitmapFactory;
  * @author Anders
  * 
  */
-public class BitmapHandler {
+public class BitmapLoader {
 
 	private static Activity activity;
 
-	public BitmapHandler(Activity activity) {
-		BitmapHandler.activity = activity;
+	public BitmapLoader(Activity activity) {
+		BitmapLoader.activity = activity;
 	}
 
 	/**
