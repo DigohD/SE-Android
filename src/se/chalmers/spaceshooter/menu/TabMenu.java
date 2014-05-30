@@ -59,7 +59,6 @@ public class TabMenu extends Activity {
 		AdRequest adRequest = new AdRequest.Builder()
 				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
 				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
-				.addTestDevice("e83ab40d") // Simon
 				.addTestDevice("CC502939B1954AAF341181CF3BDAFAEA") // Anders
 
 				.build();
