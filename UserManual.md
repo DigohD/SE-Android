@@ -3,7 +3,7 @@ This document describes how to use the application, what it's goal is and more t
 
 ##Installation
 ###Option 1
-Run the project as an Android application from your build environment as described in the [build process](github.com/DigohD/SE-Android/blob/master/documentation/BuildProcess.md).
+Run the project as an Android application from your build environment as described in the [build process](https://github.com/DigohD/SE-Android/blob/master/documentation/BuildProcess.md).
 
 ###Option 2
 1. Download the .apk file of the application to the phone
