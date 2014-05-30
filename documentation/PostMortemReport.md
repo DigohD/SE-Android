@@ -7,7 +7,7 @@ Simon Eliasson
 Jonas Enlund
 Anders Eriksson
 Josef Haddad
-
+
 ##1. Summary
 This report will describe the working process during the development of the Android application Space Shooter. Space shooter is a side-scrolling arcade game in a futuristic setting where the player’s goal is to score as high as possible by defeating enemies and other dangers. The different working methods that was used to develop the product will be processed, evaluated and discussed. There will also be a section with reflections and a discussion about the project as a whole.
 
@@ -105,4 +105,4 @@ We also made some non-process related decisions. These can be seen in the design
 As stated earlier, work within the group have been smooth and enjoyable. There have been practically no conflicts within the group during this assignment other than conflicting ideas, which resulted in discussion, that in the end have been beneficial for the project anyway. We have worked well together and already have possible plans for working again in the future, continuing on the app. Apart from previously discussed meeting issues, there have been no real problems within the group. In general, group members have been helpful and ambitious, and there has been a common sense of constantly looking forward.
 
 ##9. Learnings for Future Projects
-First of all, given that a future project group consists of people working at the same place, meeting schedules should be more regular and consistent than what we have had during this course. Morning meetings almost every day would probably help to organize the project.
+First of all, given that a future project group consists of people working at the same place, meeting schedules should be more regular and consistent than what we have had during this course. Morning meetings almost every day would probably help to organize the project. We also believe that common coding time is beneficial. Even if the different team members are working on different parts, many of the methods in one class might be needed to call in another, and a faster comminication can ensure that the methods called are up to date and contains the correct types.
