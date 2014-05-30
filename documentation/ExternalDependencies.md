@@ -1,6 +1,6 @@
 External Dependencies
 ==========
-This project requires certain extarnal resources to work as intended, apart from what is described in the [build process](github.com/DigohD/SE-Android/blob/master/documentation/BuildProcess.md).
+This project requires certain external resources to work as intended, apart from what is described in the [build process](github.com/DigohD/SE-Android/blob/master/documentation/BuildProcess.md).
 
 Global highscores
 ----------
