@@ -1,5 +1,6 @@
 package se.chalmers.spaceshooter.game;
 
+import se.chalmers.spaceshooter.game.object.player.Player;
 import se.chalmers.spaceshooter.game.util.BitmapHandler;
 import se.chalmers.spaceshooter.game.util.SoundPlayer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
@@ -19,12 +20,11 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class GameActivity extends Activity {
-	SharedPreferences sp;
+	
 	private GameView gameView;
 	private InventoryView invView;
 
 	public boolean isInvView;
-
 	public static Vector2f savedPos;
 
 	@Override
@@ -46,8 +46,7 @@ public class GameActivity extends Activity {
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 
 		new BitmapHandler(this);
-
-		GameObjectManager go = new GameObjectManager();
+		new GameObjectManager();
 
 		isInvView = true;
 		invView = new InventoryView(this);
@@ -61,7 +60,7 @@ public class GameActivity extends Activity {
 
 	private void exitDialog() {
 		if (gameView != null) {
-			gameView.dialogBoxShowing = true;
+			GameView.dialogBoxShowing = true;
 			gameView.pause();
 		}
 		Builder builder = new AlertDialog.Builder(this);
@@ -69,12 +68,14 @@ public class GameActivity extends Activity {
 		builder.setTitle("Game Paused");
 		builder.setMessage("What do you want to do?");
 		builder.setNegativeButton("Resume Game", new OnClickListener() {
+			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
-				gameView.dialogBoxShowing = false;
+				GameView.dialogBoxShowing = false;
 				gameView.resume();
 			}
 		});
 		builder.setPositiveButton("Main Menu", new OnClickListener() {
+			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				gameView.stop();
 				GameActivity.super.onBackPressed();
@@ -103,17 +104,17 @@ public class GameActivity extends Activity {
 			exitDialog();
 	}
 
+	@Override
 	public void onStop() {
 		super.onStop();
-		System.out.println("q12STOP");
 		if (!isInvView)
 			saveState();
 
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
-		System.out.println("q12PAUSE");
 		if (!isInvView)
 			saveState();
 	}
@@ -128,16 +129,15 @@ public class GameActivity extends Activity {
 			}
 		}
 		if (gameView.sdestroyed) {
-			GameObjectManager.removeGameObject(GameObjectManager.getPlayer()
-					.getEngine());
+			GameObjectManager.getPlayer();
+			GameObjectManager.removeGameObject(Player.getEngine());
 		}
 		savedPos = GameObjectManager.getPlayer().getPosition();
 	}
 
+	@Override
 	public void onResume() {
 		super.onResume();
-		System.out.println("q12RESUME");
-		// gameView.resume();
 	}
 
 }

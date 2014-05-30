@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.engine;
+package se.chalmers.spaceshooter.game;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

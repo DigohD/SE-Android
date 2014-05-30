@@ -8,8 +8,8 @@ public class MusicPlayer {
 	private static MediaPlayer mp;
 
 	public MusicPlayer(Context context) {
-		mp = MediaPlayer
-				.create(context, com.spaceshooter.game.R.raw.starduster);
+		mp = MediaPlayer.create(context,
+				se.chalmers.spaceshooter.R.raw.starduster);
 		mp.setVolume(1f, 1f);
 		mp.start();
 	}

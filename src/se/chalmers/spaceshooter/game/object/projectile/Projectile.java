@@ -62,6 +62,7 @@ public abstract class Projectile extends DynamicObject implements Collideable {
 		return damage;
 	}
 
+	@Override
 	public Rect getRect() {
 		return rect;
 	}

@@ -69,6 +69,7 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 		}
 	}
 
+	@Override
 	public Rect getRect() {
 		return rect;
 	}

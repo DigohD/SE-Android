@@ -26,6 +26,7 @@ public abstract class Loot extends DynamicObject implements Collideable {
 
 	public abstract void death();
 
+	@Override
 	public Rect getRect() {
 		return rect;
 	}

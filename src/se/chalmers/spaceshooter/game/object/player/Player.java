@@ -305,6 +305,7 @@ public class Player extends DynamicObject implements Collideable {
 		engine.setLive(false);
 	}
 
+	@Override
 	public Rect getRect() {
 		return rect;
 	}

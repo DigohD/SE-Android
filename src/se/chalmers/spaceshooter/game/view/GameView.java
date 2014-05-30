@@ -1,8 +1,9 @@
-package se.chalmers.spaceshooter.view;
+package se.chalmers.spaceshooter.game.view;
 
 import se.chalmers.spaceshooter.game.GameActivity;
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.GameThread;
+import se.chalmers.spaceshooter.game.level.Level;
 import se.chalmers.spaceshooter.game.object.loot.HealthPack;
 import se.chalmers.spaceshooter.game.object.loot.Loot;
 import se.chalmers.spaceshooter.game.object.loot.SlowTimePack;
@@ -82,7 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	private void init() {
-		GameActivity ga = (GameActivity) context;
+		
 		gwMusicState = TabMenu.musicState;
 		mp = null;
 		musicStartTimer = 0;
@@ -186,6 +187,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
 		final int maskedAction = MotionEventCompat.getActionMasked(event);
@@ -254,7 +256,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				GameObjectManager.getPlayer().lootArray[0] = null;
 			}
 			if (loot instanceof SlowTimePack) {
-				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
 				GameObjectManager.getPlayer().lootArray[0] = null;
 			}
@@ -269,7 +270,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				GameObjectManager.getPlayer().lootArray[1] = null;
 			}
 			if (loot instanceof SlowTimePack) {
-				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
 				GameObjectManager.getPlayer().lootArray[1] = null;
 			}
@@ -283,7 +283,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				GameObjectManager.getPlayer().lootArray[2] = null;
 			}
 			if (loot instanceof SlowTimePack) {
-				SlowTimePack st = (SlowTimePack) loot;
 				GameObjectManager.setSlowTime(true);
 				GameObjectManager.getPlayer().lootArray[2] = null;
 			}
@@ -323,34 +322,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceCreated(SurfaceHolder holder) {
 		sdestroyed = false;
 		start();
-		System.out.println("q12surfacecreated");
 	}
 
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width,
 			int height) {
-		System.out.println("q12surfacechanged");
+	
 
 	}
 
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		System.out.println("q12surfacedestroyed");
 		sdestroyed = true;
-		// stop();
 	}
 
 	public void start() {
 		game.start();
 		GameObjectManager.getPlayer().init();
-		System.out.println("q12GWstart");
-
-		// GameObjectManager.getPlayer().setPosition(GameActivity.savedPos);
 	}
 
 	public void stop() {
 		GameObjectManager.clear();
-		System.out.println("q12GWstop");
 		if (gwMusicState) {
 			MusicPlayer.stop();
 		}
@@ -358,8 +350,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void pause() {
-		System.out.println("q12GWpause");
-
 		okToRestartMP = false;
 		if (gwMusicState) {
 			MusicPlayer.pause();
@@ -368,7 +358,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	public void resume() {
-		System.out.println("q12GWresume");
 		okToRestartMP = true;
 		if (gwMusicState) {
 			MusicPlayer.resume();
@@ -397,6 +386,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		final GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
+			@Override
 			public void run() {
 				game.pause();
 				if (gwMusicState) {
@@ -414,6 +404,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setMessage(msg);
 				builder.setNegativeButton(negativeBtn,
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface arg0, int arg1) {
 
 								GameActivity ga2 = (GameActivity) context;
@@ -423,6 +414,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						});
 				builder.setNeutralButton(neutralBtn,
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface arg0, int arg1) {
 								dialogBoxShowing = false;
 								TCPClient tcp = new TCPClient();
@@ -448,6 +440,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						});
 				builder.setPositiveButton(positiveBtn,
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface arg0, int arg1) {
 								dialogBoxShowing = false;
 								resetGameState();
@@ -466,6 +459,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 		final GameActivity ga = (GameActivity) context;
 		ga.runOnUiThread(new Runnable() {
+			@Override
 			public void run() {
 				game.pause();
 				if (gwMusicState) {
@@ -478,6 +472,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				builder.setMessage(msg);
 				builder.setNegativeButton(negativeBtn,
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface arg0, int arg1) {
 
 								GameActivity ga2 = (GameActivity) context;
@@ -487,6 +482,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 						});
 				builder.setPositiveButton(positiveBtn,
 						new DialogInterface.OnClickListener() {
+							@Override
 							public void onClick(DialogInterface arg0, int arg1) {
 								dialogBoxShowing = false;
 								resetGameState();

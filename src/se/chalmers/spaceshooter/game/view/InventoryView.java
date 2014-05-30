@@ -1,8 +1,9 @@
-package se.chalmers.spaceshooter.view;
+package se.chalmers.spaceshooter.game.view;
 
 import se.chalmers.spaceshooter.game.GameActivity;
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.GameThread;
+import se.chalmers.spaceshooter.game.level.Level;
 import se.chalmers.spaceshooter.game.object.weapon.BluePlasmaGun;
 import se.chalmers.spaceshooter.game.object.weapon.GreenPlasmaGun;
 import se.chalmers.spaceshooter.game.object.weapon.RedPlasmaGun;
@@ -30,7 +31,6 @@ public class InventoryView extends SurfaceView implements
 
 	public static final int WIDTH = 800, HEIGHT = 480;
 	private float scaleX, scaleY;
-	private int timer = 0, timer2 = 0;
 
 	private Bitmap banner;
 	private Bitmap banner2;
@@ -44,9 +44,7 @@ public class InventoryView extends SurfaceView implements
 	private Context context;
 	private SurfaceHolder holder;
 	private GameThread game;
-	private Level level;
 	private MusicPlayer mp;
-	private Paint p = new Paint();
 
 	private int pressTimer, startTimer;
 	private boolean start = false;;
@@ -89,57 +87,6 @@ public class InventoryView extends SurfaceView implements
 
 	}
 
-	/**
-	 * Creates a dialogbox on the screen with a title, message and two buttons
-	 * one button for yes and one for no
-	 * 
-	 * @param title
-	 *            the title of the box, eg "Level completed!" or "You died"
-	 * @param msg
-	 *            the message in the box, eg "Restart the level?"
-	 * @param positiveBtn
-	 *            the text in the positive button
-	 * @param negativeBtn
-	 *            the text in the negative button
-	 */
-	// private void dialogBox(final String title, final String msg, final String
-	// positiveBtn, final String negativeBtn){
-	// GameActivity ga = (GameActivity) context;
-	// ga.runOnUiThread(new Runnable() {
-	// public void run() {
-	// game.pause();
-	// mp.stop();
-	// Builder builder = new AlertDialog.Builder(context);
-	// builder.setCancelable(false);
-	// builder.setTitle(title);
-	// builder.setMessage(msg);
-	// builder.setNegativeButton(negativeBtn, new
-	// DialogInterface.OnClickListener() {
-	// public void onClick(DialogInterface arg0, int arg1) {
-	// GameActivity ga2 = (GameActivity) context;
-	// stop();
-	// ga2.onBackPressed2();
-	// }});
-	// builder.setPositiveButton(positiveBtn, new
-	// DialogInterface.OnClickListener() {
-	// public void onClick(DialogInterface arg0, int arg1) {
-	// GameObjectManager.clear();
-	// level = new Level(1);
-	// GameObjectManager.getPlayer().init();
-	// game.resume();
-	// mp = new MusicPlayer(context);
-	// okToRestartMP = true;
-	// drawJoystick = true;
-	// level.setFinished(false);
-	// timer = 0;
-	// timer2 = 0;
-	// firstLevel = true;
-	// levelID = 2;
-	// }});
-	// builder.create().show();
-	// }});
-	// }
-
 	public void tick(float dt) {
 		pressTimer++;
 		if (start) {
@@ -147,6 +94,7 @@ public class InventoryView extends SurfaceView implements
 			if (startTimer > 150) {
 				final GameActivity gA = (GameActivity) context;
 				gA.runOnUiThread(new Runnable() {
+					@Override
 					public void run() {
 						gA.goToGame();
 					}
@@ -170,6 +118,7 @@ public class InventoryView extends SurfaceView implements
 
 	}
 
+	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		float eventX = event.getX();
 		float eventY = event.getY();

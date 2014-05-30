@@ -114,6 +114,7 @@ public class TabMenu extends Activity {
 		builder.setTitle("Help");
 		builder.setMessage(R.string.help_message);
 		builder.setNegativeButton("Thank you!", new OnClickListener() {
+			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				TabMenu.helpShown++;
 				TabMenu.writeSettings("helpShown", TabMenu.helpShown);
@@ -129,11 +130,13 @@ public class TabMenu extends Activity {
 		builder.setTitle("Already done?");
 		builder.setMessage("Really quit?");
 		builder.setPositiveButton("No, not really", new OnClickListener() {
+			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 
 			}
 		});
 		builder.setNegativeButton("Yes, really", new OnClickListener() {
+			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				TabMenu.super.onBackPressed();
 				System.exit(0);
@@ -148,6 +151,7 @@ public class TabMenu extends Activity {
 		builder.setTitle("Welcome to Spaceshooter Zero!");
 		builder.setMessage(R.string.welcome_message);
 		builder.setNegativeButton("Thank you!", new OnClickListener() {
+			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
 				playerDialog();
 			}
@@ -168,6 +172,7 @@ public class TabMenu extends Activity {
 		db.closeDB();
 	}
 
+	@Override
 	public void onResume() {
 		super.onResume();
 		db.openDB();
@@ -227,6 +232,7 @@ public class TabMenu extends Activity {
 		input.setText(playerName);
 		alert.setView(input);
 		alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String enteredPlayer = input.getText().toString();
 				if (enteredPlayer.matches("^[a-zA-Z0-9]*$")
@@ -249,6 +255,7 @@ public class TabMenu extends Activity {
 		});
 		alert.setNegativeButton("Cancel",
 				new DialogInterface.OnClickListener() {
+					@Override
 					public void onClick(DialogInterface dialog, int whichButton) {
 					}
 				});

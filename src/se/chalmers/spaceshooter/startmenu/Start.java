@@ -52,18 +52,21 @@ public class Start extends Activity {
 		}
 	}
 
+	@Override
 	public void onStop() {
 		super.onStop();
 		System.out.println("q12STOP");
 
 	}
 
+	@Override
 	public void onPause() {
 		super.onPause();
 		System.out.println("q12PAUSE");
 
 	}
 
+	@Override
 	public void onResume() {
 		super.onResume();
 		System.out.println("q12RESUME");

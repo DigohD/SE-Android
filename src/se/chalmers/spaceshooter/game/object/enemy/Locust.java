@@ -9,7 +9,7 @@ public class Locust extends Enemy {
 
 	int timer = 0;
 	int steps = 20;
-	private int reload;
+	private int reload = 0;
 
 	public Locust() {
 		this(new Vector2f(GameView.WIDTH + 40, 0));

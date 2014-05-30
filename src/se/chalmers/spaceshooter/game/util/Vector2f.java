@@ -190,6 +190,7 @@ public class Vector2f {
 	/**
 	 * Returns a clone of the vector
 	 */
+	@Override
 	public Vector2f clone() {
 		return new Vector2f(x, y);
 	}

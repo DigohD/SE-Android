@@ -27,6 +27,7 @@ import se.chalmers.spaceshooter.game.view.GameView;
 
 public class TestOperations extends TestCase {
 
+	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 	}
