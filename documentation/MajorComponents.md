@@ -7,9 +7,9 @@ The way to achieve this is by letting a accumulator variable store the time it t
 
 We also use linear interpolation to gain more smooth movements. The idea of interpolation is to predict a state to draw which is between the current and the next update. To achieve this we take the remainder of the accumulator which simply is a measure of how much more time is required before the next update and then pass it into a prediction method which will calculate the interpolated state that will be drawn. 
 
-##The system architecture
-We thought a lot about using a pre-existing game engine like Libgdx or Andengine but we came to the conclusion that we would have more freedom and a deeper understanding of the code if made the engine ourselves. It also felt like we would have gotten a lot handed to us by using a game engine which, if you are a hardcore game developer, isn’t ideal.
-Since we chose to develop our own game engine we needed a system for creating, removing and handling gameobjects. Our goal was to make a system that made this possible in a fast and easy way. 
+##System Architecture
+We thought a lot about using a pre-existing game engine like Libgdx or Andengine but we came to the conclusion that we would have more freedom and a deeper understanding of the code if we made the engine ourselves.
+Since we chose to develop our own game engine we needed except from the game loop a system for handling gameobjects. Our goal was to make a system that made this possible in a fast and easy way. 
 ###GameObjects
 The first step was to define what a gameobject is and what types of gameobjects we will have in the game. So in our game a gameobject is defined as something that has a position, a boolean for checking if it is dead or alive, a width and a height. We then categorize the gameobjects as tickables, drawables, collideables or any combination of the three. If a gameobject is tickable its state should be updated every frame , if it is drawable it should be drawn to the screen every frame and if it is collideable it should be checked for collisions every frame. 
 We also noted that most of our gameobjects should be both updated and drawn so we simply made an abstract class called DynamicObject which inherits the gameobject class and implements the tickable and drawable interfaces. This way you can just inherit from DynamicObject if you want a gameobject to be updated and drawn.
