@@ -64,7 +64,7 @@ This topic has already been discussed to some extent during section 3. To have d
 This section will give a report of our individual areas of responsibility and estimations for how much time each individual have spent on the different parts of the project. In general, we have had a fairly equal share of working with software, organization and documentation. 
 
 ###4.1 Simon - Lead Game Design
-Simon has mainly been responsible for the game design of the actual game stage of the application. He has mainly been working with graphics, sound effects, music and game features in general, as well as with the code that handle these features. Also designed the TCP system for global high-scores.
+Simon has mainly been responsible for the game design of the actual game stage of the application. He has mainly been working with graphics, sound effects, music and game features in general, as well as with the code that handle these features. Also designed the TCP system for global high-scores and was responsible for the post mortem report.
 
 ###4.2 Jonas - Lead Android Development
 Jonas has been responsible for the Android modules parts of the program and XML. He has implemented the menus and their features, as well as implementing google related services like ads etc. He has also been working with git in order to make these external dependencies work in a correct manner.
