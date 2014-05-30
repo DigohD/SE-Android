@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.util;
+package se.chalmers.spaceshooter.game.util;
 
 import android.content.Context;
 import android.media.MediaPlayer;

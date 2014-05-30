@@ -1,4 +1,4 @@
-package se.chalmers.spaceshooter.util;
+package se.chalmers.spaceshooter.game.util;
 
 /**
  * Class for representing a vector in a 2d coordinate space
