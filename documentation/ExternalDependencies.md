@@ -2,9 +2,9 @@ External Dependencies
 ==========
 This project requires certain external resources to work as intended, apart from what is described in the [build process](github.com/DigohD/SE-Android/blob/master/documentation/BuildProcess.md).
 
-Global highscores
+Global high scores
 ----------
-The global highscore is saved on an independent Java server application running on a PC. If this software or PC fails, or the application can't connect to it due to its host device's own limitations or errors, no high scores will be saved.
+The global high score is saved on an independent Java server application running on a PC. If this software or PC fails, or the application can't connect to it due to its host device's own limitations or errors, no high scores will be saved.
 
 **Risk of failure on High score server:** medium
 
@@ -18,6 +18,6 @@ Other
 ----------
 The application also uses some functions on the device it's runs on to work properly. Hardware used is
 - touch screen for operating the application
-- phone memory for saving local highscores and settings
+- phone memory for saving local high scores and settings
 - speaker for playing music and sound effects
 - internet access for getting ads and for posting and getting global high scores
