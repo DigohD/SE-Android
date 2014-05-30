@@ -70,6 +70,14 @@ public class Mantis extends Enemy {
 	}
 
 	@Override
+	public void death() {
+		Vector2f center = position.add(new Vector2f(width / 2f, height / 2f));
+		emitter.getPosition().set(center.x, center.y);
+		emitter.init();
+		SoundPlayer.playSound(SoundID.exp_2);
+	}
+
+	@Override
 	public void tick(float dt) {
 		super.tick(dt);
 
@@ -127,14 +135,6 @@ public class Mantis extends Enemy {
 		velocity.y = approach(targetVelocity.y, velocity.y, dt);
 
 		move(dt);
-	}
-
-	@Override
-	public void death() {
-		Vector2f center = position.add(new Vector2f(width / 2f, height / 2f));
-		emitter.getPosition().set(center.x, center.y);
-		emitter.init();
-		SoundPlayer.playSound(SoundID.exp_2);
 	}
 
 }

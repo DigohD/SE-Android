@@ -34,28 +34,33 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public static final int WIDTH = 800, HEIGHT = 480;
 
+	public static int getLevelID() {
+		return levelID;
+	}
+
 	public boolean sdestroyed = false;
 	private int timer = 0;
 	private int musicStartTimer;
 	private int levelTime = 30;
 	private int slotOffset = 600;
-	private static int levelID;
 
+	private static int levelID;
 	private float scaleX, scaleY;
 	private float knobX;
-	private float knobY;
 
+	private float knobY;
 	private boolean okToRestartMP = true;
 	private boolean displayLevelID = false;
 	public boolean gwMusicState;
-	public static boolean dialogBoxShowing = false;
 
+	public static boolean dialogBoxShowing = false;
 	private Context context;
 	private SurfaceHolder holder;
 	private GameThread game;
 	private Level level;
 	private Bitmap joystick, knob, lootSlot, emptySlot;
 	private MusicPlayer mp;
+
 	private Paint p = new Paint();
 
 	public GameView(Context context) {
@@ -82,81 +87,132 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		holder.addCallback(this);
 	}
 
-	private void init() {
-		
-		gwMusicState = TabMenu.musicState;
-		mp = null;
-		musicStartTimer = 0;
+	public void dialogBox(final String title, final String msg,
+			final String positiveBtn, final String negativeBtn) {
 
-		levelID = 1;
-		level = new Level(levelTime);
-		level.startLevel(levelID);
+		dialogBoxShowing = true;
 
-		game = new GameThread(getHolder(), this);
+		final GameActivity ga = (GameActivity) context;
+		ga.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				game.pause();
+				if (gwMusicState) {
+					MusicPlayer.stop();
+				}
 
-		joystick = BitmapLoader.loadBitmap("ui/joystick");
-		knob = BitmapLoader.loadBitmap("ui/joystickKnob");
-		lootSlot = BitmapLoader.loadBitmap("ui/lootSlot");
-		emptySlot = BitmapLoader.loadBitmap("ui/emptySlot");
+				Builder builder = new AlertDialog.Builder(context);
+				builder.setCancelable(false);
+				builder.setTitle(title);
+				builder.setMessage(msg);
+				builder.setNegativeButton(negativeBtn,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
 
-		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
-		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
+								GameActivity ga2 = (GameActivity) context;
+								stop();
+								ga2.onBackPressed2();
+							}
+						});
+				builder.setPositiveButton(positiveBtn,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								dialogBoxShowing = false;
+								resetGameState();
+							}
+						});
+				builder.create().show();
+			}
+		});
 
 	}
 
-	public void tick(float dt) {
-		if (gwMusicState) {
-			if (mp == null) {
-				musicStartTimer++;
-				if (musicStartTimer > 10)
-					mp = new MusicPlayer(context);
-			}
-		}
+	/**
+	 * Creates a dialogbox on the screen with a title, message and two buttons
+	 * one button for yes and one for no
+	 * 
+	 * @param title
+	 *            the title of the box, eg "Level completed!" or "You died"
+	 * @param msg
+	 *            the message in the box, eg "Restart the level?"
+	 * @param positiveBtn
+	 *            the text in the positive button
+	 * @param negativeBtn
+	 *            the text in the negative button
+	 */
+	public void dialogBox(final String title, final String msg,
+			final String positiveBtn, final String neutralBtn,
+			final String negativeBtn) {
 
-		if (!displayLevelID)
-			timer++;
+		dialogBoxShowing = true;
 
-		if (timer >= 2 * 60) {
-			displayLevelID = true;
-			timer = 0;
-		}
-
-		level.tick(dt);
-
-		if (level.isFinished() && GameObjectManager.getPlayer().isLive()) {
-			timer++;
-			if (timer >= 2 * 60) {
-				if (levelID >= Level.getNumOfLevels()) {
-					okToRestartMP = false;
-					dialogBox("Game completed!", "Highscore: "
-							+ GameObjectManager.getPlayer().getScore(),
-							"Restart", "Submit score", "Main Menu");
-				} else {
-					levelID++;
-					level.startLevel(levelID);
-					level.setFinished(false);
-					displayLevelID = false;
-					timer = 0;
+		final GameActivity ga = (GameActivity) context;
+		ga.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				game.pause();
+				if (gwMusicState) {
+					MusicPlayer.stop();
 				}
-			}
-		}
 
-		if (!GameObjectManager.getPlayer().isLive()) {
-			okToRestartMP = false;
-			timer++;
-			if (timer >= 2 * 60) {
-				dialogBox("You died! You made it to level " + (levelID),
-						"Highscore: "
-								+ GameObjectManager.getPlayer().getScore(),
-						"Restart", "Submit score", "Main Menu");
-				timer = 0;
-			}
-		}
+				TabMenu.db.openDB();
+				TabMenu.db.addHighscore(TabMenu.playerName, GameObjectManager
+						.getPlayer().getScore());
+				TabMenu.db.closeDB();
 
-		if (gwMusicState) {
-			if (mp != null && MusicPlayer.isDone() && okToRestartMP)
-				mp = new MusicPlayer(context);
-		}
+				Builder builder = new AlertDialog.Builder(context);
+				builder.setCancelable(false);
+				builder.setTitle(title);
+				builder.setMessage(msg);
+				builder.setNegativeButton(negativeBtn,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+
+								GameActivity ga2 = (GameActivity) context;
+								stop();
+								ga2.onBackPressed2();
+							}
+						});
+				builder.setNeutralButton(neutralBtn,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								dialogBoxShowing = false;
+								TCPClient tcp = new TCPClient();
+								if (TabMenu.playerName != null) {
+									String[] querys = {
+											"insert",
+											TabMenu.playerName,
+											GameObjectManager.getPlayer()
+													.getScore() + "" };
+									tcp.execute(querys);
+								} else {
+									String[] querys = {
+											"insert",
+											"Player",
+											GameObjectManager.getPlayer()
+													.getScore() + "" };
+									tcp.execute(querys);
+								}
+								dialogBox("Score submitted!",
+										"What do you want to do?", "Restart",
+										"Main Menu");
+							}
+						});
+				builder.setPositiveButton(positiveBtn,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								dialogBoxShowing = false;
+								resetGameState();
+							}
+						});
+				builder.create().show();
+			}
+		});
 
 	}
 
@@ -247,6 +303,130 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		return true;
 	}
 
+	public void pause() {
+		okToRestartMP = false;
+		if (gwMusicState) {
+			MusicPlayer.pause();
+		}
+		game.pause();
+	}
+
+	public void resume() {
+		okToRestartMP = true;
+		if (gwMusicState) {
+			MusicPlayer.resume();
+		}
+		game.resume();
+	}
+
+	public void start() {
+		game.start();
+		GameObjectManager.getPlayer().init();
+	}
+
+	public void stop() {
+		GameObjectManager.clear();
+		if (gwMusicState) {
+			MusicPlayer.stop();
+		}
+		game.stop();
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+
+	}
+
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		sdestroyed = false;
+		start();
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		sdestroyed = true;
+	}
+
+	public void tick(float dt) {
+		if (gwMusicState) {
+			if (mp == null) {
+				musicStartTimer++;
+				if (musicStartTimer > 10)
+					mp = new MusicPlayer(context);
+			}
+		}
+
+		if (!displayLevelID)
+			timer++;
+
+		if (timer >= 2 * 60) {
+			displayLevelID = true;
+			timer = 0;
+		}
+
+		level.tick(dt);
+
+		if (level.isFinished() && GameObjectManager.getPlayer().isLive()) {
+			timer++;
+			if (timer >= 2 * 60) {
+				if (levelID >= Level.getNumOfLevels()) {
+					okToRestartMP = false;
+					dialogBox("Game completed!", "Highscore: "
+							+ GameObjectManager.getPlayer().getScore(),
+							"Restart", "Submit score", "Main Menu");
+				} else {
+					levelID++;
+					level.startLevel(levelID);
+					level.setFinished(false);
+					displayLevelID = false;
+					timer = 0;
+				}
+			}
+		}
+
+		if (!GameObjectManager.getPlayer().isLive()) {
+			okToRestartMP = false;
+			timer++;
+			if (timer >= 2 * 60) {
+				dialogBox("You died! You made it to level " + (levelID),
+						"Highscore: "
+								+ GameObjectManager.getPlayer().getScore(),
+						"Restart", "Submit score", "Main Menu");
+				timer = 0;
+			}
+		}
+
+		if (gwMusicState) {
+			if (mp != null && MusicPlayer.isDone() && okToRestartMP)
+				mp = new MusicPlayer(context);
+		}
+
+	}
+
+	private void init() {
+
+		gwMusicState = TabMenu.musicState;
+		mp = null;
+		musicStartTimer = 0;
+
+		levelID = 1;
+		level = new Level(levelTime);
+		level.startLevel(levelID);
+
+		game = new GameThread(getHolder(), this);
+
+		joystick = BitmapLoader.loadBitmap("ui/joystick");
+		knob = BitmapLoader.loadBitmap("ui/joystickKnob");
+		lootSlot = BitmapLoader.loadBitmap("ui/lootSlot");
+		emptySlot = BitmapLoader.loadBitmap("ui/emptySlot");
+
+		knobX = 40 + (joystick.getWidth() / 2) - (knob.getWidth() / 2);
+		knobY = 320 + (joystick.getHeight() / 2) - (knob.getHeight() / 2);
+
+	}
+
 	private void manageLootSlots(float x, float y) {
 		if (x >= slotOffset && x <= slotOffset + 50 && y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[0];
@@ -316,186 +496,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				mp = new MusicPlayer(context);
 		}
 
-	}
-
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		sdestroyed = false;
-		start();
-	}
-
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-	
-
-	}
-
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		sdestroyed = true;
-	}
-
-	public void start() {
-		game.start();
-		GameObjectManager.getPlayer().init();
-	}
-
-	public void stop() {
-		GameObjectManager.clear();
-		if (gwMusicState) {
-			MusicPlayer.stop();
-		}
-		game.stop();
-	}
-
-	public void pause() {
-		okToRestartMP = false;
-		if (gwMusicState) {
-			MusicPlayer.pause();
-		}
-		game.pause();
-	}
-
-	public void resume() {
-		okToRestartMP = true;
-		if (gwMusicState) {
-			MusicPlayer.resume();
-		}
-		game.resume();
-	}
-
-	/**
-	 * Creates a dialogbox on the screen with a title, message and two buttons
-	 * one button for yes and one for no
-	 * 
-	 * @param title
-	 *            the title of the box, eg "Level completed!" or "You died"
-	 * @param msg
-	 *            the message in the box, eg "Restart the level?"
-	 * @param positiveBtn
-	 *            the text in the positive button
-	 * @param negativeBtn
-	 *            the text in the negative button
-	 */
-	public void dialogBox(final String title, final String msg,
-			final String positiveBtn, final String neutralBtn,
-			final String negativeBtn) {
-
-		dialogBoxShowing = true;
-
-		final GameActivity ga = (GameActivity) context;
-		ga.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				game.pause();
-				if (gwMusicState) {
-					MusicPlayer.stop();
-				}
-
-				TabMenu.db.openDB();
-				TabMenu.db.addHighscore(TabMenu.playerName, GameObjectManager
-						.getPlayer().getScore());
-				TabMenu.db.closeDB();
-
-				Builder builder = new AlertDialog.Builder(context);
-				builder.setCancelable(false);
-				builder.setTitle(title);
-				builder.setMessage(msg);
-				builder.setNegativeButton(negativeBtn,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-
-								GameActivity ga2 = (GameActivity) context;
-								stop();
-								ga2.onBackPressed2();
-							}
-						});
-				builder.setNeutralButton(neutralBtn,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								dialogBoxShowing = false;
-								TCPClient tcp = new TCPClient();
-								if (TabMenu.playerName != null) {
-									String[] querys = {
-											"insert",
-											TabMenu.playerName,
-											GameObjectManager.getPlayer()
-													.getScore() + "" };
-									tcp.execute(querys);
-								} else {
-									String[] querys = {
-											"insert",
-											"Player",
-											GameObjectManager.getPlayer()
-													.getScore() + "" };
-									tcp.execute(querys);
-								}
-								dialogBox("Score submitted!",
-										"What do you want to do?", "Restart",
-										"Main Menu");
-							}
-						});
-				builder.setPositiveButton(positiveBtn,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								dialogBoxShowing = false;
-								resetGameState();
-							}
-						});
-				builder.create().show();
-			}
-		});
-
-	}
-
-	public void dialogBox(final String title, final String msg,
-			final String positiveBtn, final String negativeBtn) {
-
-		dialogBoxShowing = true;
-
-		final GameActivity ga = (GameActivity) context;
-		ga.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				game.pause();
-				if (gwMusicState) {
-					MusicPlayer.stop();
-				}
-
-				Builder builder = new AlertDialog.Builder(context);
-				builder.setCancelable(false);
-				builder.setTitle(title);
-				builder.setMessage(msg);
-				builder.setNegativeButton(negativeBtn,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-
-								GameActivity ga2 = (GameActivity) context;
-								stop();
-								ga2.onBackPressed2();
-							}
-						});
-				builder.setPositiveButton(positiveBtn,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								dialogBoxShowing = false;
-								resetGameState();
-							}
-						});
-				builder.create().show();
-			}
-		});
-
-	}
-
-	public static int getLevelID() {
-		return levelID;
 	}
 
 }

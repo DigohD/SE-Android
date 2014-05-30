@@ -12,8 +12,16 @@ public abstract class GameObject {
 		this.position = position;
 	}
 
+	public int getHeight() {
+		return height;
+	}
+
 	public Vector2f getPosition() {
 		return position;
+	}
+
+	public int getWidth() {
+		return width;
 	}
 
 	public float getX() {
@@ -24,20 +32,8 @@ public abstract class GameObject {
 		return position.y;
 	}
 
-	public void setPosition(Vector2f position) {
-		this.position = position;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
-	}
-
-	public void setWidth(int width) {
-		this.width = width;
+	public boolean isLive() {
+		return live;
 	}
 
 	public void setHeight(int height) {
@@ -48,8 +44,12 @@ public abstract class GameObject {
 		this.live = live;
 	}
 
-	public boolean isLive() {
-		return live;
+	public void setPosition(Vector2f position) {
+		this.position = position;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
 	}
 
 }

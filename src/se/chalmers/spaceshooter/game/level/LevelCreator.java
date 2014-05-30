@@ -19,28 +19,6 @@ public class LevelCreator {
 		seqMap = new HashMap<Integer, Sequence>();
 	}
 
-	private void initLevel(int[] seqTypes) {
-		for (int i = 0; i < seqTypes.length; i++) {
-			int seqType = seqTypes[i];
-			switch (seqType) {
-			case 0:
-				seqMap.put(seqType, new PredatorSequence());
-				break;
-			case 1:
-				seqMap.put(seqType, new MantisSequence());
-				break;
-			case 2:
-				seqMap.put(seqType, new MixedSequence());
-				break;
-			}
-		}
-
-		for (Integer i : seqMap.keySet())
-			enemyGen.addSequence(seqMap.get(i));
-
-		enemyGen.generateRandomTimeLine();
-	}
-
 	public void runLevel(int level) {
 		switch (level) {
 		case 1:
@@ -61,5 +39,27 @@ public class LevelCreator {
 			initLevel(seqTypes3);
 			break;
 		}
+	}
+
+	private void initLevel(int[] seqTypes) {
+		for (int i = 0; i < seqTypes.length; i++) {
+			int seqType = seqTypes[i];
+			switch (seqType) {
+			case 0:
+				seqMap.put(seqType, new PredatorSequence());
+				break;
+			case 1:
+				seqMap.put(seqType, new MantisSequence());
+				break;
+			case 2:
+				seqMap.put(seqType, new MixedSequence());
+				break;
+			}
+		}
+
+		for (Integer i : seqMap.keySet())
+			enemyGen.addSequence(seqMap.get(i));
+
+		enemyGen.generateRandomTimeLine();
 	}
 }

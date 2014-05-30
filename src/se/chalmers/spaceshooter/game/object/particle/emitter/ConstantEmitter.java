@@ -32,13 +32,13 @@ public class ConstantEmitter extends Emitter {
 		}
 	}
 
+	public void setIsSpread(boolean spread) {
+		isSpread = spread;
+	}
+
 	@Override
 	public void tick(float dt) {
 		emit();
-	}
-
-	public void setIsSpread(boolean spread) {
-		isSpread = spread;
 	}
 
 }

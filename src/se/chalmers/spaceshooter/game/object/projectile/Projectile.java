@@ -10,35 +10,19 @@ import android.graphics.Rect;
 
 public abstract class Projectile extends DynamicObject implements Collideable {
 
-	protected float damage;
-	protected Rect rect;
-
 	public enum Type {
 		PLAYER, ENEMY;
 	}
+
+	protected float damage;
+
+	protected Rect rect;
 
 	protected Type type;
 
 	public Projectile(Vector2f position, Vector2f velocity) {
 		super(position);
 		this.velocity = velocity;
-	}
-
-	public abstract void death();
-
-	@Override
-	public void tick(float dt) {
-		if (isOutOfBound())
-			live = false;
-
-		rect.set((int) position.x, (int) position.y, (int) position.x + width,
-				(int) position.y + height);
-		move(dt);
-	}
-
-	public boolean isOutOfBound() {
-		return (getX() >= GameView.WIDTH || getX() <= -width
-				|| getY() >= GameView.HEIGHT || getY() <= -height);
 	}
 
 	@Override
@@ -58,6 +42,8 @@ public abstract class Projectile extends DynamicObject implements Collideable {
 		}
 	}
 
+	public abstract void death();
+
 	public float getDamage() {
 		return damage;
 	}
@@ -69,6 +55,21 @@ public abstract class Projectile extends DynamicObject implements Collideable {
 
 	public Type getType() {
 		return type;
+	}
+
+	public boolean isOutOfBound() {
+		return (getX() >= GameView.WIDTH || getX() <= -width
+				|| getY() >= GameView.HEIGHT || getY() <= -height);
+	}
+
+	@Override
+	public void tick(float dt) {
+		if (isOutOfBound())
+			live = false;
+
+		rect.set((int) position.x, (int) position.y, (int) position.x + width,
+				(int) position.y + height);
+		move(dt);
 	}
 
 }

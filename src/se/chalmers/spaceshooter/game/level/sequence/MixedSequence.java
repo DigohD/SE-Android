@@ -6,19 +6,19 @@ import se.chalmers.spaceshooter.game.util.ColorRGBA;
 
 public class MixedSequence extends Sequence {
 
-	public MixedSequence(String path) {
+	public MixedSequence() {
 		super();
 		timeLimit = true;
-		loadSequence(path);
+		loadRandomSequence("mixed/MixedSequence", 4);
 		enemies.put(ColorRGBA.GREEN, new Predator());
 		enemies.put(ColorRGBA.RED, new Mantis());
 		scanSequence();
 	}
 
-	public MixedSequence() {
+	public MixedSequence(String path) {
 		super();
 		timeLimit = true;
-		loadRandomSequence("mixed/MixedSequence", 4);
+		loadSequence(path);
 		enemies.put(ColorRGBA.GREEN, new Predator());
 		enemies.put(ColorRGBA.RED, new Mantis());
 		scanSequence();

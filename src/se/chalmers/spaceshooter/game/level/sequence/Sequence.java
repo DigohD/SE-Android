@@ -43,6 +43,14 @@ public class Sequence {
 		colorPosMap = new HashMap<Integer, ArrayList<Vector2f>>();
 	}
 
+	public ArrayList<String> getSequences() {
+		return sequences;
+	}
+
+	public boolean isTimeLimit() {
+		return timeLimit;
+	}
+
 	/**
 	 * First loops through the colorPosMap to see if an enemy is mapped to the
 	 * same color key then loops through the pixel positions and sets all
@@ -68,6 +76,41 @@ public class Sequence {
 				}
 			}
 		}
+	}
+
+	/**
+	 * loads a random sequence image from a collection of images which are
+	 * located in the assets/images/sequences folder
+	 * 
+	 * @param seq
+	 *            the name of the sequence image collection
+	 * @param numOfSeq
+	 *            number of sequence images in the collection
+	 */
+	protected void loadRandomSequence(String seq, int numOfSeq) {
+		sequences = new ArrayList<String>();
+		for (int i = 0; i < numOfSeq; i++)
+			sequences.add(seq + i);
+		int i = Randomizer.getInt(0, sequences.size());
+		loadSequence(sequences.get(i));
+	}
+
+	/**
+	 * loads all the pixels of a sequence image into an array which can then be
+	 * looped through and used for manipulating/checking individual pixels
+	 * 
+	 * @param path
+	 *            the name of the sequence image
+	 */
+	protected void loadSequence(String path) {
+		Bitmap bmp = BitmapLoader.loadBitmap("sequences/" + path);
+		width = bmp.getWidth();
+		height = bmp.getHeight();
+		widthRatio = ((float) GameView.WIDTH / (float) 64);
+		heightRatio = ((float) GameView.HEIGHT / (float) 41);
+		pixels = new int[width * height];
+		bmp.getPixels(pixels, 0, width, 0, 0, width, height);
+		bmp.recycle();
 	}
 
 	/**
@@ -98,49 +141,6 @@ public class Sequence {
 										y * heightRatio));
 					}
 			}
-	}
-
-	/**
-	 * loads all the pixels of a sequence image into an array which can then be
-	 * looped through and used for manipulating/checking individual pixels
-	 * 
-	 * @param path
-	 *            the name of the sequence image
-	 */
-	protected void loadSequence(String path) {
-		Bitmap bmp = BitmapLoader.loadBitmap("sequences/" + path);
-		width = bmp.getWidth();
-		height = bmp.getHeight();
-		widthRatio = ((float) GameView.WIDTH / (float) 64);
-		heightRatio = ((float) GameView.HEIGHT / (float) 41);
-		pixels = new int[width * height];
-		bmp.getPixels(pixels, 0, width, 0, 0, width, height);
-		bmp.recycle();
-	}
-
-	/**
-	 * loads a random sequence image from a collection of images which are
-	 * located in the assets/images/sequences folder
-	 * 
-	 * @param seq
-	 *            the name of the sequence image collection
-	 * @param numOfSeq
-	 *            number of sequence images in the collection
-	 */
-	protected void loadRandomSequence(String seq, int numOfSeq) {
-		sequences = new ArrayList<String>();
-		for (int i = 0; i < numOfSeq; i++)
-			sequences.add(seq + i);
-		int i = Randomizer.getInt(0, sequences.size());
-		loadSequence(sequences.get(i));
-	}
-
-	public ArrayList<String> getSequences() {
-		return sequences;
-	}
-
-	public boolean isTimeLimit() {
-		return timeLimit;
 	}
 
 }

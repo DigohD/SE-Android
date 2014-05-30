@@ -29,6 +29,10 @@ public class CollisionManager {
 		enemies.add(e);
 	}
 
+	public static void addEnemyProjectile(Projectile proj) {
+		enemyProjectiles.add(proj);
+	}
+
 	public static void addLoot(Loot loot) {
 		loots.add(loot);
 	}
@@ -37,48 +41,11 @@ public class CollisionManager {
 		playerProjectiles.add(proj);
 	}
 
-	public static void addEnemyProjectile(Projectile proj) {
-		enemyProjectiles.add(proj);
-	}
-
-	public static void removeEnemy(Enemy e) {
-		enemies.remove(e);
-	}
-
-	public static void removeLoot(Loot loot) {
-		loots.remove(loot);
-	}
-
-	public static void removeEnemyProjectile(Projectile proj) {
-		enemyProjectiles.remove(proj);
-	}
-
-	public static void removePlayerProjectile(Projectile proj) {
-		playerProjectiles.remove(proj);
-	}
-
 	public static void clear() {
 		enemies.clear();
 		loots.clear();
 		playerProjectiles.clear();
 		enemyProjectiles.clear();
-	}
-
-	/**
-	 * Checks if two rectangles intersect
-	 * 
-	 * @param r1
-	 *            the first rectangle which will be checked against the second
-	 *            one
-	 * @param r2
-	 *            the second rectangle
-	 * @return returns true if the two rectangles intersects otherwise returns
-	 *         false
-	 */
-	private static boolean collisionBetween(Rect r1, Rect r2) {
-		if (r1.intersect(r2) || r1.contains(r2))
-			return true;
-		return false;
 	}
 
 	/**
@@ -134,6 +101,10 @@ public class CollisionManager {
 		return enemies;
 	}
 
+	public static List<Projectile> getEnemyProjectiles() {
+		return enemyProjectiles;
+	}
+
 	public static List<Loot> getLoots() {
 		return loots;
 	}
@@ -142,8 +113,37 @@ public class CollisionManager {
 		return playerProjectiles;
 	}
 
-	public static List<Projectile> getEnemyProjectiles() {
-		return enemyProjectiles;
+	public static void removeEnemy(Enemy e) {
+		enemies.remove(e);
+	}
+
+	public static void removeEnemyProjectile(Projectile proj) {
+		enemyProjectiles.remove(proj);
+	}
+
+	public static void removeLoot(Loot loot) {
+		loots.remove(loot);
+	}
+
+	public static void removePlayerProjectile(Projectile proj) {
+		playerProjectiles.remove(proj);
+	}
+
+	/**
+	 * Checks if two rectangles intersect
+	 * 
+	 * @param r1
+	 *            the first rectangle which will be checked against the second
+	 *            one
+	 * @param r2
+	 *            the second rectangle
+	 * @return returns true if the two rectangles intersects otherwise returns
+	 *         false
+	 */
+	private static boolean collisionBetween(Rect r1, Rect r2) {
+		if (r1.intersect(r2) || r1.contains(r2))
+			return true;
+		return false;
 	}
 
 }

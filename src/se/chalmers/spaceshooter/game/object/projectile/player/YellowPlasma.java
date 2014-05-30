@@ -27,6 +27,18 @@ public class YellowPlasma extends Projectile {
 		GameObjectManager.addGameObject(this);
 	}
 
+	// used for unit testing
+	public YellowPlasma(Vector2f position, int width, int height) {
+		super(position, new Vector2f(80f, 0f));
+		damage = 5f;
+
+		this.width = width;
+		this.height = height;
+
+		rect = new Rect((int) position.x, (int) position.y, (int) position.x
+				+ width, (int) position.y + height);
+	}
+
 	public YellowPlasma(Vector2f position, Vector2f velocity) {
 		super(position, velocity);
 		damage = 5f;
@@ -40,18 +52,6 @@ public class YellowPlasma extends Projectile {
 		type = Type.PLAYER;
 
 		GameObjectManager.addGameObject(this);
-	}
-
-	// used for unit testing
-	public YellowPlasma(Vector2f position, int width, int height) {
-		super(position, new Vector2f(80f, 0f));
-		damage = 5f;
-
-		this.width = width;
-		this.height = height;
-
-		rect = new Rect((int) position.x, (int) position.y, (int) position.x
-				+ width, (int) position.y + height);
 	}
 
 	@Override

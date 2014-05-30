@@ -10,13 +10,20 @@ import android.media.SoundPool.OnLoadCompleteListener;
 
 public class SoundPlayer {
 
+	public enum SoundID {
+		nullValue, ui_guns, fire_RedPlasma, fire_BluePlasma, fire_GreenPlasma, fire_YellowPlasma, hit_RedPlasma, hit_BluePlasma, hit_GreenPlasma, hit_YellowPlasma, exp_1, exp_2
+	}
+
 	private static SoundPool soundPool;
+
 	private static boolean loaded;
 
 	private static HashMap<SoundID, Integer> sounds;
 
-	public enum SoundID {
-		nullValue, ui_guns, fire_RedPlasma, fire_BluePlasma, fire_GreenPlasma, fire_YellowPlasma, hit_RedPlasma, hit_BluePlasma, hit_GreenPlasma, hit_YellowPlasma, exp_1, exp_2
+	public static void playSound(SoundID ID) {
+		if (loaded && TabMenu.sfxState) {
+			soundPool.play(sounds.get(ID), 1.0f, 1.0f, 1, 0, 1f);
+		}
 	}
 
 	public SoundPlayer(Activity activity) {
@@ -59,12 +66,6 @@ public class SoundPlayer {
 				se.chalmers.spaceshooter.R.raw.hit_greenplasma, 1));
 		sounds.put(SoundID.hit_YellowPlasma, soundPool.load(activity,
 				se.chalmers.spaceshooter.R.raw.hit_yellowplasma, 1));
-	}
-
-	public static void playSound(SoundID ID) {
-		if (loaded && TabMenu.sfxState) {
-			soundPool.play(sounds.get(ID), 1.0f, 1.0f, 1, 0, 1f);
-		}
 	}
 
 }

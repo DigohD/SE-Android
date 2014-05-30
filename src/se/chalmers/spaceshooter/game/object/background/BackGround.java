@@ -18,6 +18,8 @@ public class BackGround extends DynamicObject {
 
 	public Vector2f targetPosition;
 
+	public Vector2f diff = new Vector2f(0, 0);
+
 	public BackGround() {
 		super(new Vector2f(0, 0));
 
@@ -29,29 +31,6 @@ public class BackGround extends DynamicObject {
 		targetPosition = new Vector2f(0f, 0f);
 
 		GameObjectManager.addGameObject(this);
-	}
-
-	public Vector2f diff = new Vector2f(0, 0);
-
-	public void scrollY(float dt, Vector2f v) {
-		if (yScroll) {
-			velocity.y = approach(-v.y, velocity.y, dt * 5);
-			targetPosition.y = targetPosition.y + velocity.y;
-
-			diff = targetPosition.sub(position).div(15);
-			distance = diff;
-			position = position.add(diff);
-		}
-	}
-
-	private void scrollX(float dt) {
-		distance.x = velocity.x * dt;
-		position.x = position.x + distance.x;
-	}
-
-	@Override
-	public void tick(float dt) {
-		scrollX(dt);
 	}
 
 	@Override
@@ -78,6 +57,27 @@ public class BackGround extends DynamicObject {
 		// canvas.drawBitmap(bitmap, interpolatedPosition.x + xOffset1,
 		// interpolatedPosition.y, null);
 
+	}
+
+	public void scrollY(float dt, Vector2f v) {
+		if (yScroll) {
+			velocity.y = approach(-v.y, velocity.y, dt * 5);
+			targetPosition.y = targetPosition.y + velocity.y;
+
+			diff = targetPosition.sub(position).div(15);
+			distance = diff;
+			position = position.add(diff);
+		}
+	}
+
+	@Override
+	public void tick(float dt) {
+		scrollX(dt);
+	}
+
+	private void scrollX(float dt) {
+		distance.x = velocity.x * dt;
+		position.x = position.x + distance.x;
 	}
 
 }

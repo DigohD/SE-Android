@@ -56,22 +56,6 @@ public class Asteroid extends Enemy {
 		enemyPoints = 10;
 	}
 
-	private Bitmap loadRandomAsteroid(String name, int numOfAsteroids) {
-		List<String> asteroidNames = new ArrayList<String>();
-		for (int i = 0; i < numOfAsteroids; i++)
-			asteroidNames.add(name + i);
-		int i = Randomizer.getInt(0, asteroidNames.size());
-		return BitmapLoader.loadBitmap(asteroidNames.get(i));
-	}
-
-	@Override
-	public void tick(float dt) {
-		super.tick(dt);
-		velocity.x = approach(targetVelocity.x, velocity.x, dt);
-		velocity.y = approach(targetVelocity.y, velocity.y, dt);
-		move(dt);
-	}
-
 	@Override
 	public void collisionWith(Collideable obj) {
 		if (obj instanceof Player) {
@@ -112,6 +96,22 @@ public class Asteroid extends Enemy {
 		emitter.getPosition().set(center.x, center.y);
 		emitter.init();
 		SoundPlayer.playSound(SoundID.exp_1);
+	}
+
+	@Override
+	public void tick(float dt) {
+		super.tick(dt);
+		velocity.x = approach(targetVelocity.x, velocity.x, dt);
+		velocity.y = approach(targetVelocity.y, velocity.y, dt);
+		move(dt);
+	}
+
+	private Bitmap loadRandomAsteroid(String name, int numOfAsteroids) {
+		List<String> asteroidNames = new ArrayList<String>();
+		for (int i = 0; i < numOfAsteroids; i++)
+			asteroidNames.add(name + i);
+		int i = Randomizer.getInt(0, asteroidNames.size());
+		return BitmapLoader.loadBitmap(asteroidNames.get(i));
 	}
 
 }

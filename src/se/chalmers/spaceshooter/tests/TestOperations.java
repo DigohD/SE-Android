@@ -27,9 +27,20 @@ import se.chalmers.spaceshooter.game.view.GameView;
 
 public class TestOperations extends TestCase {
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+	public void testCalculatePlayerScore() {
+		Enemy e = new Predator(new Vector2f(0, 0), 40, 40);
+		// 10 * 1.2^1 * 5
+		int test1 = e.calculatePlayerScore(10, 1, 5);
+		int test2 = e.calculatePlayerScore(20, 2, 8);
+		int test3 = e.calculatePlayerScore(15, 3, 2);
+		int test4 = e.calculatePlayerScore(30, 4, 4);
+		int test5 = e.calculatePlayerScore(50, 5, 12);
+
+		assertEquals(60, test1);
+		assertEquals(230, test2);
+		assertEquals(51, test3);
+		assertEquals(248, test4);
+		assertEquals(1492, test5);
 	}
 
 	public void testGameObjectManager() {
@@ -75,50 +86,6 @@ public class TestOperations extends TestCase {
 		assertEquals(0, GameObjectManager.gettToAdd().size());
 	}
 
-	public void testCalculatePlayerScore() {
-		Enemy e = new Predator(new Vector2f(0, 0), 40, 40);
-		// 10 * 1.2^1 * 5
-		int test1 = e.calculatePlayerScore(10, 1, 5);
-		int test2 = e.calculatePlayerScore(20, 2, 8);
-		int test3 = e.calculatePlayerScore(15, 3, 2);
-		int test4 = e.calculatePlayerScore(30, 4, 4);
-		int test5 = e.calculatePlayerScore(50, 5, 12);
-
-		assertEquals(60, test1);
-		assertEquals(230, test2);
-		assertEquals(51, test3);
-		assertEquals(248, test4);
-		assertEquals(1492, test5);
-	}
-
-	public void testVector2fNormalize() {
-		for (int i = 0; i < 10000; i++) {
-			float rX = Randomizer.getFloat(1, 800);
-			float rY = Randomizer.getFloat(1, 480);
-			Vector2f v = new Vector2f(rX, rY);
-			assertEquals(1.0f, v.normalize().length());
-		}
-	}
-
-	public void testVector2fDot() {
-		Vector2f v1 = new Vector2f(5, 6);
-		Vector2f v2 = new Vector2f(3, 7);
-
-		Vector2f v3 = new Vector2f(15, 5);
-		Vector2f v4 = new Vector2f(12, 8);
-
-		Vector2f v5 = new Vector2f(11, 27);
-		Vector2f v6 = new Vector2f(38, 70);
-
-		Vector2f v7 = new Vector2f(130, 78);
-		Vector2f v8 = new Vector2f(56, 18);
-
-		assertEquals(57.0f, v1.dot(v2));
-		assertEquals(220.0f, v3.dot(v4));
-		assertEquals(2308.0f, v5.dot(v6));
-		assertEquals(8684.0f, v7.dot(v8));
-	}
-
 	public void testProjectileOutOfBound() {
 		List<Projectile> projectiles = new ArrayList<Projectile>();
 
@@ -155,6 +122,39 @@ public class TestOperations extends TestCase {
 				count++;
 
 		assertEquals(projectiles.size(), count);
+	}
+
+	public void testVector2fDot() {
+		Vector2f v1 = new Vector2f(5, 6);
+		Vector2f v2 = new Vector2f(3, 7);
+
+		Vector2f v3 = new Vector2f(15, 5);
+		Vector2f v4 = new Vector2f(12, 8);
+
+		Vector2f v5 = new Vector2f(11, 27);
+		Vector2f v6 = new Vector2f(38, 70);
+
+		Vector2f v7 = new Vector2f(130, 78);
+		Vector2f v8 = new Vector2f(56, 18);
+
+		assertEquals(57.0f, v1.dot(v2));
+		assertEquals(220.0f, v3.dot(v4));
+		assertEquals(2308.0f, v5.dot(v6));
+		assertEquals(8684.0f, v7.dot(v8));
+	}
+
+	public void testVector2fNormalize() {
+		for (int i = 0; i < 10000; i++) {
+			float rX = Randomizer.getFloat(1, 800);
+			float rY = Randomizer.getFloat(1, 480);
+			Vector2f v = new Vector2f(rX, rY);
+			assertEquals(1.0f, v.normalize().length());
+		}
+	}
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 }

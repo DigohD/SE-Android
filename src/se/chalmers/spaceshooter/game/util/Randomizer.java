@@ -5,6 +5,10 @@ import java.util.Random;
 public class Randomizer {
 	private static Random rnd = new Random();
 
+	public static int getBinary() {
+		return rnd.nextInt(2);
+	}
+
 	/**
 	 * Returns a float value between min and max.
 	 * 
@@ -14,10 +18,6 @@ public class Randomizer {
 	 */
 	public static float getFloat(float min, float max) {
 		return rnd.nextFloat() * (max - min) + min;
-	}
-
-	public static int getBinary() {
-		return rnd.nextInt(2);
 	}
 
 	public static int getInt(int min, int max) {

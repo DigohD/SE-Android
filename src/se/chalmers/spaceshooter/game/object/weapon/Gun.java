@@ -18,6 +18,10 @@ public abstract class Gun extends GameObject implements Tickable {
 		init();
 	}
 
+	public abstract void fire();
+
+	public abstract void init();
+
 	@Override
 	public void tick(float dt) {
 		reloadTimer++;
@@ -26,9 +30,5 @@ public abstract class Gun extends GameObject implements Tickable {
 			reloadTimer = 0;
 		}
 	}
-
-	public abstract void fire();
-
-	public abstract void init();
 
 }

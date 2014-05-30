@@ -12,13 +12,19 @@ import android.graphics.Canvas;
 public class Level {
 
 	private final static int numOfLevels = 3;
+
+	public static int getNumOfLevels() {
+		return numOfLevels;
+	}
+
 	private int timer = 0;
+
 	private int LEVEL_TIME;
 
 	private boolean levelDone = false;
-
 	private GameObjectManager gameObjectManager;
 	private EnemyGenerator enemyGen;
+
 	private LevelCreator lc;
 
 	/**
@@ -34,6 +40,18 @@ public class Level {
 
 		GameObjectManager.getPlayer().setScore(0);
 		GameObjectManager.getPlayer().setHp(100);
+	}
+
+	public void draw(Canvas canvas, float interpolation) {
+		gameObjectManager.draw(canvas, interpolation);
+	}
+
+	public boolean isFinished() {
+		return levelDone;
+	}
+
+	public void setFinished(boolean finished) {
+		levelDone = finished;
 	}
 
 	public void startLevel(int level) {
@@ -69,22 +87,6 @@ public class Level {
 
 		enemyGen.tick();
 		gameObjectManager.tick(dt);
-	}
-
-	public void draw(Canvas canvas, float interpolation) {
-		gameObjectManager.draw(canvas, interpolation);
-	}
-
-	public boolean isFinished() {
-		return levelDone;
-	}
-
-	public void setFinished(boolean finished) {
-		levelDone = finished;
-	}
-
-	public static int getNumOfLevels() {
-		return numOfLevels;
 	}
 
 }

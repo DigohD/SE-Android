@@ -65,35 +65,15 @@ public class GameThread implements Runnable {
 		inventory = true;
 	}
 
-	/**
-	 * Starts the game thread
-	 */
-	public synchronized void start() {
-		running = true;
-		if (thread == null) {
-			System.out.println("NEW THREAD");
-			thread = new Thread(this, "Game-Thread");
-			thread.start();
-		}
-	}
+	public void goInventory() {
+		Context c = gameView.getContext();
+		GameActivity gA = (GameActivity) c;
 
-	/**
-	 * Stops the game thread
-	 */
-	public synchronized void stop() {
-		if (!running)
-			return;
-		running = false;
-		resume();
-		boolean retry = true;
-		while (retry) {
-			try {
-				thread.join();
-				retry = false;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		invView = new InventoryView(gameView.getContext());
+
+		inventory = true;
+
+		gA.setContentView(invView);
 	}
 
 	/**
@@ -111,50 +91,6 @@ public class GameThread implements Runnable {
 		paused = false;
 		okToRun.signalAll();
 		lock.unlock();
-	}
-
-	/**
-	 * Calls the tick method in gameview which will update all game logic
-	 * 
-	 * @param dt
-	 *            the delta time variable which is used for physics calculations
-	 */
-	private void tick(float dt) {
-		if (inventory)
-			invView.tick(dt);
-		else
-			gameView.tick(dt);
-	}
-
-	/**
-	 * Gets hold of a canvas via the surfaceholder and then draws to it by
-	 * calling the draw method in gameview.
-	 * 
-	 * @param canvas
-	 *            the canvas which everything will get drawn on
-	 * @param interpolation
-	 *            a factor based on how much time has gone since the last tick,
-	 *            which will be used in a prediction function which is defined
-	 *            for all dynamic objects
-	 */
-	private void draw(Canvas canvas, float interpolation) {
-		synchronized (surfaceHolder) {
-			try {
-				canvas = surfaceHolder.lockCanvas();
-				if (canvas != null) {
-
-					if (inventory)
-						invView.draw(canvas, interpolation);
-					else
-						gameView.draw(canvas, interpolation);
-
-				}
-			} finally {
-				if (canvas != null)
-					surfaceHolder.unlockCanvasAndPost(canvas);
-			}
-		}
-
 	}
 
 	/**
@@ -244,15 +180,79 @@ public class GameThread implements Runnable {
 		}
 	}
 
-	public void goInventory() {
-		Context c = gameView.getContext();
-		GameActivity gA = (GameActivity) c;
+	/**
+	 * Starts the game thread
+	 */
+	public synchronized void start() {
+		running = true;
+		if (thread == null) {
+			System.out.println("NEW THREAD");
+			thread = new Thread(this, "Game-Thread");
+			thread.start();
+		}
+	}
 
-		invView = new InventoryView(gameView.getContext());
+	/**
+	 * Stops the game thread
+	 */
+	public synchronized void stop() {
+		if (!running)
+			return;
+		running = false;
+		resume();
+		boolean retry = true;
+		while (retry) {
+			try {
+				thread.join();
+				retry = false;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
-		inventory = true;
+	/**
+	 * Gets hold of a canvas via the surfaceholder and then draws to it by
+	 * calling the draw method in gameview.
+	 * 
+	 * @param canvas
+	 *            the canvas which everything will get drawn on
+	 * @param interpolation
+	 *            a factor based on how much time has gone since the last tick,
+	 *            which will be used in a prediction function which is defined
+	 *            for all dynamic objects
+	 */
+	private void draw(Canvas canvas, float interpolation) {
+		synchronized (surfaceHolder) {
+			try {
+				canvas = surfaceHolder.lockCanvas();
+				if (canvas != null) {
 
-		gA.setContentView(invView);
+					if (inventory)
+						invView.draw(canvas, interpolation);
+					else
+						gameView.draw(canvas, interpolation);
+
+				}
+			} finally {
+				if (canvas != null)
+					surfaceHolder.unlockCanvasAndPost(canvas);
+			}
+		}
+
+	}
+
+	/**
+	 * Calls the tick method in gameview which will update all game logic
+	 * 
+	 * @param dt
+	 *            the delta time variable which is used for physics calculations
+	 */
+	private void tick(float dt) {
+		if (inventory)
+			invView.tick(dt);
+		else
+			gameView.tick(dt);
 	}
 
 }

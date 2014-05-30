@@ -53,6 +53,27 @@ public class EnemyGenerator {
 	}
 
 	/**
+	 * Adds an enemy to the timeline
+	 * 
+	 * @param e
+	 *            the enemy that will be added to the timeline
+	 * @param timeStamp
+	 *            the time in seconds that the enemy shall appear
+	 */
+	public void addEnemyToTimeline(Enemy e, int timeStamp) {
+		int min = (timeStamp * TPS) - (1 * TPS);
+		int max = (timeStamp * TPS) + (1 * TPS);
+
+		// remove a sequence if it is in the time interval defined by min and
+		// max
+		for (int i = min; i < max; i++)
+			if (enemyTimeline.containsKey(i))
+				enemyTimeline.remove(i);
+
+		enemyTimeline.put(timeStamp * TPS, e);
+	}
+
+	/**
 	 * Adds a sequence to the list which will be used for generating a random
 	 * timeline
 	 * 
@@ -95,27 +116,6 @@ public class EnemyGenerator {
 					enemyTimeline.remove(i);
 		}
 		sequenceTimeline.put(timeStamp * TPS, seq);
-	}
-
-	/**
-	 * Adds an enemy to the timeline
-	 * 
-	 * @param e
-	 *            the enemy that will be added to the timeline
-	 * @param timeStamp
-	 *            the time in seconds that the enemy shall appear
-	 */
-	public void addEnemyToTimeline(Enemy e, int timeStamp) {
-		int min = (timeStamp * TPS) - (1 * TPS);
-		int max = (timeStamp * TPS) + (1 * TPS);
-
-		// remove a sequence if it is in the time interval defined by min and
-		// max
-		for (int i = min; i < max; i++)
-			if (enemyTimeline.containsKey(i))
-				enemyTimeline.remove(i);
-
-		enemyTimeline.put(timeStamp * TPS, e);
 	}
 
 	/**
@@ -173,6 +173,22 @@ public class EnemyGenerator {
 		}
 	}
 
+	public int getTime() {
+		return TIME;
+	}
+
+	public boolean isUpdate() {
+		return this.update;
+	}
+
+	public void setTime(int time) {
+		TIME = time;
+	}
+
+	public void setUpdate(boolean update) {
+		this.update = update;
+	}
+
 	/**
 	 * Updates the timeline. The timelinetime variable keeps track of where in
 	 * the timelines we are and when it matches an entry in the sequencetimeline
@@ -193,22 +209,6 @@ public class EnemyGenerator {
 				sequenceTimeline.remove(timelineTime);
 			}
 		}
-	}
-
-	public void setUpdate(boolean update) {
-		this.update = update;
-	}
-
-	public void setTime(int time) {
-		TIME = time;
-	}
-
-	public int getTime() {
-		return TIME;
-	}
-
-	public boolean isUpdate() {
-		return this.update;
 	}
 
 }

@@ -3,7 +3,6 @@ package se.chalmers.spaceshooter.game.view;
 import se.chalmers.spaceshooter.game.GameActivity;
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.GameThread;
-import se.chalmers.spaceshooter.game.level.Level;
 import se.chalmers.spaceshooter.game.object.weapon.BluePlasmaGun;
 import se.chalmers.spaceshooter.game.object.weapon.GreenPlasmaGun;
 import se.chalmers.spaceshooter.game.object.weapon.RedPlasmaGun;
@@ -16,7 +15,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.view.Display;
@@ -85,23 +83,6 @@ public class InventoryView extends SurfaceView implements
 		this.vapen[2] = BitmapLoader.loadBitmap("ui/GreenPlasma");
 		this.vapen[3] = BitmapLoader.loadBitmap("ui/YellowPlasma");
 
-	}
-
-	public void tick(float dt) {
-		pressTimer++;
-		if (start) {
-			startTimer++;
-			if (startTimer > 150) {
-				final GameActivity gA = (GameActivity) context;
-				gA.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						gA.goToGame();
-					}
-				});
-
-			}
-		}
 	}
 
 	public void draw(Canvas canvas, float interpolation) {
@@ -188,20 +169,14 @@ public class InventoryView extends SurfaceView implements
 		return true;
 	}
 
-	@Override
-	public void surfaceCreated(SurfaceHolder holder) {
-		start();
+	public void pause() {
+		okToRestartMP = false;
+		game.pause();
 	}
 
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width,
-			int height) {
-
-	}
-
-	@Override
-	public void surfaceDestroyed(SurfaceHolder holder) {
-		stop();
+	public void resume() {
+		okToRestartMP = true;
+		game.resume();
 	}
 
 	public void start() {
@@ -212,14 +187,37 @@ public class InventoryView extends SurfaceView implements
 		game.stop();
 	}
 
-	public void pause() {
-		okToRestartMP = false;
-		game.pause();
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width,
+			int height) {
+
 	}
 
-	public void resume() {
-		okToRestartMP = true;
-		game.resume();
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		start();
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		stop();
+	}
+
+	public void tick(float dt) {
+		pressTimer++;
+		if (start) {
+			startTimer++;
+			if (startTimer > 150) {
+				final GameActivity gA = (GameActivity) context;
+				gA.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						gA.goToGame();
+					}
+				});
+
+			}
+		}
 	}
 
 }

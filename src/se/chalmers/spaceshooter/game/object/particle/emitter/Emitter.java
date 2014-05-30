@@ -20,6 +20,12 @@ public abstract class Emitter extends GameObject implements Tickable {
 		timeLived = 0;
 	}
 
+	public void closeEmitter() {
+		live = false;
+	}
+
+	public abstract void emit();
+
 	public void init() {
 		GameObjectManager.addGameObject(this);
 	}
@@ -30,11 +36,5 @@ public abstract class Emitter extends GameObject implements Tickable {
 		if (timeLived > lifetime)
 			this.closeEmitter();
 		emit();
-	}
-
-	public abstract void emit();
-
-	public void closeEmitter() {
-		live = false;
 	}
 }

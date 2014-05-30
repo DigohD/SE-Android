@@ -34,15 +34,15 @@ public class Locust extends Enemy {
 	}
 
 	@Override
+	public void death() {
+
+	}
+
+	@Override
 	public void tick(float dt) {
 		timer++;
 		super.tick(dt);
 		move(dt);
-	}
-
-	@Override
-	public void death() {
-
 	}
 
 }

@@ -7,13 +7,6 @@ public class MusicPlayer {
 
 	private static MediaPlayer mp;
 
-	public MusicPlayer(Context context) {
-		mp = MediaPlayer.create(context,
-				se.chalmers.spaceshooter.R.raw.starduster);
-		mp.setVolume(1f, 1f);
-		mp.start();
-	}
-
 	public static boolean isDone() {
 		return !mp.isPlaying();
 	}
@@ -22,11 +15,18 @@ public class MusicPlayer {
 		mp.pause();
 	}
 
+	public static void resume() {
+		mp.start();
+	}
+
 	public static void stop() {
 		mp.stop();
 	}
 
-	public static void resume() {
+	public MusicPlayer(Context context) {
+		mp = MediaPlayer.create(context,
+				se.chalmers.spaceshooter.R.raw.starduster);
+		mp.setVolume(1f, 1f);
 		mp.start();
 	}
 

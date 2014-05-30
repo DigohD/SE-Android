@@ -20,21 +20,6 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 		super(position);
 	}
 
-	public abstract void death();
-
-	@Override
-	public void tick(float dt) {
-		if (getX() < -width)
-			live = false;
-		rect.set((int) position.x, (int) position.y, (int) position.x + width,
-				(int) position.y + height);
-	}
-
-	public void init() {
-		position.y += GameObjectManager.bg.getPosition().y;
-		GameObjectManager.addGameObject(this);
-	}
-
 	public int calculatePlayerScore(float points, int level, float combo) {
 		if (combo == 0)
 			return (int) (points * Math.pow(1.2f, level) * 1.0f);
@@ -69,9 +54,24 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 		}
 	}
 
+	public abstract void death();
+
 	@Override
 	public Rect getRect() {
 		return rect;
+	}
+
+	public void init() {
+		position.y += GameObjectManager.bg.getPosition().y;
+		GameObjectManager.addGameObject(this);
+	}
+
+	@Override
+	public void tick(float dt) {
+		if (getX() < -width)
+			live = false;
+		rect.set((int) position.x, (int) position.y, (int) position.x + width,
+				(int) position.y + height);
 	}
 
 }
