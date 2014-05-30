@@ -1,12 +1,15 @@
 #Design Decisions
-During the starting period of developing this app we as a group had to make several decisions regarding the coding and design of the application.
-
+During the starting period of developing this app we as a group had to make several decisions regarding the coding and design of the application. In the very beginning we decided to create our very own game engine that would support this specific type of game. We also decided to make the application in a way that would make it easy to add more content as soon as the first *Object* of every type was created, such as enemies or weapons. As we since before have been working with Java, we also decided to use this as our main language.
 ##Android version
-When deciding what API level of Android to use we wanted to fulfil the statement *We want to support as many Android users as possible without neglecting any important game functions*. Since we all was relatively new to coding in Android we didn't know all functions we would need to have a well working game. After some research we found that Android 4.0 (API level 14) would support everything that we thought could be useful for the game and in the same time support more than 80% of all Android devices currently active (https://developer.android.com/about/dashboards/index.html).
-
+When deciding what API level of Android to use we wanted to fulfil the statement ***We want to support as many Android users as possible without neglecting any important game functions***. Since we all was relatively new to coding in Android we didn't know all functions we would need to have a well working game. After some research we found that Android 4.0 (API level 14) would support everything that we thought could be useful for the game and in the same time support more than 80% of all Android devices currently active (https://developer.android.com/about/dashboards/index.html).
 ##Application design
 ###Menus
+To make the application easy to maintain and to follow the rest of the phones design, we have used Android modules, such as buttons and tabhosts in as high extent as possible in the menus. This means that an updated design of Android easily can be implemented by simply replacing modules that are not automatically updated. The use of Android modules also makes it easier to find documentation and to follow standards if external support are needed.
 ###Game
+Since the game is designed from scratch and only uses our very own *methods*, we could design the game in the way we found the best. However, in order to avoid a steep learning curve we wanted to use controlls and looks that would be similar to many other games in the same gerne. On first look of something in the game, it should be somewhat clear what it is and what id does.
 ##Code structure
+Since we started by deciding how the game and menus would look, and what it should implement, it was rather straight forward how this should be coded. The code itself is structured in folders as defined by standard Android application projects, and the Java *Classes* by packages defined by where it is used and what properties the *Class* have.
 ###Menus
+For the menu system using Andoid modules, it is a very well defined way of how this could and should be done. All the looks was defined in Android XML layout files named afted what tab it would define, such as the ***tab_settings***, while its functions was programmed using Java in one main *Class* called ***TabMenu***. For the settings we also implemented the SharedPreferences functions built in into Android to make it easy to use, test and maintain.
 ###Game
+As we wanted to make it easy to add content after an *Object* of the type first had been created, we setup *Classes* that would define a certain property of an *Object*. These properites, such as the ***Collidable***, would then be defined in a ***GameObjectManager*** *Class*.
