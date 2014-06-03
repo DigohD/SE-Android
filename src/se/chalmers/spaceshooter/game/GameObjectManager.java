@@ -108,6 +108,10 @@ public class GameObjectManager {
 		}
 	}
 	
+	/**
+	 * Removes the GameObject from all the lists it resides in.
+	 * @param go the GameObject to be removed
+	 */
 	public static void removeGameObject(GameObject go) {
 		if (go instanceof Drawable) {
 			Drawable d = (Drawable) go;
@@ -172,6 +176,9 @@ public class GameObjectManager {
 		}
 	}
 
+	/**
+	 * CLears the tickable list, drawable list and the collision lists
+	 */
 	public static void clear() {
 		tickableObjects.clear();
 		drawableObjects.clear();
@@ -254,6 +261,10 @@ public class GameObjectManager {
 		drawPlayerUI(canvas);
 	}
 	
+	/**
+	 * Draw the player UI such as the healthbar, player score and player combo.
+	 * @param canvas the canvas that the ui will be drawn on
+	 */
 	private void drawPlayerUI(Canvas canvas) {
 		paint.setColor(Color.WHITE);
 		canvas.drawRect(19, 19, 20 + 151, 20 + 6, paint);
@@ -280,6 +291,12 @@ public class GameObjectManager {
 		canvas.drawText("COMBO: " + player.getCombo(), 20, 62, paint);
 	}
 
+	/**
+	 * Method used for scrolling the background on the yaxis, this happens
+	 * when the player gets too close to the joystick in order to ensure
+	 * that the player wont become hidden behind the joystick.
+	 * @param dt the timestep
+	 */
 	private void backgroundScrolling(float dt) {
 		if (player.getPosition().y + player.getHeight() >= 300)
 			bg.yScroll = true;
@@ -318,6 +335,10 @@ public class GameObjectManager {
 		}
 	}
 
+	/**
+	 * Offsets all the gameobjects in relation to the scrolling background
+	 * @param t the object to be offseted
+	 */
 	private void offset(Tickable t) {
 		if (t instanceof Enemy && t != null) {
 			Enemy e = (Enemy) t;

@@ -74,11 +74,6 @@ public class BackGround extends DynamicObject {
 		canvas.drawBitmap(bitmap, interpolatedPosition.x,
 				interpolatedPosition.y + yOffset1, null);
 
-		// canvas.drawBitmap(bitmap, interpolatedPosition.x + xOffset2,
-		// interpolatedPosition.y, null);
-		// canvas.drawBitmap(bitmap, interpolatedPosition.x + xOffset1,
-		// interpolatedPosition.y, null);
-
 	}
 
 }

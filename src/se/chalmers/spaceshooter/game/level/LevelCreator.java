@@ -7,6 +7,11 @@ import se.chalmers.spaceshooter.game.level.sequence.MixedSequence;
 import se.chalmers.spaceshooter.game.level.sequence.PredatorSequence;
 import se.chalmers.spaceshooter.game.level.sequence.Sequence;
 
+/**
+ * Class for creating the different levels with their corresponding sequences
+ * @author Anders
+ *
+ */
 public class LevelCreator {
 
 	private EnemyGenerator enemyGen;
@@ -19,6 +24,11 @@ public class LevelCreator {
 		seqMap = new HashMap<Integer, Sequence>();
 	}
 
+	/**
+	 * Create a level by passing in an array with integers where each int
+	 * maps to a certain sequence
+	 * @param seqTypes the array with integers which will map to a certain sequence
+	 */
 	private void initLevel(int[] seqTypes) {
 		for (int i = 0; i < seqTypes.length; i++) {
 			int seqType = seqTypes[i];
@@ -41,6 +51,10 @@ public class LevelCreator {
 		enemyGen.generateRandomTimeLine();
 	}
 	
+	/**
+	 * Runs the specified level
+	 * @param level the level to run
+	 */
 	public void runLevel(int level) {
 		switch (level) {
 		case 1:
