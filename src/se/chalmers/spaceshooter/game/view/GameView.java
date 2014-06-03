@@ -34,29 +34,43 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public static final int WIDTH = 800, HEIGHT = 480;
 
+	//boolean to check if surface has been destroyed which is useful when we want
+	//to return to the app after a phone call as example.
 	public boolean sdestroyed = false;
+	//a timer used for various things such as when and how long to display what level the player is on
 	private int timer = 0;
+	//timer for the musicplayer, used to ensure the musicplayer only get started once
 	private int musicStartTimer;
+	//the time we want the first level to take, might be changed in the levelcreator
 	private int levelTime = 30;
+	//offset for the loot slots
 	private int slotOffset = 600;
 
+	//indicator for what level the player is currently on
 	private static int levelID;
+	//scaling variables used to ensure the game scales properly depending on the phones resolution
 	private float scaleX, scaleY;
-	private float knobX;
+	//positions for the joystick knob
+	private float knobX, knobY;
 
-	private float knobY;
+	//boolean to make sure the musicplayer dont get restarted when it is already on
 	private boolean okToRestartMP = true;
+	//boolean to check wether we should draw what level the player is on
 	private boolean displayLevelID = false;
+	//boolean to check if the music should be played or not
 	public boolean gwMusicState;
 
+	//boolean to check wheter a dialogbox is currently showing, useful when we resume the game after for example
+	//a phone call
 	public static boolean dialogBoxShowing = false;
+	
+	
 	private Context context;
 	private SurfaceHolder holder;
 	private GameThread game;
 	private Level level;
 	private Bitmap joystick, knob, lootSlot, emptySlot;
 	private MusicPlayer mp;
-
 	private Paint p = new Paint();
 
 	public GameView(Context context) {
@@ -106,6 +120,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	}
 
+	/**
+	 * Updates the gamelogic in the levels and ensures that levels
+	 * keep coming continuosly as long as there are levels to generate
+	 * @param dt the timestep, eg the time it takes to complete one frame
+	 */
 	public void tick(float dt) {
 		if (gwMusicState) {
 			if (mp == null) {
@@ -162,26 +181,35 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 	}
 
+	/**
+	 * Draws everything in the game, like everything in the level, the joystick and so on
+	 * @param canvas
+	 * @param interpolation
+	 */
 	public void draw(Canvas canvas, float interpolation) {
+		//clear the background
 		canvas.drawColor(Color.BLACK);
+		//draw everything in the level
 		level.draw(canvas, interpolation);
+		
+		//draw the joystick and the joystick knob
 		canvas.drawBitmap(joystick, 40, 320, null);
 		canvas.drawBitmap(knob, knobX, knobY, null);
 
+		//draw the lootslots
 		for (int i = 0; i < GameObjectManager.getPlayer().lootArray.length; i++) {
 			if (GameObjectManager.getPlayer().lootArray[i] == null)
 				canvas.drawBitmap(emptySlot, slotOffset + 70 * i, 380, null);
-			else
-				canvas.drawBitmap(lootSlot, slotOffset + 70 * i, 380, null);
+			else canvas.drawBitmap(lootSlot, slotOffset + 70 * i, 380, null);
 			if (GameObjectManager.getPlayer().lootArray[i] != null) {
-				Bitmap bmp = GameObjectManager.getPlayer().lootArray[i]
-						.getBitmap();
+				Bitmap bmp = GameObjectManager.getPlayer().lootArray[i].getBitmap();
 				int x = lootSlot.getWidth() / 2 - bmp.getWidth() / 2;
 				int y = lootSlot.getHeight() / 2 - bmp.getHeight() / 2;
 				canvas.drawBitmap(bmp, slotOffset + x + 70 * i, 380 + y, null);
 			}
 		}
 
+		//draw which level the player is on if displayLevelID is false
 		if (!displayLevelID) {
 			p.setColor(Color.GREEN);
 			p.setTextSize(20);
@@ -189,6 +217,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	/**
+	 * Handle the touch events. There is support for two different touches:
+	 * STeering the player ship with the joystick and applying collected loot 
+	 * from one of the lootslots.
+	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
@@ -218,6 +251,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 			manageLootSlots(x, y);
 
+			//define the joystick touch area and set the targetVelocity to the touch event
+			//with proper scaling applied
 			if (x <= 180 && x >= 20 && y <= 470 && y >= 308) {
 				knobX = x - knob.getWidth() / 2;
 				knobY = y - knob.getHeight() / 2;
@@ -249,6 +284,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		return true;
 	}
 	
+	/**
+	 * Handles what will happen when player press one of the three lootslots
+	 * @param x x position of the touchevent area
+	 * @param y y position of the touchevent area
+	 */
 	private void manageLootSlots(float x, float y) {
 		if (x >= slotOffset && x <= slotOffset + 50 && y >= 380 && y <= 430) {
 			Loot loot = GameObjectManager.getPlayer().lootArray[0];
@@ -291,6 +331,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 
+	/**
+	 * Reset the state of the game to its initial state
+	 */
 	private void resetGameState() {
 		GameObjectManager.clear();
 		GameObjectManager.setSlowTime(false);
@@ -337,6 +380,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		sdestroyed = true;
 	}
 	
+	/**
+	 * Pauses the game
+	 */
 	public void pause() {
 		okToRestartMP = false;
 		if (gwMusicState) {
@@ -345,6 +391,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		game.pause();
 	}
 
+	/**
+	 * Resumes the game
+	 */
 	public void resume() {
 		okToRestartMP = true;
 		if (gwMusicState) {
@@ -353,11 +402,17 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		game.resume();
 	}
 
+	/**
+	 * Starts the game
+	 */
 	public void start() {
 		game.start();
 		GameObjectManager.getPlayer().init();
 	}
 
+	/**
+	 * Stops the game
+	 */
 	public void stop() {
 		GameObjectManager.clear();
 		if (gwMusicState) {
@@ -366,7 +421,20 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		game.stop();
 	}
 
-	
+
+	/**
+	 * Creates a dialogbox on the screen with a title, message and two buttons
+	 * one button for yes and one for no
+	 * 
+	 * @param title
+	 *            the title of the box, eg "Level completed!" or "You died"
+	 * @param msg
+	 *            the message in the box, eg "Restart the level?"
+	 * @param positiveBtn
+	 *            the text in the positive button
+	 * @param negativeBtn
+	 *            the text in the negative button
+	 */
 	public void dialogBox(final String title, final String msg,
 			final String positiveBtn, final String negativeBtn) {
 
@@ -419,6 +487,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	 *            the message in the box, eg "Restart the level?"
 	 * @param positiveBtn
 	 *            the text in the positive button
+	 * @param neutralBtn
+	 *            the text in the neutral button
 	 * @param negativeBtn
 	 *            the text in the negative button
 	 */

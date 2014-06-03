@@ -26,6 +26,9 @@ public class GameActivity extends Activity {
 	public boolean isInvView;
 	public static Vector2f savedPos;
 	
+	/**
+	 * Starts the game activity
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,12 +60,18 @@ public class GameActivity extends Activity {
 		}
 	}
 
+	/**
+	 * Switch the contentview to the gameview, eg start the game
+	 */
 	public void goToGame() {
 		isInvView = false;
 		gameView = new GameView(this);
 		setContentView(gameView);
 	}
 	
+	/**
+	 * Dialogbox which get shown when user press back
+	 */
 	private void exitDialog() {
 		if (gameView != null) {
 			GameView.dialogBoxShowing = true;
@@ -91,6 +100,11 @@ public class GameActivity extends Activity {
 		builder.create().show();
 	}
 
+	/**
+	 * On a phone call or when user press home button we save the players position 
+	 *  in order to resume correctly when the user comes back into the game.
+	 *  We also start a dialogbox so the user can choose what to do when he/she returns
+	 */
 	private void saveState() {
 		if (!GameView.dialogBoxShowing) {
 			exitDialog();
@@ -107,6 +121,11 @@ public class GameActivity extends Activity {
 		savedPos = GameObjectManager.getPlayer().getPosition();
 	}
 
+	/**
+	 * When the user presses back we want a dialogbox
+	 * to pop up if he/she is in the gameview.
+	 * If the user is in the inventory view we simply return to the menu
+	 */
 	@Override
 	public void onBackPressed() {
 		if (isInvView)
@@ -115,6 +134,9 @@ public class GameActivity extends Activity {
 			exitDialog();
 	}
 
+	/**
+	 * Helper method for calling the activiy onBackpressed
+	 */
 	public void onBackPressed2() {
 		GameActivity.super.onBackPressed();
 	}
