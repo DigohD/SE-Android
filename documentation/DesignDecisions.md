@@ -12,4 +12,5 @@ Since we started by deciding how the game and menus would look, and what it shou
 ###Menus
 For the menu system using Andoid modules, it is a very well defined way of how this could and should be done. All the looks was defined in Android XML layout files named afted what tab it would define, such as the ***tab_settings***, while its functions was programmed using Java in one main *Class* called ***TabMenu***. For the settings we also implemented the SharedPreferences functions built in into Android to make it easy to use, test and maintain.
 ###Game
-As we wanted to make it easy to add content after an *Object* of the type first had been created, we setup *Classes* that would define a certain property of an *Object*. These properites, such as the ***Collidable***, would then be defined in a ***GameObjectManager*** *Class*.
+As we wanted to make it easy to add content after an *GameObject* of a certain type first had been created, we setup *Interfaces* that would define a certain property of an *GameObject*. These properties are ***Tickable, Drawable and Collidable***, and they would then be used in a ***GameObjectManager*** *Class* for adding, removing and updating the correct gameobjects.
+This is described in more detail in the major components documentation.
