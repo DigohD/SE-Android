@@ -43,14 +43,6 @@ public class Sequence {
 		colorPosMap = new HashMap<Integer, ArrayList<Vector2f>>();
 	}
 
-	public ArrayList<String> getSequences() {
-		return sequences;
-	}
-
-	public boolean isTimeLimit() {
-		return timeLimit;
-	}
-
 	/**
 	 * First loops through the colorPosMap to see if an enemy is mapped to the
 	 * same color key then loops through the pixel positions and sets all
@@ -76,6 +68,36 @@ public class Sequence {
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Loops through all pixels of the sequence image and stores all non black
+	 * pixels as keys in a map and their positions in arraylists which are the
+	 * values of the map.
+	 */
+	protected void scanSequence() {
+		for (int y = 0; y < height; y++)
+			for (int x = 0; x < width; x++) {
+				// x = the pixels x position , y * width = the pixels y position
+				int pixValue = pixels[x + (y * width)];
+				if (pixValue != ColorRGBA.BLACK)
+					// if the color already exists as a key in the map, simply
+					// add that pixels position in the arraylist
+					// which holds all positions
+					if (colorPosMap.containsKey(pixValue))
+						colorPosMap.get(pixValue).add(
+								new Vector2f((x * widthRatio) + GameView.WIDTH,
+										y * heightRatio));
+					else {
+						// if the color dont exist as a key put it in the map
+						// with a new arraylist as value to store all positions
+						colorPosMap.put(pixValue, new ArrayList<Vector2f>());
+						// and finally add the position of the pixel
+						colorPosMap.get(pixValue).add(
+								new Vector2f((x * widthRatio) + GameView.WIDTH,
+										y * heightRatio));
+					}
+			}
 	}
 
 	/**
@@ -112,35 +134,13 @@ public class Sequence {
 		bmp.getPixels(pixels, 0, width, 0, 0, width, height);
 		bmp.recycle();
 	}
+	
+	public ArrayList<String> getSequences() {
+		return sequences;
+	}
 
-	/**
-	 * Loops through all pixels of the sequence image and stores all non black
-	 * pixels as keys in a map and their positions in arraylists which are the
-	 * values of the map.
-	 */
-	protected void scanSequence() {
-		for (int y = 0; y < height; y++)
-			for (int x = 0; x < width; x++) {
-				// x = the pixels x position , y * width = the pixels y position
-				int pixValue = pixels[x + (y * width)];
-				if (pixValue != ColorRGBA.BLACK)
-					// if the color already exists as a key in the map, simply
-					// add that pixels position in the arraylist
-					// which holds all positions
-					if (colorPosMap.containsKey(pixValue))
-						colorPosMap.get(pixValue).add(
-								new Vector2f((x * widthRatio) + GameView.WIDTH,
-										y * heightRatio));
-					else {
-						// if the color dont exist as a key put it in the map
-						// with a new arraylist as value to store all positions
-						colorPosMap.put(pixValue, new ArrayList<Vector2f>());
-						// and finally add the position of the pixel
-						colorPosMap.get(pixValue).add(
-								new Vector2f((x * widthRatio) + GameView.WIDTH,
-										y * heightRatio));
-					}
-			}
+	public boolean isTimeLimit() {
+		return timeLimit;
 	}
 
 }

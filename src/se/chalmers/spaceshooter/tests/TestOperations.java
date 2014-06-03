@@ -27,6 +27,11 @@ import se.chalmers.spaceshooter.game.view.GameView;
 
 public class TestOperations extends TestCase {
 
+	/**
+	 * Testing of the calculateplayerscore method which is located in the Enemy class.
+	 * It is of great importance that this works correctly so players that get further in
+	 * the game and/or generate large combos will be rewarded with more points.
+	 */
 	public void testCalculatePlayerScore() {
 		Enemy e = new Predator(new Vector2f(0, 0), 40, 40);
 		// 10 * 1.2^1 * 5
@@ -43,6 +48,11 @@ public class TestOperations extends TestCase {
 		assertEquals(1492, test5);
 	}
 
+	/**
+	 * Testing of the adding and removal of GameObjects in the GameObjectManager class.
+	 * These methods are critical due to the way we have designed our framework. If they don't
+	 * work correctly no GameObjects will appear on the screen and/or be removed when they are dead.
+	 */
 	public void testGameObjectManager() {
 		GameObjectManager.initLists();
 
@@ -86,6 +96,14 @@ public class TestOperations extends TestCase {
 		assertEquals(0, GameObjectManager.gettToAdd().size());
 	}
 
+	/**
+	 * Test to ensure that projectiles that are no longer inside the screen region
+	 * will be removed. It is vital that this works so we don't use up an unnecessary amount
+	 * of memory.
+	 * 
+	 * To test this we create a couple of projectiles on different regions that are outside the screen region.
+	 * We then run the outOfBound method in the projectile class to check if it will return the correct result.
+	 */
 	public void testProjectileOutOfBound() {
 		List<Projectile> projectiles = new ArrayList<Projectile>();
 
@@ -124,6 +142,11 @@ public class TestOperations extends TestCase {
 		assertEquals(projectiles.size(), count);
 	}
 
+	/**
+	 * Testing of the dot product in the vector class.
+	 * We aren't currently using this method but it will be of great importance in the
+	 * future when we want to create more smarter enemies.
+	 */
 	public void testVector2fDot() {
 		Vector2f v1 = new Vector2f(5, 6);
 		Vector2f v2 = new Vector2f(3, 7);
@@ -143,11 +166,20 @@ public class TestOperations extends TestCase {
 		assertEquals(8684.0f, v7.dot(v8));
 	}
 
+	/**
+	 * Testing of the vector normalizing method in the vector class.
+	 * We generate 10 000 vectors with random x and y components and then we check if
+	 * they have a length of 1 which all normalized vecotrs should have.
+	 * 
+	 * We aren't currently using this method but it will be of great importance in the
+	 * future when we want to create more smarter enemies.
+	 */
 	public void testVector2fNormalize() {
 		for (int i = 0; i < 10000; i++) {
 			float rX = Randomizer.getFloat(1, 800);
 			float rY = Randomizer.getFloat(1, 480);
 			Vector2f v = new Vector2f(rX, rY);
+			
 			assertEquals(1.0f, v.normalize().length());
 		}
 	}

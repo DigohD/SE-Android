@@ -84,6 +84,23 @@ public class InventoryView extends SurfaceView implements
 		this.vapen[3] = BitmapLoader.loadBitmap("ui/YellowPlasma");
 
 	}
+	
+	public void tick(float dt) {
+		pressTimer++;
+		if (start) {
+			startTimer++;
+			if (startTimer > 150) {
+				final GameActivity gA = (GameActivity) context;
+				gA.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						gA.goToGame();
+					}
+				});
+
+			}
+		}
+	}
 
 	public void draw(Canvas canvas, float interpolation) {
 		// clear the screen with black pixels
@@ -203,21 +220,6 @@ public class InventoryView extends SurfaceView implements
 		stop();
 	}
 
-	public void tick(float dt) {
-		pressTimer++;
-		if (start) {
-			startTimer++;
-			if (startTimer > 150) {
-				final GameActivity gA = (GameActivity) context;
-				gA.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						gA.goToGame();
-					}
-				});
-
-			}
-		}
-	}
+	
 
 }

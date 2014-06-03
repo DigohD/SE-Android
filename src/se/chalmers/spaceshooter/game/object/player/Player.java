@@ -34,11 +34,6 @@ public class Player extends DynamicObject implements Collideable {
 	protected Rect rect;
 
 	private static ConstantEmitter engine;
-
-	public static ConstantEmitter getEngine() {
-		return engine;
-	}
-
 	private Emitter emitter;
 
 	private Gun topGun;
@@ -93,7 +88,139 @@ public class Player extends DynamicObject implements Collideable {
 		topGunPos = new Vector2f(position.x, position.y + 4);
 		bottomGunPos = new Vector2f(position.x, position.y + width - 6);
 	}
+	
+	public void init() {
+		position = GameActivity.savedPos;
 
+		targetPosition.set(position.x, position.y);
+		targetVelocity.x = 0;
+		targetVelocity.y = 0;
+
+		HealthPack startPack = new HealthPack(new Vector2f(-100, 0), 10);
+		HealthPack startPack2 = new HealthPack(new Vector2f(-100, 0), 10);
+		SlowTimePack startPack3 = new SlowTimePack(new Vector2f(-100, 0));
+
+		startPack.setSaved(true);
+		startPack2.setSaved(true);
+		startPack3.setSaved(true);
+
+		lootArray[0] = startPack;
+		lootArray[1] = startPack2;
+		lootArray[2] = startPack3;
+
+		emitter = new RadialEmitter(8, ParticleID.RED_PLASMA,
+				new Vector2f(0, 0), new Vector2f(20f, 0f));
+
+		engine = new ConstantEmitter(1, ParticleID.ENGINE, new Vector2f(
+				position.y + height / 2, position.x - 8), new Vector2f(-7f, 0f));
+		engine.setPosition(new Vector2f(position.x - 8, position.y + height / 2
+				- 7));
+		engine.setIsSpread(true);
+		engine.init();
+
+		live = true;
+		update = false;
+		combo = 0;
+		timer = 0;
+		enemyKillCount = 0;
+	}
+
+	public void setTargetVelocity(float dX, float dY) {
+		targetVelocity.x = dX;
+		targetVelocity.y = dY;
+		update = true;
+	}
+
+	@Override
+	public void move(float dt) {
+		if (!update) {
+			targetVelocity.x = 0;
+			targetVelocity.y = 0;
+		}
+
+		velocity.x = approach(targetVelocity.x, velocity.x, dt * dtSteps);
+		velocity.y = approach(targetVelocity.y, velocity.y, dt * dtSteps);
+
+		if (!targetOK) {
+			targetPosition.x = targetPosition.x + velocity.x;
+
+			diff = targetPosition.sub(position).div(steps);
+			distance = diff;
+			position = position.add(diff);
+		} else {
+			targetPosition.x = targetPosition.x + velocity.x;
+			targetPosition.y = targetPosition.y + velocity.y;
+
+			diff = targetPosition.sub(position).div(steps);
+			distance = diff;
+			position = position.add(diff);
+		}
+
+		engine.setPosition(new Vector2f(position.x - 8, position.y + height / 2
+				- 7));
+
+		topGunPos.set(position.x, position.y + 4);
+		bottomGunPos.set(position.x, position.y + width - 6);
+	}
+
+	private void inBound() {
+		if (position.x < 0)
+			position.x = 2;
+		if (position.x + width >= GameView.WIDTH)
+			position.x = (GameView.WIDTH - width) - 2;
+		if (position.y < 0)
+			position.y = 0;
+		if (position.y + height >= GameView.HEIGHT - 160)
+			position.y = (GameView.HEIGHT - height) - 160;
+
+		if (targetPosition.x < 0)
+			targetPosition.x = 2;
+		if (targetPosition.x + width >= GameView.WIDTH)
+			targetPosition.x = (GameView.WIDTH - width) - 2;
+		if (targetPosition.y < 0)
+			targetPosition.y = 0;
+		if (targetPosition.y + height >= GameView.HEIGHT - 160)
+			targetPosition.y = (GameView.HEIGHT - height) - 160;
+	}
+
+	@Override
+	public void tick(float dt) {
+		inBound();
+		rect.set((int) position.x, (int) position.y, (int) position.x + width,
+				(int) position.y + height);
+		move(dt);
+
+		if (startComboCount) {
+			timer++;
+			if (GameObjectManager.isSlowTime()) {
+				if (timer > 60 * 1 * (1 + GameObjectManager.slowtime)) {
+					startComboCount = false;
+					enemyKillCount = 0;
+					combo = 0;
+					timer = 0;
+				}
+				if (timer <= 60 * 1 * (1 + GameObjectManager.slowtime)
+						&& combo != enemyKillCount) {
+					combo = enemyKillCount;
+					timer = 0;
+				}
+			} else {
+				if (timer > 60 * 1) {
+					startComboCount = false;
+					enemyKillCount = 0;
+					combo = 0;
+					timer = 0;
+				}
+				if (timer <= 60 * 1 && combo != enemyKillCount) {
+					combo = enemyKillCount;
+					timer = 0;
+				}
+			}
+
+		}
+
+	}
+	
 	@Override
 	public void collisionWith(Collideable obj) {
 		if (obj instanceof Enemy) {
@@ -173,6 +300,14 @@ public class Player extends DynamicObject implements Collideable {
 		engine.setLive(false);
 	}
 
+	public void setTopGun(Gun gun) {
+		topGun = gun;
+	}
+
+	public void setUpdate(boolean u) {
+		update = u;
+	}
+	
 	public Gun getBottomGun() {
 		return bottomGun;
 	}
@@ -232,75 +367,7 @@ public class Player extends DynamicObject implements Collideable {
 	public void incScore(int value) {
 		score += value;
 	}
-
-	public void init() {
-		position = GameActivity.savedPos;
-
-		targetPosition.set(position.x, position.y);
-		targetVelocity.x = 0;
-		targetVelocity.y = 0;
-
-		HealthPack startPack = new HealthPack(new Vector2f(-100, 0), 10);
-		HealthPack startPack2 = new HealthPack(new Vector2f(-100, 0), 10);
-		SlowTimePack startPack3 = new SlowTimePack(new Vector2f(-100, 0));
-
-		startPack.setSaved(true);
-		startPack2.setSaved(true);
-		startPack3.setSaved(true);
-
-		lootArray[0] = startPack;
-		lootArray[1] = startPack2;
-		lootArray[2] = startPack3;
-
-		emitter = new RadialEmitter(8, ParticleID.RED_PLASMA,
-				new Vector2f(0, 0), new Vector2f(20f, 0f));
-
-		engine = new ConstantEmitter(1, ParticleID.ENGINE, new Vector2f(
-				position.y + height / 2, position.x - 8), new Vector2f(-7f, 0f));
-		engine.setPosition(new Vector2f(position.x - 8, position.y + height / 2
-				- 7));
-		engine.setIsSpread(true);
-		engine.init();
-
-		live = true;
-		update = false;
-		combo = 0;
-		timer = 0;
-		enemyKillCount = 0;
-	}
-
-	@Override
-	public void move(float dt) {
-		if (!update) {
-			targetVelocity.x = 0;
-			targetVelocity.y = 0;
-		}
-
-		velocity.x = approach(targetVelocity.x, velocity.x, dt * dtSteps);
-		velocity.y = approach(targetVelocity.y, velocity.y, dt * dtSteps);
-
-		if (!targetOK) {
-			targetPosition.x = targetPosition.x + velocity.x;
-
-			diff = targetPosition.sub(position).div(steps);
-			distance = diff;
-			position = position.add(diff);
-		} else {
-			targetPosition.x = targetPosition.x + velocity.x;
-			targetPosition.y = targetPosition.y + velocity.y;
-
-			diff = targetPosition.sub(position).div(steps);
-			distance = diff;
-			position = position.add(diff);
-		}
-
-		engine.setPosition(new Vector2f(position.x - 8, position.y + height / 2
-				- 7));
-
-		topGunPos.set(position.x, position.y + 4);
-		bottomGunPos.set(position.x, position.y + width - 6);
-	}
-
+	
 	public void setBottomGun(Gun gun) {
 		bottomGun = gun;
 	}
@@ -317,76 +384,8 @@ public class Player extends DynamicObject implements Collideable {
 		score = value;
 	}
 
-	public void setTargetVelocity(float dX, float dY) {
-		targetVelocity.x = dX;
-		targetVelocity.y = dY;
-		update = true;
-	}
-
-	public void setTopGun(Gun gun) {
-		topGun = gun;
-	}
-
-	public void setUpdate(boolean u) {
-		update = u;
-	}
-
-	@Override
-	public void tick(float dt) {
-		inBound();
-		rect.set((int) position.x, (int) position.y, (int) position.x + width,
-				(int) position.y + height);
-		move(dt);
-
-		if (startComboCount) {
-			timer++;
-			if (GameObjectManager.isSlowTime()) {
-				if (timer > 60 * 1 * (1 + GameObjectManager.slowtime)) {
-					startComboCount = false;
-					enemyKillCount = 0;
-					combo = 0;
-					timer = 0;
-				}
-				if (timer <= 60 * 1 * (1 + GameObjectManager.slowtime)
-						&& combo != enemyKillCount) {
-					combo = enemyKillCount;
-					timer = 0;
-				}
-			} else {
-				if (timer > 60 * 1) {
-					startComboCount = false;
-					enemyKillCount = 0;
-					combo = 0;
-					timer = 0;
-				}
-				if (timer <= 60 * 1 && combo != enemyKillCount) {
-					combo = enemyKillCount;
-					timer = 0;
-				}
-			}
-
-		}
-
-	}
-
-	private void inBound() {
-		if (position.x < 0)
-			position.x = 2;
-		if (position.x + width >= GameView.WIDTH)
-			position.x = (GameView.WIDTH - width) - 2;
-		if (position.y < 0)
-			position.y = 0;
-		if (position.y + height >= GameView.HEIGHT - 160)
-			position.y = (GameView.HEIGHT - height) - 160;
-
-		if (targetPosition.x < 0)
-			targetPosition.x = 2;
-		if (targetPosition.x + width >= GameView.WIDTH)
-			targetPosition.x = (GameView.WIDTH - width) - 2;
-		if (targetPosition.y < 0)
-			targetPosition.y = 0;
-		if (targetPosition.y + height >= GameView.HEIGHT - 160)
-			targetPosition.y = (GameView.HEIGHT - height) - 160;
+	public static ConstantEmitter getEngine() {
+		return engine;
 	}
 
 }

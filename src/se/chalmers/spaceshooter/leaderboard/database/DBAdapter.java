@@ -9,30 +9,6 @@ import android.util.Log;
 
 public class DBAdapter {
 
-	private static class DatabaseHelper extends SQLiteOpenHelper {
-		DatabaseHelper(Context context) {
-			super(context, DATABASE_NAME, null, DATABASE_VERSION);
-		}
-
-		@Override
-		public void onCreate(SQLiteDatabase _db) {
-			_db.execSQL(DATABASE_CREATE_SQL);
-		}
-
-		@Override
-		public void onUpgrade(SQLiteDatabase _db, int oldVersion, int newVersion) {
-			Log.w(TAG, "Upgrading application's database from version "
-					+ oldVersion + " to " + newVersion
-					+ ", which will destroy all old data!");
-
-			// Destroy old database:
-			_db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
-
-			// Recreate new database:
-			onCreate(_db);
-		}
-	}
-
 	private static final String TAG = "DBAdapter";
 	// DB Fields
 	public static final String KEY_ROWID = "_id";
@@ -161,5 +137,29 @@ public class DBAdapter {
 
 		// Insert it into the database.
 		db.update(DATABASE_TABLE, newValues, where, null);
+	}
+	
+	private static class DatabaseHelper extends SQLiteOpenHelper {
+		DatabaseHelper(Context context) {
+			super(context, DATABASE_NAME, null, DATABASE_VERSION);
+		}
+
+		@Override
+		public void onCreate(SQLiteDatabase _db) {
+			_db.execSQL(DATABASE_CREATE_SQL);
+		}
+
+		@Override
+		public void onUpgrade(SQLiteDatabase _db, int oldVersion, int newVersion) {
+			Log.w(TAG, "Upgrading application's database from version "
+					+ oldVersion + " to " + newVersion
+					+ ", which will destroy all old data!");
+
+			// Destroy old database:
+			_db.execSQL("DROP TABLE IF EXISTS " + DATABASE_TABLE);
+
+			// Recreate new database:
+			onCreate(_db);
+		}
 	}
 }

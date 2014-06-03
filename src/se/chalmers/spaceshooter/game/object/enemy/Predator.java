@@ -65,14 +65,6 @@ public class Predator extends Enemy {
 	}
 
 	@Override
-	public void death() {
-		Vector2f center = position.add(new Vector2f(width / 2f, height / 2f));
-		emitter.getPosition().set(center.x, center.y);
-		emitter.init();
-		SoundPlayer.playSound(SoundID.exp_1);
-	}
-
-	@Override
 	public void tick(float dt) {
 		super.tick(dt);
 		reload++;
@@ -93,6 +85,14 @@ public class Predator extends Enemy {
 		velocity.x = approach(targetVelocity.x, velocity.x, dt);
 		velocity.y = approach(targetVelocity.y, velocity.y, dt);
 		move(dt);
+	}
+	
+	@Override
+	public void death() {
+		Vector2f center = position.add(new Vector2f(width / 2f, height / 2f));
+		emitter.getPosition().set(center.x, center.y);
+		emitter.init();
+		SoundPlayer.playSound(SoundID.exp_1);
 	}
 
 }

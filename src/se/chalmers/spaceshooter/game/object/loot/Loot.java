@@ -15,8 +15,17 @@ public abstract class Loot extends DynamicObject implements Collideable {
 
 	}
 
+	@Override
+	public void tick(float dt) {
+		if (getX() < -width)
+			live = false;
+		rect.set((int) position.x, (int) position.y, (int) position.x + width,
+				(int) position.y + height);
+		move(dt);
+	}
+	
 	public abstract void death();
-
+	
 	@Override
 	public Rect getRect() {
 		return rect;
@@ -28,15 +37,6 @@ public abstract class Loot extends DynamicObject implements Collideable {
 
 	public void setSaved(boolean saved) {
 		this.saved = saved;
-	}
-
-	@Override
-	public void tick(float dt) {
-		if (getX() < -width)
-			live = false;
-		rect.set((int) position.x, (int) position.y, (int) position.x + width,
-				(int) position.y + height);
-		move(dt);
 	}
 
 }

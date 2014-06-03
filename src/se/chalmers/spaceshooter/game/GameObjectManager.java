@@ -22,6 +22,10 @@ import android.graphics.Paint;
 
 /**
  * Class used for managing all gameobjects.
+ * The GameObjectManager is responsible for adding and removing all gameobjects to the correct lists
+ * such as the list of tickables, drawables or one of the lists in the COllisionManager.
+ * It also is responsible for traversing the tickable and drawable lists in order to update
+ * all tickable gameobjects and draw all drawable gameobjects.
  * 
  * @author Anders
  * 
@@ -30,10 +34,11 @@ public class GameObjectManager {
 
 	// list of all the tickable gameobjects
 	private static List<Tickable> tickableObjects;
-
+	//backup list used for avoiding concurrent modification errors
 	private static List<Tickable> tToAdd;
 	// list of all the drawable gameobjects
 	private static List<Drawable> drawableObjects;
+	//backup list used for avoiding concurrent modification errors
 	private static List<Drawable> dToAdd;
 
 	private static Player player;
@@ -41,7 +46,38 @@ public class GameObjectManager {
 	private static Gun bottomGun;
 
 	public static BackGround bg;
+	private Paint paint;
+	
+	private static boolean slowTime = false;
+	private int timer = 0;
+	public static float slowtime = 0.35f;
+	
+	public GameObjectManager() {
+		initLists();
 
+		if (player == null)
+			player = new Player(new Vector2f(GameView.WIDTH / 2,
+					GameView.HEIGHT / 2));
+
+		topGun = player.getTopGun();
+		bottomGun = player.getBottomGun();
+		bg = new BackGround();
+		paint = new Paint();
+		slowTime = false;
+	}
+	
+	public static void initLists() {
+		tickableObjects = new ArrayList<Tickable>();
+		tToAdd = new ArrayList<Tickable>();
+		drawableObjects = new ArrayList<Drawable>();
+		dToAdd = new ArrayList<Drawable>();
+	}
+
+	/**
+	 * Adds the GameObject to the correct lists such as tickables, drawables or any
+	 * of the lists in the CollisionManager depending on the type of the GameObject.
+	 * @param go the GameObject to be added
+	 */
 	public static void addGameObject(GameObject go) {
 		if (go instanceof Tickable) {
 			Tickable t = (Tickable) go;
@@ -71,74 +107,7 @@ public class GameObjectManager {
 				CollisionManager.addPlayerProjectile(p);
 		}
 	}
-
-	public static void clear() {
-		tickableObjects.clear();
-		drawableObjects.clear();
-		tToAdd.clear();
-		dToAdd.clear();
-		CollisionManager.clear();
-	}
-
-	public static List<Drawable> getDrawableObjects() {
-		return drawableObjects;
-	}
-
-	public static List<Drawable> getdToAdd() {
-		return dToAdd;
-	}
-
-	public static Player getPlayer() {
-		return player;
-	}
-
-	public static List<Tickable> getTickableObjects() {
-		return tickableObjects;
-	}
-
-	public static List<Tickable> gettToAdd() {
-		return tToAdd;
-	}
-
-	public static void initLists() {
-		tickableObjects = new ArrayList<Tickable>();
-		tToAdd = new ArrayList<Tickable>();
-		drawableObjects = new ArrayList<Drawable>();
-		dToAdd = new ArrayList<Drawable>();
-	}
-
-	public static boolean isSlowTime() {
-		return slowTime;
-	}
-
-	/**
-	 * Removes all gameobjects that has been marked as dead
-	 */
-	public static void removeDeadGameObjects() {
-		for (int i = 0; i < tickableObjects.size(); i++) {
-			Tickable t = tickableObjects.get(i);
-			GameObject go = null;
-
-			if (t instanceof GameObject)
-				go = (GameObject) t;
-
-			if (!go.isLive())
-				removeGameObject(go);
-		}
-	}
-
-	private Paint paint;
-
-	private static boolean slowTime = false;
-
-	public static void setSlowTime(boolean sTime) {
-		slowTime = sTime;
-	}
-
-	private int timer = 0;
-
-	public static float slowtime = 0.35f;
-
+	
 	public static void removeGameObject(GameObject go) {
 		if (go instanceof Drawable) {
 			Drawable d = (Drawable) go;
@@ -185,38 +154,30 @@ public class GameObjectManager {
 				CollisionManager.removePlayerProjectile(p);
 		}
 	}
-
-	public GameObjectManager() {
-		initLists();
-
-		if (player == null)
-			player = new Player(new Vector2f(GameView.WIDTH / 2,
-					GameView.HEIGHT / 2));
-
-		topGun = player.getTopGun();
-		bottomGun = player.getBottomGun();
-		bg = new BackGround();
-		paint = new Paint();
-		slowTime = false;
-	}
+	
 
 	/**
-	 * Draws all drawable gameobjects
-	 * 
-	 * @param canvas
-	 *            the canvas used for drawing
-	 * @param interpolation
-	 *            the interpolation factor used for calculating the interpolated
-	 *            position of a dynamic object
+	 * Removes all gameobjects that has been marked as dead
 	 */
-	public void draw(Canvas canvas, float interpolation) {
-		for (Drawable d : drawableObjects)
-			d.draw(canvas, interpolation);
+	public static void removeDeadGameObjects() {
+		for (int i = 0; i < tickableObjects.size(); i++) {
+			Tickable t = tickableObjects.get(i);
+			GameObject go = null;
 
-		if (player.isLive())
-			player.draw(canvas, interpolation);
+			if (t instanceof GameObject)
+				go = (GameObject) t;
 
-		drawPlayerUI(canvas);
+			if (!go.isLive())
+				removeGameObject(go);
+		}
+	}
+
+	public static void clear() {
+		tickableObjects.clear();
+		drawableObjects.clear();
+		tToAdd.clear();
+		dToAdd.clear();
+		CollisionManager.clear();
 	}
 
 	/**
@@ -273,6 +234,51 @@ public class GameObjectManager {
 		}
 
 	}
+	
+	/**
+	 * Draws all drawable gameobjects
+	 * 
+	 * @param canvas
+	 *            the canvas used for drawing
+	 * @param interpolation
+	 *            the interpolation factor used for calculating the interpolated
+	 *            position of a dynamic object
+	 */
+	public void draw(Canvas canvas, float interpolation) {
+		for (Drawable d : drawableObjects)
+			d.draw(canvas, interpolation);
+
+		if (player.isLive())
+			player.draw(canvas, interpolation);
+
+		drawPlayerUI(canvas);
+	}
+	
+	private void drawPlayerUI(Canvas canvas) {
+		paint.setColor(Color.WHITE);
+		canvas.drawRect(19, 19, 20 + 151, 20 + 6, paint);
+
+		paint.setColor(Color.RED);
+		canvas.drawRect(20, 20, 20 + 150, 20 + 5, paint);
+
+		paint.setColor(Color.GREEN);
+		if (player.getHp() <= 0)
+			player.setHp(0);
+		canvas.drawRect(20, 20,
+				20 + ((player.getHp() / player.getMaxHP()) * 150), 20 + 5,
+				paint);
+
+		paint.setTextSize(15);
+		canvas.drawText("SCORE: " + player.getScore(), 20, 42, paint);
+
+		if (player.getCombo() == 0)
+			paint.setColor(Color.RED);
+		else
+			paint.setColor(Color.GREEN);
+
+		paint.setTextSize(15);
+		canvas.drawText("COMBO: " + player.getCombo(), 20, 62, paint);
+	}
 
 	private void backgroundScrolling(float dt) {
 		if (player.getPosition().y + player.getHeight() >= 300)
@@ -310,32 +316,6 @@ public class GameObjectManager {
 			bg.yScroll = false;
 			player.targetOK = true;
 		}
-	}
-
-	private void drawPlayerUI(Canvas canvas) {
-		paint.setColor(Color.WHITE);
-		canvas.drawRect(19, 19, 20 + 151, 20 + 6, paint);
-
-		paint.setColor(Color.RED);
-		canvas.drawRect(20, 20, 20 + 150, 20 + 5, paint);
-
-		paint.setColor(Color.GREEN);
-		if (player.getHp() <= 0)
-			player.setHp(0);
-		canvas.drawRect(20, 20,
-				20 + ((player.getHp() / player.getMaxHP()) * 150), 20 + 5,
-				paint);
-
-		paint.setTextSize(15);
-		canvas.drawText("SCORE: " + player.getScore(), 20, 42, paint);
-
-		if (player.getCombo() == 0)
-			paint.setColor(Color.RED);
-		else
-			paint.setColor(Color.GREEN);
-
-		paint.setTextSize(15);
-		canvas.drawText("COMBO: " + player.getCombo(), 20, 62, paint);
 	}
 
 	private void offset(Tickable t) {
@@ -377,6 +357,34 @@ public class GameObjectManager {
 				e.getPosition().y = 2;
 			}
 		}
+	}
+	
+	public static boolean isSlowTime() {
+		return slowTime;
+	}
+	
+	public static void setSlowTime(boolean sTime) {
+		slowTime = sTime;
+	}
+	
+	public static List<Drawable> getDrawableObjects() {
+		return drawableObjects;
+	}
+
+	public static List<Drawable> getdToAdd() {
+		return dToAdd;
+	}
+
+	public static Player getPlayer() {
+		return player;
+	}
+
+	public static List<Tickable> getTickableObjects() {
+		return tickableObjects;
+	}
+
+	public static List<Tickable> gettToAdd() {
+		return tToAdd;
 	}
 
 }

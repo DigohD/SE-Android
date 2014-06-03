@@ -19,6 +19,24 @@ public class Database {
 		myDb = new DBAdapter(context);
 	}
 
+	public void openDB() {
+		myDb.open();
+		cursor = myDb.getRow(1);
+	}
+
+	public void closeDB() {
+		myDb.close();
+	}
+
+	public void resetScore(String playerName) {
+		cursor = myDb.getRow(1);
+		if (cursor != null && GameObjectManager.getPlayer() != null) {
+			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), playerName, 0);
+			cursor = myDb.getRow(1);
+		}
+
+	}
+	
 	public void addHighscore(String playerName, int highscore) {
 		cursor = myDb.getRow(1);
 		long newId;
@@ -32,33 +50,6 @@ public class Database {
 		}
 	}
 
-	public void closeDB() {
-		myDb.close();
-	}
-
-	public DBAdapter getDBAdapter() {
-		return myDb;
-	}
-
-	public void openDB() {
-		myDb.open();
-		cursor = myDb.getRow(1);
-	}
-
-	public void resetScore(String playerName) {
-		cursor = myDb.getRow(1);
-		if (cursor != null && GameObjectManager.getPlayer() != null) {
-			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), playerName, 0);
-			cursor = myDb.getRow(1);
-		}
-
-	}
-
-	public void showHighscore() {
-		if (cursor != null)
-			displayHighscores(cursor);
-	}
-
 	public void updateHighscore(String playerName, int newHighscore) {
 		cursor = myDb.getRow(1);
 		int oldHighscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
@@ -68,11 +59,22 @@ public class Database {
 		}
 		myDb.updateRow(id, playerName, oldHighscore);
 	}
+	
+	private void displayName(String message) {
+		TabMenu tm = (TabMenu) context;
+		TextView textView = (TextView) tm.findViewById(R.id.textName);
+		textView.setText(message);
+	}
 
 	private void displayHighscore(String message) {
 		TabMenu tm = (TabMenu) context;
 		TextView textView = (TextView) tm.findViewById(R.id.textScore);
 		textView.setText(message);
+	}
+	
+	public void showHighscore() {
+		if (cursor != null)
+			displayHighscores(cursor);
 	}
 
 	// Display an entire recordset to the screen.
@@ -100,9 +102,8 @@ public class Database {
 		displayHighscore(messageHighscore);
 	}
 
-	private void displayName(String message) {
-		TabMenu tm = (TabMenu) context;
-		TextView textView = (TextView) tm.findViewById(R.id.textName);
-		textView.setText(message);
+	public DBAdapter getDBAdapter() {
+		return myDb;
 	}
+	
 }

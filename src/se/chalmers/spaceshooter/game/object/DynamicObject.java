@@ -25,37 +25,7 @@ public abstract class DynamicObject extends GameObject implements Tickable,
 		nextPosition = new Vector2f(0, 0);
 		interpolatedPosition = new Vector2f(0, 0);
 	}
-
-	@Override
-	public void draw(Canvas canvas, float interpolation) {
-		interpolate(interpolation);
-		canvas.drawBitmap(bitmap, interpolatedPosition.x,
-				interpolatedPosition.y, null);
-	}
-
-	@Override
-	public Bitmap getBitmap() {
-		return bitmap;
-	}
-
-	public Vector2f getVelocity() {
-		return velocity;
-	}
-
-	public void move(float dt) {
-		distance = velocity.mul(dt);
-		position = position.add(distance);
-	}
-
-	public void setVelocity(Vector2f velocity) {
-		this.velocity = velocity;
-	}
-
-	@Override
-	public void tick(float dt) {
-
-	}
-
+	
 	protected float approach(float target, float current, float dt) {
 		float diff = target - current;
 		if (diff > dt)
@@ -71,6 +41,31 @@ public abstract class DynamicObject extends GameObject implements Tickable,
 		// predict where the new position to draw will be
 		interpolatedPosition = currentPosition.mul(interpolation).add(
 				nextPosition.mul((1.0f - interpolation)));
+	}
+	
+	protected void move(float dt) {
+		distance = velocity.mul(dt);
+		position = position.add(distance);
+	}
+
+	@Override
+	public void draw(Canvas canvas, float interpolation) {
+		interpolate(interpolation);
+		canvas.drawBitmap(bitmap, interpolatedPosition.x,
+				interpolatedPosition.y, null);
+	}
+
+	public void setVelocity(Vector2f velocity) {
+		this.velocity = velocity;
+	}
+
+	@Override
+	public Bitmap getBitmap() {
+		return bitmap;
+	}
+
+	public Vector2f getVelocity() {
+		return velocity;
 	}
 
 }

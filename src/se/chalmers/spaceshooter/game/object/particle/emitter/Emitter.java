@@ -19,17 +19,11 @@ public abstract class Emitter extends GameObject implements Tickable {
 		this.lifetime = lifetime;
 		timeLived = 0;
 	}
-
-	public void closeEmitter() {
-		live = false;
-	}
-
-	public abstract void emit();
-
+	
 	public void init() {
 		GameObjectManager.addGameObject(this);
 	}
-
+	
 	@Override
 	public void tick(float dt) {
 		timeLived++;
@@ -37,4 +31,11 @@ public abstract class Emitter extends GameObject implements Tickable {
 			this.closeEmitter();
 		emit();
 	}
+	
+	public abstract void emit();
+
+	public void closeEmitter() {
+		live = false;
+	}
+	
 }

@@ -25,45 +25,44 @@ public class GameActivity extends Activity {
 
 	public boolean isInvView;
 	public static Vector2f savedPos;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		savedPos = new Vector2f(GameView.WIDTH / 2, GameView.HEIGHT / 2);
+		GameView.dialogBoxShowing = false;
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+		getWindow().setFlags(
+				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
+		getWindow().setFormat(PixelFormat.RGBA_8888);
+
+		new BitmapLoader(this);
+		new GameObjectManager();
+
+		isInvView = true;
+		invView = new InventoryView(this);
+		setContentView(invView);
+
+		new SoundPlayer(this);
+		if (TabMenu.helpShown == 0) {
+			TabMenu.helpDialog(this);
+		}
+	}
 
 	public void goToGame() {
 		isInvView = false;
 		gameView = new GameView(this);
 		setContentView(gameView);
 	}
-
-	@Override
-	public void onBackPressed() {
-		if (isInvView)
-			super.onBackPressed();
-		else
-			exitDialog();
-	}
-
-	public void onBackPressed2() {
-		GameActivity.super.onBackPressed();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		if (!isInvView)
-			saveState();
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	public void onStop() {
-		super.onStop();
-		if (!isInvView)
-			saveState();
-
-	}
-
+	
 	private void exitDialog() {
 		if (gameView != null) {
 			GameView.dialogBoxShowing = true;
@@ -109,34 +108,37 @@ public class GameActivity extends Activity {
 	}
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		savedPos = new Vector2f(GameView.WIDTH / 2, GameView.HEIGHT / 2);
-		GameView.dialogBoxShowing = false;
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-		getWindow().setFlags(
-				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
-				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-
-		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-		getWindow().setFormat(PixelFormat.RGBA_8888);
-
-		new BitmapLoader(this);
-		new GameObjectManager();
-
-		isInvView = true;
-		invView = new InventoryView(this);
-		setContentView(invView);
-
-		new SoundPlayer(this);
-		if (TabMenu.helpShown == 0) {
-			TabMenu.helpDialog(this);
-		}
+	public void onBackPressed() {
+		if (isInvView)
+			super.onBackPressed();
+		else
+			exitDialog();
 	}
+
+	public void onBackPressed2() {
+		GameActivity.super.onBackPressed();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		if (!isInvView)
+			saveState();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+		if (!isInvView)
+			saveState();
+
+	}
+
+	
 
 }

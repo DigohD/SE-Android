@@ -39,6 +39,61 @@ public class TabMenu extends Activity {
 	public static boolean musicState;
 	public static boolean sfxState;
 	public static String playerName;
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getSettings();
+		Editor editor = sp.edit();
+		editor.putInt("starts", starts);
+		editor.putInt("helpShown", helpShown);
+		editor.putString("playerName", playerName);
+		editor.putBoolean("musicState", musicState);
+		editor.putBoolean("sfxState", sfxState);
+		editor.commit();
+
+		// Ads
+		setContentView(R.layout.tabs);
+		AdView adView = (AdView) this.findViewById(R.id.adView);
+		AdRequest adRequest = new AdRequest.Builder()
+				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
+				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
+				.addTestDevice("CC502939B1954AAF341181CF3BDAFAEA") // Anders
+
+				.build();
+		adView.loadAd(adRequest);
+		// Tabs
+		th = (TabHost) findViewById(R.id.tabhost);
+		th.setup();
+		TabSpec menuSpecs = th.newTabSpec("tag1");
+		menuSpecs.setContent(R.id.tabMenu);
+		menuSpecs.setIndicator("Start Menu");
+		th.addTab(menuSpecs);
+		TabSpec ScoresSpecs = th.newTabSpec("tag2");
+		ScoresSpecs.setContent(R.id.tabScores);
+		ScoresSpecs.setIndicator("Scores");
+		th.addTab(ScoresSpecs);
+		TabSpec settingsSpecs = th.newTabSpec("tag3");
+		settingsSpecs.setContent(R.id.tabSettings);
+		settingsSpecs.setIndicator("Settings");
+		th.addTab(settingsSpecs);
+		TabSpec creditsSpecs = th.newTabSpec("tag4");
+		creditsSpecs.setContent(R.id.tabCredits);
+		creditsSpecs.setIndicator("Credits");
+		th.addTab(creditsSpecs);
+		// Database
+		db = new Database(this);
+		if (starts == 0) {
+			welcomeDialog();
+		}
+		starts++;
+		editor = sp.edit();
+		editor.putInt("starts", starts);
+		editor.commit();
+		updateView();
+
+	}
 
 	public static void helpDialog(Context context) {
 		Builder builder = new AlertDialog.Builder(context);
@@ -244,58 +299,5 @@ public class TabMenu extends Activity {
 		builder.create().show();
 	}
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getSettings();
-		Editor editor = sp.edit();
-		editor.putInt("starts", starts);
-		editor.putInt("helpShown", helpShown);
-		editor.putString("playerName", playerName);
-		editor.putBoolean("musicState", musicState);
-		editor.putBoolean("sfxState", sfxState);
-		editor.commit();
-
-		// Ads
-		setContentView(R.layout.tabs);
-		AdView adView = (AdView) this.findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
-				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
-				.addTestDevice("CC502939B1954AAF341181CF3BDAFAEA") // Anders
-
-				.build();
-		adView.loadAd(adRequest);
-		// Tabs
-		th = (TabHost) findViewById(R.id.tabhost);
-		th.setup();
-		TabSpec menuSpecs = th.newTabSpec("tag1");
-		menuSpecs.setContent(R.id.tabMenu);
-		menuSpecs.setIndicator("Start Menu");
-		th.addTab(menuSpecs);
-		TabSpec ScoresSpecs = th.newTabSpec("tag2");
-		ScoresSpecs.setContent(R.id.tabScores);
-		ScoresSpecs.setIndicator("Scores");
-		th.addTab(ScoresSpecs);
-		TabSpec settingsSpecs = th.newTabSpec("tag3");
-		settingsSpecs.setContent(R.id.tabSettings);
-		settingsSpecs.setIndicator("Settings");
-		th.addTab(settingsSpecs);
-		TabSpec creditsSpecs = th.newTabSpec("tag4");
-		creditsSpecs.setContent(R.id.tabCredits);
-		creditsSpecs.setIndicator("Credits");
-		th.addTab(creditsSpecs);
-		// Database
-		db = new Database(this);
-		if (starts == 0) {
-			welcomeDialog();
-		}
-		starts++;
-		editor = sp.edit();
-		editor.putInt("starts", starts);
-		editor.commit();
-		updateView();
-
-	}
+	
 }

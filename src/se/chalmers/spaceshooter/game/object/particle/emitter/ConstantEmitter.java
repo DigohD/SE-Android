@@ -15,7 +15,7 @@ public class ConstantEmitter extends Emitter {
 		super(particleCount, pID, position, 1);
 		this.velocity = velocity;
 	}
-
+	
 	@Override
 	public void emit() {
 		Vector2f finalV = velocity;
@@ -31,14 +31,16 @@ public class ConstantEmitter extends Emitter {
 			}
 		}
 	}
+	
+	@Override
+	public void tick(float dt) {
+		emit();
+	}
 
 	public void setIsSpread(boolean spread) {
 		isSpread = spread;
 	}
 
-	@Override
-	public void tick(float dt) {
-		emit();
-	}
+	
 
 }

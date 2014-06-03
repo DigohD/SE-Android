@@ -173,22 +173,6 @@ public class EnemyGenerator {
 		}
 	}
 
-	public int getTime() {
-		return TIME;
-	}
-
-	public boolean isUpdate() {
-		return this.update;
-	}
-
-	public void setTime(int time) {
-		TIME = time;
-	}
-
-	public void setUpdate(boolean update) {
-		this.update = update;
-	}
-
 	/**
 	 * Updates the timeline. The timelinetime variable keeps track of where in
 	 * the timelines we are and when it matches an entry in the sequencetimeline
@@ -209,6 +193,22 @@ public class EnemyGenerator {
 				sequenceTimeline.remove(timelineTime);
 			}
 		}
+	}
+	
+	public int getTime() {
+		return TIME;
+	}
+
+	public boolean isUpdate() {
+		return this.update;
+	}
+
+	public void setTime(int time) {
+		TIME = time;
+	}
+
+	public void setUpdate(boolean update) {
+		this.update = update;
 	}
 
 }

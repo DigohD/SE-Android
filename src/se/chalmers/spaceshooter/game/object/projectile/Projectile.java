@@ -24,6 +24,21 @@ public abstract class Projectile extends DynamicObject implements Collideable {
 		super(position);
 		this.velocity = velocity;
 	}
+	
+	@Override
+	public void tick(float dt) {
+		if (isOutOfBound())
+			live = false;
+
+		rect.set((int) position.x, (int) position.y, (int) position.x + width,
+				(int) position.y + height);
+		move(dt);
+	}
+	
+	public boolean isOutOfBound() {
+		return (getX() >= GameView.WIDTH || getX() <= -width
+				|| getY() >= GameView.HEIGHT || getY() <= -height);
+	}
 
 	@Override
 	public void collisionWith(Collideable obj) {
@@ -55,21 +70,6 @@ public abstract class Projectile extends DynamicObject implements Collideable {
 
 	public Type getType() {
 		return type;
-	}
-
-	public boolean isOutOfBound() {
-		return (getX() >= GameView.WIDTH || getX() <= -width
-				|| getY() >= GameView.HEIGHT || getY() <= -height);
-	}
-
-	@Override
-	public void tick(float dt) {
-		if (isOutOfBound())
-			live = false;
-
-		rect.set((int) position.x, (int) position.y, (int) position.x + width,
-				(int) position.y + height);
-		move(dt);
 	}
 
 }
