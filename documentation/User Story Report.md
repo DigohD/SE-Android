@@ -12,8 +12,9 @@ Most of the items in our backlog are of this nature. We had a policy to individu
 
 This item is more specific. Although it could be put under the previous story, it was considered vital enough to be it’s own item. Android is run on a huge variety of screen resolutions and sizes.
 
-**“As an user, I want to be able to pause the game so that I can resume at the exact same point later” - critical
-“As an user, I want the game to pause as soon as focus is released from the app so that I can answer phone calls” - critical**
+**“As an user, I want to be able to pause the game so that I can resume at the exact same point later” - critical **
+
+**“As an user, I want the game to pause as soon as focus is released from the app so that I can answer phone calls” critical**
 
 These stories were considered critical, since all group members are hardened gamers, that know the feeling of having progress thrown into the trash bin due to game crashes and other unexpected events.
 
