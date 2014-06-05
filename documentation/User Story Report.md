@@ -43,7 +43,7 @@ This item is very specific and also one of the most important items in the backl
 
 These sub-items were considered optional as they were not required in the MVP. The respective solutions for both was to design the weapons inventory and the combo system. The weapons inventory was also part of the vision.
 
-“As an user, I want To have the ship move smoothly so that The game expresses a higher quality and hence feels more enjoyable” - critical
+**“As an user, I want To have the ship move smoothly so that The game expresses a higher quality and hence feels more enjoyable” - critical**
 
 This story arose from a fear that steering would turn out stiff and hard to use. Acceleration and top speeds was added, as well as support for accelerating at different speeds by moving the thumb less or more. The system was tested a lot to set the different values that affect the steering, in order to improve control as much as possible.
 
