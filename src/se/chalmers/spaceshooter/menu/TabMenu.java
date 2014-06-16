@@ -1,5 +1,7 @@
 package se.chalmers.spaceshooter.menu;
 
+import org.conrogatio.libs.PrefsStorageHandler;
+
 import se.chalmers.spaceshooter.R;
 import se.chalmers.spaceshooter.game.GameActivity;
 import se.chalmers.spaceshooter.leaderboard.LeaderBoardActivity;
@@ -11,8 +13,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,39 +28,32 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 public class TabMenu extends Activity {
-	public static SharedPreferences sp;
+	public static PrefsStorageHandler psh;
 	boolean dialogOpen = false;
-
 	public static Database db;
 	public TabHost th;
-
 	public int starts;
 	public static int helpShown;
 	public static boolean musicState;
 	public static boolean sfxState;
 	public static String playerName;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getSettings();
-		Editor editor = sp.edit();
-		editor.putInt("starts", starts);
-		editor.putInt("helpShown", helpShown);
-		editor.putString("playerName", playerName);
-		editor.putBoolean("musicState", musicState);
-		editor.putBoolean("sfxState", sfxState);
-		editor.commit();
-
+		psh.put("starts", starts);
+		psh.put("helpShown", helpShown);
+		psh.put("playerName", playerName);
+		psh.put("musicState", musicState);
+		psh.put("sfxState", sfxState);
 		// Ads
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
+		AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
 				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
 				.addTestDevice("CC502939B1954AAF341181CF3BDAFAEA") // Anders
-
 				.build();
 		adView.loadAd(adRequest);
 		// Tabs
@@ -88,11 +81,8 @@ public class TabMenu extends Activity {
 			welcomeDialog();
 		}
 		starts++;
-		editor = sp.edit();
-		editor.putInt("starts", starts);
-		editor.commit();
+		psh.put("starts", starts);
 		updateView();
-
 	}
 
 	public static void helpDialog(Context context) {
@@ -111,27 +101,20 @@ public class TabMenu extends Activity {
 	}
 
 	public static void writeSettings(String key, boolean value) {
-		Editor editor = TabMenu.sp.edit();
-		editor.putBoolean(key, value);
-		editor.commit();
+		psh.put(key, value);
 	}
 
 	public static void writeSettings(String key, int value) {
-		Editor editor = TabMenu.sp.edit();
-		editor.putInt(key, value);
-		editor.commit();
+		psh.put(key, value);
 	}
 
 	public void getSettings() {
-		sp = getSharedPreferences(
-				getString(R.string.sharedpreference_file_key),
-				Context.MODE_PRIVATE);
-		musicState = sp.getBoolean("musicState", true);
-		sfxState = sp.getBoolean("sfxState", true);
-		starts = sp.getInt("starts", 0);
-		helpShown = sp.getInt("helpShown", 0);
-		playerName = sp.getString("playerName",
-				getString(R.string.sharedpreferences_default_player_name));
+		psh = new PrefsStorageHandler(getString(R.string.sharedpreference_file_key), this);
+		musicState = psh.fetch("musicState", true);
+		sfxState = psh.fetch("sfxState", true);
+		starts = psh.fetch("starts", 0);
+		helpShown = psh.fetch("helpShown", 0);
+		playerName = psh.fetch("playerName", getString(R.string.sharedpreferences_default_player_name));
 	}
 
 	public void globalHighscore(View view) {
@@ -167,16 +150,12 @@ public class TabMenu extends Activity {
 	// Settings
 	public void onToggleClickedMusic(View view) {
 		musicState = ((ToggleButton) view).isChecked();
-		Editor editor = sp.edit();
-		editor.putBoolean("musicState", musicState);
-		editor.commit();
+		psh.put("musicState", musicState);
 	}
 
 	public void onToggleClickedSFX(View view) {
 		sfxState = ((ToggleButton) view).isChecked();
-		Editor editor = sp.edit();
-		editor.putBoolean("sfxState", sfxState);
-		editor.commit();
+		psh.put("sfxState", sfxState);
 	}
 
 	// Start
@@ -199,31 +178,23 @@ public class TabMenu extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String enteredPlayer = input.getText().toString();
-				if (enteredPlayer.matches("^[a-zA-Z0-9]*$")
-						&& !enteredPlayer.isEmpty()
-						&& enteredPlayer.length() <= 12) {
+				if (enteredPlayer.matches("^[a-zA-Z0-9]*$") && !enteredPlayer.isEmpty() && enteredPlayer.length() <= 12) {
 					Log.i("ALERT", "Store username -" + enteredPlayer);
 					playerName = enteredPlayer;
 					final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
 					playingAsText.setText("Playing as " + playerName);
-					Editor editor = sp.edit();
-					editor.putString("playerName", playerName);
-					editor.commit();
+					psh.put("playerName", playerName);
 				} else {
-					Toast.makeText(TabMenu.this,
-							"The name was not valid and was not changed",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(TabMenu.this, "The name was not valid and was not changed", Toast.LENGTH_LONG)
+							.show();
 				}
-
 			}
 		});
-		alert.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int whichButton) {
-					}
-				});
-
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton) {
+			}
+		});
 		alert.show();
 	}
 
@@ -235,9 +206,7 @@ public class TabMenu extends Activity {
 	}
 
 	public void resetSettings(View view) {
-		Editor editor = sp.edit();
-		editor.clear();
-		editor.commit();
+		psh.clear();
 		getSettings();
 		updateView();
 	}
@@ -272,7 +241,6 @@ public class TabMenu extends Activity {
 		builder.setPositiveButton("No, not really", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
-
 			}
 		});
 		builder.setNegativeButton("Yes, really", new OnClickListener() {
@@ -298,6 +266,4 @@ public class TabMenu extends Activity {
 		});
 		builder.create().show();
 	}
-
-	
 }
