@@ -7,23 +7,21 @@ import se.chalmers.spaceshooter.game.object.particle.ParticleID;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 
 public abstract class Emitter extends GameObject implements Tickable {
-
 	protected int particleCount, lifetime, timeLived;
 	protected ParticleID pID;
 
-	public Emitter(int particleCount, ParticleID pID, Vector2f position,
-			int lifetime) {
+	public Emitter(int particleCount, ParticleID pID, Vector2f position, int lifetime) {
 		super(position);
 		this.particleCount = particleCount;
 		this.pID = pID;
 		this.lifetime = lifetime;
 		timeLived = 0;
 	}
-	
+
 	public void init() {
 		GameObjectManager.addGameObject(this);
 	}
-	
+
 	@Override
 	public void tick(float dt) {
 		timeLived++;
@@ -31,11 +29,10 @@ public abstract class Emitter extends GameObject implements Tickable {
 			this.closeEmitter();
 		emit();
 	}
-	
+
 	public abstract void emit();
 
 	public void closeEmitter() {
 		live = false;
 	}
-	
 }

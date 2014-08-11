@@ -9,35 +9,29 @@ import se.chalmers.spaceshooter.game.view.GameView;
 import android.graphics.Rect;
 
 public abstract class Projectile extends DynamicObject implements Collideable {
-
 	public enum Type {
 		PLAYER, ENEMY;
 	}
 
 	protected float damage;
-
 	protected Rect rect;
-
 	protected Type type;
 
 	public Projectile(Vector2f position, Vector2f velocity) {
 		super(position);
 		this.velocity = velocity;
 	}
-	
+
 	@Override
 	public void tick(float dt) {
 		if (isOutOfBound())
 			live = false;
-
-		rect.set((int) position.x, (int) position.y, (int) position.x + width,
-				(int) position.y + height);
+		rect.set((int) position.x, (int) position.y, (int) position.x + width, (int) position.y + height);
 		move(dt);
 	}
-	
+
 	public boolean isOutOfBound() {
-		return (getX() >= GameView.WIDTH || getX() <= -width
-				|| getY() >= GameView.HEIGHT || getY() <= -height);
+		return (getX() >= GameView.WIDTH || getX() <= -width || getY() >= GameView.HEIGHT || getY() <= -height);
 	}
 
 	@Override
@@ -48,7 +42,6 @@ public abstract class Projectile extends DynamicObject implements Collideable {
 				live = false;
 			}
 		}
-
 		if (obj instanceof Enemy) {
 			if (live) {
 				death();
@@ -71,5 +64,4 @@ public abstract class Projectile extends DynamicObject implements Collideable {
 	public Type getType() {
 		return type;
 	}
-
 }

@@ -5,7 +5,6 @@ import se.chalmers.spaceshooter.game.object.Tickable;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 
 public abstract class Gun extends GameObject implements Tickable {
-
 	protected Vector2f gunPos;
 	protected float spread;
 	protected Vector2f pVelocity;
@@ -30,5 +29,4 @@ public abstract class Gun extends GameObject implements Tickable {
 			reloadTimer = 0;
 		}
 	}
-
 }

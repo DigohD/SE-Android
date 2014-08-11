@@ -19,13 +19,11 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class GameActivity extends Activity {
-
 	private GameView gameView;
 	private InventoryView invView;
-
 	public boolean isInvView;
 	public static Vector2f savedPos;
-	
+
 	/**
 	 * Starts the game activity
 	 */
@@ -35,25 +33,16 @@ public class GameActivity extends Activity {
 		savedPos = new Vector2f(GameView.WIDTH / 2, GameView.HEIGHT / 2);
 		GameView.dialogBoxShowing = false;
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-		getWindow().setFlags(
-				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
 				WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
-
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
 		getWindow().setFormat(PixelFormat.RGBA_8888);
-
 		new BitmapLoader(this);
 		new GameObjectManager();
-
 		isInvView = true;
 		invView = new InventoryView(this);
 		setContentView(invView);
-
 		new SoundPlayer(this);
 		if (TabMenu.helpShown == 0) {
 			TabMenu.helpDialog(this);
@@ -68,7 +57,7 @@ public class GameActivity extends Activity {
 		gameView = new GameView(this);
 		setContentView(gameView);
 	}
-	
+
 	/**
 	 * Dialogbox which get shown when user press back
 	 */
@@ -93,17 +82,16 @@ public class GameActivity extends Activity {
 			public void onClick(DialogInterface arg0, int arg1) {
 				gameView.stop();
 				GameActivity.super.onBackPressed();
-
 			}
 		});
-
 		builder.create().show();
 	}
 
 	/**
-	 * On a phone call or when user press home button we save the players position 
-	 *  in order to resume correctly when the user comes back into the game.
-	 *  We also start a dialogbox so the user can choose what to do when he/she returns
+	 * On a phone call or when user press home button we save the players
+	 * position in order to resume correctly when the user comes back into the
+	 * game. We also start a dialogbox so the user can choose what to do when
+	 * he/she returns
 	 */
 	private void saveState() {
 		if (!GameView.dialogBoxShowing) {
@@ -122,9 +110,9 @@ public class GameActivity extends Activity {
 	}
 
 	/**
-	 * When the user presses back we want a dialogbox
-	 * to pop up if he/she is in the gameview.
-	 * If the user is in the inventory view we simply return to the menu
+	 * When the user presses back we want a dialogbox to pop up if he/she is in
+	 * the gameview. If the user is in the inventory view we simply return to
+	 * the menu
 	 */
 	@Override
 	public void onBackPressed() {
@@ -158,9 +146,5 @@ public class GameActivity extends Activity {
 		super.onStop();
 		if (!isInvView)
 			saveState();
-
 	}
-
-	
-
 }

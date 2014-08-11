@@ -4,7 +4,6 @@ import se.chalmers.spaceshooter.game.object.enemy.Mantis;
 import se.chalmers.spaceshooter.game.util.ColorRGBA;
 
 public class MantisSequence extends Sequence {
-
 	public MantisSequence() {
 		super();
 		timeLimit = false;
@@ -20,5 +19,4 @@ public class MantisSequence extends Sequence {
 		enemies.put(ColorRGBA.RED, new Mantis());
 		scanSequence();
 	}
-
 }

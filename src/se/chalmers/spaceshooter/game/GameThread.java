@@ -19,22 +19,17 @@ import android.view.SurfaceHolder;
  * 
  */
 public class GameThread implements Runnable {
-
 	// the desired amount of update calls we want every second
 	public static final double TARGET_TPS = 60.0;
-
 	private volatile boolean running = false;
 	private boolean paused = false;
 	private boolean inventory;
-
 	private Thread thread;
 	private GameView gameView;
 	private InventoryView invView;
 	private SurfaceHolder surfaceHolder;
-
 	private Lock lock = new ReentrantLock();
 	private Condition okToRun = lock.newCondition();
-
 	private Canvas canvas;
 
 	/**
@@ -68,14 +63,11 @@ public class GameThread implements Runnable {
 	public void goInventory() {
 		Context c = gameView.getContext();
 		GameActivity gA = (GameActivity) c;
-
 		invView = new InventoryView(gameView.getContext());
-
 		inventory = true;
-
 		gA.setContentView(invView);
 	}
-	
+
 	/**
 	 * Starts the game thread
 	 */
@@ -122,7 +114,7 @@ public class GameThread implements Runnable {
 		okToRun.signalAll();
 		lock.unlock();
 	}
-	
+
 	/**
 	 * Calls the tick method in gameview which will update all game logic
 	 * 
@@ -152,19 +144,16 @@ public class GameThread implements Runnable {
 			try {
 				canvas = surfaceHolder.lockCanvas();
 				if (canvas != null) {
-
 					if (inventory)
 						invView.draw(canvas, interpolation);
 					else
 						gameView.draw(canvas, interpolation);
-
 				}
 			} finally {
 				if (canvas != null)
 					surfaceHolder.unlockCanvasAndPost(canvas);
 			}
 		}
-
 	}
 
 	/**
@@ -200,16 +189,11 @@ public class GameThread implements Runnable {
 		double frameCounter = 0;
 		final double OPTIMAL_UPDATETIME = 1.0 / TARGET_TPS;
 		float dt = (float) OPTIMAL_UPDATETIME * 10;
-
 		float interpolation = 0;
-
 		int fps = 0;
 		int tps = 0;
-
 		boolean shouldDraw;
-
 		while (running) {
-
 			lock.lock();
 			while (paused) {
 				try {
@@ -219,10 +203,8 @@ public class GameThread implements Runnable {
 				}
 			}
 			lock.unlock();
-
 			canvas = null;
 			shouldDraw = false;
-
 			currentTime = System.nanoTime();
 			passedTime = (currentTime - previousTime) / 1000000000.0;
 			// set a max limit for passedtime to avoid spiral of death
@@ -231,20 +213,17 @@ public class GameThread implements Runnable {
 			accumulator += passedTime;
 			frameCounter += passedTime;
 			previousTime = currentTime;
-
 			while (accumulator >= OPTIMAL_UPDATETIME) {
 				shouldDraw = true;
 				tick(dt);
 				tps++;
 				accumulator -= OPTIMAL_UPDATETIME;
 			}
-
 			if (shouldDraw) {
 				interpolation = (float) (accumulator / OPTIMAL_UPDATETIME);
 				draw(canvas, interpolation);
 				fps++;
 			}
-
 			if (frameCounter >= 1) {
 				// System.out.println(tps + " tps, " + fps + " fps" );
 				tps = 0;
@@ -253,5 +232,4 @@ public class GameThread implements Runnable {
 			}
 		}
 	}
-
 }

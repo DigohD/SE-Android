@@ -11,7 +11,6 @@ import se.chalmers.spaceshooter.game.util.Vector2f;
 import android.graphics.Rect;
 
 public class SlowTimePack extends Loot {
-
 	private Emitter emitter;
 
 	public SlowTimePack(Vector2f position) {
@@ -19,13 +18,9 @@ public class SlowTimePack extends Loot {
 		this.bitmap = BitmapLoader.loadBitmap("loot/slowTime");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
-
-		rect = new Rect((int) position.x, (int) position.y, (int) position.x
-				+ width, (int) position.y + height);
-		emitter = new RadialEmitter(8, ParticleID.PURPLE_DOT,
-				new Vector2f(0, 0), new Vector2f(20f, 0f));
+		rect = new Rect((int) position.x, (int) position.y, (int) position.x + width, (int) position.y + height);
+		emitter = new RadialEmitter(8, ParticleID.PURPLE_DOT, new Vector2f(0, 0), new Vector2f(20f, 0f));
 		velocity = new Vector2f(-15f, 0);
-
 		GameObjectManager.addGameObject(this);
 	}
 
@@ -45,5 +40,4 @@ public class SlowTimePack extends Loot {
 		emitter.getPosition().set(center.x, center.y);
 		emitter.init();
 	}
-
 }

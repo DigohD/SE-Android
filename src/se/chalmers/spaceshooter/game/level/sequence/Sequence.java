@@ -69,7 +69,7 @@ public class Sequence {
 			}
 		}
 	}
-	
+
 	/**
 	 * Loops through all pixels of the sequence image and stores all non black
 	 * pixels as keys in a map and their positions in arraylists which are the
@@ -85,17 +85,13 @@ public class Sequence {
 					// add that pixels position in the arraylist
 					// which holds all positions
 					if (colorPosMap.containsKey(pixValue))
-						colorPosMap.get(pixValue).add(
-								new Vector2f((x * widthRatio) + GameView.WIDTH,
-										y * heightRatio));
+						colorPosMap.get(pixValue).add(new Vector2f((x * widthRatio) + GameView.WIDTH, y * heightRatio));
 					else {
 						// if the color dont exist as a key put it in the map
 						// with a new arraylist as value to store all positions
 						colorPosMap.put(pixValue, new ArrayList<Vector2f>());
 						// and finally add the position of the pixel
-						colorPosMap.get(pixValue).add(
-								new Vector2f((x * widthRatio) + GameView.WIDTH,
-										y * heightRatio));
+						colorPosMap.get(pixValue).add(new Vector2f((x * widthRatio) + GameView.WIDTH, y * heightRatio));
 					}
 			}
 	}
@@ -134,7 +130,7 @@ public class Sequence {
 		bmp.getPixels(pixels, 0, width, 0, 0, width, height);
 		bmp.recycle();
 	}
-	
+
 	public ArrayList<String> getSequences() {
 		return sequences;
 	}
@@ -142,5 +138,4 @@ public class Sequence {
 	public boolean isTimeLimit() {
 		return timeLimit;
 	}
-
 }

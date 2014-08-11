@@ -5,7 +5,6 @@ import se.chalmers.spaceshooter.game.object.enemy.Predator;
 import se.chalmers.spaceshooter.game.util.ColorRGBA;
 
 public class MixedSequence extends Sequence {
-
 	public MixedSequence() {
 		super();
 		timeLimit = true;
@@ -23,5 +22,4 @@ public class MixedSequence extends Sequence {
 		enemies.put(ColorRGBA.RED, new Mantis());
 		scanSequence();
 	}
-
 }

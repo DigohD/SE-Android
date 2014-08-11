@@ -4,12 +4,10 @@ import android.content.Context;
 import android.media.MediaPlayer;
 
 public class MusicPlayer {
-
 	private static MediaPlayer mp;
-	
+
 	public MusicPlayer(Context context) {
-		mp = MediaPlayer.create(context,
-				se.chalmers.spaceshooter.R.raw.starduster);
+		mp = MediaPlayer.create(context, se.chalmers.spaceshooter.R.raw.starduster);
 		mp.setVolume(1f, 1f);
 		mp.start();
 	}
@@ -29,7 +27,4 @@ public class MusicPlayer {
 	public static void stop() {
 		mp.stop();
 	}
-
-	
-
 }

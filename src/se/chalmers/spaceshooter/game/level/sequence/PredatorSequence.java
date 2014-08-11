@@ -4,7 +4,6 @@ import se.chalmers.spaceshooter.game.object.enemy.Predator;
 import se.chalmers.spaceshooter.game.util.ColorRGBA;
 
 public class PredatorSequence extends Sequence {
-
 	public PredatorSequence() {
 		super();
 		timeLimit = true;
@@ -20,5 +19,4 @@ public class PredatorSequence extends Sequence {
 		enemies.put(ColorRGBA.RED, new Predator());
 		scanSequence();
 	}
-
 }

@@ -4,7 +4,6 @@ import se.chalmers.spaceshooter.game.object.DynamicObject;
 import se.chalmers.spaceshooter.game.util.Vector2f;
 
 public abstract class Particle extends DynamicObject {
-
 	protected int lifetime, timeLived;
 	protected ParticleID pID;
 
@@ -19,8 +18,6 @@ public abstract class Particle extends DynamicObject {
 		timeLived++;
 		if (timeLived > lifetime)
 			live = false;
-
 		move(dt);
 	}
-
 }

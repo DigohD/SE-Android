@@ -15,7 +15,6 @@ import android.graphics.BitmapFactory;
  * 
  */
 public class BitmapLoader {
-
 	private static Activity activity;
 
 	/**
@@ -34,8 +33,7 @@ public class BitmapLoader {
 	 *            the number of rows
 	 * @return returns a subset of the source bitmap
 	 */
-	public static Bitmap getSubBitmap(Bitmap source, int x, int y, int width,
-			int height) {
+	public static Bitmap getSubBitmap(Bitmap source, int x, int y, int width, int height) {
 		return Bitmap.createBitmap(source, x, y, width, height);
 	}
 
@@ -71,5 +69,4 @@ public class BitmapLoader {
 	public BitmapLoader(Activity activity) {
 		BitmapLoader.activity = activity;
 	}
-
 }

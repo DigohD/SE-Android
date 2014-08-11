@@ -6,10 +6,8 @@ package se.chalmers.spaceshooter.game.util;
  * @author Anders
  */
 public class Vector2f {
-
 	public float x;
 	public float y;
-
 	public static boolean normalizing = false;
 
 	/**
@@ -149,7 +147,6 @@ public class Vector2f {
 		float rad = (float) Math.toRadians(angle);
 		float cos = (float) Math.cos(rad);
 		float sin = (float) Math.sin(rad);
-
 		return new Vector2f(x * cos - y * sin, x * sin + y * cos);
 	}
 
@@ -166,10 +163,8 @@ public class Vector2f {
 		float rad = (float) Math.toRadians(angle);
 		float cos = (float) Math.cos(rad);
 		float sin = (float) Math.sin(rad);
-
 		float newX = cos * (x - v.x) - sin * (y - v.y) + v.x;
 		float newY = sin * (x - v.x) + cos * (y - v.y) + v.y;
-
 		return new Vector2f(newX, newY);
 	}
 

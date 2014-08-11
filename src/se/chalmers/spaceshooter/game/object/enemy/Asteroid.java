@@ -22,7 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.Rect;
 
 public class Asteroid extends Enemy {
-
 	private Vector2f targetVelocity;
 	private Emitter emitter;
 
@@ -32,30 +31,24 @@ public class Asteroid extends Enemy {
 
 	public Asteroid(Vector2f position) {
 		super(position);
-
 		this.bitmap = loadRandomAsteroid("enemies/asteroids/asteroid", 5);
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
-
-		rect = new Rect((int) position.x, (int) position.y, (int) position.x
-				+ width, (int) position.y + height);
-		emitter = new RadialEmitter((bitmap.getWidth() / 2), ParticleID.DUST,
-				new Vector2f(0f, 0f), new Vector2f(10f, 0f));
-
+		rect = new Rect((int) position.x, (int) position.y, (int) position.x + width, (int) position.y + height);
+		emitter = new RadialEmitter((bitmap.getWidth() / 2), ParticleID.DUST, new Vector2f(0f, 0f), new Vector2f(10f,
+				0f));
 		if (width >= 30)
 			speedX = Randomizer.getFloat(-15f, -25f);
 		else
 			speedX = Randomizer.getFloat(-35f, -45f);
 		speedY = 0;
-
 		velocity = new Vector2f(-15f, 0);
 		targetVelocity = new Vector2f(speedX, speedY);
-
 		hp = width;
 		maxHp = width;
 		enemyPoints = 10;
 	}
-	
+
 	private Bitmap loadRandomAsteroid(String name, int numOfAsteroids) {
 		List<String> asteroidNames = new ArrayList<String>();
 		for (int i = 0; i < numOfAsteroids; i++)
@@ -63,7 +56,7 @@ public class Asteroid extends Enemy {
 		int i = Randomizer.getInt(0, asteroidNames.size());
 		return BitmapLoader.loadBitmap(asteroidNames.get(i));
 	}
-	
+
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);
@@ -80,15 +73,13 @@ public class Asteroid extends Enemy {
 				live = false;
 			}
 		}
-
 		if (obj instanceof Projectile) {
 			Projectile p = (Projectile) obj;
 			hp = hp - p.getDamage();
 			if (hp <= 0) {
 				GameObjectManager.getPlayer().incEnemyKillCount(1);
-				int score = calculatePlayerScore(enemyPoints,
-						GameView.getLevelID(), GameObjectManager.getPlayer()
-								.getCombo());
+				int score = calculatePlayerScore(enemyPoints, GameView.getLevelID(), GameObjectManager.getPlayer()
+						.getCombo());
 				GameObjectManager.getPlayer().incScore(score);
 				death();
 				live = false;
@@ -113,5 +104,4 @@ public class Asteroid extends Enemy {
 		emitter.init();
 		SoundPlayer.playSound(SoundID.exp_1);
 	}
-
 }

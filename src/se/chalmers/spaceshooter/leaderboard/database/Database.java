@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.widget.TextView;
 
 public class Database {
-
 	private DBAdapter myDb;
 	private Context context;
 	private Cursor cursor;
@@ -34,9 +33,8 @@ public class Database {
 			myDb.updateRow(cursor.getLong(DBAdapter.COL_ROWID), playerName, 0);
 			cursor = myDb.getRow(1);
 		}
-
 	}
-	
+
 	public void addHighscore(String playerName, int highscore) {
 		cursor = myDb.getRow(1);
 		long newId;
@@ -59,7 +57,7 @@ public class Database {
 		}
 		myDb.updateRow(id, playerName, oldHighscore);
 	}
-	
+
 	private void displayName(String message) {
 		TabMenu tm = (TabMenu) context;
 		TextView textView = (TextView) tm.findViewById(R.id.textName);
@@ -71,7 +69,7 @@ public class Database {
 		TextView textView = (TextView) tm.findViewById(R.id.textScore);
 		textView.setText(message);
 	}
-	
+
 	public void showHighscore() {
 		if (cursor != null)
 			displayHighscores(cursor);
@@ -81,23 +79,19 @@ public class Database {
 	private void displayHighscores(Cursor cursor) {
 		String messageName = "", messageHighscore = "";
 		// populate the message from the cursor
-
 		// Reset cursor to start, checking to see if there's data:
 		if (cursor.moveToFirst()) {
 			do {
 				// Process the data:
 				String name = cursor.getString(DBAdapter.COL_NAME);
 				int highscore = cursor.getInt(DBAdapter.COL_HIGHSCORE);
-
 				// Append data to the message:
 				messageName += name + "\n";
 				messageHighscore += highscore + "\n";
 			} while (cursor.moveToNext());
 		}
-
 		// Close the cursor to avoid a resource leak.
 		cursor.close();
-
 		displayName(messageName);
 		displayHighscore(messageHighscore);
 	}
@@ -105,5 +99,4 @@ public class Database {
 	public DBAdapter getDBAdapter() {
 		return myDb;
 	}
-	
 }

@@ -13,14 +13,11 @@ import se.chalmers.spaceshooter.game.view.GameView;
 import android.graphics.Rect;
 
 public class Mantis extends Enemy {
-
 	private int reload;
 	private Vector2f targetVelocity;
-
 	private boolean directionChoosed = false;
 	private boolean fire = false;
 	private boolean top, bottom;
-
 	private Emitter emitter;
 
 	public Mantis() {
@@ -30,17 +27,12 @@ public class Mantis extends Enemy {
 	public Mantis(Vector2f position) {
 		super(position);
 		this.bitmap = BitmapLoader.loadBitmap("enemies/mantis");
-
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
-
-		rect = new Rect((int) position.x, (int) position.y, (int) position.x
-				+ width, (int) position.y + height);
-		emitter = new RadialEmitter(8, ParticleID.GreenBall,
-				new Vector2f(0, 0), new Vector2f(20f, 0f));
+		rect = new Rect((int) position.x, (int) position.y, (int) position.x + width, (int) position.y + height);
+		emitter = new RadialEmitter(8, ParticleID.GreenBall, new Vector2f(0, 0), new Vector2f(20f, 0f));
 		speedX = -25f;
 		speedY = 0;
-
 		velocity = new Vector2f(speedX, speedY);
 		targetVelocity = new Vector2f(speedX, speedY);
 		hp = 20f;
@@ -51,17 +43,12 @@ public class Mantis extends Enemy {
 	// for unit testing
 	public Mantis(Vector2f position, int width, int height) {
 		super(position);
-
 		this.width = width;
 		this.height = height;
-
-		rect = new Rect((int) position.x, (int) position.y, (int) position.x
-				+ width, (int) position.y + height);
-		emitter = new RadialEmitter(8, ParticleID.GreenBall,
-				new Vector2f(0, 0), new Vector2f(20f, 0f));
+		rect = new Rect((int) position.x, (int) position.y, (int) position.x + width, (int) position.y + height);
+		emitter = new RadialEmitter(8, ParticleID.GreenBall, new Vector2f(0, 0), new Vector2f(20f, 0f));
 		speedX = -25f;
 		speedY = 0;
-
 		velocity = new Vector2f(speedX, speedY);
 		targetVelocity = new Vector2f(speedX, speedY);
 		hp = 20f;
@@ -72,27 +59,21 @@ public class Mantis extends Enemy {
 	@Override
 	public void tick(float dt) {
 		super.tick(dt);
-
-		if (position.y > GameView.HEIGHT / 2
-				&& position.x < GameView.WIDTH - 30 && !directionChoosed) {
+		if (position.y > GameView.HEIGHT / 2 && position.x < GameView.WIDTH - 30 && !directionChoosed) {
 			targetVelocity.y = -50f;
 			directionChoosed = true;
 			top = true;
 		}
-
-		if (position.y < GameView.HEIGHT / 2
-				&& position.x < GameView.WIDTH - 30 && !directionChoosed) {
+		if (position.y < GameView.HEIGHT / 2 && position.x < GameView.WIDTH - 30 && !directionChoosed) {
 			targetVelocity.y = 50f;
 			directionChoosed = true;
 			bottom = true;
 		}
-
 		if (position.x <= GameView.WIDTH / 2 + 130 && !fire) {
 			targetVelocity.y = 0;
 			targetVelocity.x = -15f;
 			fire = true;
 		}
-
 		if (position.x <= GameView.WIDTH / 2) {
 			fire = false;
 			if (top) {
@@ -104,7 +85,6 @@ public class Mantis extends Enemy {
 				targetVelocity.x = -20f;
 			}
 		}
-
 		if (fire) {
 			reload++;
 			if (GameObjectManager.isSlowTime()) {
@@ -120,15 +100,12 @@ public class Mantis extends Enemy {
 					new MantisProj(v);
 				}
 			}
-
 		}
-
 		velocity.x = approach(targetVelocity.x, velocity.x, dt);
 		velocity.y = approach(targetVelocity.y, velocity.y, dt);
-
 		move(dt);
 	}
-	
+
 	@Override
 	public void death() {
 		Vector2f center = position.add(new Vector2f(width / 2f, height / 2f));
@@ -136,5 +113,4 @@ public class Mantis extends Enemy {
 		emitter.init();
 		SoundPlayer.playSound(SoundID.exp_2);
 	}
-
 }

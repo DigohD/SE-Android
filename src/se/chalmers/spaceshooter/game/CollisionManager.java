@@ -28,7 +28,7 @@ public class CollisionManager {
 	public static void addEnemy(Enemy e) {
 		enemies.add(e);
 	}
-	
+
 	public static void addLoot(Loot loot) {
 		loots.add(loot);
 	}
@@ -40,11 +40,11 @@ public class CollisionManager {
 	public static void addPlayerProjectile(Projectile proj) {
 		playerProjectiles.add(proj);
 	}
-	
+
 	public static void removeEnemy(Enemy e) {
 		enemies.remove(e);
 	}
-	
+
 	public static void removeLoot(Loot loot) {
 		loots.remove(loot);
 	}
@@ -52,7 +52,7 @@ public class CollisionManager {
 	public static void removeEnemyProjectile(Projectile proj) {
 		enemyProjectiles.remove(proj);
 	}
-	
+
 	public static void removePlayerProjectile(Projectile proj) {
 		playerProjectiles.remove(proj);
 	}
@@ -63,7 +63,7 @@ public class CollisionManager {
 		playerProjectiles.clear();
 		enemyProjectiles.clear();
 	}
-	
+
 	/**
 	 * Checks if two rectangles intersect
 	 * 
@@ -98,7 +98,6 @@ public class CollisionManager {
 					player.collisionWith(e);
 				}
 		}
-
 		for (int i = 0; i < loots.size(); i++) {
 			Loot l = loots.get(i);
 			if (player != null && l != null && player.isLive())
@@ -107,7 +106,6 @@ public class CollisionManager {
 					l.collisionWith(player);
 				}
 		}
-
 		for (int i = 0; i < playerProjectiles.size(); i++)
 			for (int j = 0; j < enemies.size(); j++) {
 				Projectile p = playerProjectiles.get(i);
@@ -118,7 +116,6 @@ public class CollisionManager {
 						p.collisionWith(e);
 					}
 			}
-
 		for (int i = 0; i < enemyProjectiles.size(); i++) {
 			Projectile p = enemyProjectiles.get(i);
 			if (p != null && player != null && player.isLive())
@@ -127,7 +124,6 @@ public class CollisionManager {
 					p.collisionWith(player);
 				}
 		}
-
 	}
 
 	public static List<Enemy> getEnemies() {
@@ -145,5 +141,4 @@ public class CollisionManager {
 	public static List<Projectile> getPlayerProjectiles() {
 		return playerProjectiles;
 	}
-
 }

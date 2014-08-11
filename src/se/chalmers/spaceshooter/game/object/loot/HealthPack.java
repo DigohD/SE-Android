@@ -11,24 +11,18 @@ import se.chalmers.spaceshooter.game.util.Vector2f;
 import android.graphics.Rect;
 
 public class HealthPack extends Loot {
-
 	private int hp;
 	private Emitter emitter;
 
 	public HealthPack(Vector2f position, int hp) {
 		super(position);
-
 		this.hp = hp;
 		this.bitmap = BitmapLoader.loadBitmap("loot/healthpack");
 		this.width = bitmap.getWidth();
 		this.height = bitmap.getHeight();
-
-		rect = new Rect((int) position.x, (int) position.y, (int) position.x
-				+ width, (int) position.y + height);
-		emitter = new RadialEmitter(8, ParticleID.RED_DOT, new Vector2f(0, 0),
-				new Vector2f(20f, 0f));
+		rect = new Rect((int) position.x, (int) position.y, (int) position.x + width, (int) position.y + height);
+		emitter = new RadialEmitter(8, ParticleID.RED_DOT, new Vector2f(0, 0), new Vector2f(20f, 0f));
 		velocity = new Vector2f(-15f, 0);
-
 		GameObjectManager.addGameObject(this);
 	}
 
@@ -40,7 +34,6 @@ public class HealthPack extends Loot {
 				live = false;
 			}
 		}
-
 	}
 
 	@Override
@@ -54,5 +47,4 @@ public class HealthPack extends Loot {
 	public int getHp() {
 		return hp;
 	}
-
 }

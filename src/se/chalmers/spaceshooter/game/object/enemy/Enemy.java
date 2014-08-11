@@ -12,25 +12,23 @@ import se.chalmers.spaceshooter.game.view.GameView;
 import android.graphics.Rect;
 
 public abstract class Enemy extends DynamicObject implements Collideable {
-
 	protected Rect rect;
 	protected float hp, maxHp, enemyPoints;
 
 	public Enemy(Vector2f position) {
 		super(position);
 	}
-	
+
 	public void init() {
 		position.y += GameObjectManager.bg.getPosition().y;
 		GameObjectManager.addGameObject(this);
 	}
-	
+
 	@Override
 	public void tick(float dt) {
 		if (getX() < -width)
 			live = false;
-		rect.set((int) position.x, (int) position.y, (int) position.x + width,
-				(int) position.y + height);
+		rect.set((int) position.x, (int) position.y, (int) position.x + width, (int) position.y + height);
 	}
 
 	public int calculatePlayerScore(float points, int level, float combo) {
@@ -47,9 +45,8 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 			hp = hp - p.getDamage();
 			if (hp <= 0) {
 				GameObjectManager.getPlayer().incEnemyKillCount(1);
-				int score = calculatePlayerScore(enemyPoints,
-						GameView.getLevelID(), GameObjectManager.getPlayer()
-								.getCombo());
+				int score = calculatePlayerScore(enemyPoints, GameView.getLevelID(), GameObjectManager.getPlayer()
+						.getCombo());
 				GameObjectManager.getPlayer().incScore(score);
 				death();
 				live = false;
@@ -73,5 +70,4 @@ public abstract class Enemy extends DynamicObject implements Collideable {
 	public Rect getRect() {
 		return rect;
 	}
-
 }

@@ -10,16 +10,12 @@ import se.chalmers.spaceshooter.game.view.GameView;
 import android.graphics.Canvas;
 
 public class Level {
-
 	private final static int numOfLevels = 3;
-
 	private int timer = 0;
 	private int LEVEL_TIME;
-
 	private boolean levelDone = false;
 	private GameObjectManager gameObjectManager;
 	private EnemyGenerator enemyGen;
-
 	private LevelCreator lc;
 
 	/**
@@ -30,9 +26,7 @@ public class Level {
 	 */
 	public Level(int time) {
 		LEVEL_TIME = time * (int) GameThread.TARGET_TPS;
-
 		gameObjectManager = new GameObjectManager();
-
 		GameObjectManager.getPlayer().setScore(0);
 		GameObjectManager.getPlayer().setHp(100);
 	}
@@ -67,15 +61,14 @@ public class Level {
 				}
 			}
 		}
-
 		enemyGen.tick();
 		gameObjectManager.tick(dt);
 	}
-	
+
 	public void draw(Canvas canvas, float interpolation) {
 		gameObjectManager.draw(canvas, interpolation);
 	}
-	
+
 	public boolean isFinished() {
 		return levelDone;
 	}
@@ -83,9 +76,8 @@ public class Level {
 	public void setFinished(boolean finished) {
 		levelDone = finished;
 	}
-	
+
 	public static int getNumOfLevels() {
 		return numOfLevels;
 	}
-
 }

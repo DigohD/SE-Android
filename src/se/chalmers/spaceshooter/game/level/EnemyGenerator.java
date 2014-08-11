@@ -63,13 +63,11 @@ public class EnemyGenerator {
 	public void addEnemyToTimeline(Enemy e, int timeStamp) {
 		int min = (timeStamp * TPS) - (1 * TPS);
 		int max = (timeStamp * TPS) + (1 * TPS);
-
 		// remove a sequence if it is in the time interval defined by min and
 		// max
 		for (int i = min; i < max; i++)
 			if (enemyTimeline.containsKey(i))
 				enemyTimeline.remove(i);
-
 		enemyTimeline.put(timeStamp * TPS, e);
 	}
 
@@ -99,7 +97,6 @@ public class EnemyGenerator {
 			// another sequence in the timeline
 			int min = (timeStamp * TPS) - (5 * TPS);
 			int max = (timeStamp * TPS) + (5 * TPS);
-
 			// remove a sequence if it is in the time interval defined by min
 			// and max
 			for (int i = min; i < max; i++)
@@ -108,7 +105,6 @@ public class EnemyGenerator {
 		} else {
 			int min = (timeStamp * TPS) - (2 * TPS);
 			int max = (timeStamp * TPS) + (2 * TPS);
-
 			// remove a sequence if it is in the time interval defined by min
 			// and max
 			for (int i = min; i < max; i++)
@@ -159,7 +155,6 @@ public class EnemyGenerator {
 					e.printStackTrace();
 				}
 				sequenceTimeline.put(i * TPS, seq);
-
 				if (!seq.isTimeLimit()) {
 					min = 2;
 					max = 5;
@@ -194,7 +189,7 @@ public class EnemyGenerator {
 			}
 		}
 	}
-	
+
 	public int getTime() {
 		return TIME;
 	}
@@ -210,5 +205,4 @@ public class EnemyGenerator {
 	public void setUpdate(boolean update) {
 		this.update = update;
 	}
-
 }
