@@ -30,16 +30,14 @@ import com.google.android.gms.ads.AdView;
 public class TabMenu extends Activity {
 	public static SharedPreferences sp;
 	boolean dialogOpen = false;
-
 	public static Database db;
 	public TabHost th;
-
 	public int starts;
 	public static int helpShown;
 	public static boolean musicState;
 	public static boolean sfxState;
 	public static String playerName;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,15 +50,12 @@ public class TabMenu extends Activity {
 		editor.putBoolean("musicState", musicState);
 		editor.putBoolean("sfxState", sfxState);
 		editor.commit();
-
 		// Ads
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder()
-				.addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
+		AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
 				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
 				.addTestDevice("CC502939B1954AAF341181CF3BDAFAEA") // Anders
-
 				.build();
 		adView.loadAd(adRequest);
 		// Tabs
@@ -92,7 +87,6 @@ public class TabMenu extends Activity {
 		editor.putInt("starts", starts);
 		editor.commit();
 		updateView();
-
 	}
 
 	public static void helpDialog(Context context) {
@@ -123,15 +117,12 @@ public class TabMenu extends Activity {
 	}
 
 	public void getSettings() {
-		sp = getSharedPreferences(
-				getString(R.string.sharedpreference_file_key),
-				Context.MODE_PRIVATE);
+		sp = getSharedPreferences(getString(R.string.sharedpreference_file_key), Context.MODE_PRIVATE);
 		musicState = sp.getBoolean("musicState", true);
 		sfxState = sp.getBoolean("sfxState", true);
 		starts = sp.getInt("starts", 0);
 		helpShown = sp.getInt("helpShown", 0);
-		playerName = sp.getString("playerName",
-				getString(R.string.sharedpreferences_default_player_name));
+		playerName = sp.getString("playerName", getString(R.string.sharedpreferences_default_player_name));
 	}
 
 	public void globalHighscore(View view) {
@@ -199,9 +190,7 @@ public class TabMenu extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int whichButton) {
 				String enteredPlayer = input.getText().toString();
-				if (enteredPlayer.matches("^[a-zA-Z0-9]*$")
-						&& !enteredPlayer.isEmpty()
-						&& enteredPlayer.length() <= 12) {
+				if (enteredPlayer.matches("^[a-zA-Z0-9]*$") && !enteredPlayer.isEmpty() && enteredPlayer.length() <= 12) {
 					Log.i("ALERT", "Store username -" + enteredPlayer);
 					playerName = enteredPlayer;
 					final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
@@ -210,20 +199,16 @@ public class TabMenu extends Activity {
 					editor.putString("playerName", playerName);
 					editor.commit();
 				} else {
-					Toast.makeText(TabMenu.this,
-							"The name was not valid and was not changed",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(TabMenu.this, "The name was not valid and was not changed", Toast.LENGTH_LONG)
+							.show();
 				}
-
 			}
 		});
-		alert.setNegativeButton("Cancel",
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int whichButton) {
-					}
-				});
-
+		alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int whichButton) {
+			}
+		});
 		alert.show();
 	}
 
@@ -272,7 +257,6 @@ public class TabMenu extends Activity {
 		builder.setPositiveButton("No, not really", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface arg0, int arg1) {
-
 			}
 		});
 		builder.setNegativeButton("Yes, really", new OnClickListener() {
@@ -298,6 +282,4 @@ public class TabMenu extends Activity {
 		});
 		builder.create().show();
 	}
-
-	
 }
