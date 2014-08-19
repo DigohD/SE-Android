@@ -1,5 +1,7 @@
 package se.chalmers.spaceshooter.menu;
 
+import org.conrogatio.libs.PrefsStorageHandler;
+
 import se.chalmers.spaceshooter.R;
 import se.chalmers.spaceshooter.game.GameActivity;
 import se.chalmers.spaceshooter.leaderboard.LeaderBoardActivity;
@@ -11,8 +13,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +28,6 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 public class TabMenu extends Activity {
-	public static SharedPreferences sp;
 	boolean dialogOpen = false;
 	public static Database db;
 	public TabHost th;
@@ -37,26 +36,23 @@ public class TabMenu extends Activity {
 	public static boolean musicState;
 	public static boolean sfxState;
 	public static String playerName;
+	public static PrefsStorageHandler psh;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getSettings();
-		Editor editor = sp.edit();
-		editor.putInt("starts", starts);
-		editor.putInt("helpShown", helpShown);
-		editor.putString("playerName", playerName);
-		editor.putBoolean("musicState", musicState);
-		editor.putBoolean("sfxState", sfxState);
-		editor.commit();
+		psh.put("starts", starts);
+		psh.put("helpShown", helpShown);
+		psh.put("playerName", playerName);
+		psh.put("musicState", musicState);
+		psh.put("sfxState", sfxState);
 		// Ads
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
-				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
-				.addTestDevice("CC502939B1954AAF341181CF3BDAFAEA") // Anders
-				.build();
+				.addTestDevice("8E049A16A1B306B941023A9DC2687AFF").build();
 		adView.loadAd(adRequest);
 		// Tabs
 		th = (TabHost) findViewById(R.id.tabhost);
@@ -83,9 +79,7 @@ public class TabMenu extends Activity {
 			welcomeDialog();
 		}
 		starts++;
-		editor = sp.edit();
-		editor.putInt("starts", starts);
-		editor.commit();
+		psh.put("starts", starts);
 		updateView();
 	}
 
@@ -105,24 +99,20 @@ public class TabMenu extends Activity {
 	}
 
 	public static void writeSettings(String key, boolean value) {
-		Editor editor = TabMenu.sp.edit();
-		editor.putBoolean(key, value);
-		editor.commit();
+		psh.put(key, value);
 	}
 
 	public static void writeSettings(String key, int value) {
-		Editor editor = TabMenu.sp.edit();
-		editor.putInt(key, value);
-		editor.commit();
+		psh.put(key, value);
 	}
 
 	public void getSettings() {
-		sp = getSharedPreferences(getString(R.string.sharedpreference_file_key), Context.MODE_PRIVATE);
-		musicState = sp.getBoolean("musicState", true);
-		sfxState = sp.getBoolean("sfxState", true);
-		starts = sp.getInt("starts", 0);
-		helpShown = sp.getInt("helpShown", 0);
-		playerName = sp.getString("playerName", getString(R.string.sharedpreferences_default_player_name));
+		psh = new PrefsStorageHandler(getString(R.string.sharedpreference_file_key), this);
+		musicState = psh.fetch("musicState", true);
+		sfxState = psh.fetch("sfxState", true);
+		starts = psh.fetch("starts", 0);
+		helpShown = psh.fetch("helpShown", 0);
+		playerName = psh.fetch("playerName", getString(R.string.sharedpreferences_default_player_name));
 	}
 
 	public void globalHighscore(View view) {
@@ -158,16 +148,12 @@ public class TabMenu extends Activity {
 	// Settings
 	public void onToggleClickedMusic(View view) {
 		musicState = ((ToggleButton) view).isChecked();
-		Editor editor = sp.edit();
-		editor.putBoolean("musicState", musicState);
-		editor.commit();
+		psh.put("musicState", musicState);
 	}
 
 	public void onToggleClickedSFX(View view) {
 		sfxState = ((ToggleButton) view).isChecked();
-		Editor editor = sp.edit();
-		editor.putBoolean("sfxState", sfxState);
-		editor.commit();
+		psh.put("sfxState", sfxState);
 	}
 
 	// Start
@@ -195,9 +181,7 @@ public class TabMenu extends Activity {
 					playerName = enteredPlayer;
 					final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
 					playingAsText.setText("Playing as " + playerName);
-					Editor editor = sp.edit();
-					editor.putString("playerName", playerName);
-					editor.commit();
+					psh.put("playerName", playerName);
 				} else {
 					Toast.makeText(TabMenu.this, "The name was not valid and was not changed", Toast.LENGTH_LONG)
 							.show();
@@ -217,16 +201,14 @@ public class TabMenu extends Activity {
 		db.resetScore(playerName);
 		db.showHighscore();
 		db.closeDB();
-		Toast.makeText(this, "The scores have been resetted", 3).show();
+		Toast.makeText(this, "The scores have been resetted", Toast.LENGTH_LONG).show();
 	}
 
 	public void resetSettings(View view) {
-		Editor editor = sp.edit();
-		editor.clear();
-		editor.commit();
+		psh.clear();
 		getSettings();
 		updateView();
-		Toast.makeText(this, "The settings have been resetted", 3).show();
+		Toast.makeText(this, "The settings have been resetted", Toast.LENGTH_LONG).show();
 	}
 
 	public void selectPlayer(View view) {
