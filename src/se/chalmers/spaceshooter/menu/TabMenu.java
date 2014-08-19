@@ -229,7 +229,6 @@ public class TabMenu extends Activity {
 		Toast.makeText(this, "The settings have been resetted", 3).show();
 	}
 
-
 	public void selectPlayer(View view) {
 		playerDialog();
 	}
