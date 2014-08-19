@@ -217,6 +217,7 @@ public class TabMenu extends Activity {
 		db.resetScore(playerName);
 		db.showHighscore();
 		db.closeDB();
+		Toast.makeText(this, "The scores have been resetted", 3).show();
 	}
 
 	public void resetSettings(View view) {
@@ -225,7 +226,9 @@ public class TabMenu extends Activity {
 		editor.commit();
 		getSettings();
 		updateView();
+		Toast.makeText(this, "The settings have been resetted", 3).show();
 	}
+
 
 	public void selectPlayer(View view) {
 		playerDialog();
