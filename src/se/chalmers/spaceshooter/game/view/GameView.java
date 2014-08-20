@@ -10,7 +10,6 @@ import se.chalmers.spaceshooter.game.object.loot.SlowTimePack;
 import se.chalmers.spaceshooter.game.util.BitmapLoader;
 import se.chalmers.spaceshooter.game.util.MusicPlayer;
 import se.chalmers.spaceshooter.game.util.Vector2f;
-import se.chalmers.spaceshooter.leaderboard.TCPClient;
 import se.chalmers.spaceshooter.menu.TabMenu;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -447,9 +446,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				if (gwMusicState) {
 					MusicPlayer.stop();
 				}
-				TabMenu.db.openDB();
-				TabMenu.db.addHighscore(TabMenu.playerName, GameObjectManager.getPlayer().getScore());
-				TabMenu.db.closeDB();
+				TabMenu.hs.addScore(TabMenu.playerName, GameObjectManager.getPlayer().getScore());
 				Builder builder = new AlertDialog.Builder(context);
 				builder.setCancelable(false);
 				builder.setTitle(title);
@@ -466,14 +463,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
 						dialogBoxShowing = false;
-						TCPClient tcp = new TCPClient();
 						if (TabMenu.playerName != null) {
-							String[] querys = { "insert", TabMenu.playerName,
-									GameObjectManager.getPlayer().getScore() + "" };
-							tcp.execute(querys);
 						} else {
-							String[] querys = { "insert", "Player", GameObjectManager.getPlayer().getScore() + "" };
-							tcp.execute(querys);
 						}
 						dialogBox("Score submitted!", "What do you want to do?", "Restart", "Main Menu");
 					}

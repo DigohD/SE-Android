@@ -10,48 +10,206 @@
     tools:context="se.chalmers.spaceshooter.database.Database" >
 
     <TextView
-        android:id="@+id/textScoreTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textNameTitle"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textNameTitle"
-        android:text="@string/highScore"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textNameTitle"
+        android:id="@+id/nameTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:gravity="right"
-        android:minWidth="256dp"
-        android:paddingRight="32dp"
-        android:text="@string/name"
+        android:gravity="center"
+        android:minWidth="128dp"
+        android:text="@string/player"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textName"
+        android:id="@+id/scoreTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textNameTitle"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/textNameTitle"
-        android:layout_below="@+id/textNameTitle"
-        android:gravity="right"
-        android:paddingRight="32dp" />
+        android:layout_alignBaseline="@+id/nameTitle"
+        android:layout_alignBottom="@+id/nameTitle"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:minWidth="128dp"
+        android:text="@string/score"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
-        android:id="@+id/textScore"
+        android:id="@+id/name0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textScoreTitle"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/textScoreTitle"
-        android:layout_alignTop="@+id/textName"
-        android:paddingBottom="64dp"
-        android:paddingRight="128dp" />
+        android:layout_alignLeft="@+id/nameTitle"
+        android:layout_alignRight="@+id/nameTitle"
+        android:layout_below="@+id/nameTitle"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/name1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name0"
+        android:layout_alignRight="@+id/name0"
+        android:layout_below="@+id/name0"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/name2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name1"
+        android:layout_alignRight="@+id/name1"
+        android:layout_below="@+id/name1"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/name3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name2"
+        android:layout_alignRight="@+id/name2"
+        android:layout_below="@+id/name2"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/name4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name3"
+        android:layout_alignRight="@+id/name3"
+        android:layout_below="@+id/name3"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/name5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name4"
+        android:layout_alignRight="@+id/name4"
+        android:layout_below="@+id/name4"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/name6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name5"
+        android:layout_alignRight="@+id/name5"
+        android:layout_below="@+id/name5"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/name7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name6"
+        android:layout_alignRight="@+id/name6"
+        android:layout_below="@+id/name6"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/name8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name7"
+        android:layout_alignRight="@+id/name7"
+        android:layout_below="@+id/name7"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/name9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/name8"
+        android:layout_alignRight="@+id/name8"
+        android:layout_below="@+id/name8"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/scoreTitle"
+        android:layout_alignRight="@+id/scoreTitle"
+        android:layout_below="@+id/scoreTitle"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/score0"
+        android:layout_alignRight="@+id/score0"
+        android:layout_below="@+id/score0"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/score1"
+        android:layout_alignRight="@+id/score1"
+        android:layout_below="@+id/score1"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/score2"
+        android:layout_alignRight="@+id/score2"
+        android:layout_below="@+id/score2"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/score3"
+        android:layout_alignRight="@+id/score3"
+        android:layout_below="@+id/score3"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/score4"
+        android:layout_alignRight="@+id/score4"
+        android:layout_below="@+id/score4"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/score5"
+        android:layout_alignRight="@+id/score5"
+        android:layout_below="@+id/score5"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/score6"
+        android:layout_alignRight="@+id/score6"
+        android:layout_below="@+id/score6"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/score7"
+        android:layout_alignRight="@+id/score7"
+        android:layout_below="@+id/score7"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/score9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/score8"
+        android:layout_alignRight="@+id/score8"
+        android:layout_below="@+id/score8"
+        android:text="TextView" />
 
 </RelativeLayout>

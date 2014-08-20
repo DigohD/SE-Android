@@ -4,8 +4,7 @@ import org.conrogatio.libs.PrefsStorageHandler;
 
 import se.chalmers.spaceshooter.R;
 import se.chalmers.spaceshooter.game.GameActivity;
-import se.chalmers.spaceshooter.leaderboard.LeaderBoardActivity;
-import se.chalmers.spaceshooter.leaderboard.database.Database;
+import se.chalmers.spaceshooter.leaderboard.HighScore;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -29,30 +28,35 @@ import com.google.android.gms.ads.AdView;
 
 public class TabMenu extends Activity {
 	boolean dialogOpen = false;
-	public static Database db;
 	public TabHost th;
 	public int starts;
 	public static int helpShown;
 	public static boolean musicState;
 	public static boolean sfxState;
 	public static String playerName;
-	public static PrefsStorageHandler psh;
+	public static PrefsStorageHandler settingsPSH;
+	public static HighScore hs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		hs = new HighScore(this);
+		hs.getScores();
+		settingsPSH = new PrefsStorageHandler(getString(R.string.sharedpreference_settings_key), this);
 		getSettings();
-		psh.put("starts", starts);
-		psh.put("helpShown", helpShown);
-		psh.put("playerName", playerName);
-		psh.put("musicState", musicState);
-		psh.put("sfxState", sfxState);
+		settingsPSH.put("starts", starts);
+		settingsPSH.put("helpShown", helpShown);
+		settingsPSH.put("playerName", playerName);
+		settingsPSH.put("musicState", musicState);
+		settingsPSH.put("sfxState", sfxState);
 		// Ads
 		setContentView(R.layout.tabs);
 		AdView adView = (AdView) this.findViewById(R.id.adView);
 		AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
-				.addTestDevice("8E049A16A1B306B941023A9DC2687AFF").build();
+				.addTestDevice("8E049A16A1B306B941023A9DC2687AFF") // mako
+				.addTestDevice("75416FCD1AEA323DDAB1139D87A6ECB5") // ace
+				.build();
 		adView.loadAd(adRequest);
 		// Tabs
 		th = (TabHost) findViewById(R.id.tabhost);
@@ -73,13 +77,11 @@ public class TabMenu extends Activity {
 		creditsSpecs.setContent(R.id.tabCredits);
 		creditsSpecs.setIndicator("Credits");
 		th.addTab(creditsSpecs);
-		// Database
-		db = new Database(this);
 		if (starts == 0) {
 			welcomeDialog();
 		}
 		starts++;
-		psh.put("starts", starts);
+		settingsPSH.put("starts", starts);
 		updateView();
 	}
 
@@ -99,25 +101,20 @@ public class TabMenu extends Activity {
 	}
 
 	public static void writeSettings(String key, boolean value) {
-		psh.put(key, value);
+		settingsPSH.put(key, value);
 	}
 
 	public static void writeSettings(String key, int value) {
-		psh.put(key, value);
+		settingsPSH.put(key, value);
 	}
 
 	public void getSettings() {
-		psh = new PrefsStorageHandler(getString(R.string.sharedpreference_file_key), this);
-		musicState = psh.fetch("musicState", true);
-		sfxState = psh.fetch("sfxState", true);
-		starts = psh.fetch("starts", 0);
-		helpShown = psh.fetch("helpShown", 0);
-		playerName = psh.fetch("playerName", getString(R.string.sharedpreferences_default_player_name));
-	}
-
-	public void globalHighscore(View view) {
-		Intent intent = new Intent(this, LeaderBoardActivity.class);
-		startActivity(intent);
+		settingsPSH = new PrefsStorageHandler(getString(R.string.sharedpreference_settings_key), this);
+		musicState = settingsPSH.fetch("musicState", true);
+		sfxState = settingsPSH.fetch("sfxState", true);
+		starts = settingsPSH.fetch("starts", 0);
+		helpShown = settingsPSH.fetch("helpShown", 0);
+		playerName = settingsPSH.fetch("playerName", getString(R.string.sharedpreferences_default_player_name));
 	}
 
 	public void help(View view) {
@@ -134,31 +131,27 @@ public class TabMenu extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		db.closeDB();
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
-		db.openDB();
-		db.showHighscore();
-		db.closeDB();
+		updateView();
 	}
 
 	// Settings
 	public void onToggleClickedMusic(View view) {
 		musicState = ((ToggleButton) view).isChecked();
-		psh.put("musicState", musicState);
+		settingsPSH.put("musicState", musicState);
 	}
 
 	public void onToggleClickedSFX(View view) {
 		sfxState = ((ToggleButton) view).isChecked();
-		psh.put("sfxState", sfxState);
+		settingsPSH.put("sfxState", sfxState);
 	}
 
 	// Start
 	public void play(View view) {
-		db.closeDB();
 		Intent intent = new Intent(this, GameActivity.class);
 		startActivity(intent);
 	}
@@ -179,9 +172,8 @@ public class TabMenu extends Activity {
 				if (enteredPlayer.matches("^[a-zA-Z0-9]*$") && !enteredPlayer.isEmpty() && enteredPlayer.length() <= 12) {
 					Log.i("ALERT", "Store username -" + enteredPlayer);
 					playerName = enteredPlayer;
-					final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
-					playingAsText.setText("Playing as " + playerName);
-					psh.put("playerName", playerName);
+					((TextView) findViewById(R.id.textPlayingAs)).setText("Playing as " + playerName);
+					settingsPSH.put("playerName", playerName);
 				} else {
 					Toast.makeText(TabMenu.this, "The name was not valid and was not changed", Toast.LENGTH_LONG)
 							.show();
@@ -197,15 +189,13 @@ public class TabMenu extends Activity {
 	}
 
 	public void resetScores(View view) {
-		db.openDB();
-		db.resetScore(playerName);
-		db.showHighscore();
-		db.closeDB();
+		hs.resetScores();
+		updateView();
 		Toast.makeText(this, "The scores have been resetted", Toast.LENGTH_LONG).show();
 	}
 
 	public void resetSettings(View view) {
-		psh.clear();
+		settingsPSH.clear();
 		getSettings();
 		updateView();
 		Toast.makeText(this, "The settings have been resetted", Toast.LENGTH_LONG).show();
@@ -225,11 +215,14 @@ public class TabMenu extends Activity {
 		((ToggleButton) musicToggle).setChecked(musicState);
 		View sfxToggle = findViewById(R.id.toggleSFX);
 		((ToggleButton) sfxToggle).setChecked(sfxState);
-		final TextView playingAsText = (TextView) findViewById(R.id.textPlayingAs);
-		playingAsText.setText("Playing as " + playerName);
-		db.openDB();
-		db.showHighscore();
-		db.closeDB();
+		((TextView) findViewById(R.id.textPlayingAs)).setText("Playing as " + playerName);
+		int resID;
+		for (int i = 0; i <= 9; i++) {
+			resID = getResources().getIdentifier("name" + i, "id", getPackageName());
+			((TextView) findViewById(resID)).setText(hs.names[i]);
+			resID = getResources().getIdentifier("score" + i, "id", getPackageName());
+			((TextView) findViewById(resID)).setText(Integer.toString(hs.scores[i]));
+		}
 	}
 
 	// Exit dialog
