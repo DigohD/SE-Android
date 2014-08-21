@@ -152,8 +152,10 @@ public class TabMenu extends Activity {
 
 	// Start
 	public void play(View view) {
+		// hs.addScore("a",1);
 		Intent intent = new Intent(this, GameActivity.class);
 		startActivity(intent);
+		// updateView();
 	}
 
 	public void playerDialog() {

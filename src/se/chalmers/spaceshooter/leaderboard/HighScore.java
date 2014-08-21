@@ -6,6 +6,8 @@ import se.chalmers.spaceshooter.R;
 import android.content.Context;
 
 public class HighScore {
+	String lastName;
+	int lastScore;
 	public String[] names = new String[20];
 	public int[] scores = new int[20];
 	private static final String KEY_NAMES = "hsname";
@@ -14,8 +16,8 @@ public class HighScore {
 
 	public HighScore(Context context) {
 		for (int i = 0; i < names.length; i++) {
-			names[i]="none";
-			scores[i]=0;
+			names[i] = "none";
+			scores[i] = 0;
 		}
 		scorePSH = new PrefsStorageHandler(context.getString(R.string.sharedpreference_score_key), context);
 		getScores();
@@ -29,18 +31,29 @@ public class HighScore {
 	}
 
 	public void addScore(String name, int score) {
+		// Adds latest playername and score to lastName and lastScore
+		lastName = name;
+		lastScore = score;
+		// Adds playername and score to the correct place in names[] and
+		// scores[].
+		int k = names.length - 1; // names.length currently equals 20
 		for (int i = 0; i < names.length; i++) {
 			if (score > scores[i]) {
-				for (int j = 19; j <= i; j--) {
-					names[j] = names[j - 1];
-					scores[j] = scores[j - 1];
+				k = i;
+				for (int j = names.length - 1; j >= i; j--) {
+					if (j != 0) {
+						names[j] = names[j - 1];
+						scores[j] = scores[j - 1];
+					}
 				}
-				names[i] = name;
-				scores[i] = score;
 				break;
 			}
 		}
-		writeScores();
+		if (score > scores[k]) {
+			names[k] = name;
+			scores[k] = score;
+			writeScores();
+		}
 	}
 
 	public void writeScores() {
