@@ -36,14 +36,17 @@ public class TabMenu extends Activity {
 	public static String playerName;
 	public static PrefsStorageHandler settingsPSH;
 	public static ScoreHandler SH;
+	public static final int SCORE_LENGTH = 20;
+	public String[] hsNameList;
+	public int[] hsScoreList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		SH=new ScoreHandler(20, getString(R.string.sharedpreference_score_key), this);
-		
-		SH.getScores();
+		hsNameList = new String[SCORE_LENGTH];
+		hsScoreList = new int[SCORE_LENGTH];
+		SH = new ScoreHandler(SCORE_LENGTH, getString(R.string.sharedpreference_score_key), this);
 		settingsPSH = new PrefsStorageHandler(getString(R.string.sharedpreference_settings_key), this);
 		getSettings();
 		settingsPSH.put("starts", starts);
@@ -66,10 +69,10 @@ public class TabMenu extends Activity {
 		menuSpecs.setContent(R.id.tabMenu);
 		menuSpecs.setIndicator("Start Menu");
 		th.addTab(menuSpecs);
-		TabSpec ScoresSpecs = th.newTabSpec("tag2");
-		ScoresSpecs.setContent(R.id.tabScores);
-		ScoresSpecs.setIndicator("Scores");
-		th.addTab(ScoresSpecs);
+		TabSpec scoresSpecs = th.newTabSpec("tag2");
+		scoresSpecs.setContent(R.id.tabScores);
+		scoresSpecs.setIndicator("Scores");
+		th.addTab(scoresSpecs);
 		TabSpec settingsSpecs = th.newTabSpec("tag3");
 		settingsSpecs.setContent(R.id.tabSettings);
 		settingsSpecs.setIndicator("Settings");
@@ -219,12 +222,14 @@ public class TabMenu extends Activity {
 		View sfxToggle = findViewById(R.id.toggleSFX);
 		((ToggleButton) sfxToggle).setChecked(sfxState);
 		((TextView) findViewById(R.id.textPlayingAs)).setText("Playing as " + playerName);
+		hsNameList = SH.getNameList();
+		hsScoreList = SH.getScoreList();
 		int resID;
 		for (int i = 0; i <= 9; i++) {
 			resID = getResources().getIdentifier("name" + i, "id", getPackageName());
-			((TextView) findViewById(resID)).setText(SH.names[i]);
+			((TextView) findViewById(resID)).setText(hsNameList[i]);
 			resID = getResources().getIdentifier("score" + i, "id", getPackageName());
-			((TextView) findViewById(resID)).setText(Integer.toString(SH.scores[i]));
+			((TextView) findViewById(resID)).setText(Integer.toString(hsScoreList[i]));
 		}
 	}
 
