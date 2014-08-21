@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/tab_bg_image"
     android:orientation="vertical" >
 
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3638109491407160/3494255688" >
-    </com.google.android.gms.ads.AdView>
+    <!-- <com.google.android.gms.ads.AdView -->
+    <!-- android:id="@+id/adView" -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_alignParentBottom="true" -->
+    <!-- android:layout_alignParentLeft="true" -->
+    <!-- android:layout_alignParentRight="true" -->
+    <!-- ads:adSize="BANNER" -->
+    <!-- ads:adUnitId="ca-app-pub-3638109491407160/3494255688" > -->
+    <!-- </com.google.android.gms.ads.AdView> -->
 
     <TabHost
         android:id="@+id/tabhost"

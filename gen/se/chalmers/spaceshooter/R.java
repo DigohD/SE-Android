@@ -412,7 +412,6 @@ containing a value of this type.
         public static final int tab_bg_image=0x7f020023;
     }
     public static final class id {
-        public static final int adView=0x7f080024;
         public static final int book_now=0x7f080010;
         public static final int buttonClearHighScore=0x7f08001e;
         public static final int buttonDonate=0x7f080015;
@@ -439,12 +438,12 @@ containing a value of this type.
         public static final int satellite=0x7f080002;
         public static final int selectionDetails=0x7f08000b;
         public static final int strict_sandbox=0x7f080009;
-        public static final int tabCredits=0x7f080029;
-        public static final int tabMenu=0x7f080026;
-        public static final int tabScores=0x7f080027;
-        public static final int tabSettings=0x7f080028;
-        public static final int tab_bg=0x7f08002a;
-        public static final int tabhost=0x7f080025;
+        public static final int tabCredits=0x7f080028;
+        public static final int tabMenu=0x7f080025;
+        public static final int tabScores=0x7f080026;
+        public static final int tabSettings=0x7f080027;
+        public static final int tab_bg=0x7f080029;
+        public static final int tabhost=0x7f080024;
         public static final int terrain=0x7f080003;
         public static final int textName=0x7f080019;
         public static final int textNameTitle=0x7f080018;

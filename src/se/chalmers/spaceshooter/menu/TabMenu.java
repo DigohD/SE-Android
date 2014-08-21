@@ -24,9 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
 public class TabMenu extends Activity {
 	public static SharedPreferences sp;
 	boolean dialogOpen = false;
@@ -52,12 +49,14 @@ public class TabMenu extends Activity {
 		editor.commit();
 		// Ads
 		setContentView(R.layout.tabs);
-		AdView adView = (AdView) this.findViewById(R.id.adView);
-		AdRequest adRequest = new AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR) // Emulator
-				.addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
-				.addTestDevice("CC502939B1954AAF341181CF3BDAFAEA") // Anders
-				.build();
-		adView.loadAd(adRequest);
+		// AdView adView = (AdView) this.findViewById(R.id.adView);
+		// AdRequest adRequest = new
+		// AdRequest.Builder().addTestDevice(AdRequest.DEVICE_ID_EMULATOR) //
+		// Emulator
+		// .addTestDevice("CC224A050390619FD22B9448CC95A60D") // Jonas
+		// .addTestDevice("CC502939B1954AAF341181CF3BDAFAEA") // Anders
+		// .build();
+		// adView.loadAd(adRequest);
 		// Tabs
 		th = (TabHost) findViewById(R.id.tabhost);
 		th.setup();
@@ -228,7 +227,6 @@ public class TabMenu extends Activity {
 		updateView();
 		Toast.makeText(this, "The settings have been resetted", 3).show();
 	}
-
 
 	public void selectPlayer(View view) {
 		playerDialog();
