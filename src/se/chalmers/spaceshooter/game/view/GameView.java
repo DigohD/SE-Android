@@ -446,7 +446,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 				if (gwMusicState) {
 					MusicPlayer.stop();
 				}
-				TabMenu.hs.addScore(TabMenu.playerName, GameObjectManager.getPlayer().getScore());
+				TabMenu.SH.addScore(TabMenu.playerName, GameObjectManager.getPlayer().getScore());
 				Builder builder = new AlertDialog.Builder(context);
 				builder.setCancelable(false);
 				builder.setTitle(title);

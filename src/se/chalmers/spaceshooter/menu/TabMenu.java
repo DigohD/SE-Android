@@ -1,10 +1,10 @@
 package se.chalmers.spaceshooter.menu;
 
 import org.conrogatio.libs.PrefsStorageHandler;
+import org.conrogatio.libs.ScoreHandler;
 
 import se.chalmers.spaceshooter.R;
 import se.chalmers.spaceshooter.game.GameActivity;
-import se.chalmers.spaceshooter.leaderboard.HighScore;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -35,14 +35,15 @@ public class TabMenu extends Activity {
 	public static boolean sfxState;
 	public static String playerName;
 	public static PrefsStorageHandler settingsPSH;
-	public static HighScore hs;
+	public static ScoreHandler SH;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		hs = new HighScore(this);
-		hs.getScores();
+		SH=new ScoreHandler(20, getString(R.string.sharedpreference_score_key), this);
+		
+		SH.getScores();
 		settingsPSH = new PrefsStorageHandler(getString(R.string.sharedpreference_settings_key), this);
 		getSettings();
 		settingsPSH.put("starts", starts);
@@ -191,7 +192,7 @@ public class TabMenu extends Activity {
 	}
 
 	public void resetScores(View view) {
-		hs.resetScores();
+		SH.resetScores();
 		updateView();
 		Toast.makeText(this, "The scores have been resetted", Toast.LENGTH_LONG).show();
 	}
@@ -221,9 +222,9 @@ public class TabMenu extends Activity {
 		int resID;
 		for (int i = 0; i <= 9; i++) {
 			resID = getResources().getIdentifier("name" + i, "id", getPackageName());
-			((TextView) findViewById(resID)).setText(hs.names[i]);
+			((TextView) findViewById(resID)).setText(SH.names[i]);
 			resID = getResources().getIdentifier("score" + i, "id", getPackageName());
-			((TextView) findViewById(resID)).setText(Integer.toString(hs.scores[i]));
+			((TextView) findViewById(resID)).setText(Integer.toString(SH.scores[i]));
 		}
 	}
 
