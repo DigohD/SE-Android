@@ -1,5 +1,6 @@
 package se.chalmers.spaceshooter.menu;
 
+import org.conrogatio.libs.LicenceHandler;
 import org.conrogatio.libs.PrefsStorageHandler;
 import org.conrogatio.libs.ScoreHandler;
 
@@ -39,11 +40,17 @@ public class TabMenu extends Activity {
 	public static final int SCORE_LENGTH = 20;
 	public String[] hsNameList;
 	public int[] hsScoreList;
+	public LicenceHandler LH;
+	private static final byte[] SALT = new byte[] { 2, -35, -34, -40, -107, 16, -23, -115, -77, 94, -66, -69, 48, -48,
+			70, 116, 83, -95, 52, 6 };
+	private static final String BASE64_PUBLIC_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkKIAenkxELGyaoB0fQJizu2yfobizb/4dUrspp2yoimYS/TTApVCTSNy/sQprCXL9xIJJ9ZwctHT6Gg9YjL/KG8nExVvKqadof8v+6x1iEulej5GT+WPRKQ+EbzZF+id0reRNGyPXm+MYd2L7G1R6AoOvqLddyOWY+2UZs7ZOEOlrEtCCQmVFR8At6qm/uo+3nnx7AgjId5hGD7FTXuambKfhS8AoLouYSfYtWyo4tRsrs0ZQ7ryusxYgywCxmJRZzACbwgCIwtOHzsRfH6Rb3SvCt+MMoeMmZJCqUlWq6zZ717SzdCH4daEOgOV045oZBGWe9VjLHuyf/cftSU70wIDAQAB";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		LH = new LicenceHandler(BASE64_PUBLIC_KEY, SALT, this);
+		LH.startCheck();
 		hsNameList = new String[SCORE_LENGTH];
 		hsScoreList = new int[SCORE_LENGTH];
 		SH = new ScoreHandler(SCORE_LENGTH, getString(R.string.sharedpreference_score_key), this);
@@ -87,6 +94,11 @@ public class TabMenu extends Activity {
 		starts++;
 		settingsPSH.put("starts", starts);
 		updateView();
+		while (LH.isChecking()) {
+		}
+		if (!LH.licensed()) {
+			LH.getDialog(LH.getReason());
+		}
 	}
 
 	public static void helpDialog(Context context) {
