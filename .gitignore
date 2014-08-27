@@ -216,3 +216,4 @@ pip-log.txt
 project.properties
 gen/com/google/android/gms/R.java
 gen/se/chalmers/spaceshooter/R.java
+gen/org/conrogatio/library/R.java
