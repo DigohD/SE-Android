@@ -3,6 +3,7 @@ package se.chalmers.spaceshooter.game.object.player;
 import se.chalmers.spaceshooter.game.CollisionManager;
 import se.chalmers.spaceshooter.game.GameActivity;
 import se.chalmers.spaceshooter.game.GameObjectManager;
+import se.chalmers.spaceshooter.game.LootManager;
 import se.chalmers.spaceshooter.game.object.Collideable;
 import se.chalmers.spaceshooter.game.object.DynamicObject;
 import se.chalmers.spaceshooter.game.object.enemy.Asteroid;
@@ -43,7 +44,7 @@ public class Player extends DynamicObject implements Collideable {
 	private float steps = 15;
 	private float dtSteps = 5f;
 	private float hp = 100f, maxHP = 100f;
-	public Loot[] lootArray = new Loot[3];
+
 	public boolean targetOK = true;
 
 	public Player(Vector2f position) {
@@ -72,24 +73,28 @@ public class Player extends DynamicObject implements Collideable {
 
 	public void init() {
 		position = GameActivity.savedPos;
+		
 		targetPosition.set(position.x, position.y);
 		targetVelocity.x = 0;
 		targetVelocity.y = 0;
+		
 		HealthPack startPack = new HealthPack(new Vector2f(-100, 0), 10);
 		HealthPack startPack2 = new HealthPack(new Vector2f(-100, 0), 10);
 		SlowTimePack startPack3 = new SlowTimePack(new Vector2f(-100, 0));
+		
 		startPack.setSaved(true);
 		startPack2.setSaved(true);
 		startPack3.setSaved(true);
-		lootArray[0] = startPack;
-		lootArray[1] = startPack2;
-		lootArray[2] = startPack3;
+		
+		LootManager.initLootSlots(startPack, startPack2, startPack3);
+
 		emitter = new RadialEmitter(8, ParticleID.RED_PLASMA, new Vector2f(0, 0), new Vector2f(20f, 0f));
 		engine = new ConstantEmitter(1, ParticleID.ENGINE, new Vector2f(position.y + height / 2, position.x - 8),
 				new Vector2f(-7f, 0f));
 		engine.setPosition(new Vector2f(position.x - 8, position.y + height / 2 - 7));
 		engine.setIsSpread(true);
 		engine.init();
+		
 		live = true;
 		update = false;
 		combo = 0;
@@ -213,9 +218,9 @@ public class Player extends DynamicObject implements Collideable {
 			if (loot instanceof HealthPack) {
 				HealthPack hpack = (HealthPack) obj;
 				if (hp >= maxHP) {
-					for (int i = 0; i < lootArray.length; i++) {
-						if (lootArray[i] == null) {
-							lootArray[i] = hpack;
+					for (int i = 0; i < LootManager.getSize(); i++) {
+						if (LootManager.getLootAt(i) == null) {
+							LootManager.addLoot(hpack, i);
 							break;
 						}
 					}
@@ -230,9 +235,9 @@ public class Player extends DynamicObject implements Collideable {
 			if (loot instanceof SlowTimePack) {
 				SlowTimePack stp = (SlowTimePack) obj;
 				if (GameObjectManager.isSlowTime() || CollisionManager.getEnemies().size() == 0) {
-					for (int i = 0; i < lootArray.length; i++) {
-						if (lootArray[i] == null) {
-							lootArray[i] = stp;
+					for (int i = 0; i < LootManager.getSize(); i++) {
+						if (LootManager.getLootAt(i) == null) {
+							LootManager.addLoot(stp, i);
 							break;
 						}
 					}

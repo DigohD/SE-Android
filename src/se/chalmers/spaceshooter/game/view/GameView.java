@@ -3,6 +3,7 @@ package se.chalmers.spaceshooter.game.view;
 import se.chalmers.spaceshooter.game.GameActivity;
 import se.chalmers.spaceshooter.game.GameObjectManager;
 import se.chalmers.spaceshooter.game.GameThread;
+import se.chalmers.spaceshooter.game.LootManager;
 import se.chalmers.spaceshooter.game.level.Level;
 import se.chalmers.spaceshooter.game.object.loot.HealthPack;
 import se.chalmers.spaceshooter.game.object.loot.Loot;
@@ -175,13 +176,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawBitmap(joystick, 40, 320, null);
 		canvas.drawBitmap(knob, knobX, knobY, null);
 		// draw the lootslots
-		for (int i = 0; i < GameObjectManager.getPlayer().lootArray.length; i++) {
-			if (GameObjectManager.getPlayer().lootArray[i] == null)
+		for (int i = 0; i < LootManager.getSize(); i++) {
+			if (LootManager.getLootAt(i) == null)
 				canvas.drawBitmap(emptySlot, slotOffset + 70 * i, 380, null);
 			else
 				canvas.drawBitmap(lootSlot, slotOffset + 70 * i, 380, null);
-			if (GameObjectManager.getPlayer().lootArray[i] != null) {
-				Bitmap bmp = GameObjectManager.getPlayer().lootArray[i].getBitmap();
+			if (LootManager.getLootAt(i) != null) {
+				Bitmap bmp = LootManager.getLootAt(i).getBitmap();
 				int x = lootSlot.getWidth() / 2 - bmp.getWidth() / 2;
 				int y = lootSlot.getHeight() / 2 - bmp.getHeight() / 2;
 				canvas.drawBitmap(bmp, slotOffset + x + 70 * i, 380 + y, null);
@@ -210,7 +211,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			float nY = scaleY * 1.0f;
 			x = x / scaleX;
 			y = y / nY;
-			manageLootSlots(x, y);
+			LootManager.manageLootSlots(x, y);
 		}
 		if (maskedAction == MotionEvent.ACTION_MOVE || maskedAction == MotionEvent.ACTION_DOWN) {
 			int pointerIndex = MotionEventCompat.getActionIndex(event);
@@ -219,7 +220,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 			float nY = scaleY * 1.0f;
 			x = x / scaleX;
 			y = y / nY;
-			manageLootSlots(x, y);
+			LootManager.manageLootSlots(x, y);
 			// define the joystick touch area and set the targetVelocity to the
 			// touch event
 			// with proper scaling applied
@@ -248,57 +249,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 
 	/**
-	 * Handles what will happen when player press one of the three lootslots
-	 * 
-	 * @param x
-	 *            x position of the touchevent area
-	 * @param y
-	 *            y position of the touchevent area
-	 */
-	private void manageLootSlots(float x, float y) {
-		if (x >= slotOffset && x <= slotOffset + 50 && y >= 380 && y <= 430) {
-			Loot loot = GameObjectManager.getPlayer().lootArray[0];
-			if (loot instanceof HealthPack) {
-				HealthPack hp = (HealthPack) loot;
-				GameObjectManager.getPlayer().incHp(hp.getHp());
-				GameObjectManager.getPlayer().lootArray[0] = null;
-			}
-			if (loot instanceof SlowTimePack) {
-				GameObjectManager.setSlowTime(true);
-				GameObjectManager.getPlayer().lootArray[0] = null;
-			}
-		}
-		if (x >= slotOffset + 70 && x <= slotOffset + 70 + 50 && y >= 380 && y <= 430) {
-			Loot loot = GameObjectManager.getPlayer().lootArray[1];
-			if (loot instanceof HealthPack) {
-				HealthPack hp = (HealthPack) loot;
-				GameObjectManager.getPlayer().incHp(hp.getHp());
-				GameObjectManager.getPlayer().lootArray[1] = null;
-			}
-			if (loot instanceof SlowTimePack) {
-				GameObjectManager.setSlowTime(true);
-				GameObjectManager.getPlayer().lootArray[1] = null;
-			}
-		}
-		if (x >= slotOffset + 70 * 2 && x <= slotOffset + (70 * 2) + 50 && y >= 380 && y <= 430) {
-			Loot loot = GameObjectManager.getPlayer().lootArray[2];
-			if (loot instanceof HealthPack) {
-				HealthPack hp = (HealthPack) loot;
-				GameObjectManager.getPlayer().incHp(hp.getHp());
-				GameObjectManager.getPlayer().lootArray[2] = null;
-			}
-			if (loot instanceof SlowTimePack) {
-				GameObjectManager.setSlowTime(true);
-				GameObjectManager.getPlayer().lootArray[2] = null;
-			}
-		}
-	}
-
-	/**
 	 * Reset the state of the game to its initial state
 	 */
 	private void resetGameState() {
 		GameObjectManager.clear();
+		LootManager.clear();
 		GameObjectManager.setSlowTime(false);
 		levelID = 1;
 		level = new Level(levelTime);
